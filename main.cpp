@@ -693,15 +693,6 @@ int main()
 	if (_mkdir("./Resources")!=0||_mkdir("./Resources/Music")!=0)
 		Error("Cannot decompress resources!\nDetailed Information: An error occured while creating folder.\n\nTry restarting the game.");
 	hge->System_Log("Folders created successfully.");
-	/*Expand("./Resources/bg.lz","./Resources/bg.png");
-	Expand("./Resources/blnsns.lz","./Resources/blnsns.png");
-	Expand("./Resources/charmap.lz","./Resources/charmap.fnt");
-	Expand("./Resources/ss.lz","./Resources/ss.png");
-	Expand("./Resources/title.lz","./Resources/title.png");
-	Expand("./Resources/credits.lz","./Resources/credits.png");
-	Expand("./Resources/b_leaves.lz","./Resources/b_leaves.png");
-	Expand("./Resources/e_leaf.lz","./Resources/e_leaf.png");
-	Expand("./Resources/tap.lz","./Resources/tap.ogg");*/
 	Expand("BLRData.dtp","Resources");
 	Expand("BLRMusic.dtp","Resources/Music");
 	hge->System_Log("Resources decompressed successfully.");

@@ -2552,7 +2552,7 @@ void Level7Part5()//This should be another part.
 {
 	memset(bnl,0,sizeof(bnl));
 	frameleft=AMinute;
-	ykbrk=1.0f;
+	ykbrk=1.0f;++part;
 }
 void Level7Part6()
 {
@@ -2561,7 +2561,28 @@ void Level7Part6()
 	{
 		ykbrk=1.0f;
 		for (int i=0;i<100;++i)
-		if (!bnl[i].active){bnl[i].Init(vector2d(rand()%800,rand()%600),vector2d(rand()%800,rand()%600));break;}
+		if (!bnl[i].active)
+		{
+			vector2d a,b;
+			if (rand()%100>49)
+			{
+				if (rand()%100>49)a=vector2d(rand()%780+10,590);else a=vector2d(rand()%780+10,10);
+			}
+			else
+			{
+				if (rand()%100>49)a=vector2d(10,rand()%580+10);else a=vector2d(790,rand()%580+10);
+			}
+			if (rand()%100>49)
+			{
+				if (rand()%100>49)b=vector2d(rand()%780+10,590);else b=vector2d(rand()%780+10,10);
+			}
+			else
+			{
+				if (rand()%100>49)b=vector2d(10,rand()%580+10);else b=vector2d(790,rand()%580+10);
+			}
+			bnl[i].Init(a,b);
+			break;
+		}
 	}
 	for (int i=0;i<100;++i)
 	if (bnl[i].active)bnl[i].Update();

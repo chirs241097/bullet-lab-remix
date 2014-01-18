@@ -1431,6 +1431,7 @@ public:
 	bool EnableColl;
 	vector2d RenCtr;
 	int collbrk,scollbrk;
+	void SetRes(int _Res){Res=_Res;}
 	void Render()
 	{
 		graphic->Render(RenCtr.x,RenCtr.y);
@@ -1484,11 +1485,18 @@ public:
 		double res=99999.9999f;
 		double tres=99999.9999f;
 		//Initalize: 999'99.9'999
-		for (int i=1;i<Res-1;++i)
+		for (int i=0;i<Res-1;++i)
 		{
-			hgeRect box;
-			box.Encapsulate(data1[i].x+RenCtr.x,data1[i].y+RenCtr.y);
+			hgeRect box;memset(&box,0,sizeof(box));
+			box.x1=box.x2=data1[i].x+RenCtr.x,box.y1=box.y2=data1[i].y+RenCtr.y;
+			//box.Encapsulate(data1[i].x+RenCtr.x,data1[i].y+RenCtr.y);
 			box.Encapsulate(data1[i+1].x+RenCtr.x,data1[i+1].y+RenCtr.y);
+			{
+				//Debugging collision box
+				hgeSprite colbox=*(new hgeSprite(0,0,0,0,0));
+				colbox.SetColor(0x0FFFFFFF);
+				colbox.RenderStretch(box.x1,box.y1,box.x2,box.y2);
+			}
 			if (box.TestPoint(playerpos.x,playerpos.y))
 			{
 				double dx=data1[i].x-data1[i+1].x,dy=data1[i].y-data1[i+1].y;
@@ -1505,10 +1513,11 @@ public:
 			}
 			else
 			{
-				vector2d t=data1[i];data1[i].x+=RenCtr.x,data1[i].y+=RenCtr.y;
-				tres=::GetDist(playerpos,t);
-				t=data1[i+1];data1[i+1].x+=RenCtr.x,data1[i+1].y+=RenCtr.y;
-				tres=tres<(::GetDist(playerpos,t))?tres:(::GetDist(playerpos,t));
+				vector2d t0=data1[i];data1[i].x+=RenCtr.x,data1[i].y+=RenCtr.y;
+				tres=::GetDist(playerpos,t0);
+				vector2d t1=data1[i+1];data1[i+1].x+=RenCtr.x,data1[i+1].y+=RenCtr.y;
+				tres=tres<(::GetDist(playerpos,t1))?tres:(::GetDist(playerpos,t1));
+				data1[i]=t0;data1[i+1]=t1;
 			}
 			if (tres<res)res=tres;
 		}
@@ -1551,6 +1560,7 @@ void CreateBullet2(Bullet &Tar,double x,double y,double bs,double rad,bool eff=f
 	Tar.bulletdir.x=cos(rad);
 	Tar.bulletdir.y=sin(rad);
 	Tar.bulletspeed=bs;
+	Tar.scollable=true;
 	Tar.bulletaccel=0;
 	Tar.bulletspr=new hgeSprite(SprSheet,0,0,24,24);
 	Tar.bulletspr->SetColor(0x80FFFFFF);
@@ -1560,12 +1570,14 @@ void ProcessBullet2(Bullet &xbul)
 {
 	if (xbul.bulletspeed<xbul.limv)xbul.bulletspeed+=xbul.bulletaccel;
 	if (!xbul.exist||xbul.bullettype!=2)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!xbul.dist)xbul.dist=1;
 	if (LOWFPS)
-	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x)/20*17,//Process bullet's x coor.
-	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y)/20*17;//Process bullet's y coor.
+	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20*17,//Process bullet's x coor.
+	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20*17;//Process bullet's y coor.
 	else
-	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x)/20,//Process bullet's x coor.
-	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y)/20;//Process bullet's y coor.
+	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20,//Process bullet's x coor.
+	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20;//Process bullet's y coor.
+	double dis=GetDist(xbul.bulletpos,playerpos);
 	/*if (xbul.bulletpos.x<=-100||xbul.bulletpos.x>=900||xbul.bulletpos.y<=-100||xbul.bulletpos.y>=700)
 	{
 		xbul.exist=false;
@@ -1573,6 +1585,13 @@ void ProcessBullet2(Bullet &xbul)
 		xbul.bulletdir.x=xbul.bulletdir.y=0;
 		xbul.bullettype=0;
 	}*/
+	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)
+	//If collision is detected or the bullet flys out of screen, delete it.
+	{
+		++coll,scminus+=10000,Mult_BatClear();
+		return;
+	}
+	if (dis<=16&&xbul.scollable)++semicoll,++dsmc,xbul.scollable=false,SCEffect_Attatch();
 	xbul.bulletspr->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.5);
 }
 //"Noname"
@@ -1846,14 +1865,18 @@ public:
 		line.SetTexture(SprSheet,0,264,248,8);
 		line.RenCtr.x=line.RenCtr.y=0;
 		line.EnableColl=false;
-		CreateBullet2(headb,a.x,b.x,2,0);
-		double theta=(a.y-b.y,a.x-b.x);
-		vector2d a2=vector2d(a.x+0.5*sin(theta),a.y+0.5*cos(theta));
-		vector2d b2=vector2d(b.x+0.5*sin(theta),b.y+0.5*cos(theta));
-		line.InsPoint(a,a2,0x33CCFF);
-		while(line.InsPoint(b,b2,0x33CCFF));
+		CreateBullet2(headb,a.x,b.x,6,0);
 		headb.redir(b);
+		double theta=(a.y-b.y,a.x-b.x);
+		vector2d a2=vector2d(a.x+4*sin(theta),a.y+4*cos(theta));
+		vector2d b2=vector2d(b.x+4*sin(theta),b.y+4*cos(theta));
+		//line.InsPoint(a,a2,0xCC33CCFF);
+		//while(line.InsPoint(b,b2,0xCC33CCFF));
+		line.SetRes(3);
+		line.Setdata(0,a,a2,0xCC33CCFF);
+		for (int i=1;i<80;++i)line.Setdata(i,b,b2,0xCC33CCFF);
 		active=true;
+		lifetime=0;
 	}
 	void Update()
 	{
