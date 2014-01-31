@@ -1194,6 +1194,9 @@ void Level5Part2()
 }
 int pos,lsrbrk;
 bool rev;
+/**********************\
+ *  Vortex of Leaves  *
+\**********************/
 void Level5Part3()
 {
 	frameleft=AMinute;
@@ -2546,39 +2549,39 @@ void Level7Part4()
 		}
 	}
 }
-BulletnLaser bnl[100];//Yukari...
+BulletSine bnl[100];//Yukari...
 double ykbrk;
 void Level7Part5()//This should be another part.
 {
 	memset(bnl,0,sizeof(bnl));
 	frameleft=AMinute;
-	ykbrk=1.0f;++part;
+	ykbrk=1.1f;++part;
 }
 void Level7Part6()
 {
 	ykbrk-=hge->Timer_GetDelta();
 	if (ykbrk<0)
 	{
-		ykbrk=1.0f;
+		ykbrk=(double)frameleft/AMinute+0.1;
 		for (int i=0;i<100;++i)
 		if (!bnl[i].active)
 		{
 			vector2d a,b;
 			if (rand()%100>49)
 			{
-				if (rand()%100>49)a=vector2d(rand()%780+10,590);else a=vector2d(rand()%780+10,10);
+				if (rand()%100>49)a=vector2d(rand()%780+10,610);else a=vector2d(rand()%780+10,-10);
 			}
 			else
 			{
-				if (rand()%100>49)a=vector2d(10,rand()%580+10);else a=vector2d(790,rand()%580+10);
+				if (rand()%100>49)a=vector2d(-10,rand()%580+10);else a=vector2d(810,rand()%580+10);
 			}
 			if (rand()%100>49)
 			{
-				if (rand()%100>49)b=vector2d(rand()%780+10,590);else b=vector2d(rand()%780+10,10);
+				if (rand()%100>49)b=vector2d(rand()%780+10,610);else b=vector2d(rand()%780+10,-10);
 			}
 			else
 			{
-				if (rand()%100>49)b=vector2d(10,rand()%580+10);else b=vector2d(790,rand()%580+10);
+				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
 			}
 			bnl[i].Init(a,b);
 			break;

@@ -439,6 +439,7 @@ void CallLevels()
 	if (level==3&&part==7)level=4,part=0;
 	if (level==4&&part==26)level=5,part=0;
 	if (level==5&&part==23)level=6,part=0;
+	if (level==6&&part==32)level=7,part=0;
 }
 bool ProcessCurCred()
 {
@@ -771,7 +772,7 @@ int main()
 	if(hge->System_Initiate())
 	{
 		//nonamecnt=1;
-		quad.tex=hge->Texture_Load("./Resources/bg.png");
+		quad.tex=hge->Texture_Load("./Resources/b_null.png");
 		SprSheet=hge->Texture_Load("./Resources/ss.png");
 		TLeaf=hge->Texture_Load("./Resources/e_leaf.png");
 		TSflake=hge->Texture_Load("./Resources/e_sflake.png");

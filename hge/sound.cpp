@@ -369,7 +369,7 @@ bool CALL HGE_Impl::Channel_IsPlaying(HCHANNEL chn)
 	}
 	else return false;
 }
-
+//The following features are ported to OpenAL by Chris
 float CALL HGE_Impl::Channel_GetLength(HCHANNEL chn)
 //WARNING!!:In OpenAL We pass HEFFECT insteat HCHANNEL in!
 //This should be fixed.

@@ -94,8 +94,8 @@ void StartGUI_FrameFnk()
 				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=false;
 				level=1,part=1;frms=0,averfps=0.0;bsscale=1;
 				towcnt=bulcnt=0;whrcnt=12;
-				score=0;Mult_Init();Music_Init("./Resources/Music/CanonTechno.ogg");
-				lpst=4625568;lped=9234584;Music_Play();
+				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
+				lpst=4625568;lped=9234584;//Music_Play();
 				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 				Lock.Init(2);
 				//Lock.SetTexture(SprSheet,151,264,2,8);

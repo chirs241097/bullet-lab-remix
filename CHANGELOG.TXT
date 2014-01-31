@@ -1,0 +1,245 @@
+=================================================================
+Next version:
+0.7.0-8_PR (b61)
+Improve the rendering code. (That code was a great fucking
+resource consumer)
+
+Pre-Released versions:
+0.7.0-7_PR (b60)
+Spring Festival commit...
+One level is rewritten.
+Ready to sync this to svn...
+
+0.7.0-6_PR (b59)
+Fixed 3D clouds background. New background components added.
+Experimental FPS independent bullets.
+
+0.7.0-5_PR (b58)
+Fixed another critical bug in laser collision detection
+implementation... Laser is almost perfect now...
+
+0.7.0-4_PR (b57)
+Fixed a critical bug in laser implementation and another awful
+memory leak bug...
+
+0.7.0-3_PR (b56)
+A new level is going to be complete...
+
+0.7.0-2_PR (b55)
+Auto pause and do not make game suspend if focus is lost.
+
+0.7.0-1_PR (b54)
+First two parts for level7.
+
+0.7.0-0_PR (b53)
+New background for level7. Preparing interfaces for level7.
+
+0.6.2-2_PR (b52)
+Level6 is frozen now. It's the longest level ever... (in blr!)
+
+0.6.2-1_PR (b51)
+Completing level6!
+Spring is coming? (Well, not really...)
+
+0.6.2-0_PR (b50)
+Completing && improving hexagon.
+Bumped the minor version for the sixth level is almost complete.
+
+0.6.1-4_PR (b49)
+New level hexagon.
+
+0.6.1-3_PR (b48)
+New level...(Avalanche)
+Spotlight: Supporting BGM loop points(using my new hge
+interfaces...)!
+I have no idea on new levels (except "hyper fluid", that's a well-
+planned part...). Maybe I've spent too much time staring at the
+desktop? I feel like void these days.
+The build count is bumped four times a day, you enough!
+
+0.6.1-2_PR (b47)
+New level "Wriggle Nightbug-like"?...
+
+0.6.1-1_PR (b46)
+Implemented several unimplemented audio interfaces of hge...
+A Windows build to check compatibility is planned.
+
+0.6.1-0_PR (b45)
+Now we have 11 parts in level6...
+A BGM called Canon Techno is composed around here...
+
+0.6.0-0_PR (b44)
+Starting level 6!
+//We are in 2014 now. I'm regretful for I didn't have the dates
+recorded.
+
+0.5.3-2_PR (b43)
+Optimizing memory usage... (first step...)[*]
+Borrowed "the unbreakable jail" from old code...
+//[*]Note @ 0.6.1-3:
+//1. I found this useless.
+//2. This may cause SIGSEGV!
+
+0.5.3-1_PR (b42)
+Final(the second last..) level for level 5, fish in a barrel?
+
+0.5.3-0_PR (b41)
+Small fixes and levels as usual...
+
+0.5.2-3_PR (b40)
+New minor parts for level5, fixed a bug in Player_Clear_Rotate.
+
+0.5.2-2_PR (b39)
+Several patches on new clear range.
+Changing interfaces for new levels.
+
+0.5.2-1_PR (b38)
+New trigger method for clear range...
+
+0.4.4-0_PRG (b37a)
+Regression version for releasing...
+
+0.5.2-0_PR (b37)
+New part for level5. Now I'm working on the regression 0.4.x.
+
+0.5.1-1_PR (b36)
+Several fixes including:
+-Fading info panel when approaching.
+-Sending multiplier layer up.
+
+0.5.1-0_PR (b35)
+First two levels of level5.
+
+0.5.0-0_PR (b34)
+Starting level5... Crazy Autumn...
+
+A regression is planned to release a 0.4.x-x_PR version as
+official pre-released version. However it's still nowhere in sight
+that if I could use Windows these days.
+
+0.4.3-0_PR (b33)
+Level4 is almost complete. Now I'm using LOW FPS Mode for
+development because I just want to cool my laptop down without
+using my own power. //However I stopped that at the next version...
+
+0.4.2-0_PR (b32)
+A new level... without using *ANY* old code (from level.h).
+
+0.4.1-2_PR (b31)
+Level4 is now 18 parts...
+
+0.4.1-1_PR (b30)
+Transfered sevel old levels here.
+
+0.4.1-0_PR (b29)
+Optimizing old code for level4.
+
+0.4.0-0_PR (b28)
+Now let's move to level4...
+
+0.3.2-0_PR (b27)
+New levels for level3. In fact, it's almost completed now...
+
+0.3.1-2_PR (b26)
+Improved bullet clearing method, avoiding hidden bullets
+completely!
+
+0.3.1-1_PR (b25)
+A new "big" level for level3.
+Added several new interfaces to tower&bullet section.
+
+0.3.1-0_PR (b24)
+Complete the first two parts of level3.
+
+0.3.0-0_PR (b23)
+Starting the development of level3...
+
+0.2.9-2_PR (b22)
+Completing level2...
+
+0.2.9-1_PR (b21)
+New parts for level2. level2 is almost completed now.
+PlayerLockX/Y implemented.
+-------------------------------------------------------------
+This will be released as a official Preview Release version.
+-------------------------------------------------------------
+BLR will be licensed under WTFPL from now.
+(WTF?)
+
+0.2.9_PR (b20)
+Level 2 is frozen "by heart". (How? By heart?)
+
+0.2.5_PR (b19)
+Optimizing the second level to a "realistic" state... Added two
+extra musics(although still remain not used).
+
+0.2.2_PR (b18)
+The main development has been transferred to Linux. Optimizing
+code for Linux.
+//Revision count is not important.
+
+0.2.0_PR (b17)
+Level 2?...
+
+0.1.7-2_PR (b16)
+The first level is almost completed now...
+
+0.1.7-1_PR (b15)
+Fixed several serious bug in Low FPS Mode. Fixed FPS Level option
+code.
+
+0.1.7_PR (b14)
+Updated the only level to synchronize with the In-Game Music.
+Added "Multiplier +1" into the game system. Added an unimportant
+loading screen.//In fact, it's loading nothing. May be unpacking
+resource pack in Windows version...
+
+0.1.4_PR (b13)
+libcghEx has been made independent and can apply to any other
+projects. This is also the first BLR version that includes
+In-Game Music. libcghEx has been extended with LinearProgresser
+and HangUpText.
+
+0.1.1_PR (b12)
+Added auto-multiplier system. libcghEx (Chrisoft Game Helper
+Extras Library) is included in this version with CircleIndicator.
+
+0.1.0_PR (b11)
+Creation of the Pre-Released Version. Removed all old level code.
+Bourne-again!//Can you imagine what I was thinking when deleting
+the result of 3 months' work?...
+=================================================================
+TestBed versions:
+
+TB130907 (b10)
+A "Noname" level. Laser implementation partly rewritten.
+
+TB130903 (b9)
+Additional backgrounds
+
+TB130827 (b8)
+Laser implementation, Cheers!
+
+TB130818 (b7)
+New Levels such as rainbow towers and squashing levels.
+
+TB130802 (b6)
+Discarding old code, rewrite of most of the code.
+
+TB130718 (b5)
+Bullet creation effects, sync code back to BLR1.
+
+TB130714 (b4)
+Target indicator completed.
+
+TB130705 (b3)
+New level and bullet creation code for orange bullets.
+
+TB130703 (b2)
+Completing Orange Towers.
+
+TB130620 (b1)
+Completing Deep Blue Towers.
+
+TB130610 (b0)
+Creation of Testbed version.

@@ -2,9 +2,10 @@
 //Towers and Bullets Implementations
 //"Copyleft" Chrisoft 2013
 //WANTED:
-//Human-being which really knows what these mean, please contact Chirsno which is puzzled by these shitty codes..
+//Human-being who really knows what these mean, please contact Chirsno which is puzzled by these shitty codes..
 //[Perfect Freeze]: code here for BLR2 won't change a lot since 30/08/2013
-//If you are expecting new code, please wait the full rewrite in BLR3...
+//Sorry that I would break that...
+//I found the rendering code stupid so I MUST rewrite it NOW.
 //                                             --Announcement from Chirsno
 #include "effects.h"
 static const char* TOWERNBULLET_H_FN="towernbullet.h";
@@ -354,15 +355,18 @@ void ProcessBullet2(int i)
 		if (LOWFPS)
 		{
 			if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*17;
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*17;//Process bullet's y coor.
+			//bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*17;//Process bullet's x coor.
+			//bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*17;//Process bullet's y coor.
 		}
 		else
 		{
 			if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel;
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20;//Process bullet's y coor.
+			//bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20;//Process bullet's x coor.
+			//bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20;//Process bullet's y coor.
 		}
+		//experimental new coor processing code, FPS independent
+		bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*(1000.0f/hge->Timer_GetFPS());
+		bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*(1000.0f/hge->Timer_GetFPS());
 	}
 	BulletEffect_Process(i);
 	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
@@ -1491,10 +1495,12 @@ public:
 			box.x1=box.x2=data1[i].x+RenCtr.x,box.y1=box.y2=data1[i].y+RenCtr.y;
 			//box.Encapsulate(data1[i].x+RenCtr.x,data1[i].y+RenCtr.y);
 			box.Encapsulate(data1[i+1].x+RenCtr.x,data1[i+1].y+RenCtr.y);
+			box.Encapsulate(data2[i].x+RenCtr.x,data2[i].y+RenCtr.y);
+			box.Encapsulate(data2[i+1].x+RenCtr.x,data2[i+1].y+RenCtr.y);
 			{
 				//Debugging collision box
 				hgeSprite colbox=*(new hgeSprite(0,0,0,0,0));
-				colbox.SetColor(0x0FFFFFFF);
+				colbox.SetColor(0x20FFFFFF);
 				colbox.RenderStretch(box.x1,box.y1,box.x2,box.y2);
 			}
 			if (box.TestPoint(playerpos.x,playerpos.y))
@@ -1571,12 +1577,14 @@ void ProcessBullet2(Bullet &xbul)
 	if (xbul.bulletspeed<xbul.limv)xbul.bulletspeed+=xbul.bulletaccel;
 	if (!xbul.exist||xbul.bullettype!=2)return;//If this bullet doesn't exist or is not of this type, do not render it.
 	if (!xbul.dist)xbul.dist=1;
-	if (LOWFPS)
-	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20*17,//Process bullet's x coor.
-	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20*17;//Process bullet's y coor.
+	/*if (LOWFPS)
+		xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20*17,//Process bullet's x coor.
+		xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20*17;//Process bullet's y coor.
 	else
-	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20,//Process bullet's x coor.
-	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20;//Process bullet's y coor.
+		xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20,//Process bullet's x coor.
+		xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20;//Process bullet's y coor.*/
+	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20*(1000.0f/hge->Timer_GetFPS());
+	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20*(1000.0f/hge->Timer_GetFPS());
 	double dis=GetDist(xbul.bulletpos,playerpos);
 	/*if (xbul.bulletpos.x<=-100||xbul.bulletpos.x>=900||xbul.bulletpos.y<=-100||xbul.bulletpos.y>=700)
 	{
@@ -1849,41 +1857,48 @@ public:
 		}
 	}
 };
-class BulletnLaser
+class BulletSine
 {
 private:
-	Laser line;
 	Bullet headb;
-	vector2d a,b;
-	double lifetime;
+	vector2d a,b,lastgenerated;
+	double theta;
+	Bullet* generated[400];
+	int gencnt;
+	bool OutOfBound()
+	{
+        if (headb.bulletpos.x<=-25||headb.bulletpos.x>=825||headb.bulletpos.y<=-25||headb.bulletpos.y>=625)
+        return true;return false;
+	}
 public:
 	bool active;
 	void Init(vector2d _a,vector2d _b)
 	{
-		a=_a;b=_b;
-		line.Init();
-		line.SetTexture(SprSheet,0,264,248,8);
-		line.RenCtr.x=line.RenCtr.y=0;
-		line.EnableColl=false;
-		CreateBullet2(headb,a.x,b.x,6,0);
+		a=_a;b=_b;lastgenerated=_a;
+		CreateBullet2(headb,a.x,a.y,6,0);
 		headb.redir(b);
-		double theta=(a.y-b.y,a.x-b.x);
-		vector2d a2=vector2d(a.x+4*sin(theta),a.y+4*cos(theta));
-		vector2d b2=vector2d(b.x+4*sin(theta),b.y+4*cos(theta));
-		//line.InsPoint(a,a2,0xCC33CCFF);
-		//while(line.InsPoint(b,b2,0xCC33CCFF));
-		line.SetRes(3);
-		line.Setdata(0,a,a2,0xCC33CCFF);
-		for (int i=1;i<80;++i)line.Setdata(i,b,b2,0xCC33CCFF);
-		active=true;
-		lifetime=0;
+		theta=(a.y-b.y,a.x-b.x);
+		active=true;memset(generated,0,sizeof(generated));
+		gencnt=0;
 	}
 	void Update()
 	{
-		lifetime+=hge->Timer_GetDelta();
-		if (lifetime>1.0&&!line.EnableColl)line.EnableColl=true;
-		if (lifetime>4.0&&line.EnableColl)line.EnableColl=false;
-		if (lifetime>4.5)active=false;
-		ProcessBullet2(headb);line.Process();
+		if (GetDist(lastgenerated,headb.bulletpos)>4.0f)
+		{
+            ++gencnt;
+            double rad=(gencnt&1)?(gencnt+1)/2*pi/18.0f:-gencnt/2*pi/18.0f;
+            generated[gencnt]=&bullet[CreateBullet2(headb.bulletpos.x,headb.bulletpos.y,0,rad,true)];
+            lastgenerated=headb.bulletpos;
+		}
+		if (OutOfBound())
+		{
+            active=false;
+            //Release them!
+			for (int i=1;i<=gencnt;++i)
+			if (generated[i])//explosion prevention
+			generated[i]->bulletaccel=0.005,generated[i]->limv=2;
+			memset(generated,0,sizeof(generated));//therefore we won't touch those fucking things accidently
+        }
+		ProcessBullet2(headb);
 	}
 };

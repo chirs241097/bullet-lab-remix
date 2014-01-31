@@ -14,7 +14,7 @@ hgeGUI				*gui;
 hgeFont				*fnt;
 hgeSprite			*spr,*titlespr;
 //Here are some Varibles in Bullet Lab
-int					Current_Position;//Where are we now.
+int					Current_Position;//Where we are now
 /*Scenes:
 0: main menu
 1: game scene
@@ -28,7 +28,7 @@ int					Current_Position;//Where are we now.
 9: highscore view scene
 10: highscore details scene
 11: Pause scene
-12: BackToTitle Confirm
+12: BackToTitle Confirmation
 13: Options scene
 14: Player Profile scene
 */
@@ -71,17 +71,17 @@ bool LOWFPS=false,diffkey=false;
 inline double GetDist(vector2d,vector2d);
 struct Bullet
 {
-	hgeSprite *bulletspr;
+	hgeSprite *bulletspr;//This shit will be deprecated.
 	vector2d bulletpos;
 	vector2d bulletdir;
 	double dist;
 	int bullettype;
 	int redexplo,redattrib,oriexplo,whicnt;
-	//In Orange bullets
+	/*In Orange bullets
 	//redattrib also serves as oraattrib to determine if they will explode or change direction
 	//redexplo also serves as orange explo
 	//yelbrk serves as direction-change timer
-	//whicnt describes how much one will explode into (into an exactly circle)
+	//whicnt describes how much one will explode into (into an exactly circle)*/
 	double bulletspeed;
 	double bulletaccel,limv;
 	bool exist;
@@ -104,10 +104,10 @@ struct Bullet
 		dist=1;
 	}
 }bullet[10000];
-//Something about bullets:
+/*Something about bullets:
 //bullettype:
-//1: dir-based green bullet
-//2: degree-based blue bullet (for clocks only)
+//1: player dir-based green bullet
+//2: degree-based blue bullet (for clocks only)[are they clocks?]
 //3: 12direction-based blue bullet
 //4: yellow chaser bullet
 //5: purple slow down bullet
@@ -116,10 +116,10 @@ struct Bullet
 //8: Orange Redir bullet
 //9: dark Blue bullet
 //254: Semi-collision effect
-//255: Score point
+//255: Score point*/
 struct Tower
 {
-	hgeSprite *towerspr;
+	hgeSprite *towerspr;//So will this one.
 	vector2d towerpos;
 	int towertype;
 	int towertimer,curtimer;
@@ -138,7 +138,8 @@ struct Tower
 //1:four default directions
 //2:random left/right
 //3:random up/down
-struct Target{
+struct Target//An annoying circle
+{
 	hgeSprite *targspr;
 	vector2d targpos,targdir;
 	double rot,rotspd;
@@ -323,12 +324,7 @@ void ShowTip(char *tip)
 	DisableAllTower=true;
 	DisablePlayer=true;
 	if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT)
-	{
-		//DisableAllTower=false;
-		//DisablePlayer=false;
-		//Current_Position=1;
 		FadeTip=true;
-	}
 	double width=TipFont->GetStringWidth(tip);
 	TipFont->printf(400-width/2,400,HGETEXT_LEFT,tip);
 	if (FadeTip)
