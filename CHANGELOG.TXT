@@ -1,10 +1,13 @@
 =================================================================
 Next version:
-0.7.0-8_PR (b61)
-Improve the rendering code. (That code was a great fucking
-resource consumer)
+Maybe 0.7.0-9_PR?..
 
 Pre-Released versions:
+0.7.0-8_PR (b61)
+Improved the rendering code. More tests are required...
+--Okay it's now tested. Another bug in FPS independent bullets
+fixed. No bugs found in the new rendering code.
+
 0.7.0-7_PR (b60)
 Spring Festival commit...
 One level is rewritten.

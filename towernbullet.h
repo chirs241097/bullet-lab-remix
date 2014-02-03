@@ -37,11 +37,12 @@ int CreateBullet1(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,48,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	bullet[i].alterColor=green;
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,48,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -64,13 +65,14 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false)
 	bullet[i].bulletdir.x=cos(rad);
 	bullet[i].bulletdir.y=sin(rad);
 	bullet[i].bulletspeed=bs;
+	bullet[i].alterColor=blue;
 	bullet[i].lifetime=0;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,0,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,0,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].bulletaccel=bullet[i].limv=0;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -100,11 +102,12 @@ void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
 	bullet[i].yelbrk=yelbrk;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,192,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,192,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	bullet[i].alterColor=yellow;
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 }
 void CreateBullet5(double x,double y,double bs,bool eff=false)
@@ -128,11 +131,12 @@ void CreateBullet5(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,120,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	bullet[i].alterColor=purple;
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,120,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 }
 int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,bool eff=false)
@@ -156,15 +160,16 @@ int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,b
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
+	bullet[i].alterColor=red;
 	bullet[i].redattrib=0;
 	bullet[i].exp1=exp1;
 	bullet[i].exp2=exp2;
 	bullet[i].oriexplo=bullet[i].redexplo=explo;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,144,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,144,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -189,15 +194,16 @@ int CreateBullet7(double x,double y,double bs,int explo,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
+	bullet[i].alterColor=white;
 	bullet[i].oriexplo=bullet[i].redexplo=explo;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,168,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,168,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].redattrib=0;
 	bullet[i].whirem=whicnt;
 	bullet[i].whiskp=0;
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -222,11 +228,12 @@ int CreateBullet8(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,24,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	bullet[i].alterColor=dblue;
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,24,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -257,11 +264,12 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 	bullet[i].redattrib=0;
 	bullet[i].whicnt=cnt;
 	bullet[i].yelbrk=brk;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,72,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	bullet[i].alterColor=orange;
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,72,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].bulletspr->SetHotSpot(12,12);
+	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -285,8 +293,8 @@ void CreateBullet255(double x,double y,double bs)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].bulletspr=new hgeSprite(SprSheet,96,0,24,24);
-	bullet[i].bulletspr->SetColor(0x80FFFFFF);
+	//bullet[i].bulletspr=new hgeSprite(SprSheet,96,0,24,24);
+	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 }
 void All2pnt()
 {
@@ -327,13 +335,11 @@ void ProcessBullet1(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -352,7 +358,7 @@ void ProcessBullet2(int i)
 	}
 	if (!DisablePlayer)
 	{
-		if (LOWFPS)
+		/*if (LOWFPS)
 		{
 			if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*17;
 			//bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*17;//Process bullet's x coor.
@@ -363,8 +369,9 @@ void ProcessBullet2(int i)
 			if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel;
 			//bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20;//Process bullet's x coor.
 			//bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20;//Process bullet's y coor.
-		}
+		}*/
 		//experimental new coor processing code, FPS independent
+		if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
 		bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*(1000.0f/hge->Timer_GetFPS());
 		bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*(1000.0f/hge->Timer_GetFPS());
 	}
@@ -382,9 +389,6 @@ void ProcessBullet2(int i)
 			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 			bullet[i].dist=0;
 			bullet[i].bullettype=0;
-#ifndef NO_FREE
-			if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 			return;
 		}
 	}
@@ -397,14 +401,12 @@ void ProcessBullet2(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 		return;
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -450,13 +452,11 @@ void ProcessBullet4(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -489,13 +489,11 @@ void ProcessBullet5(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 	}
 }
 void ProcessBullet6(int i)
@@ -554,9 +552,6 @@ void ProcessBullet6(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	BulletEffect_Process(i);
 	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
@@ -569,13 +564,11 @@ void ProcessBullet6(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -626,9 +619,6 @@ void ProcessBullet7(int i)
 			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 			bullet[i].dist=0;
 			bullet[i].bullettype=0;
-#ifndef NO_FREE
-			if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 		}
 		else
 		{
@@ -666,9 +656,6 @@ void ProcessBullet7(int i)
 				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 				bullet[i].dist=0;
 				bullet[i].bullettype=0;
-#ifndef NO_FREE
-				if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 			}
 		}
 	}
@@ -683,13 +670,11 @@ void ProcessBullet7(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		delete bullet[i].bulletspr;
-#endif
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -726,13 +711,11 @@ void ProcessBullet8(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -761,9 +744,6 @@ void ProcessBullet9(int i)
 					bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 					bullet[i].dist=0;
 					bullet[i].bullettype=0;
-#ifndef NO_FREE
-					if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 				}
 			}
 			if (bullet[i].redattrib==1)
@@ -796,9 +776,6 @@ void ProcessBullet9(int i)
 					bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 					bullet[i].dist=0;
 					bullet[i].bullettype=0;
-#ifndef NO_FREE
-					if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 				}
 			}
 			if (bullet[i].redattrib==1)
@@ -823,13 +800,11 @@ void ProcessBullet9(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -871,7 +846,9 @@ void ProcessBullet255(int i)
 	}
 	else
 	{
-		bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x,bullet[i].bulletpos.y,0,0.5,0);
+		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x,bullet[i].bulletpos.y,0,0.5,0);
+		bulletspr[grey]->SetColor(0x80FFFFFF);
+		bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+6,bullet[i].bulletpos.y+6,0,0.5,0);
 	}
 }
 int CreateTower1(double x,double y,int timer,double bs,double offset=0,bool eff=false)//This returns the created tower number.
@@ -897,11 +874,12 @@ int CreateTower1(double x,double y,int timer,double bs,double offset=0,bool eff=
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,0,136,44,44);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,0,136,44,44);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	tower[i].offset=offset;
-	tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetHotSpot(22,22);
 	return i;
 }
 int CreateTower2(double x,double y,int timer,double bs,bool eff=false)//This returns the created tower number.
@@ -924,9 +902,10 @@ int CreateTower2(double x,double y,int timer,double bs,bool eff=false)//This ret
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
-	tower[i].towerspr->SetHotSpot(22,22);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
+	//tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
@@ -951,9 +930,10 @@ int CreateTower3(double x,double y,int timer,double bs,int t3t,bool eff=false)//
 	tower[i].t3t=t3t;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
-	tower[i].towerspr->SetHotSpot(22,22);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
+	//tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
@@ -978,9 +958,10 @@ int CreateTower3_fixeddir(double x,double y,int timer,double bs,double rad,bool 
 	tower[i].offset=rad;tower[i].t3t=999;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
-	tower[i].towerspr->SetHotSpot(22,22);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
+	//tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
@@ -1007,9 +988,10 @@ int CreateTower4(double x,double y,int timer,double bs,int yelbrk=0,bool eff=fal
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,180,24,44,44);
-	tower[i].towerspr->SetHotSpot(22,22);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,180,24,44,44);
+	//tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].yelbrk=yelbrk;
 	tower[i].effect=eff;
 	return i;
@@ -1037,9 +1019,10 @@ int CreateTower5(double x,double y,int timer,double bs,bool eff=false)//This ret
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,48,24,44,44);
-	tower[i].towerspr->SetHotSpot(22,22);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,48,24,44,44);
+	//tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
@@ -1068,9 +1051,10 @@ int CreateTower6(double x,double y,int timer,double bs,int redexplo,int exp1=8,i
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
 	tower[i].exp1=exp1;tower[i].exp2=exp2;
-	tower[i].towerspr=new hgeSprite(SprSheet,92,24,44,44);
-	tower[i].towerspr->SetHotSpot(22,22);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,92,24,44,44);
+	//tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
@@ -1098,9 +1082,10 @@ int CreateTower7(double x,double y,int timer,double bs,int redexplo,bool eff=fal
 	tower[i].redexplo=redexplo;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,136,24,44,44);
-	tower[i].towerspr->SetHotSpot(22,22);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,136,24,44,44);
+	//tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].whicnt=whicnt;
 	tower[i].effect=eff;
 	return i;
@@ -1131,10 +1116,11 @@ int CreateTower8(double x,double y,int timer,double bs,int timer2,int scnt,bool 
 	tower[i].shotcount=tower[i].curshotcount=scnt;
 	tower[i].dblstate=false;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,0,92,44,44);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,0,92,44,44);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
-	tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetHotSpot(22,22);
 	return i;
 }
 int CreateTower9(double x,double y,int timer,double bs,int explo,int cnt,int brk,bool eff=false)
@@ -1163,10 +1149,11 @@ int CreateTower9(double x,double y,int timer,double bs,int explo,int cnt,int brk
 	tower[i].yelbrk=brk;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	tower[i].towerspr=new hgeSprite(SprSheet,0,180,44,44);
-	tower[i].towerspr->SetColor(0x80FFFFFF);
+	//tower[i].towerspr=new hgeSprite(SprSheet,0,180,44,44);
+	//tower[i].towerspr->SetColor(0x80FFFFFF);
+	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
-	tower[i].towerspr->SetHotSpot(22,22);
+	//tower[i].towerspr->SetHotSpot(22,22);
 	return i;
 }
 void ProcessTower1()
@@ -1174,7 +1161,9 @@ void ProcessTower1()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=1)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[green]->SetColor(tower[i].RendColor);
+		towerspr[green]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1198,7 +1187,9 @@ void ProcessTower2()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=2)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[blue]->SetColor(tower[i].RendColor);
+		towerspr[blue]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1219,7 +1210,9 @@ void ProcessTower3()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=3)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[blue]->SetColor(tower[i].RendColor);
+		towerspr[blue]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1280,7 +1273,9 @@ void ProcessTower4()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=4)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[yellow]->SetColor(tower[i].RendColor);
+		towerspr[yellow]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1298,7 +1293,9 @@ void ProcessTower5()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=5)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[purple]->SetColor(tower[i].RendColor);
+		towerspr[purple]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1316,7 +1313,9 @@ void ProcessTower6()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=6)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[red]->SetColor(tower[i].RendColor);
+		towerspr[red]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1334,7 +1333,9 @@ void ProcessTower7()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=7)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[white]->SetColor(tower[i].RendColor);
+		towerspr[white]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1352,7 +1353,9 @@ void ProcessTower8()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=8)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[dblue]->SetColor(tower[i].RendColor);
+		towerspr[dblue]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (!tower[i].dblstate)
 		{
@@ -1409,7 +1412,9 @@ void ProcessTower9()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=9)continue;
-		tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
+		towerspr[orange]->SetColor(tower[i].RendColor);
+		towerspr[orange]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
 		if (LOWFPS)
 			tower[i].curtimer-=17;
@@ -1566,11 +1571,13 @@ void CreateBullet2(Bullet &Tar,double x,double y,double bs,double rad,bool eff=f
 	Tar.bulletdir.x=cos(rad);
 	Tar.bulletdir.y=sin(rad);
 	Tar.bulletspeed=bs;
+	Tar.alterColor=blue;
+	Tar.scale=1;
 	Tar.scollable=true;
 	Tar.bulletaccel=0;
-	Tar.bulletspr=new hgeSprite(SprSheet,0,0,24,24);
-	Tar.bulletspr->SetColor(0x80FFFFFF);
-	Tar.bulletspr->SetHotSpot(12,12);
+	//Tar.bulletspr=new hgeSprite(SprSheet,0,0,24,24);
+	//Tar.bulletspr->SetColor(0x80FFFFFF);
+	//Tar.bulletspr->SetHotSpot(12,12);
 }
 void ProcessBullet2(Bullet &xbul)
 {
@@ -1600,7 +1607,8 @@ void ProcessBullet2(Bullet &xbul)
 		return;
 	}
 	if (dis<=16&&xbul.scollable)++semicoll,++dsmc,xbul.scollable=false,SCEffect_Attatch();
-	xbul.bulletspr->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.5);
+	//xbul.bulletspr->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.5);
+	bulletspr[xbul.alterColor]->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.6*xbul.scale);
 }
 //"Noname"
 class Noname01dotpas

@@ -65,7 +65,7 @@ void Level1Part1()
 {
 	//Level procedure
 	//Simple Level procedures should only run once during a level
-	if ((tower[CreateTower1(400,300,857,2)].towerspr->GetColor()>>24)>=0x80)IfCallLevel=false;
+	if ((tower[CreateTower1(400,300,857,2)].RendColor>>24)>=0x80)IfCallLevel=false;
 	//Current_Position=2;
 	frameleft=AMinute*2;
 	tcnt=1;sout=false;dscroll=-0.025f;memset(dmt,true,sizeof(dmt));
@@ -148,11 +148,11 @@ void Level1Part3()
 		CreateTower3(772,i*24-24,1714,2,2),
 		CreateTower3(28,i*24-12,1714,2,2);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			++part;
@@ -415,14 +415,14 @@ void Level3Part1()
 	//Create your towers
 	CreateTower8(400,300,857,3,57,30,false);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
-			IfCallLevel=false;
+			++part;
 			return;
 		}
 }
@@ -450,14 +450,14 @@ void Level3Part2()
 	CreateTower8(30,556,1250,3,57,15,false);
 	CreateTower8(746,556,1250,3,57,15,false);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
-			IfCallLevel=false;
+			++part;
 			return;
 		}
 }
@@ -478,8 +478,8 @@ public:
 	void init()
 	{
 		stage=0;rad1=rad2=srad;elasp=0.0f;ccnt=0;
-		for (int i=0;i<cnt;++i)Bul[i]=&bullet[CreateBullet8(400,300,0,false)],DirectBullet(*Bul[i],srad),Bul[i]->bulletspr->SetColor(0x00FFFFFF);
-		Bul[0]->bulletspeed=2;Bul[0]->bulletspr->SetColor(0x80FFFFFF);
+		for (int i=0;i<cnt;++i)Bul[i]=&bullet[CreateBullet8(400,300,0,false)],DirectBullet(*Bul[i],srad),Bul[i]->scale=0.01;
+		Bul[0]->bulletspeed=2;Bul[0]->scale=1;
 	}
 	void stage0()
 	{
@@ -488,7 +488,7 @@ public:
 		{
 			ccnt=(int)(elasp/0.2f);
 			if (ccnt==1)dtrange=GetDist(Bul[0]->bulletpos,Bul[1]->bulletpos);
-			Bul[ccnt]->bulletspeed=2;Bul[ccnt]->bulletspr->SetColor(0x80FFFFFF);
+			Bul[ccnt]->bulletspeed=2;Bul[ccnt]->scale=1;
 		}
 		if (elasp>2)
 		{
@@ -555,11 +555,11 @@ void Level3Part3()
 	//Create your towers
 	CreateTower8(400,300,999999999,0,999999999,0,false);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			for (int k=0;k<6;++k)
@@ -669,11 +669,11 @@ void Level4Part1()
 	//Create your towers
 	CreateTower9(400,300,1000,4,750,36,750);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			IfCallLevel=false;
@@ -1115,11 +1115,11 @@ void Level4Part24()
 	CreateTower1(9,567,2000,3);
 	CreateTower1(767,567,2000,3);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			++part;
@@ -1168,11 +1168,11 @@ void Level5Part1()
 	CreateTower9(400,300,2000,3,1000,36,750);
 	CreateTower4(400,50,2000,2.5,0);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			IfCallLevel=false;
@@ -1329,11 +1329,11 @@ void Level5Part7()
 	//Create your towers
 	for (int i=1;i<=33;++i)CreateTower8(i*24-12,12,500,10,20,30);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			++part;All2pnt();
@@ -1368,11 +1368,11 @@ void Level5Part9()
 	//Create your towers
 	for (int i=1;i<=33;++i)CreateTower8(i*24-12,12,750,1,1,1),CreateTower8(i*24-12,588,750,1,1,1);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			++part;All2pnt();
@@ -1385,7 +1385,8 @@ void Level5Part10()
 	if (tbrk<=3)return;
 	tbrk=0;
 	int p=CreateBullet1(playerpos.x,12,2);
-	bullet[p].bulletspr->SetTextureRect(72,0,24,24);
+	//bullet[p].bulletspr->SetTextureRect(72,0,24,24);
+	bullet[p].alterColor=orange;
 }
 void Level5Part11()
 {
@@ -1652,11 +1653,11 @@ void Level6Part1()
 	whicnt=10;
 	CreateTower7(400,300,750,3,500);
 	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
 	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			IfCallLevel=false;
@@ -2358,7 +2359,8 @@ void Level6Part999999999()//well this isnot an easter egg!
 		for (int i=1;i<=rand()%10;++i)
 		{
 			int pnt=CreateBullet2(rand()%780+10,590,1,pi/2);
-			bullet[pnt].bulletspr->SetTextureRect(168,0,24,24);
+			bullet[pnt].alterColor=white;
+			//!!TODO: Restore this later
 		}
 	}
 }
@@ -2549,7 +2551,7 @@ void Level7Part4()
 		}
 	}
 }
-BulletSine bnl[100];//Yukari...
+BulletSine bnl[100];
 double ykbrk;
 void Level7Part5()//This should be another part.
 {

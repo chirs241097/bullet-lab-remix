@@ -27,8 +27,9 @@ void SCEffect_Attatch()
 		bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 		bullet[i].dist=sqrt(bullet[i].dist);
 		bullet[i].bulletspeed=rand()%4+2;
-		bullet[i].bulletspr=new hgeSprite(SprSheet,96,0,24,24);
-		bullet[i].bulletspr->SetColor(0x80FFFFFF);
+		//bullet[i].bulletspr=new hgeSprite(SprSheet,96,0,24,24);
+		//bullet[i].bulletspr->SetColor(0x80FFFFFF);
+		bullet[i].sccolor=0x80FFFFFF;
 	}
 }
 void SCEffect_Process()
@@ -44,7 +45,7 @@ void SCEffect_Process()
 				bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
 				++effskp;
 				if (effskp==7)
-					bullet[i].bulletspr->SetColor(bullet[i].bulletspr->GetColor()-0x1F000000),effskp=0;
+					bullet[i].sccolor=bullet[i].sccolor-0x1F000000,effskp=0;
 			}
 			else
 			{
@@ -52,13 +53,13 @@ void SCEffect_Process()
 				bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 				++effskp;
 				if (effskp==7)
-					bullet[i].bulletspr->SetColor(bullet[i].bulletspr->GetColor()-0x1000000),effskp=0;
+					bullet[i].sccolor=bullet[i].sccolor-0x1000000,effskp=0;
 			}
 			//bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
 			//bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 		}
 		double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
-		if (GETA(bullet[i].bulletspr->GetColor())<=0x0A||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
+		if (GETA(bullet[i].sccolor)<=0x0A||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 		//If collision is detected or the bullet flys out of screen, delete it.
 		{
 			bullet[i].exist=false;
@@ -72,7 +73,9 @@ void SCEffect_Process()
 		}
 		else
 		{
-			bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+2,bullet[i].bulletpos.y+2,0,0.2,0);
+			//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+2.4,bullet[i].bulletpos.y+2.4,0,0.2,0);
+			bulletspr[grey]->SetColor(bullet[i].sccolor);
+			bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+2.4,bullet[i].bulletpos.y+2.4,0,0.2,0);
 		}
 	}
 

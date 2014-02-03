@@ -805,6 +805,20 @@ int main()
 		TipFont=new hgeFont("./Resources/charmap.fnt");
 		MultFnt=new hgeFont("./Resources/charmap.fnt");
 		spr=new hgeSprite(SprSheet,216,0,24,24);
+		for (int ii=0;ii<COLOR_COUNT;++ii)
+		{
+			TColors i=(TColors)ii;
+			TextureRect a=GetTextureRect(0,i);
+			bulletspr[i]=new hgeSprite(SprSheet,a.x,a.y,a.w,a.h);
+			bulletspr[i]->SetHotSpot(12,12);bulletspr[i]->SetColor(0x80FFFFFF);
+		}
+		for (int ii=0;ii<grey;++ii)
+		{
+			TColors i=(TColors)ii;
+			TextureRect a=GetTextureRect(1,i);
+			towerspr[i]=new hgeSprite(SprSheet,a.x,a.y,a.w,a.h);
+			towerspr[i]->SetHotSpot(22,22);bulletspr[i]->SetColor(0x80FFFFFF);
+		}
 		gui=new hgeGUI();
 		gui->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Start"));
 		gui->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Highscores && Records"));
@@ -818,10 +832,9 @@ int main()
 		if (LOWFPS)
 			hge->System_Log("%s: Low FPS Mode Enabled.\n",MAIN_SRC_FN);
 		hge->System_Start();
-		delete gui;
-		delete fnt;
+		delete gui;delete titlespr;
+		delete fnt;delete playerspr;
 		delete spr;
-		//hge->Effect_Free(snd);
 		hge->Texture_Free(tex);
 		hge->Texture_Free(quad.tex);
 	}

@@ -62,6 +62,9 @@ Multiplier"+1"		0,272,48,48
 Text:blnsns.png
 "Multiplier bonus!"	0,235,163,21
 */
+enum TColors
+{green=0,blue,yellow,purple,red,white,dblue,orange,grey,COLOR_COUNT};
+hgeSprite *bulletspr[COLOR_COUNT],*towerspr[COLOR_COUNT];
 const double zero=1e-5;
 vector2d playerpos;
 bool playerLockX,playerLockY;
@@ -71,12 +74,13 @@ bool LOWFPS=false,diffkey=false;
 inline double GetDist(vector2d,vector2d);
 struct Bullet
 {
-	hgeSprite *bulletspr;//This shit will be deprecated.
+	//hgeSprite *bulletspr;//This shit will be deprecated.
 	vector2d bulletpos;
 	vector2d bulletdir;
 	double dist;
 	int bullettype;
 	int redexplo,redattrib,oriexplo,whicnt;
+	DWORD sccolor;
 	/*In Orange bullets
 	//redattrib also serves as oraattrib to determine if they will explode or change direction
 	//redexplo also serves as orange explo
@@ -90,6 +94,7 @@ struct Bullet
 	int lifetime;
 	bool scollable;
 	double scale;int effbrk;
+	TColors alterColor;
 	void redir(vector2d targ)
 	{
 		bulletdir.x=bulletpos.x-targ.x;
@@ -119,7 +124,7 @@ struct Bullet
 //255: Score point*/
 struct Tower
 {
-	hgeSprite *towerspr;//So will this one.
+	//hgeSprite *towerspr;//So will this one.
 	vector2d towerpos;
 	int towertype;
 	int towertimer,curtimer;
@@ -132,6 +137,7 @@ struct Tower
 	int t3t;
 	bool exist,effect;
 	double offset;
+	DWORD RendColor;
 }tower[100];
 //t3t is for Tower3
 //0:All 12 directions
@@ -364,6 +370,7 @@ void ShowTip(char *tip)
 			TipFont->SetColor(TipFont->GetColor()+0x08000000);
 	}
 }
+void All2pnt();//forward that...
 void ClearAll(bool cbullet=true)
 {
 	DisableAllTower=true;
@@ -373,17 +380,17 @@ void ClearAll(bool cbullet=true)
 		if (!tower[i].exist)continue;
 		if (LOWFPS)
 		{
-			if (tower[i].towerspr->GetColor()>>24>=0x08)
+			if (tower[i].RendColor>>24>=0x08)
 			{
-				tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()-0x8000000);
+				tower[i].RendColor=tower[i].RendColor-0x8000000;
 				none=false;
 			}
 		}
 		else
 		{
-			if (tower[i].towerspr->GetColor()>>24>=0x01)
+			if (tower[i].RendColor>>24>=0x01)
 			{
-				tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()-0x1000000);
+				tower[i].RendColor=tower[i].RendColor-0x1000000;
 				none=false;
 			}
 		}
@@ -392,8 +399,9 @@ void ClearAll(bool cbullet=true)
 	{
 		towcnt=0;
 		memset(tower,0,sizeof(tower));
+		if (cbullet)All2pnt();
 	}
-	if (cbullet)
+	/*if (cbullet)
 	{
 		none=true;
 		for (int i=1;i<=bulcnt;++i)
@@ -424,7 +432,7 @@ void ClearAll(bool cbullet=true)
 		for (int i=1;i<=bulcnt;++i)if (bullet[i].bulletspr->GetColor()>>24>=0x3F){none=false;break;}
 		if (none)
 			bulcnt=0,memset(bullet,0,sizeof(bullet));
-	}
+	}*/
 }
 void SaySomethingAndBye(char *text)
 {
@@ -462,4 +470,37 @@ DWORD ColTrans(DWORD src,DWORD dsr,DWORD speed)
 			sb-=(sb-db)/llabs(sb-db)*speed;
 	}
 	return ARGB(0xFF,sr,sg,sb);
+}
+TextureRect GetTextureRect(int type,TColors color)
+{
+	if (type==0)
+	{
+		switch(color)
+		{
+			case green:return TextureRect(48,0,24,24);
+			case blue:return TextureRect(0,0,24,24);
+			case yellow:return TextureRect(192,0,24,24);
+			case purple:return TextureRect(120,0,24,24);
+			case red:return TextureRect(144,0,24,24);
+			case white:return TextureRect(168,0,24,24);
+			case dblue:return TextureRect(24,0,24,24);
+			case orange:return TextureRect(72,0,24,24);
+			case grey:return TextureRect(96,0,24,24);
+		}
+	}
+	if (type==1)
+	{
+		switch(color)
+		{
+			case green:return TextureRect(0,136,44,44);
+			case blue:return TextureRect(0,48,44,44);
+			case yellow:return TextureRect(180,24,44,44);
+			case purple:return TextureRect(48,24,44,44);
+			case red:return TextureRect(92,24,44,44);
+			case white:return TextureRect(136,24,44,44);
+			case dblue:return TextureRect(0,92,44,44);
+			case orange:return TextureRect(0,180,44,44);
+		}
+	}
+	return TextureRect(0,0,0,0);
 }
