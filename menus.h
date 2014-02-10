@@ -93,7 +93,7 @@ void StartGUI_FrameFnk()
 				playerpos.x=400,playerpos.y=400,playerrot=0;
 				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=false;
 				level=1,part=1;frms=0,averfps=0.0;bsscale=1;
-				towcnt=bulcnt=0;whrcnt=12;
+				towcnt=bulcnt=0;whrcnt=12;skyactive=false;
 				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
 				lpst=4625568;lped=9234584;//Music_Play();
 				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;

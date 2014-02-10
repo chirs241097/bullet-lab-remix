@@ -422,7 +422,7 @@ void Level3Part1()
 			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
-			++part;
+			IfCallLevel=false;
 			return;
 		}
 }
@@ -457,7 +457,7 @@ void Level3Part2()
 			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
-			++part;
+			IfCallLevel=false;
 			return;
 		}
 }
@@ -2360,7 +2360,6 @@ void Level6Part999999999()//well this isnot an easter egg!
 		{
 			int pnt=CreateBullet2(rand()%780+10,590,1,pi/2);
 			bullet[pnt].alterColor=white;
-			//!!TODO: Restore this later
 		}
 	}
 }
@@ -2385,6 +2384,7 @@ Will there be a clearer day?\
 	}
 }
 //change the color to dark grey. lightning.
+bool skystp;
 void Level7Part1()
 {
 	++bgbrk;if (LOWFPS)bgbrk+=16;
@@ -2398,7 +2398,7 @@ void Level7Part1()
 	{
 		frameleft=AMinute,++part;
 		bgdbbrk=rand()%15+5,bgbrk=0;
-		avabrk=0.2f;avacurbrk=0;
+		avabrk=0.2f;avacurbrk=0;skystp=false;
 	}
 }
 void Level7Part2()
@@ -2419,7 +2419,7 @@ void Level7Part2()
 		for (int i=1;i<=times;++i)DBGColor=ColorTransfer(DBGColor,0xFF0B0916);
 		if (DBGColor==0xFF0B0916)
 		{
-			if(bgbrk==2)bgbrk=3,bgdbbrk=0.1;
+			if(bgbrk==2)bgbrk=3,bgdbbrk=0.075;
 			if(bgbrk==5)bgbrk=0,bgdbbrk=rand()%15+5;
 		}
 	}
@@ -2463,9 +2463,36 @@ void Level7Part2()
 		}
 	}
 }
+//Add a background transform here...
 void Level7Part3()
 {
-	DBGColor=0xFF0B0916;
+	frameleft=TenSeconds;
+	if (!skystp)
+	{
+		++bgbrk;if (LOWFPS)bgbrk+=16;
+		if (bgbrk<30)return;
+		bgbrk=0;
+		if (!LOWFPS)
+		DBGColor=ColorTransfer(DBGColor,0xFFFFFFFF);
+		else
+		for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFFFFFFFF);
+		if (DBGColor==0xFFFFFFFF)skystp=skyactive=true,sky.SkySetFadeIn(),sky.SetSpeed(0);
+	}
+	else
+	{
+		++bgbrk;if (LOWFPS)bgbrk+=16;
+		if (bgbrk<30)return;
+		bgbrk=0;
+		if (!LOWFPS)
+		DBGColor=ColorTransfer(DBGColor,0x00FFFFFF);
+		else
+		for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0x00FFFFFF);
+		if (DBGColor==0x00FFFFFF)
+		++part;
+	}
+}
+void Level7Part4()
+{
 	frameleft=(AMinute+ThirtySeconds);clrtime=5;
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -2484,7 +2511,7 @@ void Level7Part3()
 	CreateTower6(400,300,600,2,1000,3,72);
 	++part;All2pnt();
 }
-void Level7Part4()
+void Level7Part5()
 {
 	++frameskips;
 	if (tower[1].towertype==6)
@@ -2551,20 +2578,66 @@ void Level7Part4()
 		}
 	}
 }
+void Level7Part6()
+{
+	frameleft=AMinute;clrtime=2;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Hit Z...");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();avabrk=1.0f;avacurbrk=0;
+	}
+}
+void Level7Part7()
+{
+	avabrk=frameleft/(double)AMinute*0.6f+0.4f;
+	avacurbrk+=hge->Timer_GetDelta();
+	if (avacurbrk>avabrk)
+	{
+		avacurbrk=0;
+		bool lasta,lastb;
+		lasta=rand()%1000<500;lastb=rand()%1000<500;
+		for (int i=0;i<31;++i)
+		{
+			int rf=rand()%1000;
+			if ((lasta&&rf<600)||(!lasta&&rf<250))
+			{
+				int pnt=CreateBullet2(-15,i*20,2,pi);
+				bullet[pnt].alterColor=(TColors)(i%8);
+				bullet[pnt].limv=2+2*(AMinute-frameleft)/(double)AMinute;bullet[pnt].bulletaccel=0.002;
+				lasta=true;
+			}else lasta=false;
+			rf=rand()%1000;
+			if ((lastb&&rf<600)||(!lastb&&rf<250))
+			{
+				int pnt=CreateBullet2(815,i*20-10,2,0);
+				bullet[pnt].alterColor=(TColors)(i%8);
+				bullet[pnt].limv=2+2*(AMinute-frameleft)/(double)AMinute;bullet[pnt].bulletaccel=0.002;
+				lastb=true;
+			}else lastb=false;
+		}
+	}
+}
 BulletSine bnl[100];
 double ykbrk;
-void Level7Part5()//This should be another part.
+void Level7Part8()//This should be another part.
 {
 	memset(bnl,0,sizeof(bnl));
 	frameleft=AMinute;
-	ykbrk=1.1f;++part;
+	ykbrk=0.5f;++part;
 }
-void Level7Part6()
+void Level7Part9()
 {
 	ykbrk-=hge->Timer_GetDelta();
-	if (ykbrk<0)
+	if (ykbrk<0&&frameleft>TenSeconds/10*3)
 	{
-		ykbrk=(double)frameleft/AMinute+0.1;
+		ykbrk=(double)frameleft/AMinute+0.5f;
 		for (int i=0;i<100;++i)
 		if (!bnl[i].active)
 		{

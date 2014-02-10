@@ -1,12 +1,26 @@
-=================================================================
+===================================================================
 Next version:
-Maybe 0.7.0-9_PR?..
+0.7.1-1_PR
 
 Pre-Released versions:
+0.7.1-0_PR (b63)
+New level: Rainbow bullets - nauty photon (in fact it's a lazy
+level! I must have seen the same thing some where else...)
+The last "photon school" level was put to where it should be.
+Rewrite some silly parts of the Changelog.
+I ran out of my AppEngine quota today... So I can't commit that to
+svn as planned...
+
+0.7.0-9_PR (b62)
+Performed a couple of tests, under both full FPS mode and low FPS
+mode.
+New background is used by now.
+
 0.7.0-8_PR (b61)
 Improved the rendering code. More tests are required...
+That made the rendering more efficient. It also eats less RAM then.
 --Okay it's now tested. Another bug in FPS independent bullets
-fixed. No bugs found in the new rendering code.
+fixed. No (big) bugs were found in the new rendering code.
 
 0.7.0-7_PR (b60)
 Spring Festival commit...
@@ -19,7 +33,8 @@ Experimental FPS independent bullets.
 
 0.7.0-5_PR (b58)
 Fixed another critical bug in laser collision detection
-implementation... Laser is almost perfect now...
+implementation... Laser is almost perfect now...//Still, it's
+inefficient.
 
 0.7.0-4_PR (b57)
 Fixed a critical bug in laser implementation and another awful
@@ -64,12 +79,12 @@ The build count is bumped four times a day, you enough!
 New level "Wriggle Nightbug-like"?...
 
 0.6.1-1_PR (b46)
-Implemented several unimplemented audio interfaces of hge...
+Implemented several unimplemented audio interfaces of hge (OpenAL).
 A Windows build to check compatibility is planned.
 
 0.6.1-0_PR (b45)
 Now we have 11 parts in level6...
-A BGM called Canon Techno is composed around here...
+A BGM called Canon Techno is completed around here...
 
 0.6.0-0_PR (b44)
 Starting level 6!
@@ -79,9 +94,11 @@ recorded.
 0.5.3-2_PR (b43)
 Optimizing memory usage... (first step...)[*]
 Borrowed "the unbreakable jail" from old code...
-//[*]Note @ 0.6.1-3:
+//[*]Note @ 0.6.1-3 && @ 0.7.0-9:
 //1. I found this useless.
 //2. This may cause SIGSEGV!
+//3. It's completely removed after b61. Because they are not used
+//   any longer
 
 0.5.3-1_PR (b42)
 Final(the second last..) level for level 5, fish in a barrel?
@@ -108,7 +125,7 @@ New part for level5. Now I'm working on the regression 0.4.x.
 0.5.1-1_PR (b36)
 Several fixes including:
 -Fading info panel when approaching.
--Sending multiplier layer up.
+-Sending mult. inc. indicator layer up.
 
 0.5.1-0_PR (b35)
 First two levels of level5.
@@ -145,7 +162,7 @@ New levels for level3. In fact, it's almost completed now...
 
 0.3.1-2_PR (b26)
 Improved bullet clearing method, avoiding hidden bullets
-completely!
+completely!(Just by converting them all to score points...)
 
 0.3.1-1_PR (b25)
 A new "big" level for level3.
@@ -168,6 +185,8 @@ This will be released as a official Preview Release version.
 -------------------------------------------------------------
 BLR will be licensed under WTFPL from now.
 (WTF?)
+.............................................................
+No it's now licensed under the BSD license...
 
 0.2.9_PR (b20)
 Level 2 is frozen "by heart". (How? By heart?)
@@ -227,7 +246,7 @@ TB130818 (b7)
 New Levels such as rainbow towers and squashing levels.
 
 TB130802 (b6)
-Discarding old code, rewrite of most of the code.
+Discarding old code, rewrite of part of the code.
 
 TB130718 (b5)
 Bullet creation effects, sync code back to BLR1.
@@ -242,7 +261,9 @@ TB130703 (b2)
 Completing Orange Towers.
 
 TB130620 (b1)
-Completing Deep Blue Towers.
+Completing Deep Blue Towers.//Well, "Dark Blue" right? Or more formally, "Navy".
+//However, they are all not the real color. I used #0000FF, which is just "Blue",
+//it just seems dark.
 
 TB130610 (b0)
 Creation of Testbed version.

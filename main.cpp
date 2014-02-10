@@ -175,17 +175,14 @@ void ProcessPlayer()
 	{
 		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT&&clrrange==0/*&&clrtime+clrbns*/&&!diffkey)
 		{
-			//Player_Clear_Expand();--clrtime;++clrusg;
 			clrmaxrange=0;clrind=0;
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_HIT&&clrrange==0/*&&clrtime+clrbns*/&&diffkey)
 		{
-			//Player_Clear_Expand();--clrtime;++clrusg;
 			clrmaxrange=0;clrind=0;
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_KEEP&&clrrange==0/*&&clrtime+clrbns*/&&!diffkey)
 		{
-			//Player_Clear_Expand();--clrtime;++clrusg;
 			if (clrmaxrange<=400)
 			{
 				if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
@@ -195,7 +192,6 @@ void ProcessPlayer()
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_KEEP&&clrrange==0/*&&clrtime+clrbns*/&&diffkey)
 		{
-			//Player_Clear_Expand();--clrtime;++clrusg;
 			if (clrmaxrange<=400)
 			{
 				if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
@@ -234,17 +230,14 @@ void ProcessPlayer()
 	{
 		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT&&clrrad-pi/2<1e-7&&clrtime+clrbns&&!diffkey)
 		{
-			//Player_Clear_Rotate();--clrtime;++clrusg;
 			clrmaxrange=0;clrind=0;
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_HIT&&clrrad-pi/2<1e-7&&clrtime+clrbns&&diffkey)
 		{
-			//Player_Clear_Rotate();--clrtime;++clrusg;
 			clrmaxrange=0;clrind=0;
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_KEEP&&clrrange==0&&clrtime+clrbns&&!diffkey)
 		{
-			//Player_Clear_Expand();--clrtime;++clrusg;
 			if (clrmaxrange<=400)
 			{
 				if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
@@ -254,7 +247,6 @@ void ProcessPlayer()
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_KEEP&&clrrange==0&&clrtime+clrbns&&diffkey)
 		{
-			//Player_Clear_Expand();--clrtime;++clrusg;
 			if (clrmaxrange<=400)
 			{
 				if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
@@ -408,6 +400,7 @@ void CallLevels()
 	if (level==7&&part==4)Level7Part4();
 	if (level==7&&part==5)Level7Part5();
 	if (level==7&&part==6)Level7Part6();
+	if (level==7&&part==7)Level7Part7();
 	/*if (level==1&&part==3)Level1Part3();
 	if (level==1&&part==4)Level1Part4();
 	if (level==1&&part==5)Level1Part5();
@@ -534,12 +527,9 @@ bool FrameFunc()
 	//Super Spliter!*****Super Spliter!*****Super Spliter!*****Super Spliter!*****Super Spliter!**
 	//******Super Spliter!*****Super Spliter!*****Super Spliter!*****Super Spliter!***************
 	hge->Gfx_BeginScene();
-	for(int i=0;i<4;i++)
-	{
-		quad.v[i].z=0.5f;
-		quad.v[i].col=DBGColor;
-	}
-	hge->Gfx_Clear(DBGColor);
+	for(int i=0;i<4;i++)quad.v[i].col=DBGColor;
+	hge->Gfx_Clear(SETA(DBGColor,0xFF));
+	if (skyactive)sky.Update(),sky.Render();
 	hge->Gfx_RenderQuad(&quad);
 	if (Current_Position==0||Current_Position==3||Current_Position==8||
 		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
@@ -555,7 +545,7 @@ bool FrameFunc()
 	//If we are at the main scene or tip scene(which towers and bullets should still appear..)
 	//Render towers, bullets and player.
 		if (Leaves.IsActive())Leaves.Update();
-		//Sky.Update();
+
 		if (LE_Active||Head){if (!Head)Tail=Head=new Leaf_Anim(),Head->init(990);Head->Process();}
 		shots=0;
 		dsmc=0;
@@ -778,6 +768,7 @@ int main()
 		TSflake=hge->Texture_Load("./Resources/e_sflake.png");
 		TexTitle=hge->Texture_Load("./Resources/title.png");
 		TexCredits=hge->Texture_Load("./Resources/credits.png");
+		sky.Init();
 		snd=hge->Effect_Load("./Resources/tap.ogg");
 		titlespr=new hgeSprite(TexTitle,0,0,640,320);
 		playerspr=new hgeSprite(SprSheet,0,24,24,24);

@@ -216,7 +216,7 @@ private:
 public:
 	bool Init()
 	{
-		skyitem=hge->Texture_Load("e_skyitem.png");
+		skyitem=hge->Texture_Load("./Resources/e_skyitem.png");
 		if(!skyitem) return false;
 		sky=new hgeSprite(0, 0, 0, ScreenWidth, ScreenHeight);
 		sea=new hgeDistortionMesh(SeaDisize, SeaDisize);
@@ -457,13 +457,16 @@ public:
 	}
 };
 TDSky sky;
+bool skyactive;
 
 DWORD ColorTransfer(DWORD a,DWORD t)
 {
-	int r=GETR(a),g=GETG(a),b=GETB(a);
-	int tr=GETR(t),tg=GETG(t),tb=GETB(t);
+	int r=GETR(a),g=GETG(a),b=GETB(a),sa=GETA(a);
+	int tr=GETR(t),tg=GETG(t),tb=GETB(t),ta=GETA(t);
+	if (sa<ta)++sa;if (sa>ta)--sa;
 	if (r<tr)++r;if (r>tr)--r;
 	if (g<tg)++g;if (g>tg)--g;
 	if (b<tb)++b;if (b>tb)--b;
-	a=SETR(a,r);a=SETG(a,g);a=SETB(a,b);
+	a=SETR(a,r);a=SETG(a,g);a=SETB(a,b);a=SETA(a,sa);
+	return a;
 }
