@@ -1,8 +1,20 @@
 ===================================================================
 Next version:
-0.7.1-1_PR
+0.7.1-2_PR
+TODOs:
+Bullet die effect (Resource is ready now), apply it to Wave of
+Photon.
+Try fake multi-thread effect loading.
 
 Pre-Released versions:
+0.7.1-1_PR (b64)
+New level: Wave of Photon. A lazy level again. Despite of a new
+class, it's a copy of "photon school".
+Level improved: Cross threaten. Make it impossible to pass this
+part without crossing those blue bullets.
+libcgh improvement. Added new interfaces to vector2d struct. So the
+libcgh version was bumped. Was it worth doing that?
+
 0.7.1-0_PR (b63)
 New level: Rainbow bullets - nauty photon (in fact it's a lazy
 level! I must have seen the same thing some where else...)

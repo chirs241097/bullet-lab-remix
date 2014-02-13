@@ -47,6 +47,7 @@ Bullet White		168,0,24,24
 Bullet Yellow		192,0,24,24
 Cursor				216,0,24,24
 Player				0,24,24,24
+Bullet Circle		24,24,24,24
 Tower Blue			0,48,44,44
 Tower Dark Blue		0,92,44,44
 Tower Green			0,136,44,44

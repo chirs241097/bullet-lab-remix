@@ -1579,7 +1579,7 @@ void CreateBullet2(Bullet &Tar,double x,double y,double bs,double rad,bool eff=f
 	//Tar.bulletspr->SetColor(0x80FFFFFF);
 	//Tar.bulletspr->SetHotSpot(12,12);
 }
-void ProcessBullet2(Bullet &xbul)
+void ProcessBullet2(Bullet &xbul,bool colchk=true)
 {
 	if (xbul.bulletspeed<xbul.limv)xbul.bulletspeed+=xbul.bulletaccel;
 	if (!xbul.exist||xbul.bullettype!=2)return;//If this bullet doesn't exist or is not of this type, do not render it.
@@ -1600,7 +1600,7 @@ void ProcessBullet2(Bullet &xbul)
 		xbul.bulletdir.x=xbul.bulletdir.y=0;
 		xbul.bullettype=0;
 	}*/
-	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)
+	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&colchk)
 	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		++coll,scminus+=10000,Mult_BatClear();
@@ -1608,7 +1608,7 @@ void ProcessBullet2(Bullet &xbul)
 	}
 	if (dis<=16&&xbul.scollable)++semicoll,++dsmc,xbul.scollable=false,SCEffect_Attatch();
 	//xbul.bulletspr->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.5);
-	bulletspr[xbul.alterColor]->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.6*xbul.scale);
+	if (colchk)bulletspr[xbul.alterColor]->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.6*xbul.scale);
 }
 //"Noname"
 class Noname01dotpas
@@ -1875,8 +1875,8 @@ private:
 	int gencnt;
 	bool OutOfBound()
 	{
-        if (headb.bulletpos.x<=-25||headb.bulletpos.x>=825||headb.bulletpos.y<=-25||headb.bulletpos.y>=625)
-        return true;return false;
+		if (headb.bulletpos.x<=-25||headb.bulletpos.x>=825||headb.bulletpos.y<=-25||headb.bulletpos.y>=625)
+		return true;return false;
 	}
 public:
 	bool active;
@@ -1908,5 +1908,53 @@ public:
 			memset(generated,0,sizeof(generated));//therefore we won't touch those fucking things accidently
         }
 		ProcessBullet2(headb);
+	}
+};
+class WOP
+//module:
+{
+private:
+	int trail[200];//Pointer to bullet[] in this trail
+	double brk,blim,rad,k;//step break
+	vector2d a,b;
+	int ml;
+	Bullet hbul;//hidden header bullet, no col.
+	bool OutOfBound()
+	{
+		if (hbul.bulletpos.x<=-25||hbul.bulletpos.x>=825||hbul.bulletpos.y<=-25||hbul.bulletpos.y>=625)
+		{
+			for (int i=0;i<200;++i)if (trail[i])return false;
+			return true;
+		}return false;
+	}
+public:
+	bool active;
+	void Init(vector2d _a,vector2d _b,int _ml,double _bl)//ml=Max Length, bl=BLumia
+	{
+		a=_a,b=_b,ml=_ml,blim=_bl;rad=0;
+		if (fabs(b.x-a.x)<1e-6)return;k=(b.y-a.y)/(b.x-a.x);
+		CreateBullet2(hbul,a.x,a.y,7,0);hbul.redir(b);
+		active=true;memset(trail,0,sizeof(trail));
+	}
+	void Update()
+	{
+		ProcessBullet2(hbul);
+		brk+=hge->Timer_GetDelta();
+		if (brk>blim)
+		{
+			brk=0;
+			for (int i=0;i<200;++i)
+			{
+				if (trail[i])
+				if (bullet[trail[i]].lifetime>ml)bullet[trail[i]].exist=false,trail[i]=0;
+			}
+			rad+=pi/16.0f;
+			vector2d uv=ToUnitCircle(vector2d(1,-k));uv.Swap();
+			int pnt=0;while (trail[pnt])++pnt;
+			trail[pnt]=CreateBullet2(hbul.bulletpos.x+uv.x*50*sin(rad),hbul.bulletpos.y+uv.y*50*sin(rad),0,0,true);
+			pnt=0;while (trail[pnt])++pnt;
+			trail[pnt]=CreateBullet2(hbul.bulletpos.x-uv.x*50*sin(rad),hbul.bulletpos.y-uv.y*50*sin(rad),0,0,true);
+		}
+		if (OutOfBound())active=false;
 	}
 };

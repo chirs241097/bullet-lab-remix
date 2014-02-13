@@ -1384,13 +1384,15 @@ void Level5Part10()
 	tbrk+=hge->Timer_GetDelta();
 	if (tbrk<=3)return;
 	tbrk=0;
-	int p=CreateBullet1(playerpos.x,12,2);
-	//bullet[p].bulletspr->SetTextureRect(72,0,24,24);
-	bullet[p].alterColor=orange;
+	for (int i=0;i<6;++i)
+	{
+		int p=CreateBullet2(playerpos.x+cos(i*pi/3.0f)*6,12+sin(i*pi/3.0f)*6,2,-pi/2);
+		bullet[p].alterColor=orange;
+	}
 }
 void Level5Part11()
 {
-	frameleft=TenSeconds/10*2;clrtime=0;
+	frameleft=TenSeconds/10*2;clrtime=0;Dis8ref=false;
 	if (towcnt==66)
 	{
 		ClearAll();
@@ -2664,6 +2666,46 @@ void Level7Part9()
 	}
 	for (int i=0;i<100;++i)
 	if (bnl[i].active)bnl[i].Update();
+}
+WOP wop[100];
+void Level7Part10()
+{
+	memset(bnl,0,sizeof(bnl));
+	frameleft=AMinute;
+	ykbrk=0.5f;++part;
+}
+void Level7Part11()
+{
+	ykbrk-=hge->Timer_GetDelta();
+	if (ykbrk<0&&frameleft>TenSeconds/10*3)
+	{
+		ykbrk=(double)frameleft/AMinute/2.0f+0.2f;
+		for (int i=0;i<100;++i)
+		if (!wop[i].active)
+		{
+			vector2d a,b;
+			if (rand()%100>49)
+			{
+				if (rand()%100>49)a=vector2d(rand()%780+10,610);else a=vector2d(rand()%780+10,-10);
+			}
+			else
+			{
+				if (rand()%100>49)a=vector2d(-10,rand()%580+10);else a=vector2d(810,rand()%580+10);
+			}
+			if (rand()%100>49)
+			{
+				if (rand()%100>49)b=vector2d(rand()%780+10,610);else b=vector2d(rand()%780+10,-10);
+			}
+			else
+			{
+				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
+			}
+			wop[i].Init(a,b,1000+(AMinute-frameleft)/(double)AMinute*1000,0.02);
+			break;
+		}
+	}
+	for (int i=0;i<100;++i)
+	if (wop[i].active)wop[i].Update();
 }
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
 /*void Level1Part2()//Simple tower8-discard

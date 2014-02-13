@@ -1,7 +1,7 @@
 //Chrisoft Bullet Lab Remix HGE
 //Chrisoft Game Helper header
 //"Copyleft" Chrisoft 2013
-//libcgh version 0002
+//libcgh version 0003
 //^Modify that when big change is made^
 #include <hge.h>
 #include <hgefont.h>
@@ -19,6 +19,12 @@ struct vector2d
 	double x,y;
 	vector2d(double _x,double _y){x=_x;y=_y;}
 	vector2d(){x=y=0;}
+	void ToUnitCircle()
+	{
+		double l=sqrt(sqr(x)+sqr(y));
+		x/=l;y/=l;
+	}
+	void Swap(){double t=x;x=y;y=t;}
 	friend vector2d operator -(vector2d a,vector2d b)
 	{
 		return vector2d(a.x-b.x,a.y-b.y);
