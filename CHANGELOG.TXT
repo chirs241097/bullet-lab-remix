@@ -1,12 +1,15 @@
 ===================================================================
 Next version:
-0.7.1-2_PR
+0.7.1-3_PR
 TODOs:
-Bullet die effect (Resource is ready now), apply it to Wave of
-Photon.
 Try fake multi-thread effect loading.
+New levels.
 
 Pre-Released versions:
+0.7.1-2_PR (b65)
+Bullet death effect, applied to Wave of Photon. It seems buggy.
+Fixed something left for debuging in the last commit.
+
 0.7.1-1_PR (b64)
 New level: Wave of Photon. A lazy level again. Despite of a new
 class, it's a copy of "photon school".

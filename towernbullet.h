@@ -1938,7 +1938,7 @@ public:
 	}
 	void Update()
 	{
-		ProcessBullet2(hbul);
+		ProcessBullet2(hbul,false);
 		brk+=hge->Timer_GetDelta();
 		if (brk>blim)
 		{
@@ -1946,7 +1946,7 @@ public:
 			for (int i=0;i<200;++i)
 			{
 				if (trail[i])
-				if (bullet[trail[i]].lifetime>ml)bullet[trail[i]].exist=false,trail[i]=0;
+				if (bullet[trail[i]].lifetime>ml)BulletEffect_Death(bullet[trail[i]],0x8000CCFF),bullet[trail[i]].exist=false,trail[i]=0;
 			}
 			rad+=pi/16.0f;
 			vector2d uv=ToUnitCircle(vector2d(1,-k));uv.Swap();

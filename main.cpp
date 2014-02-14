@@ -579,12 +579,14 @@ bool FrameFunc()
 				case 7:ProcessBullet7(i);break;
 				case 8:ProcessBullet8(i);break;
 				case 9:ProcessBullet9(i);break;
+				case 253:BulletDeath_Process(i);break;
+				case 254:SCEffect_Process(i);break;
 				case 255:ProcessBullet255(i);break;
 			}
 		}
 		for (int i=1;i<=nonamecnt;++i)if (noname[i].Exist())noname[i].Process();
 		ProcessPlayer();
-		SCEffect_Process();
+		//SCEffect_Process();
 		RefreshScore();
 		{
 			if (ATarg.visible)ATarg.TargFollowPlayer(),ATarg.TargRender();

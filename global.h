@@ -64,7 +64,7 @@ Text:blnsns.png
 "Multiplier bonus!"	0,235,163,21
 */
 enum TColors
-{green=0,blue,yellow,purple,red,white,dblue,orange,grey,COLOR_COUNT};
+{green=0,blue,yellow,purple,red,white,dblue,orange,grey,circle,COLOR_COUNT};
 hgeSprite *bulletspr[COLOR_COUNT],*towerspr[COLOR_COUNT];
 const double zero=1e-5;
 vector2d playerpos;
@@ -487,6 +487,7 @@ TextureRect GetTextureRect(int type,TColors color)
 			case dblue:return TextureRect(24,0,24,24);
 			case orange:return TextureRect(72,0,24,24);
 			case grey:return TextureRect(96,0,24,24);
+			case circle:return TextureRect(24,24,24,24);
 		}
 	}
 	if (type==1)
