@@ -125,8 +125,8 @@ void BulletDeath_Process(int i)
 	else
 		--bullet[i].effbrk;
 	if (GETA(bullet[i].sccolor)<=10)return (void)(bullet[i].exist=false);
-	if (bullet[i].effbrk<=0)
-		bullet[i].effbrk=7,bullet[i].scale+=0.05,bullet[i].sccolor=SETA(bullet[i].sccolor,GETA(bullet[i].sccolor)-3);
+	if (bullet[i].effbrk<=0&&Current_Position==1)
+		bullet[i].effbrk=7,bullet[i].scale+=0.1,bullet[i].sccolor=SETA(bullet[i].sccolor,GETA(bullet[i].sccolor)-6);
 	bulletspr[circle]->SetColor(bullet[i].sccolor);
 	bulletspr[circle]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale);
 }

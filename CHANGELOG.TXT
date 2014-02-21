@@ -1,11 +1,19 @@
 ===================================================================
 Next version:
-0.7.1-3_PR
+0.7.1-5_PR
 TODOs:
-Try fake multi-thread effect loading.
 New levels.
 
 Pre-Released versions:
+0.7.1-4_PR (b67)
+New level (name and placement undetermined).
+Fix level transition mismatches.
+Improved accelerated bullets.
+
+0.7.1-3_PR (b66)
+Fix a few glitches. Removing some useless interfaces for BLR I.
+Change "Dangerous Target" for proper difficulty.
+
 0.7.1-2_PR (b65)
 Bullet death effect, applied to Wave of Photon. It seems buggy.
 Fixed something left for debuging in the last commit.

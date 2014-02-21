@@ -346,16 +346,7 @@ void ProcessBullet1(int i)
 void ProcessBullet2(int i)
 {
 	if (!bullet[i].exist||bullet[i].bullettype!=2)return;//If this bullet doesn't exist or is not of this type, do not render it.
-	if (LOWFPS)bullet[i].lifetime+=17;else ++bullet[i].lifetime;
-	if (bullet[i].lifetime>=15000&&Refliction)
-	{
-		bullet[i].exist=false;
-		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
-		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-		bullet[i].dist=0;
-		bullet[i].bullettype=0;
-		return;
-	}
+	if (Current_Position==1)bullet[i].lifetime+=hge->Timer_GetDelta();
 	if (!DisablePlayer)
 	{
 		/*if (LOWFPS)
@@ -371,7 +362,8 @@ void ProcessBullet2(int i)
 			//bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20;//Process bullet's y coor.
 		}*/
 		//experimental new coor processing code, FPS independent
-		if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
+		if (bullet[i].bulletaccel>0&&bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
+		if (bullet[i].bulletaccel<0&&bullet[i].bulletspeed>bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
 		bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*(1000.0f/hge->Timer_GetFPS());
 		bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*(1000.0f/hge->Timer_GetFPS());
 	}
@@ -379,18 +371,12 @@ void ProcessBullet2(int i)
 	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
 	if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
 	{
-		if (Refliction)
-			bullet[i].bulletdir.x=-bullet[i].bulletdir.x,
-			bullet[i].bulletdir.y=-bullet[i].bulletdir.y;
-		else
-		{
-			bullet[i].exist=false;
-			bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
-			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-			bullet[i].dist=0;
-			bullet[i].bullettype=0;
-			return;
-		}
+		bullet[i].exist=false;
+		bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
+		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+		bullet[i].dist=0;
+		bullet[i].bullettype=0;
+		return;
 	}
 	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)
 	//If collision is detected or the bullet flys out of screen, delete it.
@@ -1915,9 +1901,8 @@ class WOP
 {
 private:
 	int trail[200];//Pointer to bullet[] in this trail
-	double brk,blim,rad,k;//step break
+	double brk,blim,rad,k,ml;//step break
 	vector2d a,b;
-	int ml;
 	Bullet hbul;//hidden header bullet, no col.
 	bool OutOfBound()
 	{
@@ -1929,7 +1914,7 @@ private:
 	}
 public:
 	bool active;
-	void Init(vector2d _a,vector2d _b,int _ml,double _bl)//ml=Max Length, bl=BLumia
+	void Init(vector2d _a,vector2d _b,double _ml,double _bl)//ml=Max Length, bl=BLumia
 	{
 		a=_a,b=_b,ml=_ml,blim=_bl;rad=0;
 		if (fabs(b.x-a.x)<1e-6)return;k=(b.y-a.y)/(b.x-a.x);
@@ -1938,6 +1923,7 @@ public:
 	}
 	void Update()
 	{
+		if (Current_Position!=1)return;
 		ProcessBullet2(hbul,false);
 		brk+=hge->Timer_GetDelta();
 		if (brk>blim)

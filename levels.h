@@ -1915,7 +1915,7 @@ void Level6Part17()
 		if (rand()%100<80)
 		pnt=CreateBullet7(ATarg.targpos.x,ATarg.targpos.y,3,500);
 		else
-		pnt=CreateBullet9(ATarg.targpos.x,ATarg.targpos.y,3,500,36,500);
+		pnt=CreateBullet6(ATarg.targpos.x,ATarg.targpos.y,4,1000);
 		bullet[pnt].dist=1;bullet[pnt].bulletdir=vector2d(0,0);
 	}
 }
@@ -2563,6 +2563,7 @@ void Level7Part5()
 	}
 	if (tower[1].towertype==8)
 	{
+		BTarg.TargHide();
 		if (frameskips>TenSeconds/5)
 		{
 			frameskips=0;
@@ -2582,7 +2583,7 @@ void Level7Part5()
 }
 void Level7Part6()
 {
-	frameleft=AMinute;clrtime=2;
+	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -2700,12 +2701,51 @@ void Level7Part11()
 			{
 				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
 			}
-			wop[i].Init(a,b,1000+(AMinute-frameleft)/(double)AMinute*1000,0.02);
+			wop[i].Init(a,b,1+(AMinute-frameleft)/(double)AMinute,0.02);
 			break;
 		}
 	}
 	for (int i=0;i<100;++i)
 	if (wop[i].active)wop[i].Update();
+}
+void Level7Part12()
+{
+	frameleft=AMinute;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("It's not really here!");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();avabrk=1.0f;avacurbrk=0;
+	}
+}
+void L7P13Creator(vector2d p,int cnt,TColors col)
+{
+	for (int i=0;i<cnt;++i)
+	{
+		int pnt=CreateBullet2(p.x,p.y,6,frameleft*pi/AMinute+i*(2*pi/cnt));
+		//                              ^
+		//                              Nowhere can be safe!
+		bullet[pnt].alterColor=col;
+		bullet[pnt].bulletaccel=-0.003;bullet[pnt].limv=((AMinute-frameleft)/(double)AMinute)+1.0f;
+	}
+}
+void Level7Part13()
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
+	if(avacurbrk>avabrk)
+	{
+		avacurbrk=0;
+		L7P13Creator(vector2d(400,250),60,red);
+		L7P13Creator(vector2d(350,336.6),60,green);
+		L7P13Creator(vector2d(450,336.6),60,blue);
+	}
 }
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
 /*void Level1Part2()//Simple tower8-discard

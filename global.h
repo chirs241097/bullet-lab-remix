@@ -92,7 +92,7 @@ struct Bullet
 	bool exist;
 	int whirem,whiskp,yelbrk;
 	int exp1,exp2;
-	int lifetime;
+	double lifetime;
 	bool scollable;
 	double scale;int effbrk;
 	TColors alterColor;
@@ -269,7 +269,6 @@ int p2t1,p2t2,p2t3,p2t4;
 int whicnt,whrcnt,shots,clrusg;
 bool yelattrib;
 bool Complete=false;
-bool Refliction=false;
 double linerad=0;
 double bsscale;
 long long score,scminus;

@@ -103,7 +103,6 @@ void StartGUI_FrameFnk()
 				memset(tower,0,sizeof(tower));
 				memset(bullet,0,sizeof(bullet));
 				Complete=false;
-				Refliction=false;
 				Current_Position=1;
 				Level1Part1();
 				IfCallLevel=true;
