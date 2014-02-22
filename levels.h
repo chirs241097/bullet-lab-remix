@@ -2747,6 +2747,50 @@ void Level7Part13()
 		L7P13Creator(vector2d(450,336.6),60,blue);
 	}
 }
+BCircle scircles[50];
+double rspd[50];int c;
+void Level7Part14()
+{
+	frameleft=AMinute;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("??????");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(scircles,0,sizeof(scircles));c=0;
+	}
+}
+void Level7Part15()
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	avabrk=0.5+(frameleft/(double)AMinute)*0.5f;
+	if(avacurbrk>avabrk)
+	{
+		avacurbrk=0;
+		for(int i=0;i<50;++i)
+		{
+			if (scircles[i].GetRange()>510||scircles[i].GetRange()<1e-7)
+			{
+				scircles[i].Init(1,(c&1?1:-1)*(frameleft<TenSeconds?0.0002:0.0001),60,vector2d(400,300),(TColors)c);
+				++c;c%=8;rspd[i]=0.5;break;
+			}
+		}
+	}
+	for(int i=0;i<50;++i)
+	{
+		if (scircles[i].GetRange()>1e-7&&scircles[i].GetRange()<510)
+		{
+			scircles[i].SetRange(scircles[i].GetRange()+(LOWFPS?17:1)*rspd[i]);
+			if (rspd[i]>0.05)rspd[i]-=LOWFPS?0.0085:0.0005;
+			scircles[i].Update();
+		}
+	}
+}
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
 /*void Level1Part2()//Simple tower8-discard
 {

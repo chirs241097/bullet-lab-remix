@@ -1735,16 +1735,16 @@ struct SimpleBullet
 		}
 		if (lastcoll>=200)lastcoll=0;
 		if (scollable>=200)scollable=0;
+		bulletspr->RenderEx(bulletpos.x+7.2,bulletpos.y+7.2,0,0.6,0);//blink hack
 		double dis=GetDist(bulletpos,playerpos);
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&!lastcoll)
 		//If collision is detected or the bullet flys out of screen, delete it.
 		{
-			++coll,scminus+=10000;lastcoll=1;
+			++coll,scminus+=10000;lastcoll=1;Mult_BatClear();
 			return true;//Collision
 		}
 		else
 		{
-			bulletspr->RenderEx(bulletpos.x+7.2,bulletpos.y+7.2,0,0.6,0);
 			if (dis<=16&&!scollable)++semicoll,++dsmc,scollable=1,SCEffect_Attatch();
 			return false;
 		}
@@ -1817,7 +1817,7 @@ private:
 	double radian,range,DT,drad;
 	vector2d Centre;
 public:
-	void Init(double _irange,double _drad,int _Cnt,vector2d _Centre)
+	void Init(double _irange,double _drad,int _Cnt,vector2d _Centre,TColors _Col=blue)
 	{
 		range=_irange;
 		BCnt=_Cnt;
@@ -1829,7 +1829,8 @@ public:
 		{
 			Bullets[i].bulletpos=vector2d(3+Centre.x+range*sin(radian-i*(2*pi/BCnt))-6,
 			                              3+Centre.y-range*cos(radian-i*(2*pi/BCnt))-6);
-			Bullets[i].bulletspr=new hgeSprite(SprSheet,0,0,24,24);
+			TextureRect rct=GetTextureRect(0,_Col);
+			Bullets[i].bulletspr=new hgeSprite(SprSheet,rct.x,rct.y,rct.w,rct.h);
 			Bullets[i].bulletspr->SetHotSpot(12,12);
 			Bullets[i].bulletspr->SetColor(0x80FFFFFF);
 		}

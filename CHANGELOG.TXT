@@ -1,10 +1,14 @@
 ===================================================================
 Next version:
-0.7.1-5_PR
+0.7.1-6_PR
 TODOs:
-New levels.
+Fusion (double color) bullets.
 
 Pre-Released versions:
+0.7.1-5_PR (b68)
+Draft new level. (Another level threatening you using circles!)
+Update some old interfaces from BLR1.
+
 0.7.1-4_PR (b67)
 New level (name and placement undetermined).
 Fix level transition mismatches.
@@ -141,6 +145,9 @@ New trigger method for clear range...
 
 0.4.4-0_PRG (b37a)
 Regression version for releasing...
+-------------------------------------------------------------
+This will be released as a official Preview Release version.<-obsolete
+-------------------------------------------------------------
 
 0.5.2-0_PR (b37)
 New part for level5. Now I'm working on the regression 0.4.x.
@@ -204,7 +211,7 @@ Completing level2...
 New parts for level2. level2 is almost completed now.
 PlayerLockX/Y implemented.
 -------------------------------------------------------------
-This will be released as a official Preview Release version.
+This will be released as a official Preview Release version.<-obsolete
 -------------------------------------------------------------
 BLR will be licensed under WTFPL from now.
 (WTF?)
