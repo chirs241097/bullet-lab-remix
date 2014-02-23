@@ -5,7 +5,7 @@
 //Human-being who really knows what these mean, please contact Chirsno which is puzzled by these shitty codes..
 //[Perfect Freeze]: code here for BLR2 won't change a lot since 30/08/2013
 //Sorry that I would break that...
-//I found the rendering code stupid so I MUST rewrite it NOW.
+//I found the rendering code stupid so I MUST rewrite it RIGHT NOW.
 //                                             --Announcement from Chirsno
 #include "effects.h"
 static const char* TOWERNBULLET_H_FN="towernbullet.h";
@@ -15,6 +15,23 @@ void DirectBullet(Bullet &a,double rad)
 	a.bulletdir.x=cos(rad);
 	a.bulletdir.y=sin(rad);
 	a.dist=1;
+}
+void RenderAlter(vector2d p,TColors ca,TColors cb,double rot=0,double scl=1)
+{
+	float x,y,w,h;
+	bulletspr[ca]->GetTextureRect(&x,&y,&w,&h);
+	bulletspr[ca]->SetTextureRect(x,y,12,h);
+	bulletspr[ca]->SetHotSpot(12,12);
+	bulletspr[ca]->RenderEx(p.x,p.y,rot,scl);
+	bulletspr[ca]->SetTextureRect(x,y,w,h);
+	bulletspr[ca]->SetHotSpot(12,12);
+
+	bulletspr[cb]->GetTextureRect(&x,&y,&w,&h);
+	bulletspr[cb]->SetTextureRect(x,y,12,h);
+	bulletspr[cb]->SetHotSpot(12,12);
+	bulletspr[cb]->RenderEx(p.x,p.y,rot+pi,scl);
+	bulletspr[cb]->SetTextureRect(x,y,w,h);
+	bulletspr[cb]->SetHotSpot(12,12);
 }
 int CreateBullet1(double x,double y,double bs,bool eff=false)
 {
@@ -1718,9 +1735,10 @@ int nonamecnt;
 //"CTarg"
 struct SimpleBullet
 {
-	hgeSprite *bulletspr;
+	TColors aC,aC2;
 	vector2d bulletpos;
 	int scollable,lastcoll;
+	double rot;
 	bool Update_SimpBul()
 	{
 		if (lastcoll)
@@ -1735,7 +1753,8 @@ struct SimpleBullet
 		}
 		if (lastcoll>=200)lastcoll=0;
 		if (scollable>=200)scollable=0;
-		bulletspr->RenderEx(bulletpos.x+7.2,bulletpos.y+7.2,0,0.6,0);//blink hack
+		if (aC==COLOR_COUNT)bulletspr[aC]->RenderEx(bulletpos.x+7.2,bulletpos.y+7.2,0,0.6,0);//blink hack
+		else RenderAlter(vector2d(bulletpos.x+7.2,bulletpos.y+7.2),aC,aC2,rot,0.6);
 		double dis=GetDist(bulletpos,playerpos);
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&!lastcoll)
 		//If collision is detected or the bullet flys out of screen, delete it.
@@ -1772,9 +1791,7 @@ public:
 		{
 			CircBul[i].bulletpos=vector2d(3+Targ.targpos.x+range*sin(radian-i*(2*pi/BulLim)),
 			                              3+Targ.targpos.y-range*cos(radian-i*(2*pi/BulLim)));
-			CircBul[i].bulletspr=new hgeSprite(SprSheet,72,0,24,24);
-			CircBul[i].bulletspr->SetHotSpot(12,12);
-			CircBul[i].bulletspr->SetColor(0x80FFFFFF);
+			CircBul[i].aC=blue;CircBul[i].aC2=COLOR_COUNT;CircBul[i].rot=0;
 			CircBul[i].scollable=0;
 		}
 	}
@@ -1817,7 +1834,7 @@ private:
 	double radian,range,DT,drad;
 	vector2d Centre;
 public:
-	void Init(double _irange,double _drad,int _Cnt,vector2d _Centre,TColors _Col=blue)
+	void Init(double _irange,double _drad,int _Cnt,vector2d _Centre,TColors _Col=blue,TColors _Col2=COLOR_COUNT)
 	{
 		range=_irange;
 		BCnt=_Cnt;
@@ -1830,9 +1847,8 @@ public:
 			Bullets[i].bulletpos=vector2d(3+Centre.x+range*sin(radian-i*(2*pi/BCnt))-6,
 			                              3+Centre.y-range*cos(radian-i*(2*pi/BCnt))-6);
 			TextureRect rct=GetTextureRect(0,_Col);
-			Bullets[i].bulletspr=new hgeSprite(SprSheet,rct.x,rct.y,rct.w,rct.h);
-			Bullets[i].bulletspr->SetHotSpot(12,12);
-			Bullets[i].bulletspr->SetColor(0x80FFFFFF);
+			Bullets[i].aC=_Col;Bullets[i].aC2=_Col2;
+			Bullets[i].rot=0;
 		}
 	}
 	double GetRange(){return range;}
@@ -1848,6 +1864,7 @@ public:
 		{
 			Bullets[i].bulletpos=vector2d(3+Centre.x+range*sin(radian-i*(2*pi/BCnt))-6,
 			                              3+Centre.y-range*cos(radian-i*(2*pi/BCnt))-6);
+			Bullets[i].rot+=(LOWFPS?17:1)*pi/1000;
 			Bullets[i].Update_SimpBul();
 		}
 	}
