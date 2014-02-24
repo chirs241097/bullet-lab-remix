@@ -1753,7 +1753,7 @@ struct SimpleBullet
 		}
 		if (lastcoll>=200)lastcoll=0;
 		if (scollable>=200)scollable=0;
-		if (aC==COLOR_COUNT)bulletspr[aC]->RenderEx(bulletpos.x+7.2,bulletpos.y+7.2,0,0.6,0);//blink hack
+		if (aC2==COLOR_COUNT)bulletspr[aC]->RenderEx(bulletpos.x+7.2,bulletpos.y+7.2,0,0.6,0);//blink hack
 		else RenderAlter(vector2d(bulletpos.x+7.2,bulletpos.y+7.2),aC,aC2,rot,0.6);
 		double dis=GetDist(bulletpos,playerpos);
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&!lastcoll)
