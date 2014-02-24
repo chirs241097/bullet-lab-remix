@@ -4,9 +4,9 @@
 HEFFECT Mus;
 HCHANNEL Muc;
 int lpst,lped;
-static const char* MUSIC_H_FN="music.h";
+//static const char* MUSIC_H_FN="music.h";
 
-void Music_Init(char* file)
+void Music_Init(const char* file)
 {
 	Mus=hge->Effect_Load(file);
 }

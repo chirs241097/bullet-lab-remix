@@ -85,7 +85,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 	png_read_info(png_ptr, info_ptr);
 
 	png_uint_32 _width,_height;
-	int _bit_depth,_color_type,_interlace_type,_compression_type,_filter_type;
+	int _bit_depth,_color_type,_interlace_type/*,_compression_type,_filter_type*/;
 #if PNG_LIBPNG_VER > 10399
 	png_get_IHDR(png_ptr,info_ptr,&_width,&_height,&_bit_depth,&_color_type,
 		&_interlace_type,&_compression_type,&_filter_type);
@@ -95,8 +95,8 @@ bool CxImagePNG::Decode(CxFile *hFile)
 	_bit_depth=info_ptr->bit_depth;
 	_color_type=info_ptr->color_type;
 	_interlace_type=info_ptr->interlace_type;
-	_compression_type=info_ptr->compression_type;
-	_filter_type=info_ptr->filter_type;
+	//_compression_type=info_ptr->compression_type;
+	//_filter_type=info_ptr->filter_type;
 #endif
 
 	if (info.nEscape == -1){

@@ -2,7 +2,7 @@
 //Effects Implementations
 //"Copyleft" Chrisoft 2013
 #define NO_FREE 1
-static const char* EFFECTS_H_FN="effects.h";
+//static const char* EFFECTS_H_FN="effects.h";
 
 void SCEffect_Attatch()
 {
@@ -58,7 +58,6 @@ void SCEffect_Process(int i)
 			//bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
 			//bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 		}
-		double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
 		if (GETA(bullet[i].sccolor)<=0x0A||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 		{
 			bullet[i].exist=false;

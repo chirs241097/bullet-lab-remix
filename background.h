@@ -63,7 +63,6 @@ public:
 	void Update()
 	{
 		double tx,ty,dt;
-		DWORD tcol;
 		if (onfadein)DoFadeIn();
 		if (onfadeout)DoFadeOut();
 		dt=hge->Timer_GetDelta();
@@ -159,6 +158,11 @@ public:
 //3D-sky Background
 //Based on a hge tutorial
 //********************************************
+static const DWORD skyTopColors[3] = {0xFF15092A, 0xFF6C6480, 0xFF89B9D0};
+static const DWORD skyBtmColors[3] = {0xFF303E57, 0xFFAC7963, 0xFFCAD7DB};
+static const DWORD seaTopColors[3] = {0xFF3D546B, 0xFF927E76, 0xFF86A2AD};
+static const DWORD seaBtmColors[3] = {0xFF1E394C, 0xFF2F4E64, 0xFF2F4E64};
+static const int skyseq[9]={0, 0, 1, 2, 2, 2, 1, 0, 0};
 class TDSky
 {
 #define ScreenWidth 800
@@ -169,11 +173,6 @@ class TDSky
 #define StarsHeight (SkyHeight*0.9f)
 #define OrbitRadius (ScreenWidth*0.43f)
 private:
-	const DWORD skyTopColors[3] = {0xFF15092A, 0xFF6C6480, 0xFF89B9D0};
-	const DWORD skyBtmColors[3] = {0xFF303E57, 0xFFAC7963, 0xFFCAD7DB};
-	const DWORD seaTopColors[3] = {0xFF3D546B, 0xFF927E76, 0xFF86A2AD};
-	const DWORD seaBtmColors[3] = {0xFF1E394C, 0xFF2F4E64, 0xFF2F4E64};
-	const int seq[9]={0, 0, 1, 2, 2, 2, 1, 0, 0};
 	HTEXTURE skyitem;
 	hgeSprite *sky,*sun,*moon,*glow,*seaglow,*star;
 	hgeDistortionMesh *sea,*skylyr;
@@ -289,17 +288,17 @@ public:
 		seq_id=(int)(timet/3);
 		seq_residue=timet/3-seq_id;
 		zenith=-(timet/12.0f*pi-pi/2.0f);
-		col1.SetHWColor(skyTopColors[seq[seq_id]]);
-		col2.SetHWColor(skyTopColors[seq[seq_id+1]]);
+		col1.SetHWColor(skyTopColors[skyseq[seq_id]]);
+		col2.SetHWColor(skyTopColors[skyseq[seq_id+1]]);
 		colSkyTop=col2*seq_residue + col1*(1.0f-seq_residue);
-		col1.SetHWColor(skyBtmColors[seq[seq_id]]);
-		col2.SetHWColor(skyBtmColors[seq[seq_id+1]]);
+		col1.SetHWColor(skyBtmColors[skyseq[seq_id]]);
+		col2.SetHWColor(skyBtmColors[skyseq[seq_id+1]]);
 		colSkyBtm=col2*seq_residue + col1*(1.0f-seq_residue);
-		col1.SetHWColor(seaTopColors[seq[seq_id]]);
-		col2.SetHWColor(seaTopColors[seq[seq_id+1]]);
+		col1.SetHWColor(seaTopColors[skyseq[seq_id]]);
+		col2.SetHWColor(seaTopColors[skyseq[seq_id+1]]);
 		colSeaTop=col2*seq_residue + col1*(1.0f-seq_residue);
-		col1.SetHWColor(seaBtmColors[seq[seq_id]]);
-		col2.SetHWColor(seaBtmColors[seq[seq_id+1]]);
+		col1.SetHWColor(seaBtmColors[skyseq[seq_id]]);
+		col2.SetHWColor(seaBtmColors[skyseq[seq_id+1]]);
 		colSeaBtm=col2*seq_residue + col1*(1.0f-seq_residue);
 		if(seq_id>=6 || seq_id<2)
 			for(int i=0; i<Stars; ++i)

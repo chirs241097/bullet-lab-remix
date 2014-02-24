@@ -589,7 +589,7 @@ static inline bool _IsPowerOfTwo(const GLuint x)
 static inline GLuint _NextPowerOfTwo(GLuint x)
 {
 	x--;
-	for (int i = 1; i < (sizeof(GLuint) * 8); i *= 2)
+	for (unsigned i = 1; i < (sizeof(GLuint) * 8); i <<= 1)
 		x |= x >> i;
 	return x + 1;
 }
@@ -859,7 +859,7 @@ DWORD * CALL HGE_Impl::Texture_Lock(HTEXTURE tex, bool bReadOnly, int left, int 
 		{
 			int w, h;
 			pTex->pixels = _DecodeImage(data, pTex->filename, size, w, h);
-			if ((w != pTex->width) || (h != pTex->height))  // yikes, file changed?
+			if ((w != (int)pTex->width) || (h != (int)pTex->height))  // yikes, file changed?
 			{
 				delete[] pTex->pixels;
 				pTex->pixels = NULL;
@@ -889,9 +889,9 @@ DWORD * CALL HGE_Impl::Texture_Lock(HTEXTURE tex, bool bReadOnly, int left, int 
 
 	// !!! FIXME: do something with this?
 	assert(width > 0);
-	assert(width <= pTex->width);
+	assert(width <= (int)pTex->width);
 	assert(height > 0);
-	assert(height <= pTex->height);
+	assert(height <= (int)pTex->height);
 	assert(left >= 0);
 	assert(left <= width);
 	assert(top >= 0);
@@ -1345,7 +1345,7 @@ void HGE_Impl::_Resize(int width, int height)
 
 void HGE_Impl::_GfxDone()
 {
-	CRenderTargetList *target=pTargets;
+	//CRenderTargetList *target=pTargets;
 
 	while(textures)	Texture_Free(textures->tex);
 	while(pTargets)	Target_Free((HTARGET) pTargets);

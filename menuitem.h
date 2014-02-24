@@ -13,13 +13,13 @@
 #include "hgegui.h"
 #include "hgefont.h"
 #include "hgecolor.h"
-static const char* MENUITEM_H_FN="menuitem.h";
+//static const char* MENUITEM_H_FN="menuitem.h";
 
 
 class hgeGUIMenuItem : public hgeGUIObject
 {
 public:
-	hgeGUIMenuItem(int id, hgeFont *fnt, HEFFECT snd, float x, float y, float delay, char *title);
+	hgeGUIMenuItem(int id, hgeFont *fnt, HEFFECT snd, float x, float y, float delay, const char *title);
 
 	virtual void	Render();
 	virtual void	Update(float dt);

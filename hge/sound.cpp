@@ -23,7 +23,7 @@
 #include "AL/alext.h"
 #include "ogg/ogg.h"
 #include "vorbis/vorbisfile.h"
-static const char* SOUND_SRC_FN="hge/sound_openal.cpp";
+static const char* SOUND_SRC_FN="hge/sound.cpp";
 struct oggcbdata
 {
 	const BYTE *data;
@@ -113,7 +113,7 @@ static void *decompress_vorbis(const BYTE *data, const DWORD size, ALsizei *deco
             if (rc > 0)
             {
                 *decompressed_size += rc;
-                if (*decompressed_size >= allocated)
+                if ((unsigned)*decompressed_size >= allocated)
                 {
                     allocated *= 2;
                     ALubyte *tmp = (ALubyte *) realloc(retval, allocated);
@@ -162,7 +162,7 @@ static ALuint get_source()
 
 HEFFECT CALL HGE_Impl::Effect_Load(const char *filename, DWORD size)
 {
-	DWORD _size, length, samples;
+	DWORD _size;
 	void *data;
 
 	if(hOpenAL)
@@ -192,17 +192,17 @@ HEFFECT CALL HGE_Impl::Effect_Load(const char *filename, DWORD size)
 		ALenum fmt = AL_FORMAT_STEREO16;
 		if (isOgg)
 		{
-			if (alIsExtensionPresent((const ALchar *) "AL_EXT_vorbis"))
+			/*if (alIsExtensionPresent((const ALchar *) "AL_EXT_vorbis"))//useless
 			{
 				fmt = alGetEnumValue((const ALchar *) "AL_FORMAT_VORBIS_EXT");
 				decompressed = data;
 				decompressed_size = _size;
 			}
 			else
-			{
+			{*/
 				allocation_decompressed = decompress_vorbis((const BYTE *) data, _size, &decompressed_size, &fmt, &freq);
 				decompressed = allocation_decompressed;
-			}
+			//}
 		}
 
 		ALuint bid = 0;

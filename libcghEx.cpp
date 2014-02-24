@@ -4,7 +4,7 @@
 #include "libcgh.h"
 #include <cmath>
 #include <cstring>
-static const char* LIBCGH_SRC_FN="libcghEx.cpp";
+//static const char* LIBCGH_SRC_FN="libcghEx.cpp";
 
 void CircleIndicator::Init(double _r,double _thk,BYTE _a,bool _gr,HTEXTURE _Texture,TextureRect _TR,DWORD _cc)
 {
@@ -64,10 +64,10 @@ double LinearProgresser::GetDelta(){return val-a;}
 double LinearProgresser::GetElapsed(){return Elapsed;}
 
 bool HangUpText::Active(){return TFont&&!done;}
-void HangUpText::Init(char *Font,char *_Text,double _tlim,double _alim,double _dlim,DWORD _color)
+void HangUpText::Init(const char *Font,const char *_Text,double _tlim,double _alim,double _dlim,DWORD _color)
 {
 	TFont=new hgeFont(Font);
-	memcpy(Text,_Text,sizeof(_Text));
+	strcpy(Text,_Text);
 	Limit=_tlim;alim=_alim;dlim=_dlim;TFont->SetColor(_color);
 	Progresser.Init(0,dlim,Limit);Progalpha.Init(0,255,Limit/2);
 }

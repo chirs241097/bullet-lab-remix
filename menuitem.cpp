@@ -12,11 +12,11 @@
 #include "menuitem.h"
 #define UnfocColor	0xFFCCCC40
 #define FocColor	0xFFFFCC66
-static const char* MENUITEM_SRC_FN="menuitem.cpp";
+//static const char* MENUITEM_SRC_FN="menuitem.cpp";
 
 // This is a GUI control constructor,
 // we should initialize all the variables here
-hgeGUIMenuItem::hgeGUIMenuItem(int _id, hgeFont *_fnt, HEFFECT _snd, float _x, float _y, float _delay, char *_title)
+hgeGUIMenuItem::hgeGUIMenuItem(int _id, hgeFont *_fnt, HEFFECT _snd, float _x, float _y, float _delay, const char *_title)
 {
 	float w;
 
@@ -24,7 +24,7 @@ hgeGUIMenuItem::hgeGUIMenuItem(int _id, hgeFont *_fnt, HEFFECT _snd, float _x, f
 	fnt=_fnt;
 	snd=_snd;
 	delay=_delay;
-	title=_title;
+	title=(char*)_title;
 
 	color.SetHWColor(UnfocColor);
 	shadow.SetHWColor(0x30000000);

@@ -238,10 +238,12 @@ struct Target//An annoying circle
 		if (isonshow)TargShowProc();if(isonhide)TargHideProc();
 		targspr->RenderEx(targpos.x+7,targpos.y+7,rot,0.8);
 		if (!DisableAllTower)
+		{
 			if (LOWFPS)
 				rot+=17*rotspd;
 			else
 				rot+=rotspd;
+		}
 	}
 }ATarg,BTarg;
 int bulcnt=0,towcnt=0,linecnt=0;
@@ -290,7 +292,7 @@ void Throw(char *Filename,char *Info)
 	fprintf(stderr,"%s: %s\n",Filename,Info);
 	hge->System_Log("%s: %s\n",Filename,Info);
 }
-void Error(char EC[],bool hgecreated=false)
+void Error(const char *EC,bool hgecreated=false)
 {
 #ifndef WIN32
 	fprintf(stderr,"%s\n",EC);
@@ -320,7 +322,7 @@ void Error(char EC[],bool hgecreated=false)
 #endif
 	exit(0);
 }
-void ShowTip(char *tip)
+void ShowTip(const char *tip)
 {
 	if (strcmp(tip,lasttip)!=0)
 	{
@@ -487,6 +489,7 @@ TextureRect GetTextureRect(int type,TColors color)
 			case orange:return TextureRect(72,0,24,24);
 			case grey:return TextureRect(96,0,24,24);
 			case circle:return TextureRect(24,24,24,24);
+			default:return TextureRect(0,0,0,0);
 		}
 	}
 	if (type==1)
@@ -501,6 +504,7 @@ TextureRect GetTextureRect(int type,TColors color)
 			case white:return TextureRect(136,24,44,44);
 			case dblue:return TextureRect(0,92,44,44);
 			case orange:return TextureRect(0,180,44,44);
+			default:return TextureRect(0,0,0,0);
 		}
 	}
 	return TextureRect(0,0,0,0);

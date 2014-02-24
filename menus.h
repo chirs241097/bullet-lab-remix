@@ -3,7 +3,7 @@
 //"Copyleft" Chrisoft 2013
 //[Perfect Freeze]: Code for menus won't change... until ...?
 //                                --Announcement from Chirsno
-static const char* MENUS_H_FN="menus.h";
+//static const char* MENUS_H_FN="menus.h";
 
 hgeGUI			*StartGUI,*DeathGUI,*CompleteGUI,*HighScoreGUI;
 hgeGUI			*HSViewGUI,*HSDetailGUI,*PauseGUI,*BkTTitleGUI;
@@ -399,69 +399,69 @@ void HSViewGUI_Init()
 	{
 		case 1:
 			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Easy"));
-			for (int i=1;i<=Ecnt;++i)
+			for (unsigned i=1;i<=Ecnt;++i)
 			{
 #ifdef WIN32
-				sprintf(HSVstr[i],"%d. %s - %I64d",i,ERec[i].name,ERec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %I64d",i,ERec[i].name,ERec[i].score);
 #else
-				sprintf(HSVstr[i],"%d. %s - %d",i,ERec[i].name,ERec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %lld",i,ERec[i].name,ERec[i].score);
 #endif
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
-			for (int i=Ecnt+1;i<=5;++i)
+			for (unsigned i=Ecnt+1;i<=5;++i)
 			{
-				sprintf(HSVstr[i],"%d. ----------",i);
+				sprintf(HSVstr[i],"%u. ----------",i);
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
 			break;
 		case 2:
 			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Normal"));
-			for (int i=1;i<=Ncnt;++i)
+			for (unsigned i=1;i<=Ncnt;++i)
 			{
 #ifdef WIN32
-				sprintf(HSVstr[i],"%d. %s - %I64d",i,NRec[i].name,NRec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %I64d",i,NRec[i].name,NRec[i].score);
 #else
-				sprintf(HSVstr[i],"%d. %s - %lld",i,NRec[i].name,NRec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %lld",i,NRec[i].name,NRec[i].score);
 #endif
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
-			for (int i=Ncnt+1;i<=5;++i)
+			for (unsigned i=Ncnt+1;i<=5;++i)
 			{
-				sprintf(HSVstr[i],"%d. ----------",i);
+				sprintf(HSVstr[i],"%u. ----------",i);
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
 			break;
 		case 3:
 			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Extreme"));
-			for (int i=1;i<=Excnt;++i)
+			for (unsigned i=1;i<=Excnt;++i)
 			{
 #ifdef WIN32
-				sprintf(HSVstr[i],"%d. %s - %I64d",i,ExRec[i].name,ExRec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %I64d",i,ExRec[i].name,ExRec[i].score);
 #else
-				sprintf(HSVstr[i],"%d. %s - %lld",i,ExRec[i].name,ExRec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %lld",i,ExRec[i].name,ExRec[i].score);
 #endif
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
-			for (int i=Excnt+1;i<=5;++i)
+			for (unsigned i=Excnt+1;i<=5;++i)
 			{
-				sprintf(HSVstr[i],"%d. ----------",i);
+				sprintf(HSVstr[i],"%u. ----------",i);
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
 			break;
 		case 4:
 			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Free Play Mode"));
-			for (int i=1;i<=FPMcnt;++i)
+			for (unsigned i=1;i<=FPMcnt;++i)
 			{
 #ifdef WIN32
-				sprintf(HSVstr[i],"%d. %s - %I64d",i,FPMRec[i].name,FPMRec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %I64d",i,FPMRec[i].name,FPMRec[i].score);
 #else
-				sprintf(HSVstr[i],"%d. %s - %lld",i,FPMRec[i].name,FPMRec[i].score);
+				sprintf(HSVstr[i],"%u. %s - %lld",i,FPMRec[i].name,FPMRec[i].score);
 #endif
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
-			for (int i=FPMcnt+1;i<=5;++i)
+			for (unsigned i=FPMcnt+1;i<=5;++i)
 			{
-				sprintf(HSVstr[i],"%d. ----------",i);
+				sprintf(HSVstr[i],"%u. ----------",i);
 				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
 			}
 			break;

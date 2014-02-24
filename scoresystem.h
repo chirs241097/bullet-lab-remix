@@ -5,7 +5,7 @@ CircleIndicator MultTimer;
 hgeFont *MultFnt;
 hgeSprite *MB;
 int valbrk;
-static const char* SCORESYSTEM_H_FN="scoresystem.h";
+//static const char* SCORESYSTEM_H_FN="scoresystem.h";
 
 //Multiplier Indicator
 

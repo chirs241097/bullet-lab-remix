@@ -12,7 +12,7 @@
 #define libcgh_H
 #define pi 3.1415926535
 #define sqr(x) ((x)*(x))
-static const char* LIBCGH_H_FN="libcgh.h";
+//static const char* LIBCGH_H_FN="libcgh.h";
 
 struct vector2d
 {
@@ -99,7 +99,7 @@ private:
 	bool done;
 public:
 	bool Active();
-	void Init(char *Font,char *_Text,double _tlim,double _alim,double _dlim,DWORD _color=0x00FFFFFF);
+	void Init(const char *Font,const char *_Text,double _tlim,double _alim,double _dlim,DWORD _color=0x00FFFFFF);
 	void Launch(vector2d pos);
 	void Process(double DT);
 };

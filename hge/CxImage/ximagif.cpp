@@ -95,7 +95,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 	// Global colour map?
 	if (dscgif.pflds & 0x80)
 		fp->Read(TabCol.paleta,sizeof(struct rgb_color)*TabCol.sogct,1);
-	else 
+	else
 		bTrueColor++;	//first chance for a truecolor gif
 
 	int32_t first_transparent_index = 0;
@@ -145,9 +145,9 @@ bool CxImageGIF::Decode(CxFile *fp)
 				if ((iImage==0) && (image.w != dscgif.scrwidth) && (image.h != dscgif.scrheight))
 					bTrueColor++;
 
-				rgb_color  locpal[256];				//Local Palette 
-				rgb_color* pcurpal = TabCol.paleta;	//Current Palette 
-				int16_t palcount = TabCol.sogct;		//Current Palette color count  
+				rgb_color  locpal[256];				//Local Palette
+				rgb_color* pcurpal = TabCol.paleta;	//Current Palette
+				int16_t palcount = TabCol.sogct;		//Current Palette color count
 
 				// Local colour map?
 				if (image.pf & 0x80) {
@@ -208,13 +208,13 @@ bool CxImageGIF::Decode(CxFile *fp)
 
 				if ((image.pf & 0x80) || (dscgif.pflds & 0x80)) {
 					uint8_t r[256], g[256], b[256];
-					int32_t i, has_white = 0;
+					int32_t i;//, has_white = 0;
 
 					for (i=0; i < palcount; i++) {
 						r[i] = pcurpal[i].r;
 						g[i] = pcurpal[i].g;
 						b[i] = pcurpal[i].b;
-						if (RGB(r[i],g[i],b[i]) == 0xFFFFFF) has_white = 1;
+						//if (RGB(r[i],g[i],b[i]) == 0xFFFFFF) has_white = 1;
 					}
 
 					// Force transparency colour white...
@@ -223,7 +223,7 @@ bool CxImageGIF::Decode(CxFile *fp)
 					// Fill in with white // AD
 					if (info.nBkgndIndex >= 0) {
 						while (i < 256)	{
-							has_white = 1;
+							//has_white = 1;
 							r[i] = g[i] = b[i] = 255;
 							i++;
 						}
@@ -579,7 +579,7 @@ void CxImageGIF::EncodeHeader(CxFile *fp)
 
 	if (head.biClrUsed!=0){
 		RGBQUAD* pPal = GetPalette();
-		for(uint32_t i=0; i<head.biClrUsed; ++i) 
+		for(uint32_t i=0; i<head.biClrUsed; ++i)
 		{
 			fp->PutC(pPal[i].rgbRed);
 			fp->PutC(pPal[i].rgbGreen);
@@ -598,7 +598,7 @@ void CxImageGIF::EncodeExtension(CxFile *fp)
 	gifgce.flags |= ((info.nBkgndIndex != -1) ? 1 : 0);
 	gifgce.flags |= ((GetDisposalMethod() & 0x7) << 2);
 	gifgce.delaytime = (uint16_t)info.dwFrameDelay;
-	gifgce.transpcolindex = (uint8_t)info.nBkgndIndex;	   
+	gifgce.transpcolindex = (uint8_t)info.nBkgndIndex;
 
 	//Invert byte order in case we use a byte order arch, then set it back <AMSN>
 	gifgce.delaytime = m_ntohs(gifgce.delaytime);
@@ -618,9 +618,9 @@ void CxImageGIF::EncodeLoopExtension(CxFile *fp)
 	fp->Write("NETSCAPE2.0",11,1);
 	fp->PutC(3);			//byte 15  : 3 (hex 0x03) Length of Data Sub-Block (three bytes of data to follow)
 	fp->PutC(1);			//byte 16  : 1 (hex 0x01)
-	Putword(m_loops,fp); //bytes 17 to 18 : 0 to 65535, an unsigned integer in lo-hi byte format. 
+	Putword(m_loops,fp); //bytes 17 to 18 : 0 to 65535, an unsigned integer in lo-hi byte format.
 						//This indicate the number of iterations the loop should be executed.
-	fp->PutC(0);			//bytes 19       : 0 (hex 0x00) a Data Sub-block Terminator. 
+	fp->PutC(0);			//bytes 19       : 0 (hex 0x00) a Data Sub-block Terminator.
 }
 ////////////////////////////////////////////////////////////////////////////////
 void CxImageGIF::EncodeBody(CxFile *fp, bool bLocalColorMap)
@@ -643,7 +643,7 @@ void CxImageGIF::EncodeBody(CxFile *fp, bool bLocalColorMap)
 	if (bLocalColorMap){
 		Flags|=0x87;
 		RGBQUAD* pPal = GetPalette();
-		for(uint32_t i=0; i<head.biClrUsed; ++i) 
+		for(uint32_t i=0; i<head.biClrUsed; ++i)
 		{
 			fp->PutC(pPal[i].rgbRed);
 			fp->PutC(pPal[i].rgbGreen);
@@ -778,12 +778,12 @@ void CxImageGIF::compressNONE( int32_t init_bits, CxFile* outfile)
 
 	output( (code_int)ClearCode );
 
-	while ( ent != EOF ) {    
+	while ( ent != EOF ) {
 		c = GifNextPixel();
 
 		output ( (code_int) ent );
 		ent = c;
-		if ( free_ent < maxmaxcode ) {  
+		if ( free_ent < maxmaxcode ) {
 			free_ent++;
 		} else {
 			free_ent=(int16_t)(ClearCode+2);
@@ -834,7 +834,7 @@ void CxImageGIF::compressLZW( int32_t init_bits, CxFile* outfile)
 	cl_hash((int32_t)HSIZE);        /* clear hash table */
 	output( (code_int)ClearCode );
 
-	while ( (c = GifNextPixel( )) != EOF ) {    
+	while ( (c = GifNextPixel( )) != EOF ) {
 
 		fcode = (int32_t) (((int32_t) c << MAXBITSCODES) + ent);
 		i = (((code_int)c << hshift) ^ ent);    /* xor hashing */
@@ -853,7 +853,7 @@ probe:
 nomatch:
 		output ( (code_int) ent );
 		ent = c;
-		if ( free_ent < maxmaxcode ) {  
+		if ( free_ent < maxmaxcode ) {
 			CodeTabOf (i) = free_ent++; /* code -> hashtable */
 			HashTabOf (i) = fcode;
 		} else {
@@ -909,7 +909,7 @@ void CxImageGIF::output( code_int  code)
 				maxcode = (int16_t)MAXCODE(n_bits);
 		}
 	}
-	
+
 	if( code == EOFCode ) {
 		 // At EOF, write the rest of the buffer.
 		while( cur_bits > 0 ) {
@@ -917,7 +917,7 @@ void CxImageGIF::output( code_int  code)
 			cur_accum >>= 8;
 			cur_bits -= 8;
 		}
-	
+
 		flush_char();
 		g_outfile->Flush();
 
@@ -953,7 +953,7 @@ void CxImageGIF::cl_hash(int32_t hsize)
 		*(htab_p-3)=m1;
 		*(htab_p-2)=m1;
 		*(htab_p-1)=m1;
-		
+
 		htab_p-=16;
 	} while ((i-=16) >=0);
 
@@ -1334,7 +1334,7 @@ int32_t CxImageGIF::get_num_frames(CxFile *fp,struct_TabCol* TabColSrc,struct_ds
 				} else {
 					fp->Seek(-(ibfmax - ibf - 1), SEEK_CUR);
 				}
-		
+
 				break;
 				}
 			case ';': //terminator
@@ -1411,22 +1411,22 @@ void CxImageGIF::GifMix(CxImage & imgsrc2, struct_image & imgdesc)
  * documentation for any purpose and without fee is hereby granted, provided
  * that the above copyright notice appear in all copies and that both that
  * copyright notice and this permission notice appear in supporting
- * documentation.  This software is provided "AS IS." The Hutchison Avenue 
- * Software Corporation disclaims all warranties, either express or implied, 
- * including but not limited to implied warranties of merchantability and 
+ * documentation.  This software is provided "AS IS." The Hutchison Avenue
+ * Software Corporation disclaims all warranties, either express or implied,
+ * including but not limited to implied warranties of merchantability and
  * fitness for a particular purpose, with respect to this code and accompanying
- * documentation. 
- * 
- * The miGIF compression routines do not, strictly speaking, generate files 
- * conforming to the GIF spec, since the image data is not LZW-compressed 
- * (this is the point: in order to avoid transgression of the Unisys patent 
- * on the LZW algorithm.)  However, miGIF generates data streams that any 
+ * documentation.
+ *
+ * The miGIF compression routines do not, strictly speaking, generate files
+ * conforming to the GIF spec, since the image data is not LZW-compressed
+ * (this is the point: in order to avoid transgression of the Unisys patent
+ * on the LZW algorithm.)  However, miGIF generates data streams that any
  * reasonably sane LZW decompresser will decompress to what we want.
  *
- * miGIF compression uses run length encoding. It compresses horizontal runs 
+ * miGIF compression uses run length encoding. It compresses horizontal runs
  * of pixels of the same color. This type of compression gives good results
- * on images with many runs, for example images with lines, text and solid 
- * shapes on a solid-colored background. It gives little or no compression 
+ * on images with many runs, for example images with lines, text and solid
+ * shapes on a solid-colored background. It gives little or no compression
  * on images with few runs, for example digital or scanned photos.
  *
  *                               der Mouse

@@ -60,7 +60,7 @@ int pnt1,pnt2;
 double towers[16];int tcnt;
 double dscroll,roll;
 bool sout,tendone;bool dmt[16];
-static const char* LEVEL_H_FN="levels.h";
+//static const char* LEVEL_H_FN="levels.h";
 void Level1Part1()
 {
 	//Level procedure
@@ -1073,7 +1073,7 @@ void Level4Part22()
 		IfShowTip=false;
 		FadeTip=false;
 		Current_Position=2;
-		ShowTip("Have problem breathing?\n\...so try this!");
+		ShowTip("Have problem breathing?\n...so try this!");
 	}
 	if (Current_Position==1)
 	{

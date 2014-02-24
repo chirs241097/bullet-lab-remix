@@ -17,7 +17,7 @@
 
 #define LOWORDINT(n) ((int)((signed short)(LOWORD(n))))
 #define HIWORDINT(n) ((int)((signed short)(HIWORD(n))))
-static char* SYSTEM_SRC_FN="hge/system.cpp";
+static const char* SYSTEM_SRC_FN="hge/system.cpp";
 int			nRef=0;
 HGE_Impl*	pHGE=0;
 
@@ -56,7 +56,6 @@ void CALL HGE_Impl::Release()
 
 bool CALL HGE_Impl::System_Initiate()
 {
-	int				width, height;
 
 	// Log system info
 
@@ -421,6 +420,7 @@ void CALL HGE_Impl::System_SetStateBool(hgeBoolState state, bool value)
 		#ifdef DEMO
 		case HGE_SHOWSPLASH:	bDMO=value; break;
 		#endif
+		default:break;
 	}
 }
 
@@ -434,6 +434,7 @@ void CALL HGE_Impl::System_SetStateFunc(hgeFuncState state, hgeCallback value)
 		case HGE_FOCUSGAINFUNC:	 procFocusGainFunc=value; break;
 		case HGE_GFXRESTOREFUNC: procGfxRestoreFunc=value; break;
 		case HGE_EXITFUNC:		 procExitFunc=value; break;
+		default:break;
 	}
 }
 
@@ -449,6 +450,7 @@ void CALL HGE_Impl::System_SetStateHwnd(hgeHwndState state, HWND value)
 			if(!hwnd)
 				hwndParent=value;
 			break;
+		default:break;
 	}
 }
 
@@ -483,6 +485,7 @@ void CALL HGE_Impl::System_SetStateInt(hgeIntState state, int value)
 								if(nHGEFPS>0) nFixedDelta=int(1000.0f/value);
 								else nFixedDelta=0;
 								break;
+		default:break;
 	}
 }
 
@@ -511,6 +514,7 @@ void CALL HGE_Impl::System_SetStateString(hgeStringState state, const char *valu
 								}
 								else szLogFile[0]=0;
 								break;
+		default:break;
 	}
 }
 
@@ -528,6 +532,7 @@ bool CALL HGE_Impl::System_GetStateBool(hgeBoolState state)
 		#ifdef DEMO
 		case HGE_SHOWSPLASH:	return bDMO;
 		#endif
+		default:break;
 	}
 
 	return false;
@@ -542,6 +547,7 @@ hgeCallback CALL HGE_Impl::System_GetStateFunc(hgeFuncState state)
 		case HGE_FOCUSLOSTFUNC:	return procFocusLostFunc;
 		case HGE_FOCUSGAINFUNC:	return procFocusGainFunc;
 		case HGE_EXITFUNC:		return procExitFunc;
+		default:break;
 	}
 
 	return NULL;
@@ -553,6 +559,7 @@ HWND CALL HGE_Impl::System_GetStateHwnd(hgeHwndState state)
 	{
 		case HGE_HWND:			return hwnd;
 		case HGE_HWNDPARENT:	return hwndParent;
+		default:break;
 	}
 
 	return 0;
@@ -573,6 +580,7 @@ int CALL HGE_Impl::System_GetStateInt(hgeIntState state)
 		case HGE_STREAMVOLUME:	return nStreamVolume;
 		case HGE_FPS:			return nHGEFPS;
 		case HGE_POWERSTATUS:	return nPowerStatus;
+		default:break;
 	}
 
 	return 0;
@@ -586,6 +594,7 @@ const char* CALL HGE_Impl::System_GetStateString(hgeStringState state) {
 								else return 0;
 		case HGE_LOGFILE:		if(szLogFile[0]) return szLogFile;
 								else return 0;
+		default:break;
 	}
 
 	return NULL;

@@ -8,7 +8,7 @@
 //I found the rendering code stupid so I MUST rewrite it RIGHT NOW.
 //                                             --Announcement from Chirsno
 #include "effects.h"
-static const char* TOWERNBULLET_H_FN="towernbullet.h";
+//static const char* TOWERNBULLET_H_FN="towernbullet.h";
 
 void DirectBullet(Bullet &a,double rad)
 {
@@ -1394,8 +1394,10 @@ void ProcessTower8()
 				}
 				int pnt=CreateBullet8(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].effect);
 				if (Dis8ref)
-				if (tower[i].towerpos.y<300)
-				DirectBullet(bullet[pnt],-pi/2);else DirectBullet(bullet[pnt],pi/2);
+				{
+					if (tower[i].towerpos.y<300)
+					DirectBullet(bullet[pnt],-pi/2);else DirectBullet(bullet[pnt],pi/2);
+				}
 				if (tower[i].curshotcount==tower[i].shotcount)
 					tower[i].tdir=bullet[pnt].bulletdir;
 				else
@@ -1846,7 +1848,6 @@ public:
 		{
 			Bullets[i].bulletpos=vector2d(3+Centre.x+range*sin(radian-i*(2*pi/BCnt))-6,
 			                              3+Centre.y-range*cos(radian-i*(2*pi/BCnt))-6);
-			TextureRect rct=GetTextureRect(0,_Col);
 			Bullets[i].aC=_Col;Bullets[i].aC2=_Col2;
 			Bullets[i].rot=0;
 		}
@@ -1874,7 +1875,6 @@ class BulletSine
 private:
 	Bullet headb;
 	vector2d a,b,lastgenerated;
-	double theta;
 	Bullet* generated[400];
 	int gencnt;
 	bool OutOfBound()
@@ -1889,7 +1889,6 @@ public:
 		a=_a;b=_b;lastgenerated=_a;
 		CreateBullet2(headb,a.x,a.y,6,0);
 		headb.redir(b);
-		theta=(a.y-b.y,a.x-b.x);
 		active=true;memset(generated,0,sizeof(generated));
 		gencnt=0;
 	}

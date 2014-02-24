@@ -1,7 +1,7 @@
 //Chrisoft Bullet Lab Remix HGE
 //Score Recording Implementations
 //"Copyleft" Chrisoft 2013
-static const char* SCOREC_H_FN="scorec.h";
+//static const char* SCOREC_H_FN="scorec.h";
 
 struct TRecord
 {
@@ -18,7 +18,8 @@ unsigned int Getuint()
 {
 	unsigned int c1,c2,c3,c4,res;
 	c1=c2=c3=c4=0;
-	scanf("%c%c%c%c",&c1,&c2,&c3,&c4);
+	//scanf("%c%c%c%c",&c1,&c2,&c3,&c4);
+	c1=getchar();c2=getchar();c3=getchar();c4=getchar();
 	res=(c1<<24)+(c2<<16)+(c3<<8)+c4;
 	return res;
 }
@@ -30,7 +31,9 @@ long long Getll()
 {
 	long long c1,c2,c3,c4,c5,c6,c7,c8,res;
 	c1=c2=c3=c4=c5=c6=c7=c8=0;
-	scanf("%c%c%c%c%c%c%c%c",&c1,&c2,&c3,&c4,&c5,&c6,&c7,&c8);
+	//scanf("%c%c%c%c%c%c%c%c",&c1,&c2,&c3,&c4,&c5,&c6,&c7,&c8);
+	c1=getchar();c2=getchar();c3=getchar();c4=getchar();
+	c5=getchar();c6=getchar();c7=getchar();c8=getchar();
 	res=(c1<<56)+(c2<<48)+(c3<<40)+(c4<<32)+(c5<<24)+(c6<<16)+(c7<<8)+c8;
 	return res;
 }
@@ -126,7 +129,7 @@ void Score_Init()
 }
 int CheckHighScore()
 {
-	int i;
+	unsigned i;
 	switch (mode)
 	{
 		case 4:
@@ -158,6 +161,7 @@ int CheckHighScore()
 			return i;
 			break;
 	}
+	return 100;
 }
 void Score_Write()
 {
@@ -165,19 +169,19 @@ void Score_Write()
 	Putuint(0x3b424c53);
 	Putuint(0xd1ffa0c0);
 	Putint(Ecnt);
-	for (int i=1;i<=Ecnt;++i)
+	for (unsigned i=1;i<=Ecnt;++i)
 		PutTRecord(ERec[i]);
 	Putuint(0xd1ffa0c1);
 	Putint(Ncnt);
-	for (int i=1;i<=Ncnt;++i)
+	for (unsigned i=1;i<=Ncnt;++i)
 		PutTRecord(NRec[i]);
 	Putuint(0xd1ffa0c2);
 	Putint(Excnt);
-	for (int i=1;i<=Excnt;++i)
+	for (unsigned i=1;i<=Excnt;++i)
 		PutTRecord(ExRec[i]);
 	Putuint(0xd1ffa0c3);
 	Putint(FPMcnt);
-	for (int i=1;i<=FPMcnt;++i)
+	for (unsigned i=1;i<=FPMcnt;++i)
 		PutTRecord(FPMRec[i]);
 	fclose(stdout);
 }
@@ -193,12 +197,12 @@ void Score_Initailize()
 }
 void InsertHighScore()
 {
-	int pos=CheckHighScore();
+	unsigned pos=CheckHighScore();
 	switch (mode)
 	{
 		case 4:
 			if (pos<=Ecnt)
-			for (int i=5;i>pos;--i)
+			for (unsigned i=5;i>pos;--i)
 				ERec[i]=ERec[i-1];
 			else ++Ecnt;
 			if (Ecnt<5)++Ecnt;
@@ -212,7 +216,7 @@ void InsertHighScore()
 			break;
 		case 1:
 			if (pos<=Ncnt)
-			for (int i=5;i>pos;--i)
+			for (unsigned i=5;i>pos;--i)
 				NRec[i]=NRec[i-1];
 			if (Ncnt<5)++Ncnt;
 			NRec[pos].score=score;
@@ -225,7 +229,7 @@ void InsertHighScore()
 			break;
 		case 2:
 			if (pos<=Excnt)
-			for (int i=5;i>pos;--i)
+			for (unsigned i=5;i>pos;--i)
 				ExRec[i]=ExRec[i-1];
 			if (Excnt<5)++Excnt;
 			ExRec[pos].score=score;
@@ -238,7 +242,7 @@ void InsertHighScore()
 			break;
 		case 3:
 			if (pos<=FPMcnt)
-			for (int i=5;i>pos;--i)
+			for (unsigned i=5;i>pos;--i)
 				FPMRec[i]=FPMRec[i-1];
 			if (FPMcnt<5)++FPMcnt;
 			FPMRec[pos].score=score;
