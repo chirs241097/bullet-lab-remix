@@ -46,6 +46,7 @@ int CreateBullet1(double x,double y,double bs,bool eff=false)
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=false;
 	bullet[i].bullettype=1;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
@@ -63,7 +64,7 @@ int CreateBullet1(double x,double y,double bs,bool eff=false)
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
-int CreateBullet2(double x,double y,double bs,double rad,bool eff=false)
+int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool invi=false)
 {
 	++shots;
 	int i;
@@ -76,6 +77,7 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false)
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=invi;
 	bullet[i].bullettype=2;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
@@ -95,7 +97,7 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false)
 }
 void CreateBullet3(double x,double y,double bs,int dir,bool eff=false)
 {
-	CreateBullet2(x,y,bs,dir*0.5235987756,eff);
+	CreateBullet2(x,y,bs,dir*0.5235987756,eff,false);
 }
 void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 {
@@ -110,6 +112,7 @@ void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=false;
 	bullet[i].bullettype=4;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
@@ -140,6 +143,7 @@ void CreateBullet5(double x,double y,double bs,bool eff=false)
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=false;
 	bullet[i].bullettype=5;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
@@ -169,6 +173,7 @@ int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,b
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=false;
 	bullet[i].bullettype=6;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
@@ -203,6 +208,7 @@ int CreateBullet7(double x,double y,double bs,int explo,bool eff=false)
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=false;
 	bullet[i].bullettype=7;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
@@ -237,6 +243,7 @@ int CreateBullet8(double x,double y,double bs,bool eff=false)
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=false;
 	bullet[i].bullettype=8;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
@@ -269,6 +276,7 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].inv=false;
 	bullet[i].bullettype=9;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;

@@ -1577,28 +1577,20 @@ void Level5Part20()
 	if (LOWFPS)ntrot+=16*pi/960.0f;else ntrot+=pi/960.0f;
 	if (ntbrk<0.01)return;
 	ntbrk=0;++ntcnt;if (ntcnt>15)ntcnt=0;
-	if (ntcnt==0)
-	{
-		int a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,500,1,500);
-		bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
-		bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
-		bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
-		a=CreateBullet9(400+250*sin(ntrot+pi),300+250*cos(ntrot+pi),2,500,1,500);
-		bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
-		bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
-		bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
-	}
+	int a;if (ntcnt==0)
+		a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,500,1,500);
 	else
-	{
-		int a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,999999999,1,999999999);
-		bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
-		bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
-		bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
+		a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,999999999,1,999999999);
+	bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
+	bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
+	bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
+	if (ntcnt==0)
+		a=CreateBullet9(400+250*sin(ntrot+pi),300+250*cos(ntrot+pi),2,500,1,500);
+	else
 		a=CreateBullet9(400+250*sin(ntrot+pi),300+250*cos(ntrot+pi),2,999999999,1,999999999);
-		bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
-		bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
-		bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
-	}
+	bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
+	bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
+	bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
 }
 void Level5Part21()
 {
@@ -2627,6 +2619,7 @@ void Level7Part7()
 		}
 	}
 }
+//Rearrange needed since here, see LEVELS.txt
 BulletSine bnl[100];
 double ykbrk;
 void Level7Part8()//Photon school
@@ -2940,6 +2933,87 @@ void Level7Part18()//Great circles-child2
 		if (i==10||i==11)Circles[i].SetRange(320+20*sin(Circles[i].GetDT()));
 		if (i==12||i==13)Circles[i].SetRange(380+30*sin(Circles[i].GetDT()));
 		Circles[i].Update();
+	}
+}
+double sntang;
+void Level7Part19()
+{
+	frameleft=AMinute;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("??????");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();avabrk=0.03f;avacurbrk=1.0f;sntang=-pi/2;
+	}
+}
+void L7P20Creator(double rl,double rr,double rad,TColors col,double speed,bool invi=false)
+{
+	double r=rand()%((int)(rr-rl)*10000)/10000.0f+rl;
+	int pnt=CreateBullet2(900+cos(rad)*r,700+sin(rad)*r,speed,rand()/32767.0f,true,invi);
+	bullet[pnt].alterColor=col;
+}
+void Level7Part20()
+{
+	//(600,600)->(250,600)
+	if (sntang>-pi)
+	{
+		avacurbrk+=hge->Timer_GetDelta();
+		if (avacurbrk>avabrk)
+		{
+			sntang-=pi/180;avacurbrk=0;
+			for(int i=0;i<6;++i)L7P20Creator(660,600,sntang,red,0,1);
+			for(int i=0;i<6;++i)L7P20Creator(610,550,sntang,orange,0,1);
+			for(int i=0;i<6;++i)L7P20Creator(560,500,sntang,yellow,0,1);
+			for(int i=0;i<6;++i)L7P20Creator(510,450,sntang,green,0,1);
+			for(int i=0;i<6;++i)L7P20Creator(460,410,sntang,blue,0,1);
+			for(int i=0;i<6;++i)L7P20Creator(420,360,sntang,dblue,0,1);
+			for(int i=0;i<6;++i)L7P20Creator(365,310,sntang,purple,0,1);
+		}
+	}
+	else
+	{
+		avabrk=0.35+(frameleft/(double)AMinute)*0.4f;
+		avacurbrk+=hge->Timer_GetDelta();
+		if (avacurbrk>avabrk)
+		{
+			avacurbrk=0;
+			double spd=((AMinute-frameleft)/(double)AMinute)+1;
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			L7P20Creator(660,600,sntang,red,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			L7P20Creator(610,550,sntang,orange,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			L7P20Creator(560,500,sntang,yellow,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			L7P20Creator(510,450,sntang,green,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			L7P20Creator(460,410,sntang,blue,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			L7P20Creator(420,360,sntang,dblue,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			L7P20Creator(365,310,sntang,purple,spd);
+			sntang=-pi-0.1;
+		}
 	}
 }
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//

@@ -77,7 +77,7 @@ void Player_Clear_Expand()
 	for (int i=1;i<=bulcnt;++i)
 	{
 		double dis=GetDist(bullet[i].bulletpos,playerpos);
-		if (dis<=clrrange&&bullet[i].exist)
+		if (dis<=clrrange&&bullet[i].exist&&!bullet[i].inv)
 		{
 			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
 			bullet[i].exist=false;
@@ -100,7 +100,7 @@ void Player_Clear_Rotate()
 		double rad=atan2l(bullet[i].bulletpos.y-playerpos.y,bullet[i].bulletpos.x-playerpos.x);
 		hge->Gfx_RenderLine(playerpos.x+8,playerpos.y+8,playerpos.x+cos(clrrad)*clrmaxrange,playerpos.y+sin(clrrad)*clrmaxrange);
 		while (rad<0)rad+=2*pi;
-		if (dis<=clrmaxrange&&bullet[i].exist&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
+		if (dis<=clrmaxrange&&bullet[i].exist&&!bullet[i].inv&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
 		{
 			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
 			bullet[i].exist=false;
@@ -412,6 +412,8 @@ void CallLevels()
 	if (level==7&&part==16)Level7Part16();
 	if (level==7&&part==17)Level7Part17();
 	if (level==7&&part==18)Level7Part18();
+	if (level==7&&part==19)Level7Part19();
+	if (level==7&&part==20)Level7Part20();
 	/*if (level==1&&part==3)Level1Part3();
 	if (level==1&&part==4)Level1Part4();
 	if (level==1&&part==5)Level1Part5();

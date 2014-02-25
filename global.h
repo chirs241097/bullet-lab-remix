@@ -89,7 +89,7 @@ struct Bullet
 	//whicnt describes how much one will explode into (into an exactly circle)*/
 	double bulletspeed;
 	double bulletaccel,limv;
-	bool exist;
+	bool exist,inv;
 	int whirem,whiskp,yelbrk;
 	int exp1,exp2;
 	double lifetime;

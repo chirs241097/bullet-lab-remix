@@ -1,11 +1,12 @@
 ===================================================================
 Next version:
-0.7.1-7_PR
+0.7.1-7_PR/0.7.2-0_PR
 TODOs:
 More new things?
 
 Pre-Released versions:
 0.7.1-6_PR (b69)
+Finish the new level.
 Fusion bullet first work draft.
 Fix some of the warnings from the compiler.
 Adjust level difficulty. It was indeed too easy...
