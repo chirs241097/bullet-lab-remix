@@ -9,6 +9,8 @@ Pre-Released versions:
 Fusion bullet first work draft.
 Fix some of the warnings from the compiler.
 Adjust level difficulty. It was indeed too easy...
+Remake some resources with GIMP.
+Merge great circles and finish it.
 
 0.7.1-5_PR (b68)
 Draft new level. (Another level threatening you using circles!)

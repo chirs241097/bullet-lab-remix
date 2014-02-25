@@ -2629,7 +2629,7 @@ void Level7Part7()
 }
 BulletSine bnl[100];
 double ykbrk;
-void Level7Part8()//This should be another part.
+void Level7Part8()//Photon school
 {
 	memset(bnl,0,sizeof(bnl));
 	frameleft=AMinute;
@@ -2669,7 +2669,7 @@ void Level7Part9()
 	if (bnl[i].active)bnl[i].Update();
 }
 WOP wop[100];
-void Level7Part10()
+void Level7Part10()//Wave of Photon
 {
 	memset(bnl,0,sizeof(bnl));
 	frameleft=AMinute;
@@ -2708,7 +2708,7 @@ void Level7Part11()
 	for (int i=0;i<100;++i)
 	if (wop[i].active)wop[i].Update();
 }
-void Level7Part12()
+void Level7Part12()//3 circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -2749,7 +2749,7 @@ void Level7Part13()
 }
 BCircle scircles[200];
 double rspd[200];
-void Level7Part14()
+void Level7Part14()//circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -2790,6 +2790,156 @@ void Level7Part15()
 			if (rspd[i]<=0.002)rspd[i]=0.002;
 			scircles[i].Update();
 		}
+	}
+}
+double DTCircle;
+BCircle Circles[20];
+int CCnt,state;
+void Level7Part16()//Great circles
+{
+	towcnt=0;
+	frameleft=Infinity;
+	Circles[0].Init(444,20*pi/50000.0f,6,vector2d(400,300));
+	Circles[1].Init(444,-20*pi/50000.0f,6,vector2d(400,300));
+	CCnt=1;state=0;
+	DTCircle=0.0f;
+	++part;playerpos.x=400,playerpos.y=300;
+}
+void Level7Part17()//Great circles-child1
+{
+	frameleft=Infinity;
+	DTCircle+=hge->Timer_GetDelta();
+	//Create New Circles here.
+	if (DTCircle>1&&CCnt<3)
+	{
+		Circles[2].Init(444,10*pi/50000.0f,12,vector2d(400,300));
+		Circles[3].Init(444,-10*pi/50000.0f,12,vector2d(400,300));
+		CCnt=3;
+	}
+	if (DTCircle>2&&CCnt<5)
+	{
+		Circles[4].Init(444,8*pi/50000.0f,18,vector2d(400,300));
+		Circles[5].Init(444,-8*pi/50000.0f,18,vector2d(400,300));
+		CCnt=5;
+	}
+	if (DTCircle>3&&CCnt<7)
+	{
+		Circles[6].Init(444,8*pi/50000.0f,27,vector2d(400,300));
+		Circles[7].Init(444,-8*pi/50000.0f,27,vector2d(400,300));
+		CCnt=7;
+	}
+	if (DTCircle>4&&CCnt<9)
+	{
+		Circles[8].Init(444,6*pi/50000.0f,45,vector2d(400,300));
+		Circles[9].Init(444,-6*pi/50000.0f,45,vector2d(400,300));
+		CCnt=9;
+	}
+	if (DTCircle>5&&CCnt<11)
+	{
+		Circles[10].Init(444,6*pi/50000.0f,60,vector2d(400,300));
+		Circles[11].Init(444,-6*pi/50000.0f,60,vector2d(400,300));
+		CCnt=11;
+	}
+	if (DTCircle>5&&CCnt<13)
+	{
+		Circles[12].Init(444,3*pi/50000.0f,96,vector2d(400,300));
+		Circles[13].Init(444,-3*pi/50000.0f,96,vector2d(400,300));
+		CCnt=13;
+	}
+	if (Circles[0].GetRange()>=50)//6
+	{
+		int times=1;if (LOWFPS)times=17;
+		for (int i=1;i<=times;++i)
+			Circles[0].SetRange(Circles[0].GetRange()-0.1),
+			Circles[1].SetRange(Circles[1].GetRange()-0.1);
+	}
+	if (Circles[2].GetRange()>=100&&CCnt>=3)//12
+	{
+		int times=1;if (LOWFPS)times=17;
+		for (int i=1;i<=times;++i)
+			Circles[2].SetRange(Circles[2].GetRange()-0.1),
+			Circles[3].SetRange(Circles[3].GetRange()-0.1);
+	}
+	if (Circles[4].GetRange()>=150&&CCnt>=5)//18
+	{
+		int times=1;if (LOWFPS)times=17;
+		for (int i=1;i<=times;++i)
+			Circles[4].SetRange(Circles[4].GetRange()-0.1),
+			Circles[5].SetRange(Circles[5].GetRange()-0.1);
+	}
+	if (Circles[6].GetRange()>=210&&CCnt>=7)//27
+	{
+		int times=1;if (LOWFPS)times=17;
+		for (int i=1;i<=times;++i)
+			Circles[6].SetRange(Circles[6].GetRange()-0.1),
+			Circles[7].SetRange(Circles[7].GetRange()-0.1);
+	}
+	if (Circles[8].GetRange()>=270&&CCnt>=9)//45
+	{
+		int times=1;if (LOWFPS)times=17;
+		for (int i=1;i<=times;++i)
+			Circles[8].SetRange(Circles[8].GetRange()-0.1),
+			Circles[9].SetRange(Circles[9].GetRange()-0.1);
+	}
+	if (Circles[10].GetRange()>=320&&CCnt>=11)//60
+	{
+		int times=1;if (LOWFPS)times=17;
+		for (int i=1;i<=times;++i)
+			Circles[10].SetRange(Circles[10].GetRange()-0.1),
+			Circles[11].SetRange(Circles[11].GetRange()-0.1);
+	}
+	if (Circles[12].GetRange()>=380&&CCnt>=13)//96
+	{
+		int times=1;if (LOWFPS)times=17;
+		for (int i=1;i<=times;++i)
+			Circles[12].SetRange(Circles[12].GetRange()-0.1),
+			Circles[13].SetRange(Circles[13].GetRange()-0.1);
+	}
+	else
+	{
+		if (CCnt>=13)++part;
+		for (int i=1;i<=CCnt;++i)
+			Circles[i].SetDT(i*pi);
+	}
+	for (int i=0;i<=CCnt;++i)Circles[i].Update();
+	state=0;
+	towerspr[red]->RenderStretch(770,0,800,30);
+	towerspr[green]->RenderStretch(380,280,420,320);
+}
+void Level7Part18()//Great circles-child2
+{
+	if(state)
+	{
+		towerspr[green]->RenderStretch(770,0,800,30);
+		towerspr[red]->RenderStretch(380,280,420,320);
+	}
+	else
+	{
+		towerspr[red]->RenderStretch(770,0,800,30);
+		towerspr[green]->RenderStretch(380,280,420,320);
+	}
+	hgeRect col;
+	if (state)
+	{
+		col=hgeRect(380,280,420,320);
+		if (col.TestPoint(playerpos.x,playerpos.y))++part;
+	}
+	else
+	{
+		col=hgeRect(770,0,800,30);
+		if (col.TestPoint(playerpos.x,playerpos.y))state=1;
+	}
+	frameleft=Infinity;
+	for (int i=0;i<=CCnt;++i)
+	{
+		if (i==0||i==1)Circles[i].SetRange(50+10*sin(Circles[i].GetDT()));
+		if (i==2||i==3)Circles[i].SetRange(100+10*sin(Circles[i].GetDT()));
+		if (i==4||i==5)Circles[i].SetRange(150+10*sin(Circles[i].GetDT()));
+		if (i==6||i==7)Circles[i].SetRange(210+20*sin(Circles[i].GetDT()));
+		if (i==8||i==9)Circles[i].SetRange(270+20*sin(Circles[i].GetDT()));
+		if (i==10||i==11)Circles[i].SetRange(320+20*sin(Circles[i].GetDT()));
+		if (i==12||i==13)Circles[i].SetRange(380+30*sin(Circles[i].GetDT()));
+		Circles[i].Update();
 	}
 }
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
@@ -3159,7 +3309,7 @@ void Level1Part14()//?-discard
 			return;
 		}
 }
-void Level1Part15()//Rainbowtower-
+void Level1Part15()//Rainbowtower-used
 {
 	frameleft=(AMinute+ThirtySeconds);clrtime=5;
 	if (bulcnt!=0&&towcnt!=1)
@@ -3251,7 +3401,7 @@ void Level1Part16()//Rainbowtower-child
 		}
 	}
 }
-void Level1Part17()//33*b+1*r-
+void Level1Part17()//33*b+1*r-discard
 {
 	frameleft=AMinute;clrtime=0;
 	if (bulcnt!=0&&towcnt!=34)
@@ -3435,7 +3585,7 @@ void Level1Part24()//child
 double DTCircle;
 BCircle Circles[20];
 int CCnt;
-void Level1Part25()//Great circles-
+void Level1Part25()//Great circles-used
 {
 	towcnt=0;
 	frameleft=Infinity;
