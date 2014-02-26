@@ -420,7 +420,7 @@ int CALL HGE_Impl::Channel_GetPos_BySample(HCHANNEL chn)
 		alGetSourcei((ALuint)chn,AL_SAMPLE_OFFSET,&res);
 		return (int)res;
 	}
-	else return -1.0f;
+	else return -1;
 }
 
 void CALL HGE_Impl::Channel_SetPos_BySample(HCHANNEL chn, int iSample)

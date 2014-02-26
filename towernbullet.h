@@ -89,6 +89,7 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool inv
 	//bullet[i].bulletspr=new hgeSprite(SprSheet,0,0,24,24);
 	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
+	bullet[i].collable=true;
 	bullet[i].bulletaccel=bullet[i].limv=0;
 	bullet[i].scale=1;
 	//bullet[i].bulletspr->SetHotSpot(12,12);
@@ -403,15 +404,18 @@ void ProcessBullet2(int i)
 		bullet[i].bullettype=0;
 		return;
 	}
-	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)
+	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
 	//If collision is detected or the bullet flys out of screen, delete it.
 	{
-		++coll,scminus+=10000,Mult_BatClear();
-		bullet[i].exist=false;
-		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
-		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-		bullet[i].dist=0;
-		bullet[i].bullettype=0;
+		++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;
+		if(!bullet[i].inv)
+		{
+			bullet[i].exist=false;
+			bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+			bullet[i].dist=0;
+			bullet[i].bullettype=0;
+		}
 		return;
 	}
 	else
@@ -1922,7 +1926,6 @@ public:
 	}
 };
 class WOP
-//module:
 {
 private:
 	int trail[200];//Pointer to bullet[] in this trail
@@ -1967,5 +1970,57 @@ public:
 			trail[pnt]=CreateBullet2(hbul.bulletpos.x-uv.x*50*sin(rad),hbul.bulletpos.y-uv.y*50*sin(rad),0,0,true);
 		}
 		if (OutOfBound())active=false;
+	}
+};
+class SimpleThing
+{
+private:
+	vector2d center;
+	int step,cnt;
+	double rad,dly,lr,ra;
+	SimpleBullet b[500];
+	double r[500],mr[500];
+	bool create,rot;
+public:
+	void Init(vector2d _ctr)
+	{
+		center=_ctr;step=cnt=dly=lr=ra=0;
+		create=true;rot=false;
+	}
+	void Update(bool rv)
+	{
+		dly+=hge->Timer_GetDelta();
+		if(dly>0.2&&create)
+		{
+			dly=0;
+			for(int i=0;i<10;++i)
+			{
+				b[cnt].bulletpos=center;
+				b[cnt].aC=blue;b[cnt].aC2=COLOR_COUNT;
+				r[cnt/10]=0;mr[cnt/10]=(lr+=2);
+				if (lr>620)create=false;
+				++cnt;
+			}
+		}
+		bool all=!create;
+		if(!rot)
+		for(int i=0;i<cnt;++i)
+		{
+			b[i].bulletpos=vector2d(center.x+r[i/10]*cos(i/10*pi/12+pi/5*(i%10)),center.y+r[i/10]*sin(i/10*pi/12+pi/5*(i%10)));
+			if(r[i/10]<mr[i/10])r[i/10]+=(LOWFPS?17:1)*0.01,all=false;
+			else r[i/10]=mr[i/10];
+			b[i].Update_SimpBul();
+		}
+		if(all||rot)
+		{
+			rot=true;
+			rv?rad+=(LOWFPS?17:1)*ra:rad-=(LOWFPS?17:1)*ra;
+			if(ra<pi/7200)ra+=(LOWFPS?17:1)*pi/630000000.0f;
+			for(int i=0;i<cnt;++i)
+			{
+				b[i].bulletpos=vector2d(center.x+r[i/10]*cos(i/10*pi/12+rad+pi/5*(i%10)),center.y+r[i/10]*sin(i/10*pi/12+rad+pi/5*(i%10)));
+				b[i].Update_SimpBul();
+			}
+		}
 	}
 };

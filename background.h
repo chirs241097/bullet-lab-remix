@@ -458,6 +458,97 @@ public:
 TDSky sky;
 bool skyactive;
 
+class PicBack
+{
+public:
+	enum arMode
+	{
+		Centered,
+		Tiled,
+		Stretched
+	};
+private:
+	hgeQuad quad;
+	arMode Mode;
+	DWORD alpha,alim;
+	bool onfadein,onfadeout;
+	int fadebreak;
+	void DoFadeIn()
+	{
+		if (LOWFPS)fadebreak+=17;else ++fadebreak;
+		if (fadebreak>17)fadebreak=0;else return;
+		if (LOWFPS)if(alpha+0x20<=alim)alpha+=0x20;else alpha=alim;
+		else if (alpha+0x2<=alim)alpha+=2;else alpha=alim;
+		if (alpha>=alim)onfadein=false;
+	}
+	void DoFadeOut()
+	{
+		if (LOWFPS)fadebreak+=17;else ++fadebreak;
+		if (fadebreak>30)fadebreak=0;else return;
+		if (LOWFPS)
+			if (alpha<0x20)alpha=0;else alpha-=0x20;
+		else
+			if (alpha<0x2)alpha=0;else alpha-=0x2;
+		if (!alpha)onfadeout=0;
+	}
+	void RenderCenterAt(vector2d a)
+	{
+		vector2d s=vector2d(hge->Texture_GetWidth(quad.tex,true),hge->Texture_GetHeight(quad.tex,true));
+		for(int i=0;i<4;++i)quad.v[i].col=SETA(0xFFFFFF,alpha);
+		quad.v[0].x=a.x-s.x/2.0f;quad.v[0].y=a.y-s.y/2.0f;
+		quad.v[1].x=a.x+s.x/2.0f;quad.v[1].y=a.y-s.y/2.0f;
+		quad.v[2].x=a.x+s.x/2.0f;quad.v[2].y=a.y+s.y/2.0f;
+		quad.v[3].x=a.x-s.x/2.0f;quad.v[3].y=a.y+s.y/2.0f;
+		hge->Gfx_RenderQuad(&quad);
+	}
+public:
+	bool active(){return alpha;}
+	void Init(const char *tx,arMode _Mode,DWORD _alim)
+	{
+		quad.tex=hge->Texture_Load(tx);alim=_alim;
+		quad.v[0].tx=0,quad.v[0].ty=0;
+		quad.v[1].tx=1,quad.v[1].ty=0;
+		quad.v[2].tx=1,quad.v[2].ty=1;
+		quad.v[3].tx=0,quad.v[3].ty=1;
+		onfadein=onfadeout=false;alpha=0;
+	}
+	void Update()
+	{
+		if(onfadein)DoFadeIn();if(onfadeout)DoFadeOut();
+		switch(Mode)
+		{
+			case Centered:
+				RenderCenterAt(vector2d(400,300));
+			break;
+			case Tiled:
+			{
+				vector2d s=vector2d(hge->Texture_GetWidth(quad.tex,true),hge->Texture_GetHeight(quad.tex,true));
+				for(int i=0;i*s.x<=800;++i)
+				for(int j=0;j*s.y<=600;++j)
+				RenderCenterAt(vector2d(s.x/2+i*s.x,s.y/2+j*s.y));
+			}
+			break;
+			case Stretched:
+				for(int i=0;i<4;++i)quad.v[i].col=SETA(0xFFFFFF,alpha);
+				quad.v[0].x=0,quad.v[0].y=0;
+				quad.v[1].x=800,quad.v[1].y=0;
+				quad.v[2].x=800,quad.v[2].y=600;
+				quad.v[3].x=0,quad.v[3].y=600;
+				hge->Gfx_RenderQuad(&quad);
+			break;
+		}
+	}
+	void SetFadeIn()
+	{
+		alpha=0x01;
+		onfadein=true;
+	}
+	void SetFadeOut()
+	{
+		alpha=alim;
+		onfadeout=true;
+	}
+}binter;
 DWORD ColorTransfer(DWORD a,DWORD t)
 {
 	int r=GETR(a),g=GETG(a),b=GETB(a),sa=GETA(a);

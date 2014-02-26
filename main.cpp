@@ -414,6 +414,8 @@ void CallLevels()
 	if (level==7&&part==18)Level7Part18();
 	if (level==7&&part==19)Level7Part19();
 	if (level==7&&part==20)Level7Part20();
+	if (level==7&&part==21)Level7Part21();
+	if (level==7&&part==22)Level7Part22();
 	/*if (level==1&&part==3)Level1Part3();
 	if (level==1&&part==4)Level1Part4();
 	if (level==1&&part==5)Level1Part5();
@@ -558,7 +560,7 @@ bool FrameFunc()
 	//If we are at the main scene or tip scene(which towers and bullets should still appear..)
 	//Render towers, bullets and player.
 		if (Leaves.IsActive())Leaves.Update();
-
+		if (binter.active())binter.Update();
 		if (LE_Active||Head){if (!Head)Tail=Head=new Leaf_Anim(),Head->init(990);Head->Process();}
 		shots=0;
 		dsmc=0;

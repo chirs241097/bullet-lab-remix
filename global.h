@@ -93,7 +93,7 @@ struct Bullet
 	int whirem,whiskp,yelbrk;
 	int exp1,exp2;
 	double lifetime;
-	bool scollable;
+	bool scollable,collable;
 	double scale;int effbrk;
 	TColors alterColor;
 	void redir(vector2d targ)

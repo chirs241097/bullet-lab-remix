@@ -1,12 +1,24 @@
 ===================================================================
 Next version:
-0.7.1-7_PR/0.7.2-0_PR
+0.7.2-1_PR
 TODOs:
-More new things?
+New levels, pre-release preparation, resource remaking.
+0.7.x-x_PR will be another public pre-release version.
 
 Pre-Released versions:
+0.7.2-0_PR (b70)
+I wasn't willing to bump the build number because I want the svn
+revision to chease the build number.
+However it wouldn't be appropriate to put three new levels into one
+build...
+The real changelog is here:
+New level "interference" (it's another small class "SimpleThing").
+New background interface, use background pictures easily.
+Minor code cleanups.
+
 0.7.1-6_PR (b69)
-Finish the new level.
+Finish some new levels ("Great Circle" bring back & "rainbow
+appearance").
 Fusion bullet first work draft.
 Fix some of the warnings from the compiler.
 Adjust level difficulty. It was indeed too easy...

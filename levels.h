@@ -3016,6 +3016,30 @@ void Level7Part20()
 		}
 	}
 }
+SimpleThing a,b;
+void Level7Part21()
+{
+	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Interference(fake)");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();skyactive=false;
+		binter.Init("./Resources/b_inter.png",PicBack::Centered,0x80);
+		binter.SetFadeIn();a.Init(vector2d(260,292));b.Init(vector2d(523,292));
+	}
+}
+void Level7Part22()
+{
+//260,292;523,292
+	a.Update(true);b.Update(false);
+}
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
 /*
 void Level1Part17()//33*b+1*r-discard?
