@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Multiplier implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 CircleIndicator MultTimer;
 hgeFont *MultFnt;
 hgeSprite *MB;

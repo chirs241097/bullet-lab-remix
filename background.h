@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Background drawing Implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 const char* BACKGROUND_H_FN="background.h";
 
 double deltaBG;

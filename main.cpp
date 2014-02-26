@@ -1,6 +1,36 @@
 //Chrisoft Bullet Lab Remix HGE
 //Main Code
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
+//Now that we use BSD license, so let's paste it here.
+//(although it may be awful)
+/*
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * * Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following disclaimer
+ *   in the documentation and/or other materials provided with the
+ *   distribution.
+ * * Neither the name of the  nor the names of its
+ *   contributors may be used to endorse or promote products derived from
+ *   this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
 //#define Debug
 #include <hge.h>
 #include <hgefont.h>
@@ -416,32 +446,6 @@ void CallLevels()
 	if (level==7&&part==20)Level7Part20();
 	if (level==7&&part==21)Level7Part21();
 	if (level==7&&part==22)Level7Part22();
-	/*if (level==1&&part==3)Level1Part3();
-	if (level==1&&part==4)Level1Part4();
-	if (level==1&&part==5)Level1Part5();
-	if (level==1&&part==6)Level1Part6();
-	if (level==1&&part==7)Level1Part7();
-	if (level==1&&part==8)Level1Part8();
-	if (level==1&&part==9)Level1Part9();
-	if (level==1&&part==10)Level1Part10();
-	if (level==1&&part==11)Level1Part11();
-	if (level==1&&part==12)Level1Part12();
-	if (level==1&&part==13)Level1Part13();
-	if (level==1&&part==14)Level1Part14();
-	if (level==1&&part==15)Level1Part15();
-	if (level==1&&part==16)Level1Part16();
-	if (level==1&&part==17)Level1Part17();
-	if (level==1&&part==18)Level1Part18();
-	if (level==1&&part==19)Level1Part19();
-	if (level==1&&part==20)Level1Part20();
-	if (level==1&&part==21)Level1Part21();
-	if (level==1&&part==22)Level1Part22();
-	if (level==1&&part==23)Level1Part23();
-	if (level==1&&part==24)Level1Part24();
-	if (level==1&&part==25)Level1Part25();
-	if (level==1&&part==26)Level1Part26();
-	if (level==1&&part==27)Level1Part27();
-	if (level==1&&part==28)Level1Part28();*/
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)level=3,part=0;
 	if (level==3&&part==7)level=4,part=0;
@@ -597,17 +601,12 @@ bool FrameFunc()
 		}
 		for (int i=1;i<=nonamecnt;++i)if (noname[i].Exist())noname[i].Process();
 		ProcessPlayer();
-		//SCEffect_Process();
 		RefreshScore();
 		{
 			if (ATarg.visible)ATarg.TargFollowPlayer(),ATarg.TargRender();
-			//if (ATarg.isonshow)ATarg.TargShowProc();
-			//if (ATarg.isonhide)ATarg.TargHideProc();
 		}
 		{
 			if (BTarg.visible)BTarg.TargRender();
-			//if (BTarg.isonshow)BTarg.TargShowProc();
-			//if (BTarg.isonhide)BTarg.TargHideProc();
 		}
 		if (!DisablePlayer)
 		--frameleft;//If we are at the tip scene, disable the player movement.
@@ -637,8 +636,6 @@ bool FrameFunc()
 	if (Current_Position==2)
 	{
 		ShowTip(lasttip);
-		//if (Complete)
-		//	TipFont->printf(200,200,HGETEXT_LEFT,"Score");
 	}
 	if (Current_Position==4)AboutScene();
 	if (Current_Position==5)DeathGUI->Render();

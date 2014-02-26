@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Effects Implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 #define NO_FREE 1
 //static const char* EFFECTS_H_FN="effects.h";
 

@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Global varibles and implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 #include <hge.h>
 #include <hgefont.h>
 #include <hgegui.h>

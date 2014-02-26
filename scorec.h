@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Score Recording Implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 //static const char* SCOREC_H_FN="scorec.h";
 
 struct TRecord

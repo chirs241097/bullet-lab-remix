@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //In Game Music Implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 HEFFECT Mus;
 HCHANNEL Muc;
 int lpst,lped;

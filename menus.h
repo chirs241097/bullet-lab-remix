@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Menu Implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 //[Perfect Freeze]: Code for menus won't change... until ...?
 //                                --Announcement from Chirsno
 //static const char* MENUS_H_FN="menus.h";

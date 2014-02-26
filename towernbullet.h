@@ -1,8 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Towers and Bullets Implementations
-//"Copyleft" Chrisoft 2013
-//WANTED:
-//Human-being who really knows what these mean, please contact Chirsno which is puzzled by these shitty codes..
+//Copyright Chrisoft 2014
 //[Perfect Freeze]: code here for BLR2 won't change a lot since 30/08/2013
 //Sorry that I would break that...
 //I found the rendering code stupid so I MUST rewrite it RIGHT NOW.
@@ -56,11 +54,8 @@ int CreateBullet1(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
 	bullet[i].alterColor=green;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,48,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -86,13 +81,10 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool inv
 	bullet[i].bulletspeed=bs;
 	bullet[i].alterColor=blue;
 	bullet[i].lifetime=0;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,0,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].collable=true;
 	bullet[i].bulletaccel=bullet[i].limv=0;
 	bullet[i].scale=1;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -123,12 +115,9 @@ void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
 	bullet[i].yelbrk=yelbrk;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,192,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
 	bullet[i].alterColor=yellow;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 }
 void CreateBullet5(double x,double y,double bs,bool eff=false)
@@ -154,11 +143,8 @@ void CreateBullet5(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
 	bullet[i].alterColor=purple;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,120,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 }
 int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,bool eff=false)
@@ -188,11 +174,8 @@ int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,b
 	bullet[i].exp1=exp1;
 	bullet[i].exp2=exp2;
 	bullet[i].oriexplo=bullet[i].redexplo=explo;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,144,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -220,14 +203,11 @@ int CreateBullet7(double x,double y,double bs,int explo,bool eff=false)
 	bullet[i].bulletspeed=bs;
 	bullet[i].alterColor=white;
 	bullet[i].oriexplo=bullet[i].redexplo=explo;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,168,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].redattrib=0;
 	bullet[i].whirem=whicnt;
 	bullet[i].whiskp=0;
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -254,11 +234,8 @@ int CreateBullet8(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
 	bullet[i].alterColor=dblue;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,24,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -291,11 +268,8 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 	bullet[i].whicnt=cnt;
 	bullet[i].yelbrk=brk;
 	bullet[i].alterColor=orange;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,72,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	//bullet[i].bulletspr->SetHotSpot(12,12);
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -319,8 +293,6 @@ void CreateBullet255(double x,double y,double bs)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	//bullet[i].bulletspr=new hgeSprite(SprSheet,96,0,24,24);
-	//bullet[i].bulletspr->SetColor(0x80FFFFFF);
 }
 void All2pnt()
 {
@@ -336,24 +308,23 @@ void All2pnt()
 }
 void ProcessBullet1(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=1)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=1)return;
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		bullet[i].exist=false;
@@ -364,29 +335,16 @@ void ProcessBullet1(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
 void ProcessBullet2(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=2)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=2)return;
 	if (Current_Position==1)bullet[i].lifetime+=hge->Timer_GetDelta();
 	if (!DisablePlayer)
 	{
-		/*if (LOWFPS)
-		{
-			if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*17;
-			//bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*17;//Process bullet's x coor.
-			//bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*17;//Process bullet's y coor.
-		}
-		else
-		{
-			if (bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel;
-			//bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20;//Process bullet's x coor.
-			//bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20;//Process bullet's y coor.
-		}*/
 		//experimental new coor processing code, FPS independent
 		if (bullet[i].bulletaccel>0&&bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
 		if (bullet[i].bulletaccel<0&&bullet[i].bulletspeed>bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
@@ -394,7 +352,7 @@ void ProcessBullet2(int i)
 		bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*(1000.0f/hge->Timer_GetFPS());
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
 	{
 		bullet[i].exist=false;
@@ -405,7 +363,6 @@ void ProcessBullet2(int i)
 		return;
 	}
 	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;
 		if(!bullet[i].inv)
@@ -420,7 +377,6 @@ void ProcessBullet2(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
@@ -428,7 +384,7 @@ void ProcessBullet2(int i)
 //There is no need for ProcessBullet3() because they are in fact bullet2
 void ProcessBullet4(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=4)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=4)return;
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
@@ -445,21 +401,18 @@ void ProcessBullet4(int i)
 		}
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
-		//bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-		//bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		bullet[i].exist=false;
@@ -470,33 +423,29 @@ void ProcessBullet4(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
 void ProcessBullet5(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=5)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=5)return;
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
-		//bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-		//bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)playerspeed*=0.9,playerslospeed*=0.9;
 		bullet[i].exist=false;
@@ -507,27 +456,24 @@ void ProcessBullet5(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 	}
 }
 void ProcessBullet6(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=6)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=6)return;
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
-		//bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-		//bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 	}
 	if (!LOWFPS)
 	{
@@ -550,7 +496,6 @@ void ProcessBullet6(int i)
 			for (int j=1;j<=bullet[i].exp1;++j)
 			{
 				int pnt=CreateBullet6(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,bullet[i].oriexplo,bullet[i].exp1,bullet[i].exp2,bullet[i].scale>1.5?true:false);
-				//hge->Effect_PlayEx(snd,100,(bullet[i].bulletpos.x-400)/4);
 				bullet[pnt].setdir(2*pi/(double)bullet[i].exp1*j);
 				bullet[pnt].redattrib=1;
 			}
@@ -569,9 +514,8 @@ void ProcessBullet6(int i)
 		bullet[i].bullettype=0;
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		bullet[i].exist=false;
@@ -582,28 +526,25 @@ void ProcessBullet6(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
 void ProcessBullet7(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=7)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=7)return;
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
-		//bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-		//bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 	}
 	if (!LOWFPS)
 	{
@@ -624,7 +565,7 @@ void ProcessBullet7(int i)
 		if (bullet[i].redattrib==0)
 		{
 			int pnt=CreateBullet7(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,bullet[i].oriexplo,bullet[i].scale>1.5?true:false);
-			//hge->Effect_PlayEx(snd,100,(bullet[i].bulletpos.x-400)/4);
+
 			bullet[pnt].bulletdir.x=0;
 			bullet[pnt].bulletdir.y=0;
 			bullet[pnt].dist=1;
@@ -675,9 +616,8 @@ void ProcessBullet7(int i)
 		}
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		bullet[i].exist=false;
@@ -688,31 +628,29 @@ void ProcessBullet7(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
 void ProcessBullet8(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=8)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=8)return;
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		else
@@ -729,20 +667,19 @@ void ProcessBullet8(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
 void ProcessBullet9(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=9)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=9)return;
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 			if (bullet[i].redattrib==0)
 			{
 				bullet[i].redexplo-=17;
@@ -773,8 +710,8 @@ void ProcessBullet9(int i)
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 			if (bullet[i].redattrib==0)
 			{
 				--bullet[i].redexplo;
@@ -805,9 +742,8 @@ void ProcessBullet9(int i)
 		}
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		bullet[i].exist=false;
@@ -818,14 +754,13 @@ void ProcessBullet9(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
 void ProcessBullet255(int i)
 {
-	if (!bullet[i].exist||bullet[i].bullettype!=255)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!bullet[i].exist||bullet[i].bullettype!=255)return;
 	if (!DisablePlayer)
 	{
 		bullet[i].bulletspeed=10;
@@ -835,20 +770,17 @@ void ProcessBullet255(int i)
 		bullet[i].dist=sqrt(bullet[i].dist);
 		if (LOWFPS)
 		{
-			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
 		}
 		else
 		{
-			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
-		//bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;//Process bullet's x coor.
-		//bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;//Process bullet's y coor.
 	}
-	double dis=GetDist(bullet[i].bulletpos,playerpos);//Get distance between player and bullet
+	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		bullet[i].exist=false;
 		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
@@ -861,12 +793,11 @@ void ProcessBullet255(int i)
 	}
 	else
 	{
-		//bullet[i].bulletspr->RenderEx(bullet[i].bulletpos.x,bullet[i].bulletpos.y,0,0.5,0);
 		bulletspr[grey]->SetColor(0x80FFFFFF);
 		bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+6,bullet[i].bulletpos.y+6,0,0.5,0);
 	}
 }
-int CreateTower1(double x,double y,int timer,double bs,double offset=0,bool eff=false)//This returns the created tower number.
+int CreateTower1(double x,double y,int timer,double bs,double offset=0,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -889,15 +820,12 @@ int CreateTower1(double x,double y,int timer,double bs,double offset=0,bool eff=
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,0,136,44,44);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	tower[i].offset=offset;
-	//tower[i].towerspr->SetHotSpot(22,22);
 	return i;
 }
-int CreateTower2(double x,double y,int timer,double bs,bool eff=false)//This returns the created tower number.
+int CreateTower2(double x,double y,int timer,double bs,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -917,14 +845,11 @@ int CreateTower2(double x,double y,int timer,double bs,bool eff=false)//This ret
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
-	//tower[i].towerspr->SetHotSpot(22,22);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
-int CreateTower3(double x,double y,int timer,double bs,int t3t,bool eff=false)//This returns the created tower number.
+int CreateTower3(double x,double y,int timer,double bs,int t3t,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -945,14 +870,11 @@ int CreateTower3(double x,double y,int timer,double bs,int t3t,bool eff=false)//
 	tower[i].t3t=t3t;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
-	//tower[i].towerspr->SetHotSpot(22,22);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
-int CreateTower3_fixeddir(double x,double y,int timer,double bs,double rad,bool eff=false)//This returns the created tower number.
+int CreateTower3_fixeddir(double x,double y,int timer,double bs,double rad,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -973,14 +895,11 @@ int CreateTower3_fixeddir(double x,double y,int timer,double bs,double rad,bool 
 	tower[i].offset=rad;tower[i].t3t=999;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,0,48,44,44);
-	//tower[i].towerspr->SetHotSpot(22,22);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
-int CreateTower4(double x,double y,int timer,double bs,int yelbrk=0,bool eff=false)//This returns the created tower number.
+int CreateTower4(double x,double y,int timer,double bs,int yelbrk=0,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -1003,15 +922,12 @@ int CreateTower4(double x,double y,int timer,double bs,int yelbrk=0,bool eff=fal
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,180,24,44,44);
-	//tower[i].towerspr->SetHotSpot(22,22);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].yelbrk=yelbrk;
 	tower[i].effect=eff;
 	return i;
 }
-int CreateTower5(double x,double y,int timer,double bs,bool eff=false)//This returns the created tower number.
+int CreateTower5(double x,double y,int timer,double bs,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -1034,14 +950,11 @@ int CreateTower5(double x,double y,int timer,double bs,bool eff=false)//This ret
 	tower[i].bulletspeed=bs;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,48,24,44,44);
-	//tower[i].towerspr->SetHotSpot(22,22);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
-int CreateTower6(double x,double y,int timer,double bs,int redexplo,int exp1=8,int exp2=12,bool eff=false)//This returns the created tower number.
+int CreateTower6(double x,double y,int timer,double bs,int redexplo,int exp1=8,int exp2=12,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -1066,14 +979,11 @@ int CreateTower6(double x,double y,int timer,double bs,int redexplo,int exp1=8,i
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
 	tower[i].exp1=exp1;tower[i].exp2=exp2;
-	//tower[i].towerspr=new hgeSprite(SprSheet,92,24,44,44);
-	//tower[i].towerspr->SetHotSpot(22,22);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
 	return i;
 }
-int CreateTower7(double x,double y,int timer,double bs,int redexplo,bool eff=false)//This returns the created tower number.
+int CreateTower7(double x,double y,int timer,double bs,int redexplo,bool eff=false)
 {
 	int i;
 	if (towcnt==0)
@@ -1097,9 +1007,6 @@ int CreateTower7(double x,double y,int timer,double bs,int redexplo,bool eff=fal
 	tower[i].redexplo=redexplo;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,136,24,44,44);
-	//tower[i].towerspr->SetHotSpot(22,22);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].whicnt=whicnt;
 	tower[i].effect=eff;
@@ -1131,11 +1038,8 @@ int CreateTower8(double x,double y,int timer,double bs,int timer2,int scnt,bool 
 	tower[i].shotcount=tower[i].curshotcount=scnt;
 	tower[i].dblstate=false;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,0,92,44,44);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
-	//tower[i].towerspr->SetHotSpot(22,22);
 	return i;
 }
 int CreateTower9(double x,double y,int timer,double bs,int explo,int cnt,int brk,bool eff=false)
@@ -1164,11 +1068,8 @@ int CreateTower9(double x,double y,int timer,double bs,int explo,int cnt,int brk
 	tower[i].yelbrk=brk;
 	tower[i].towertimer=tower[i].curtimer=timer;
 	tower[i].towerpos.x=x,tower[i].towerpos.y=y;
-	//tower[i].towerspr=new hgeSprite(SprSheet,0,180,44,44);
-	//tower[i].towerspr->SetColor(0x80FFFFFF);
 	tower[i].RendColor=0x80FFFFFF;
 	tower[i].effect=eff;
-	//tower[i].towerspr->SetHotSpot(22,22);
 	return i;
 }
 void ProcessTower1()
@@ -1176,7 +1077,6 @@ void ProcessTower1()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=1)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[green]->SetColor(tower[i].RendColor);
 		towerspr[green]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1202,7 +1102,6 @@ void ProcessTower2()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=2)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[blue]->SetColor(tower[i].RendColor);
 		towerspr[blue]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1225,7 +1124,6 @@ void ProcessTower3()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=3)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[blue]->SetColor(tower[i].RendColor);
 		towerspr[blue]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1288,7 +1186,6 @@ void ProcessTower4()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=4)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[yellow]->SetColor(tower[i].RendColor);
 		towerspr[yellow]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1308,7 +1205,6 @@ void ProcessTower5()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=5)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[purple]->SetColor(tower[i].RendColor);
 		towerspr[purple]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1328,7 +1224,6 @@ void ProcessTower6()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=6)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[red]->SetColor(tower[i].RendColor);
 		towerspr[red]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1348,7 +1243,6 @@ void ProcessTower7()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=7)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[white]->SetColor(tower[i].RendColor);
 		towerspr[white]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1368,7 +1262,6 @@ void ProcessTower8()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=8)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[dblue]->SetColor(tower[i].RendColor);
 		towerspr[dblue]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1429,7 +1322,6 @@ void ProcessTower9()
 	for (int i=1;i<=towcnt;++i)
 	{
 		if (!tower[i].exist||tower[i].towertype!=9)continue;
-		//tower[i].towerspr->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		towerspr[orange]->SetColor(tower[i].RendColor);
 		towerspr[orange]->RenderEx(tower[i].towerpos.x+7.2,tower[i].towerpos.y+7.2,0,0.545);
 		if (DisableAllTower)continue;
@@ -1441,7 +1333,6 @@ void ProcessTower9()
 		{
 			tower[i].curtimer=tower[i].towertimer;
 			CreateBullet9(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].redexplo,tower[i].whicnt,tower[i].yelbrk,tower[i].effect);
-			//hge->Effect_PlayEx(snd,100,(tower[i].towerpos.x-400)/4);
 		}
 	}
 }
@@ -1592,39 +1483,21 @@ void CreateBullet2(Bullet &Tar,double x,double y,double bs,double rad,bool eff=f
 	Tar.scale=1;
 	Tar.scollable=true;
 	Tar.bulletaccel=0;
-	//Tar.bulletspr=new hgeSprite(SprSheet,0,0,24,24);
-	//Tar.bulletspr->SetColor(0x80FFFFFF);
-	//Tar.bulletspr->SetHotSpot(12,12);
 }
 void ProcessBullet2(Bullet &xbul,bool colchk=true)
 {
 	if (xbul.bulletspeed<xbul.limv)xbul.bulletspeed+=xbul.bulletaccel;
-	if (!xbul.exist||xbul.bullettype!=2)return;//If this bullet doesn't exist or is not of this type, do not render it.
+	if (!xbul.exist||xbul.bullettype!=2)return;
 	if (!xbul.dist)xbul.dist=1;
-	/*if (LOWFPS)
-		xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20*17,//Process bullet's x coor.
-		xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20*17;//Process bullet's y coor.
-	else
-		xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20,//Process bullet's x coor.
-		xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20;//Process bullet's y coor.*/
 	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20*(1000.0f/hge->Timer_GetFPS());
 	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20*(1000.0f/hge->Timer_GetFPS());
 	double dis=GetDist(xbul.bulletpos,playerpos);
-	/*if (xbul.bulletpos.x<=-100||xbul.bulletpos.x>=900||xbul.bulletpos.y<=-100||xbul.bulletpos.y>=700)
-	{
-		xbul.exist=false;
-		xbul.bulletpos.x=xbul.bulletpos.y=0;
-		xbul.bulletdir.x=xbul.bulletdir.y=0;
-		xbul.bullettype=0;
-	}*/
 	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&colchk)
-	//If collision is detected or the bullet flys out of screen, delete it.
 	{
 		++coll,scminus+=10000,Mult_BatClear();
 		return;
 	}
 	if (dis<=16&&xbul.scollable)++semicoll,++dsmc,xbul.scollable=false,SCEffect_Attatch();
-	//xbul.bulletspr->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.5);
 	if (colchk)bulletspr[xbul.alterColor]->RenderEx(xbul.bulletpos.x+7.2,xbul.bulletpos.y+7.2,0,0.6*xbul.scale);
 }
 //"Noname"
@@ -1771,7 +1644,6 @@ struct SimpleBullet
 		else RenderAlter(vector2d(bulletpos.x+7.2,bulletpos.y+7.2),aC,aC2,rot,0.6);
 		double dis=GetDist(bulletpos,playerpos);
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&!lastcoll)
-		//If collision is detected or the bullet flys out of screen, delete it.
 		{
 			++coll,scminus+=10000;lastcoll=1;Mult_BatClear();
 			return true;//Collision

@@ -15,6 +15,9 @@ The real changelog is here:
 New level "interference" (it's another small class "SimpleThing").
 New background interface, use background pictures easily.
 Minor code cleanups.
+Removed more useless comments, my code is still hard to comprehend,
+though.
+Don't copyleft, it's radical.
 
 0.7.1-6_PR (b69)
 Finish some new levels ("Great Circle" bring back & "rainbow

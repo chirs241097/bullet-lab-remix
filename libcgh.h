@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Chrisoft Game Helper header
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 //libcgh version 0003
 //^Modify that when big change is made^
 #include <hge.h>

@@ -1,6 +1,6 @@
 //Chrisoft Bullet Lab Remix HGE
 //Chrisoft Game Helper Extras implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 #include "libcgh.h"
 #include <cmath>
 #include <cstring>

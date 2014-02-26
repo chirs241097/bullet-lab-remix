@@ -1,21 +1,7 @@
 //Chrisoft Bullet Lab Remix HGE
 //Level Implementations
-//"Copyleft" Chrisoft 2013
+//Copyright Chrisoft 2014
 //Now this is being fully rewritten..
-/*
-Planning Level Order:
-No		  Name								Music			Length		Frozen?
-Level -1: Over the Horizon					BLR2_TR08.ogg
-Level  1: Down by the Bank					BLR2_TR01.ogg	3   Minutes	F*
-Level  2: Pentagon Mystery					BLR2_TR02.ogg	3.5 Minutes	F*
-Level  3: Missing Colour					BLR2_TR03.ogg	2.5 Minutes	F*
-Level  4: Reunion							BLR2_TR04.ogg	4.5 Minutes	F*
-Level  5: Crazy Autumn						BLR2_TR05.ogg	5+2/3 Min	F*
-Level  6: Peaceful(?) Winter				BLR2_TR06.ogg	6.5 Minutes F*
-Level  7: Rainbow of Spring					BLR2_TR07.ogg
-Other Music:
-About Scene									BLR2_TR09.ogg
-*/
 /*
 How to write a classic level/part...
 Classic parts need only one procedure, like this.
@@ -2373,7 +2359,6 @@ void Level7Part0()
 Level 7-Rainbow of Spring\n\
 Will there be a clearer day?\
 ");
-		//IfCallLevel=false;
 		frameleft=TenSeconds;++part;
 	}
 }
