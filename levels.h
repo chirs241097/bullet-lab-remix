@@ -488,7 +488,7 @@ public:
 	}
 	void stage1()
 	{
-		++cf;
+		cf+=(LOWFPS?17:1);
 		rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
 		for (int i=0;i<cnt;++i)
 		if (Bul[i]->bullettype==8)
@@ -500,10 +500,18 @@ public:
 		}
 		if (cf>delay)
 		{
+			cf=delay;
+			rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
 			for (int i=0;i<cnt;++i)
 			if (Bul[i]->bullettype==8)
-			Bul[i]->bulletspeed=2,Bul[i]->redir(vector2d(400,300)),
-			Bul[i]->bulletdir=vector2d(-Bul[i]->bulletdir.x,-Bul[i]->bulletdir.y);
+			{
+				if (i&1)
+				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
+				else
+				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
+				Bul[i]->bulletspeed=2,Bul[i]->redir(vector2d(400,300)),
+				Bul[i]->bulletdir=vector2d(-Bul[i]->bulletdir.x,-Bul[i]->bulletdir.y);
+			}
 			stage=2;
 		}
 	}
@@ -599,7 +607,7 @@ void Level3Part5()
 		IfShowTip=false;
 		FadeTip=false;
 		Current_Position=2;
-		All2pnt();
+		All2pnt();BTarg.TargHide();
 		ShowTip("Well, here is a...");
 		return;
 	}

@@ -15,6 +15,8 @@ The real changelog is here:
 New level "interference" (it's another small class "SimpleThing").
 New level "diffraction" (yet another dull class).
 New background interface, use background pictures easily.
+Fix a small glitch in Level3Part3-4. This level won't run correctly
+under Low FPS Mode.
 Minor code cleanups.
 Removed more useless comments, my code is still hard to comprehend,
 though.
