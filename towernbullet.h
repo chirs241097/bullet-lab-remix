@@ -362,7 +362,7 @@ void ProcessBullet2(int i)
 		bullet[i].bullettype=0;
 		return;
 	}
-	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
+	if (bullet[i].scale<1.2&&dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
 	{
 		++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;
 		if(!bullet[i].inv)
@@ -1895,4 +1895,99 @@ public:
 			}
 		}
 	}
+	void toPoint()
+	{
+		for(int i=0;i<cnt;++i)
+		CreateBullet255(b[i].bulletpos.x,b[i].bulletpos.y,10);
+	}
+};
+class diffCreator
+{
+private:
+	bool active;
+	double range;
+	vector2d center;
+	Bullet* C;
+	Bullet* target[200];
+	bool done[800][600];
+	int cnt;
+	bool test(vector2d a)
+	{
+		for(int i=0;i<cnt;++i)
+		if(GetDist(a,target[i]->bulletpos)<16)return false;
+		return true;
+	}
+public:
+	void init(vector2d _ctr)
+	{
+		active=true;
+		cnt=0;range=0;
+		center=_ctr;
+		C=&bullet[CreateBullet2(center.x,center.y,0,0,true)];
+		C->alterColor=red;
+	}
+	bool isActive(){return active;}
+	void update()
+	{
+		range+=hge->Timer_GetDelta()*400;
+		vector2d a;bool all=true;
+		for(a=vector2d(center.x-20,center.y);a.x>-25;a.x-=20)
+		if(GetDist(a,center)<=range){
+		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,0,true)];}
+		else all=false;
+		for(a=vector2d(center.x+20,center.y);a.x<825;a.x+=20)
+		if(GetDist(a,center)<=range){
+		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi,true)];}
+		else all=false;
+		for(a=vector2d(center.x,center.y-20);a.y>-25;a.y-=20)
+		if(GetDist(a,center)<=range){
+		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi/2,true)];}
+		else all=false;
+		for(a=vector2d(center.x,center.y+20);a.y<625;a.y+=20)
+		if(GetDist(a,center)<=range){
+		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,-pi/2,true)];}
+		else all=false;
+		a=center;
+#define _bat \
+	target[cnt-1]->redir(center),\
+	target[cnt-1]->bulletdir.x=-target[cnt-1]->bulletdir.x,\
+	target[cnt-1]->bulletdir.y=-target[cnt-1]->bulletdir.y
+		for(int i=1;i<=5;++i)
+		for(int j=1;j<=6-i;++j)
+		if(GetDist(vector2d(a.x+i*20,a.y+j*20),center)<=range){
+		if(test(vector2d(a.x+i*20,a.y+j*20)))
+		target[cnt++]=&bullet[CreateBullet2(a.x+i*20,a.y+j*20,0,0,true)],_bat;}
+		else all=false;
+		for(int i=1;i<=5;++i)
+		for(int j=1;j<=6-i;++j)
+		if(GetDist(vector2d(a.x-i*20,a.y+j*20),center)<=range){
+		if(test(vector2d(a.x-i*20,a.y+j*20)))
+		target[cnt++]=&bullet[CreateBullet2(a.x-i*20,a.y+j*20,0,0,true)],_bat;}
+		else all=false;
+		for(int i=1;i<=5;++i)
+		for(int j=1;j<=6-i;++j)
+		if(GetDist(vector2d(a.x+i*20,a.y-j*20),center)<=range){
+		if(test(vector2d(a.x+i*20,a.y-j*20)))
+		target[cnt++]=&bullet[CreateBullet2(a.x+i*20,a.y-j*20,0,0,true)],_bat;}
+		else all=false;
+		for(int i=1;i<=5;++i)
+		for(int j=1;j<=6-i;++j)
+		if(GetDist(vector2d(a.x-i*20,a.y-j*20),center)<=range){
+		if(test(vector2d(a.x-i*20,a.y-j*20)))
+		target[cnt++]=&bullet[CreateBullet2(a.x-i*20,a.y-j*20,0,0,true)],_bat;}
+		else all=false;
+#undef _bat
+		if(all)
+		{
+			BulletEffect_Death(*C,0x80FF3333);
+			C->exist=false;
+			for(int i=0;i<cnt;++i)
+			{
+				target[i]->bulletspeed=-0.5;
+				target[i]->bulletaccel=0.0005;
+				target[i]->limv=3;
+			}
+			active=false;
+		}
+	};
 };

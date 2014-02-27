@@ -102,6 +102,7 @@ struct Bullet
 		bulletdir.y=bulletpos.y-targ.y;
 		dist=bulletdir.x*bulletdir.x+bulletdir.y*bulletdir.y;
 		dist=sqrt(dist);
+		bulletdir.x/=dist;bulletdir.y/=dist;dist=1;
 	}
 	void setdir(double rad)
 	{

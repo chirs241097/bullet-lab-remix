@@ -446,6 +446,8 @@ void CallLevels()
 	if (level==7&&part==20)Level7Part20();
 	if (level==7&&part==21)Level7Part21();
 	if (level==7&&part==22)Level7Part22();
+	if (level==7&&part==23)Level7Part23();
+	if (level==7&&part==24)Level7Part24();
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)level=3,part=0;
 	if (level==3&&part==7)level=4,part=0;

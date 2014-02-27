@@ -13,10 +13,16 @@ However it wouldn't be appropriate to put three new levels into one
 build...
 The real changelog is here:
 New level "interference" (it's another small class "SimpleThing").
+New level "diffraction" (yet another dull class).
 New background interface, use background pictures easily.
 Minor code cleanups.
 Removed more useless comments, my code is still hard to comprehend,
 though.
+Small interface and behaviour changes:
+-If a bullet is effect-attatched and the effect is running, it won't
+die.
+-Bullet::redir now always make dist=1, for some bullet processing
+doesn't use dist now.
 Don't copyleft, it's radical.
 
 0.7.1-6_PR (b69)

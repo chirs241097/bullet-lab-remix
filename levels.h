@@ -2398,7 +2398,7 @@ void Level7Part2()
 		for (int i=1;i<=times;++i)DBGColor=ColorTransfer(DBGColor,0xFF0B0916);
 		if (DBGColor==0xFF0B0916)
 		{
-			if(bgbrk==2)bgbrk=3,bgdbbrk=0.075;
+			if(bgbrk==2)bgbrk=3,bgdbbrk=0.06;
 			if(bgbrk==5)bgbrk=0,bgdbbrk=rand()%15+5;
 		}
 	}
@@ -3001,7 +3001,7 @@ void Level7Part20()
 		}
 	}
 }
-SimpleThing a,b;
+SimpleThing aa,bb;
 void Level7Part21()
 {
 	frameleft=AMinute*2;clrtime=2;towcnt=0;
@@ -3015,15 +3015,74 @@ void Level7Part21()
 	}
 	if (Current_Position==1)
 	{
-		++part;All2pnt();skyactive=false;
+		++part;All2pnt();skyactive=false;DBGColor=0xFF000000;
 		binter.Init("./Resources/b_inter.png",PicBack::Centered,0x80);
-		binter.SetFadeIn();a.Init(vector2d(260,292));b.Init(vector2d(523,292));
+		binter.SetFadeIn();aa.Init(vector2d(260,292));bb.Init(vector2d(523,292));
 	}
 }
 void Level7Part22()
 {
 //260,292;523,292
-	a.Update(true);b.Update(false);
+	aa.Update(true);bb.Update(false);
+}
+diffCreator dfc[200];
+void Level7Part23()
+{
+	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		aa.toPoint();bb.toPoint();
+		Current_Position=2;
+		ShowTip("Diffraction(fake)");
+	}
+	if (Current_Position==1)
+	{
+		++part;memset(dfc,0,sizeof(dfc));
+		avabrk=2.0f;avacurbrk=0;
+	}
+}
+void Level7Part24()
+{
+	avabrk=1.0f+frameleft/(double)AMinute;
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+		for(int i=0;i<200;++i)
+		if (!dfc[i].isActive())
+		{
+			if(rand()%100>75)
+			{
+				if(rand()%100>49)
+				{
+					vector2d pos=vector2d(playerpos.x,rand()%600);
+					while (GetDist(pos,playerpos)<100)
+					pos=vector2d(playerpos.x,rand()%600);
+					dfc[i].init(pos);
+				}
+				else
+				{
+					vector2d pos=vector2d(rand()%800,playerpos.y);
+					while (GetDist(pos,playerpos)<100)
+					pos=vector2d(rand()%800,playerpos.y);
+					dfc[i].init(pos);
+				}
+			}
+			else
+			{
+				vector2d pos=vector2d(rand()%800,rand()%600);
+				while (GetDist(pos,playerpos)<100)
+				pos=vector2d(rand()%800,rand()%600);
+				dfc[i].init(pos);
+			}
+			break;
+		}
+		avacurbrk=0;
+	}
+	for(int i=0;i<200;++i)
+	if(dfc[i].isActive())dfc[i].update();
 }
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
 /*
