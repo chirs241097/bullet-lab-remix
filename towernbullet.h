@@ -1909,12 +1909,24 @@ private:
 	vector2d center;
 	Bullet* C;
 	Bullet* target[200];
-	bool done[800][600];
 	int cnt;
+	TColors rbGetColor(int a)
+	{
+		switch (a)
+		{
+			case 2:return orange;
+			case 3:return yellow;
+			case 4:return green;
+			case 5:return blue;
+			case 6:return dblue;
+			case 7:return purple;
+			default:return circle;
+		}
+	}
 	bool test(vector2d a)
 	{
 		for(int i=0;i<cnt;++i)
-		if(GetDist(a,target[i]->bulletpos)<16)return false;
+		if(GetDist(a,target[i]->bulletpos)<9)return false;
 		return true;
 	}
 public:
@@ -1931,50 +1943,72 @@ public:
 	{
 		range+=hge->Timer_GetDelta()*400;
 		vector2d a;bool all=true;
-		for(a=vector2d(center.x-20,center.y);a.x>-25;a.x-=20)
-		if(GetDist(a,center)<=range){
-		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,0,true)];}
+		for(a=vector2d(center.x-15,center.y);a.x>-25;a.x-=15)
+		if(GetDist(a,center)<=range)
+		{
+			if(test(a))
+			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,0,true)],
+			target[cnt-1]->inv=true,
+			target[cnt-1]->alterColor=red;
+		}
 		else all=false;
-		for(a=vector2d(center.x+20,center.y);a.x<825;a.x+=20)
-		if(GetDist(a,center)<=range){
-		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi,true)];}
+		for(a=vector2d(center.x+15,center.y);a.x<825;a.x+=15)
+		if(GetDist(a,center)<=range)
+		{
+			if(test(a))
+			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi,true)],
+			target[cnt-1]->inv=true,
+			target[cnt-1]->alterColor=red;
+		}
 		else all=false;
-		for(a=vector2d(center.x,center.y-20);a.y>-25;a.y-=20)
-		if(GetDist(a,center)<=range){
-		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi/2,true)];}
+		for(a=vector2d(center.x,center.y-15);a.y>-25;a.y-=15)
+		if(GetDist(a,center)<=range)
+		{
+			if(test(a))
+			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi/2,true)],
+			target[cnt-1]->inv=true,
+			target[cnt-1]->alterColor=red;
+		}
 		else all=false;
-		for(a=vector2d(center.x,center.y+20);a.y<625;a.y+=20)
-		if(GetDist(a,center)<=range){
-		if(test(a))target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,-pi/2,true)];}
+		for(a=vector2d(center.x,center.y+15);a.y<625;a.y+=15)
+		if(GetDist(a,center)<=range)
+		{
+			if(test(a))
+			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,-pi/2,true)],
+			target[cnt-1]->inv=true,
+			target[cnt-1]->alterColor=red;
+		}
 		else all=false;
 		a=center;
 #define _bat \
 	target[cnt-1]->redir(center),\
 	target[cnt-1]->bulletdir.x=-target[cnt-1]->bulletdir.x,\
-	target[cnt-1]->bulletdir.y=-target[cnt-1]->bulletdir.y
-		for(int i=1;i<=5;++i)
-		for(int j=1;j<=6-i;++j)
-		if(GetDist(vector2d(a.x+i*20,a.y+j*20),center)<=range){
-		if(test(vector2d(a.x+i*20,a.y+j*20)))
-		target[cnt++]=&bullet[CreateBullet2(a.x+i*20,a.y+j*20,0,0,true)],_bat;}
+	target[cnt-1]->bulletdir.y=-target[cnt-1]->bulletdir.y,\
+	target[cnt-1]->inv=true,\
+	target[cnt-1]->alterColor=rbGetColor(i+j);
+		for(int i=1;i<=6;++i)
+		for(int j=1;j<=7-i;++j)
+		if(GetDist(vector2d(a.x+i*15,a.y+j*15),center)<=range){
+		if(test(vector2d(a.x+i*15,a.y+j*15)))
+		target[cnt++]=&bullet[CreateBullet2(a.x+i*15,a.y+j*15,0,0,true)],_bat;}
 		else all=false;
-		for(int i=1;i<=5;++i)
-		for(int j=1;j<=6-i;++j)
-		if(GetDist(vector2d(a.x-i*20,a.y+j*20),center)<=range){
-		if(test(vector2d(a.x-i*20,a.y+j*20)))
-		target[cnt++]=&bullet[CreateBullet2(a.x-i*20,a.y+j*20,0,0,true)],_bat;}
+		for(int i=1;i<=6;++i)
+		for(int j=1;j<=7-i;++j)
+		if(GetDist(vector2d(a.x-i*15,a.y+j*15),center)<=range){
+		if(test(vector2d(a.x-i*15,a.y+j*15)))
+		target[cnt++]=&bullet[CreateBullet2(a.x-i*15,a.y+j*15,0,0,true)],_bat;}
 		else all=false;
-		for(int i=1;i<=5;++i)
-		for(int j=1;j<=6-i;++j)
-		if(GetDist(vector2d(a.x+i*20,a.y-j*20),center)<=range){
-		if(test(vector2d(a.x+i*20,a.y-j*20)))
-		target[cnt++]=&bullet[CreateBullet2(a.x+i*20,a.y-j*20,0,0,true)],_bat;}
+		for(int i=1;i<=6;++i)
+		for(int j=1;j<=7-i;++j)
+		if(GetDist(vector2d(a.x+i*15,a.y-j*15),center)<=range){
+		if(test(vector2d(a.x+i*15,a.y-j*15)))
+		target[cnt++]=&bullet[CreateBullet2(a.x+i*15,a.y-j*15,0,0,true)],_bat;}
 		else all=false;
-		for(int i=1;i<=5;++i)
-		for(int j=1;j<=6-i;++j)
-		if(GetDist(vector2d(a.x-i*20,a.y-j*20),center)<=range){
-		if(test(vector2d(a.x-i*20,a.y-j*20)))
-		target[cnt++]=&bullet[CreateBullet2(a.x-i*20,a.y-j*20,0,0,true)],_bat;}
+		for(int i=1;i<=6;++i)
+		for(int j=1;j<=7-i;++j)
+		if(GetDist(vector2d(a.x-i*15,a.y-j*15),center)<=range){
+		if(test(vector2d(a.x-i*15,a.y-j*15)))
+		target[cnt++]=&bullet[CreateBullet2(a.x-i*15,a.y-j*15,0,0,true)],_bat;}
 		else all=false;
 #undef _bat
 		if(all)
@@ -1986,6 +2020,8 @@ public:
 				target[i]->bulletspeed=-0.5;
 				target[i]->bulletaccel=0.0005;
 				target[i]->limv=3;
+				target[i]->inv=false;
+				target[i]->collable=true;
 			}
 			active=false;
 		}

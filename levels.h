@@ -3056,7 +3056,7 @@ void Level7Part24()
 {
 	avabrk=1.0f+frameleft/(double)AMinute;
 	avacurbrk+=hge->Timer_GetDelta();
-	if(avacurbrk>avabrk)
+	if(avacurbrk>avabrk&&frameleft>=TenSeconds/5)
 	{
 		for(int i=0;i<200;++i)
 		if (!dfc[i].isActive())
