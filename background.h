@@ -261,6 +261,7 @@ public:
 	}
 	void SetSpeed(float _speed){speed=_speed;}
 	void SetSkyA(float _skya){skya=_skya;}
+	void SetTime(float _timet){timet=_timet;}
 	void SkySetFadeIn(float _starta=0.0f,float _lima=1.0f)
 	{
 		skya=_starta;skylima=_lima;
@@ -484,12 +485,10 @@ private:
 	void DoFadeOut()
 	{
 		if (LOWFPS)fadebreak+=17;else ++fadebreak;
-		if (fadebreak>30)fadebreak=0;else return;
-		if (LOWFPS)
-			if (alpha<0x20)alpha=0;else alpha-=0x20;
-		else
-			if (alpha<0x2)alpha=0;else alpha-=0x2;
-		if (!alpha)onfadeout=0;
+		if (fadebreak>17)fadebreak=0;else return;
+		if (LOWFPS)if (alpha<0x20)alpha=0;else alpha-=0x20;
+		else if (alpha<0x2)alpha=0;else alpha-=0x2;
+		if (!alpha)onfadeout=false;
 	}
 	void RenderCenterAt(vector2d a)
 	{
@@ -506,6 +505,7 @@ public:
 	void Init(const char *tx,arMode _Mode,DWORD _alim)
 	{
 		quad.tex=hge->Texture_Load(tx);alim=_alim;
+		Mode=_Mode;
 		quad.v[0].tx=0,quad.v[0].ty=0;
 		quad.v[1].tx=1,quad.v[1].ty=0;
 		quad.v[2].tx=1,quad.v[2].ty=1;
@@ -548,7 +548,7 @@ public:
 		alpha=alim;
 		onfadeout=true;
 	}
-}binter;
+}binter,bdiff;
 DWORD ColorTransfer(DWORD a,DWORD t)
 {
 	int r=GETR(a),g=GETG(a),b=GETB(a),sa=GETA(a);

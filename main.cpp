@@ -567,6 +567,7 @@ bool FrameFunc()
 	//Render towers, bullets and player.
 		if (Leaves.IsActive())Leaves.Update();
 		if (binter.active())binter.Update();
+		if (bdiff.active())bdiff.Update();
 		if (LE_Active||Head){if (!Head)Tail=Head=new Leaf_Anim(),Head->init(990);Head->Process();}
 		shots=0;
 		dsmc=0;

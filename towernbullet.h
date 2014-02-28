@@ -1903,13 +1903,15 @@ public:
 };
 class diffCreator
 {
-private:
+protected:
 	bool active;
 	double range;
+	int cnt;
 	vector2d center;
 	Bullet* C;
 	Bullet* target[200];
-	int cnt;
+	vector2d created[200];
+private:
 	TColors rbGetColor(int a)
 	{
 		switch (a)
@@ -1926,7 +1928,7 @@ private:
 	bool test(vector2d a)
 	{
 		for(int i=0;i<cnt;++i)
-		if(GetDist(a,target[i]->bulletpos)<9)return false;
+		if(GetDist(a,created[i])<12)return false;
 		return true;
 	}
 public:
@@ -1948,6 +1950,7 @@ public:
 		{
 			if(test(a))
 			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,0,true)],
+			created[cnt-1]=vector2d(a.x,a.y),
 			target[cnt-1]->inv=true,
 			target[cnt-1]->alterColor=red;
 		}
@@ -1957,6 +1960,7 @@ public:
 		{
 			if(test(a))
 			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi,true)],
+			created[cnt-1]=vector2d(a.x,a.y),
 			target[cnt-1]->inv=true,
 			target[cnt-1]->alterColor=red;
 		}
@@ -1966,6 +1970,7 @@ public:
 		{
 			if(test(a))
 			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi/2,true)],
+			created[cnt-1]=vector2d(a.x,a.y),
 			target[cnt-1]->inv=true,
 			target[cnt-1]->alterColor=red;
 		}
@@ -1975,6 +1980,7 @@ public:
 		{
 			if(test(a))
 			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,-pi/2,true)],
+			created[cnt-1]=vector2d(a.x,a.y),
 			target[cnt-1]->inv=true,
 			target[cnt-1]->alterColor=red;
 		}
@@ -1982,6 +1988,7 @@ public:
 		a=center;
 #define _bat \
 	target[cnt-1]->redir(center),\
+	created[cnt-1]=target[cnt-1]->bulletpos,\
 	target[cnt-1]->bulletdir.x=-target[cnt-1]->bulletdir.x,\
 	target[cnt-1]->bulletdir.y=-target[cnt-1]->bulletdir.y,\
 	target[cnt-1]->inv=true,\

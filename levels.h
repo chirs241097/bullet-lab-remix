@@ -2463,7 +2463,8 @@ void Level7Part3()
 		DBGColor=ColorTransfer(DBGColor,0xFFFFFFFF);
 		else
 		for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFFFFFFFF);
-		if (DBGColor==0xFFFFFFFF)skystp=skyactive=true,sky.SkySetFadeIn(),sky.SetSpeed(0);
+		if (DBGColor==0xFFFFFFFF)skystp=skyactive=true,sky.SkySetFadeIn(),sky.SetSpeed(0.1);
+		sky.SetTime(9);
 	}
 	else
 	{
@@ -2612,16 +2613,182 @@ void Level7Part7()
 		}
 	}
 }
-//Rearrange needed since here, see LEVELS.txt
+double sntang;
+void Level7Part8()
+{
+	frameleft=AMinute;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Rainbow!");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();avabrk=0.03f;avacurbrk=1.0f;sntang=-pi/2;
+	}
+}
+void rainbowCreator(double rl,double rr,double rad,TColors col,double speed,bool invi=false)
+{
+	double r=rand()%((int)(rr-rl)*10000)/10000.0f+rl;
+	int pnt=CreateBullet2(900+cos(rad)*r,700+sin(rad)*r,speed,rand()/32767.0f,true,invi);
+	bullet[pnt].alterColor=col;
+}
+void Level7Part9()
+{
+	//(600,600)->(250,600)
+	if (sntang>-pi)
+	{
+		avacurbrk+=hge->Timer_GetDelta();
+		if (avacurbrk>avabrk)
+		{
+			sntang-=pi/180;avacurbrk=0;
+			for(int i=0;i<6;++i)rainbowCreator(660,600,sntang,red,0,1);
+			for(int i=0;i<6;++i)rainbowCreator(610,550,sntang,orange,0,1);
+			for(int i=0;i<6;++i)rainbowCreator(560,500,sntang,yellow,0,1);
+			for(int i=0;i<6;++i)rainbowCreator(510,450,sntang,green,0,1);
+			for(int i=0;i<6;++i)rainbowCreator(460,410,sntang,blue,0,1);
+			for(int i=0;i<6;++i)rainbowCreator(420,360,sntang,dblue,0,1);
+			for(int i=0;i<6;++i)rainbowCreator(365,310,sntang,purple,0,1);
+		}
+	}
+	else
+	{
+		avabrk=0.35+(frameleft/(double)AMinute)*0.4f;
+		avacurbrk+=hge->Timer_GetDelta();
+		if (avacurbrk>avabrk)
+		{
+			avacurbrk=0;
+			double spd=((AMinute-frameleft)/(double)AMinute)+1;
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			rainbowCreator(660,600,sntang,red,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			rainbowCreator(610,550,sntang,orange,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			rainbowCreator(560,500,sntang,yellow,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			rainbowCreator(510,450,sntang,green,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			rainbowCreator(460,410,sntang,blue,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			rainbowCreator(420,360,sntang,dblue,spd);
+			//======================
+			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
+			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			rainbowCreator(365,310,sntang,purple,spd);
+			sntang=-pi-0.1;
+		}
+	}
+}
+SimpleThing aa,bb;
+void Level7Part10()
+{
+	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Interference(fake)");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();skyactive=false;DBGColor=0xFF000000;
+		binter.Init("./Resources/b_inter.png",PicBack::Centered,0x80);
+		binter.SetFadeIn();aa.Init(vector2d(260,292));bb.Init(vector2d(523,292));
+	}
+}
+void Level7Part11()
+{
+//260,292;523,292
+	aa.Update(true);bb.Update(false);
+}
+diffCreator dfc[200];
+void Level7Part12()
+{
+	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;bulcnt=0;
+		aa.toPoint();bb.toPoint();
+		Current_Position=2;
+		ShowTip("Diffraction(fake)");
+	}
+	if (Current_Position==1)
+	{
+		++part;memset(dfc,0,sizeof(dfc));
+		binter.SetFadeOut();bdiff.Init("./resources/b_diff.png",PicBack::Tiled,0x80);
+		bdiff.SetFadeIn();
+		avabrk=2.0f;avacurbrk=0;
+	}
+}
+void Level7Part13()
+{
+	avabrk=1.0f+frameleft/(double)AMinute;
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk&&frameleft>=TenSeconds/5)
+	{
+		for(int i=0;i<200;++i)
+		if (!dfc[i].isActive())
+		{
+			if(rand()%100>75)
+			{
+				if(rand()%100>49)
+				{
+					vector2d pos=vector2d(playerpos.x,rand()%600);
+					while (GetDist(pos,playerpos)<100)
+					pos=vector2d(playerpos.x,rand()%600);
+					dfc[i].init(pos);
+				}
+				else
+				{
+					vector2d pos=vector2d(rand()%800,playerpos.y);
+					while (GetDist(pos,playerpos)<100)
+					pos=vector2d(rand()%800,playerpos.y);
+					dfc[i].init(pos);
+				}
+			}
+			else
+			{
+				vector2d pos=vector2d(rand()%800,rand()%600);
+				while (GetDist(pos,playerpos)<100)
+				pos=vector2d(rand()%800,rand()%600);
+				dfc[i].init(pos);
+			}
+			break;
+		}
+		avacurbrk=0;
+	}
+	for(int i=0;i<200;++i)
+	if(dfc[i].isActive())dfc[i].update();
+}
 BulletSine bnl[100];
 double ykbrk;
-void Level7Part8()//Photon school
+void Level7Part14()//Photon school
 {
 	memset(bnl,0,sizeof(bnl));
 	frameleft=AMinute;
-	ykbrk=0.5f;++part;
+	ykbrk=0.5f;skyactive=true;bdiff.SetFadeOut();
+	if((DBGColor=ColorTransfer(DBGColor,0x00000000))==0x0)++part;
 }
-void Level7Part9()
+void Level7Part15()
 {
 	ykbrk-=hge->Timer_GetDelta();
 	if (ykbrk<0&&frameleft>TenSeconds/10*3)
@@ -2653,130 +2820,6 @@ void Level7Part9()
 	}
 	for (int i=0;i<100;++i)
 	if (bnl[i].active)bnl[i].Update();
-}
-WOP wop[100];
-void Level7Part10()//Wave of Photon
-{
-	memset(bnl,0,sizeof(bnl));
-	frameleft=AMinute;
-	ykbrk=0.5f;++part;
-}
-void Level7Part11()
-{
-	ykbrk-=hge->Timer_GetDelta();
-	if (ykbrk<0&&frameleft>TenSeconds/10*3)
-	{
-		ykbrk=(double)frameleft/AMinute/2.0f+0.2f;
-		for (int i=0;i<100;++i)
-		if (!wop[i].active)
-		{
-			vector2d a,b;
-			if (rand()%100>49)
-			{
-				if (rand()%100>49)a=vector2d(rand()%780+10,610);else a=vector2d(rand()%780+10,-10);
-			}
-			else
-			{
-				if (rand()%100>49)a=vector2d(-10,rand()%580+10);else a=vector2d(810,rand()%580+10);
-			}
-			if (rand()%100>49)
-			{
-				if (rand()%100>49)b=vector2d(rand()%780+10,610);else b=vector2d(rand()%780+10,-10);
-			}
-			else
-			{
-				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
-			}
-			wop[i].Init(a,b,1+(AMinute-frameleft)/(double)AMinute,0.02);
-			break;
-		}
-	}
-	for (int i=0;i<100;++i)
-	if (wop[i].active)wop[i].Update();
-}
-void Level7Part12()//3 circles
-{
-	frameleft=AMinute;clrtime=2;towcnt=0;
-	DisableAllTower=false;
-	if (IfShowTip)
-	{
-		IfShowTip=false;
-		FadeTip=false;
-		Current_Position=2;
-		ShowTip("It's not really here!");
-	}
-	if (Current_Position==1)
-	{
-		++part;All2pnt();avabrk=1.0f;avacurbrk=0;
-	}
-}
-void L7P13Creator(vector2d p,int cnt,TColors col)
-{
-	for (int i=0;i<cnt;++i)
-	{
-		int pnt=CreateBullet2(p.x,p.y,6,frameleft*pi/AMinute+i*(2*pi/cnt));
-		//                              ^
-		//                              Nowhere can be safe!
-		bullet[pnt].alterColor=col;
-		bullet[pnt].bulletaccel=-0.003;bullet[pnt].limv=((AMinute-frameleft)/(double)AMinute)+1.0f;
-	}
-}
-void Level7Part13()
-{
-	avacurbrk+=hge->Timer_GetDelta();
-	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
-	if(avacurbrk>avabrk)
-	{
-		avacurbrk=0;
-		L7P13Creator(vector2d(400,250),60,red);
-		L7P13Creator(vector2d(350,336.6),60,green);
-		L7P13Creator(vector2d(450,336.6),60,blue);
-	}
-}
-BCircle scircles[200];
-double rspd[200];
-void Level7Part14()//circles
-{
-	frameleft=AMinute;clrtime=2;towcnt=0;
-	DisableAllTower=false;
-	if (IfShowTip)
-	{
-		IfShowTip=false;
-		FadeTip=false;
-		Current_Position=2;
-		ShowTip("??????");
-	}
-	if (Current_Position==1)
-	{
-		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(scircles,0,sizeof(scircles));
-	}
-}
-void Level7Part15()
-{
-	avacurbrk+=hge->Timer_GetDelta();
-	avabrk=0.1+(frameleft/(double)AMinute)*0.4f;
-	if(avacurbrk>avabrk)
-	{
-		avacurbrk=0;
-		for(int i=0;i<200;++i)
-		{
-			if (scircles[i].GetRange()>510||scircles[i].GetRange()<1e-7)
-			{
-				scircles[i].Init(1,(rand()&1?1:-1)*(frameleft<TwentySeconds?0.0003:0.0002),36,vector2d(400,300),(TColors)(rand()%8),(TColors)(rand()%8));
-				rspd[i]=0.575+(frameleft/(double)AMinute)*0.1;break;
-			}
-		}
-	}
-	for(int i=0;i<200;++i)
-	{
-		if (scircles[i].GetRange()>1e-7&&scircles[i].GetRange()<510)
-		{
-			scircles[i].SetRange(scircles[i].GetRange()+(LOWFPS?17:1)*rspd[i]);
-			if (rspd[i]>0.002)rspd[i]-=0.0005*(LOWFPS?17:1);
-			if (rspd[i]<=0.002)rspd[i]=0.002;
-			scircles[i].Update();
-		}
-	}
 }
 double DTCircle;
 BCircle Circles[20];
@@ -2928,8 +2971,89 @@ void Level7Part18()//Great circles-child2
 		Circles[i].Update();
 	}
 }
-double sntang;
-void Level7Part19()
+//Rearrange needed since here, see LEVELS.txt
+WOP wop[100];
+void Level7Part19()//Wave of Photon
+{
+	memset(bnl,0,sizeof(bnl));
+	frameleft=AMinute;
+	ykbrk=0.5f;++part;
+}
+void Level7Part20()
+{
+	ykbrk-=hge->Timer_GetDelta();
+	if (ykbrk<0&&frameleft>TenSeconds/10*3)
+	{
+		ykbrk=(double)frameleft/AMinute/2.0f+0.2f;
+		for (int i=0;i<100;++i)
+		if (!wop[i].active)
+		{
+			vector2d a,b;
+			if (rand()%100>49)
+			{
+				if (rand()%100>49)a=vector2d(rand()%780+10,610);else a=vector2d(rand()%780+10,-10);
+			}
+			else
+			{
+				if (rand()%100>49)a=vector2d(-10,rand()%580+10);else a=vector2d(810,rand()%580+10);
+			}
+			if (rand()%100>49)
+			{
+				if (rand()%100>49)b=vector2d(rand()%780+10,610);else b=vector2d(rand()%780+10,-10);
+			}
+			else
+			{
+				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
+			}
+			wop[i].Init(a,b,1+(AMinute-frameleft)/(double)AMinute,0.02);
+			break;
+		}
+	}
+	for (int i=0;i<100;++i)
+	if (wop[i].active)wop[i].Update();
+}
+void Level7Part21()//3 circles
+{
+	frameleft=AMinute;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("It's not really here!");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();avabrk=1.0f;avacurbrk=0;
+	}
+}
+void L7P13Creator(vector2d p,int cnt,TColors col)
+{
+	for (int i=0;i<cnt;++i)
+	{
+		int pnt=CreateBullet2(p.x,p.y,6,frameleft*pi/AMinute+i*(2*pi/cnt));
+		//                              ^
+		//                              Nowhere can be safe!
+		bullet[pnt].alterColor=col;
+		bullet[pnt].bulletaccel=-0.003;bullet[pnt].limv=((AMinute-frameleft)/(double)AMinute)+1.0f;
+	}
+}
+void Level7Part22()
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
+	if(avacurbrk>avabrk)
+	{
+		avacurbrk=0;
+		L7P13Creator(vector2d(400,250),60,red);
+		L7P13Creator(vector2d(350,336.6),60,green);
+		L7P13Creator(vector2d(450,336.6),60,blue);
+	}
+}
+BCircle scircles[200];
+double rspd[200];
+void Level7Part23()//circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -2942,155 +3066,35 @@ void Level7Part19()
 	}
 	if (Current_Position==1)
 	{
-		++part;All2pnt();avabrk=0.03f;avacurbrk=1.0f;sntang=-pi/2;
-	}
-}
-void L7P20Creator(double rl,double rr,double rad,TColors col,double speed,bool invi=false)
-{
-	double r=rand()%((int)(rr-rl)*10000)/10000.0f+rl;
-	int pnt=CreateBullet2(900+cos(rad)*r,700+sin(rad)*r,speed,rand()/32767.0f,true,invi);
-	bullet[pnt].alterColor=col;
-}
-void Level7Part20()
-{
-	//(600,600)->(250,600)
-	if (sntang>-pi)
-	{
-		avacurbrk+=hge->Timer_GetDelta();
-		if (avacurbrk>avabrk)
-		{
-			sntang-=pi/180;avacurbrk=0;
-			for(int i=0;i<6;++i)L7P20Creator(660,600,sntang,red,0,1);
-			for(int i=0;i<6;++i)L7P20Creator(610,550,sntang,orange,0,1);
-			for(int i=0;i<6;++i)L7P20Creator(560,500,sntang,yellow,0,1);
-			for(int i=0;i<6;++i)L7P20Creator(510,450,sntang,green,0,1);
-			for(int i=0;i<6;++i)L7P20Creator(460,410,sntang,blue,0,1);
-			for(int i=0;i<6;++i)L7P20Creator(420,360,sntang,dblue,0,1);
-			for(int i=0;i<6;++i)L7P20Creator(365,310,sntang,purple,0,1);
-		}
-	}
-	else
-	{
-		avabrk=0.35+(frameleft/(double)AMinute)*0.4f;
-		avacurbrk+=hge->Timer_GetDelta();
-		if (avacurbrk>avabrk)
-		{
-			avacurbrk=0;
-			double spd=((AMinute-frameleft)/(double)AMinute)+1;
-			//======================
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
-			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
-			L7P20Creator(660,600,sntang,red,spd);
-			//======================
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
-			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
-			L7P20Creator(610,550,sntang,orange,spd);
-			//======================
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
-			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
-			L7P20Creator(560,500,sntang,yellow,spd);
-			//======================
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
-			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
-			L7P20Creator(510,450,sntang,green,spd);
-			//======================
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
-			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
-			L7P20Creator(460,410,sntang,blue,spd);
-			//======================
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
-			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
-			L7P20Creator(420,360,sntang,dblue,spd);
-			//======================
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
-			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
-			L7P20Creator(365,310,sntang,purple,spd);
-			sntang=-pi-0.1;
-		}
-	}
-}
-SimpleThing aa,bb;
-void Level7Part21()
-{
-	frameleft=AMinute*2;clrtime=2;towcnt=0;
-	DisableAllTower=false;
-	if (IfShowTip)
-	{
-		IfShowTip=false;
-		FadeTip=false;
-		Current_Position=2;
-		ShowTip("Interference(fake)");
-	}
-	if (Current_Position==1)
-	{
-		++part;All2pnt();skyactive=false;DBGColor=0xFF000000;
-		binter.Init("./Resources/b_inter.png",PicBack::Centered,0x80);
-		binter.SetFadeIn();aa.Init(vector2d(260,292));bb.Init(vector2d(523,292));
-	}
-}
-void Level7Part22()
-{
-//260,292;523,292
-	aa.Update(true);bb.Update(false);
-}
-diffCreator dfc[200];
-void Level7Part23()
-{
-	frameleft=AMinute*2;clrtime=2;towcnt=0;
-	DisableAllTower=false;
-	if (IfShowTip)
-	{
-		IfShowTip=false;
-		FadeTip=false;
-		aa.toPoint();bb.toPoint();
-		Current_Position=2;
-		ShowTip("Diffraction(fake)");
-	}
-	if (Current_Position==1)
-	{
-		++part;memset(dfc,0,sizeof(dfc));
-		avabrk=2.0f;avacurbrk=0;
+		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(scircles,0,sizeof(scircles));
 	}
 }
 void Level7Part24()
 {
-	avabrk=1.0f+frameleft/(double)AMinute;
 	avacurbrk+=hge->Timer_GetDelta();
-	if(avacurbrk>avabrk&&frameleft>=TenSeconds/5)
+	avabrk=0.1+(frameleft/(double)AMinute)*0.4f;
+	if(avacurbrk>avabrk)
 	{
-		for(int i=0;i<200;++i)
-		if (!dfc[i].isActive())
-		{
-			if(rand()%100>75)
-			{
-				if(rand()%100>49)
-				{
-					vector2d pos=vector2d(playerpos.x,rand()%600);
-					while (GetDist(pos,playerpos)<100)
-					pos=vector2d(playerpos.x,rand()%600);
-					dfc[i].init(pos);
-				}
-				else
-				{
-					vector2d pos=vector2d(rand()%800,playerpos.y);
-					while (GetDist(pos,playerpos)<100)
-					pos=vector2d(rand()%800,playerpos.y);
-					dfc[i].init(pos);
-				}
-			}
-			else
-			{
-				vector2d pos=vector2d(rand()%800,rand()%600);
-				while (GetDist(pos,playerpos)<100)
-				pos=vector2d(rand()%800,rand()%600);
-				dfc[i].init(pos);
-			}
-			break;
-		}
 		avacurbrk=0;
+		for(int i=0;i<200;++i)
+		{
+			if (scircles[i].GetRange()>510||scircles[i].GetRange()<1e-7)
+			{
+				scircles[i].Init(1,(rand()&1?1:-1)*(frameleft<TwentySeconds?0.0003:0.0002),36,vector2d(400,300),(TColors)(rand()%8),(TColors)(rand()%8));
+				rspd[i]=0.575+(frameleft/(double)AMinute)*0.1;break;
+			}
+		}
 	}
 	for(int i=0;i<200;++i)
-	if(dfc[i].isActive())dfc[i].update();
+	{
+		if (scircles[i].GetRange()>1e-7&&scircles[i].GetRange()<510)
+		{
+			scircles[i].SetRange(scircles[i].GetRange()+(LOWFPS?17:1)*rspd[i]);
+			if (rspd[i]>0.002)rspd[i]-=0.0005*(LOWFPS?17:1);
+			if (rspd[i]<=0.002)rspd[i]=0.002;
+			scircles[i].Update();
+		}
+	}
 }
 //vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
 /*

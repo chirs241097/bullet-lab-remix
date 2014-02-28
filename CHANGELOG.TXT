@@ -13,8 +13,11 @@ However it wouldn't be appropriate to put three new levels into one
 build...
 The real changelog is here:
 New level "interference" (it's another small class "SimpleThing").
-New level "diffraction" (yet another dull class).
+New level "diffraction" (yet another dull class), hopefully fixed a
+memory leak in this level (by using more memory!)
+Rearrange levels to the order they will appear in the final version.
 New background interface, use background pictures easily.
+Make "Tiled" background mode work.
 Fix a small glitch in Level3Part3-4. This level won't run correctly
 under Low FPS Mode.
 Minor code cleanups.
