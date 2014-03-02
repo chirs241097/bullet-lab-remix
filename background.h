@@ -474,6 +474,7 @@ private:
 	DWORD alpha,alim;
 	bool onfadein,onfadeout;
 	int fadebreak;
+	double scale;
 	void DoFadeIn()
 	{
 		if (LOWFPS)fadebreak+=17;else ++fadebreak;
@@ -490,9 +491,9 @@ private:
 		else if (alpha<0x2)alpha=0;else alpha-=0x2;
 		if (!alpha)onfadeout=false;
 	}
-	void RenderCenterAt(vector2d a)
+	void RenderCenterAt(vector2d a,double scl)
 	{
-		vector2d s=vector2d(hge->Texture_GetWidth(quad.tex,true),hge->Texture_GetHeight(quad.tex,true));
+		vector2d s=vector2d(hge->Texture_GetWidth(quad.tex,true)*scl,hge->Texture_GetHeight(quad.tex,true)*scl);
 		for(int i=0;i<4;++i)quad.v[i].col=SETA(0xFFFFFF,alpha);
 		quad.v[0].x=a.x-s.x/2.0f;quad.v[0].y=a.y-s.y/2.0f;
 		quad.v[1].x=a.x+s.x/2.0f;quad.v[1].y=a.y-s.y/2.0f;
@@ -502,10 +503,11 @@ private:
 	}
 public:
 	bool active(){return alpha;}
+	void SetScale(double _scl){scale=_scl;}
 	void Init(const char *tx,arMode _Mode,DWORD _alim)
 	{
 		quad.tex=hge->Texture_Load(tx);alim=_alim;
-		Mode=_Mode;
+		Mode=_Mode;scale=1;
 		quad.v[0].tx=0,quad.v[0].ty=0;
 		quad.v[1].tx=1,quad.v[1].ty=0;
 		quad.v[2].tx=1,quad.v[2].ty=1;
@@ -518,14 +520,14 @@ public:
 		switch(Mode)
 		{
 			case Centered:
-				RenderCenterAt(vector2d(400,300));
+				RenderCenterAt(vector2d(400,300),scale);
 			break;
 			case Tiled:
 			{
-				vector2d s=vector2d(hge->Texture_GetWidth(quad.tex,true),hge->Texture_GetHeight(quad.tex,true));
+				vector2d s=vector2d(hge->Texture_GetWidth(quad.tex,true)*scale,hge->Texture_GetHeight(quad.tex,true)*scale);
 				for(int i=0;i*s.x<=800;++i)
 				for(int j=0;j*s.y<=600;++j)
-				RenderCenterAt(vector2d(s.x/2+i*s.x,s.y/2+j*s.y));
+				RenderCenterAt(vector2d(s.x/2+i*s.x,s.y/2+j*s.y),scale);
 			}
 			break;
 			case Stretched:

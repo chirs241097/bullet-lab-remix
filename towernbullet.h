@@ -1783,6 +1783,7 @@ public:
             ++gencnt;
             double rad=(gencnt&1)?(gencnt+1)/2*pi/18.0f:-gencnt/2*pi/18.0f;
             generated[gencnt]=&bullet[CreateBullet2(headb.bulletpos.x,headb.bulletpos.y,0,rad,true)];
+            generated[gencnt]->inv=true;
             lastgenerated=headb.bulletpos;
 		}
 		if (OutOfBound())
@@ -1791,7 +1792,8 @@ public:
             //Release them!
 			for (int i=1;i<=gencnt;++i)
 			if (generated[i])//explosion prevention
-			generated[i]->bulletaccel=0.005,generated[i]->limv=2;
+			generated[i]->bulletaccel=0.005,generated[i]->limv=2,
+			generated[i]->inv=false,generated[i]->collable=true;
 			memset(generated,0,sizeof(generated));//therefore we won't touch those fucking things accidently
         }
 		ProcessBullet2(headb);

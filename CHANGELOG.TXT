@@ -2,7 +2,8 @@
 Next version:
 0.7.2-1_PR
 TODOs:
-New levels, pre-release preparation, resource remaking.
+Couple of tests, new levels, pre-release preparation, resource
+remaking.
 0.7.x-x_PR will be another public pre-release version.
 
 Pre-Released versions:
@@ -18,6 +19,7 @@ memory leak in this level (by using more memory!)
 Rearrange levels to the order they will appear in the final version.
 New background interface, use background pictures easily.
 Make "Tiled" background mode work.
+Add SetScale to background class. Make you dizzy easily...
 Fix a small glitch in Level3Part3-4. This level won't run correctly
 under Low FPS Mode.
 Minor code cleanups.

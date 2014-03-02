@@ -2000,8 +2000,8 @@ void Level6Part20()
 }
 void Level6Part21()
 {
-	avacurbrk+=hge->Timer_GetDelta();	//Well, you killed process.
-	sixbrk+=hge->Timer_GetDelta();		//Yeah, this is the 2014th line.
+	avacurbrk+=hge->Timer_GetDelta();
+	sixbrk+=hge->Timer_GetDelta();
 	if (frameleft<TenSeconds/10*11&&!brdir)
 	{
 		brdir=true;
@@ -2463,7 +2463,7 @@ void Level7Part3()
 		DBGColor=ColorTransfer(DBGColor,0xFFFFFFFF);
 		else
 		for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFFFFFFFF);
-		if (DBGColor==0xFFFFFFFF)skystp=skyactive=true,sky.SkySetFadeIn(),sky.SetSpeed(0.1);
+		if (DBGColor==0xFFFFFFFF)skystp=skyactive=true,sky.SkySetFadeIn(),sky.SetSpeed(0.01);
 		sky.SetTime(9);
 	}
 	else
@@ -2735,7 +2735,7 @@ void Level7Part12()
 	{
 		++part;memset(dfc,0,sizeof(dfc));
 		binter.SetFadeOut();bdiff.Init("./resources/b_diff.png",PicBack::Tiled,0x80);
-		bdiff.SetFadeIn();
+		bdiff.SetFadeIn();bdiff.SetScale(0.5);
 		avabrk=2.0f;avacurbrk=0;
 	}
 }
@@ -2793,7 +2793,7 @@ void Level7Part15()
 	ykbrk-=hge->Timer_GetDelta();
 	if (ykbrk<0&&frameleft>TenSeconds/10*3)
 	{
-		ykbrk=(double)frameleft/AMinute+0.5f;
+		ykbrk=(double)frameleft/AMinute*0.75f+0.75f;
 		for (int i=0;i<100;++i)
 		if (!bnl[i].active)
 		{
@@ -2827,7 +2827,7 @@ int CCnt,state;
 void Level7Part16()//Great circles
 {
 	towcnt=0;
-	frameleft=Infinity;
+	frameleft=Infinity;All2pnt();
 	Circles[0].Init(444,20*pi/50000.0f,6,vector2d(400,300));
 	Circles[1].Init(444,-20*pi/50000.0f,6,vector2d(400,300));
 	CCnt=1;state=0;
@@ -2917,7 +2917,7 @@ void Level7Part17()//Great circles-child1
 			Circles[10].SetRange(Circles[10].GetRange()-0.1),
 			Circles[11].SetRange(Circles[11].GetRange()-0.1);
 	}
-	if (Circles[12].GetRange()>=380&&CCnt>=13)//96
+	if (Circles[12].GetRange()>=420&&CCnt>=13)//96
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
@@ -2967,7 +2967,7 @@ void Level7Part18()//Great circles-child2
 		if (i==6||i==7)Circles[i].SetRange(210+20*sin(Circles[i].GetDT()));
 		if (i==8||i==9)Circles[i].SetRange(270+20*sin(Circles[i].GetDT()));
 		if (i==10||i==11)Circles[i].SetRange(320+20*sin(Circles[i].GetDT()));
-		if (i==12||i==13)Circles[i].SetRange(380+30*sin(Circles[i].GetDT()));
+		if (i==12||i==13)Circles[i].SetRange(420+30*sin(Circles[i].GetDT()));
 		Circles[i].Update();
 	}
 }

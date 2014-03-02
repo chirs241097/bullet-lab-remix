@@ -172,15 +172,9 @@ void ProcessPlayer()
 		playerrot+=0.00174533*17;
 	double realspd;
 	if (hge->Input_GetKeyState(HGEK_SHIFT))
-		if (LOWFPS)
-			realspd=playerslospeed*17;
-		else
-			realspd=playerslospeed;
+		realspd=playerslospeed*(1000.0f/hge->Timer_GetFPS());
 	else
-		if (LOWFPS)
-			realspd=playerspeed*17;
-		else
-			realspd=playerspeed;
+		realspd=playerspeed*(1000.0f/hge->Timer_GetFPS());
 	if (hge->Input_GetKeyState(HGEK_LEFT)&&!playerLockX)
 	{
 		if (playerpos.x>10)
