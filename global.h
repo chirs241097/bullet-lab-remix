@@ -73,9 +73,9 @@ bool DisableAllTower=false;
 bool DisablePlayer=false;
 bool LOWFPS=false,diffkey=false;
 inline double GetDist(vector2d,vector2d);
-struct Bullet
+class Bullet
 {
-	//hgeSprite *bulletspr;//This shit will be deprecated.
+public:
 	vector2d bulletpos;
 	vector2d bulletdir;
 	double dist;
@@ -404,38 +404,6 @@ void ClearAll(bool cbullet=true)
 		memset(tower,0,sizeof(tower));
 		if (cbullet)All2pnt();
 	}
-	/*if (cbullet)
-	{
-		none=true;
-		for (int i=1;i<=bulcnt;++i)
-		{
-			if (LOWFPS)
-			{
-				if (bullet[i].bulletspr->GetColor()>>24>=0x08)
-				{
-					bullet[i].bulletspr->SetColor(bullet[i].bulletspr->GetColor()-0x8000000);
-					none=false;
-				}
-			}
-			else
-			{
-				if (bullet[i].bulletspr->GetColor()>>24>=0x01)
-				{
-					bullet[i].bulletspr->SetColor(bullet[i].bulletspr->GetColor()-0x1000000);
-					none=false;
-				}
-			}
-		}
-		if (none)
-		{
-			bulcnt=0;
-			memset(bullet,0,sizeof(bullet));
-		}
-		none=true;
-		for (int i=1;i<=bulcnt;++i)if (bullet[i].bulletspr->GetColor()>>24>=0x3F){none=false;break;}
-		if (none)
-			bulcnt=0,memset(bullet,0,sizeof(bullet));
-	}*/
 }
 void SaySomethingAndBye(char *text)
 {
@@ -509,4 +477,19 @@ TextureRect GetTextureRect(int type,TColors color)
 		}
 	}
 	return TextureRect(0,0,0,0);
+}
+DWORD ColorToDWORD(TColors a)
+{
+	switch(a)
+	{
+		case green:return 0xCCFF00;
+		case blue:return 0x33CCFF;
+		case yellow:return 0xFFFF00;
+		case purple:return 0x9966FF;
+		case red:return 0xFFFF3333;
+		case white:return 0xFFFEFEFE;
+		case dblue:return 0xFF0000FF;
+		case orange:return 0xFFFF8800;
+		default:return 0xFF000000;
+	}
 }

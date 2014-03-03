@@ -1404,40 +1404,12 @@ public:
 		//Initalize: 999'99.9'999
 		for (int i=0;i<Res-1;++i)
 		{
-			hgeRect box;memset(&box,0,sizeof(box));
-			box.x1=box.x2=data1[i].x+RenCtr.x,box.y1=box.y2=data1[i].y+RenCtr.y;
-			//box.Encapsulate(data1[i].x+RenCtr.x,data1[i].y+RenCtr.y);
-			box.Encapsulate(data1[i+1].x+RenCtr.x,data1[i+1].y+RenCtr.y);
-			box.Encapsulate(data2[i].x+RenCtr.x,data2[i].y+RenCtr.y);
-			box.Encapsulate(data2[i+1].x+RenCtr.x,data2[i+1].y+RenCtr.y);
-			{
-				//Debugging collision box
-				hgeSprite colbox=*(new hgeSprite(0,0,0,0,0));
-				colbox.SetColor(0x20FFFFFF);
-				colbox.RenderStretch(box.x1,box.y1,box.x2,box.y2);
-			}
-			if (box.TestPoint(playerpos.x,playerpos.y))
-			{
-				double dx=data1[i].x-data1[i+1].x,dy=data1[i].y-data1[i+1].y;
-				double a,b,c;
-				if (abs(dx)<1e-4)
-				{
-					a=1;b=0;c=data1[i].x+RenCtr.x;
-				}
-				else
-				{
-					b=1;a=-dy/dx;c=(data1[i].x+RenCtr.x)*a-data1[i].y-RenCtr.y;
-				}
-				tres=abs(a*playerpos.x+b*playerpos.y+c)/sqrt(sqr(a)+sqr(b));
-			}
-			else
-			{
-				vector2d t0=data1[i];data1[i].x+=RenCtr.x,data1[i].y+=RenCtr.y;
-				tres=::GetDist(playerpos,t0);
-				vector2d t1=data1[i+1];data1[i+1].x+=RenCtr.x,data1[i+1].y+=RenCtr.y;
-				tres=tres<(::GetDist(playerpos,t1))?tres:(::GetDist(playerpos,t1));
-				data1[i]=t0;data1[i+1]=t1;
-			}
+			vector2d sa,sb;
+			sa=data1[i]+RenCtr;sb=data1[i+1]+RenCtr;
+			tres=GetDistSeg(sa,sb,playerpos);
+			sa=data2[i]+RenCtr;sb=data2[i+1]+RenCtr;
+			if(GetDistSeg(sa,sb,playerpos)<tres)
+			tres=GetDistSeg(sa,sb,playerpos);
 			if (tres<res)res=tres;
 		}
 		return res;
@@ -1486,15 +1458,16 @@ void CreateBullet2(Bullet &Tar,double x,double y,double bs,double rad,bool eff=f
 }
 void ProcessBullet2(Bullet &xbul,bool colchk=true)
 {
-	if (xbul.bulletspeed<xbul.limv)xbul.bulletspeed+=xbul.bulletaccel;
 	if (!xbul.exist||xbul.bullettype!=2)return;
 	if (!xbul.dist)xbul.dist=1;
+	if (xbul.bulletaccel>0&&xbul.bulletspeed<xbul.limv)xbul.bulletspeed+=xbul.bulletaccel*(1000.0f/hge->Timer_GetFPS());
+	if (xbul.bulletaccel<0&&xbul.bulletspeed>xbul.limv)xbul.bulletspeed+=xbul.bulletaccel*(1000.0f/hge->Timer_GetFPS());
 	xbul.bulletpos.x-=xbul.bulletspeed*(xbul.bulletdir.x/xbul.dist)/20*(1000.0f/hge->Timer_GetFPS());
 	xbul.bulletpos.y-=xbul.bulletspeed*(xbul.bulletdir.y/xbul.dist)/20*(1000.0f/hge->Timer_GetFPS());
 	double dis=GetDist(xbul.bulletpos,playerpos);
-	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&colchk)
+	if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&colchk&&xbul.collable)
 	{
-		++coll,scminus+=10000,Mult_BatClear();
+		++coll,scminus+=10000,Mult_BatClear();xbul.collable=false;
 		return;
 	}
 	if (dis<=16&&xbul.scollable)++semicoll,++dsmc,xbul.scollable=false,SCEffect_Attatch();
@@ -1521,8 +1494,8 @@ public:
 		untitledlas.Init();
 		this->x=x,this->y=2;color=_color;
 		CreateBullet2(untitledbul,x,2,0,3*pi/2);
-		untitledbul.bulletaccel=0.0001;
-		untitledbul.limv=1;
+		untitledbul.bulletaccel=0.0005;
+		untitledbul.limv=2;untitledbul.collable=true;
 		las=false;
 		reverse=false;
 		done=false;
@@ -1540,7 +1513,7 @@ public:
 			ProcessBullet2(untitledbul),x=untitledbul.bulletpos.x,y=untitledbul.bulletpos.y;
 		else
 			untitledlas.EnableColl=true,
-			untitledlas.Process();
+			untitledlas.Process();//printf("%lf\n",untitledlas.GetDist());
 		if (!untitledbul.exist)y=-1;
 		if (y>pos&&!done&&!las)
 		{
@@ -1571,17 +1544,18 @@ public:
 		}
 		if (las)
 		{
-			untitledlas.RenCtr=vector2d(x,y);
-			untitledlas.Render();
+			untitledlas.RenCtr=vector2d(x+7.2,y+7.2);
+			untitledlas.Render();untitledlas.EnableColl=true;
+			untitledlas.Process();printf("%lf\n",untitledlas.GetDist());
 			if (!reverse)
 			{
-				if (range1<r1lim)range1+=0.2,range2=range1;
-				if (range1>=r1lim&&range2<r2lim)range2+=0.1;
+				if (range1<r1lim)range1+=0.2*(1000.0/hge->Timer_GetFPS()),range2=range1;
+				if (range1>=r1lim&&range2<r2lim)range2+=0.1*(1000.0/hge->Timer_GetFPS());
 				if (range2>=r2lim)reverse=true;
 			}
 			else
 			{
-				if (range2>=r1lim)range2-=0.1;else range1-=0.2,range2=range1;
+				if (range2>=r1lim)range2-=0.1*(1000.0/hge->Timer_GetFPS());else range1-=0.2*(1000.0/hge->Timer_GetFPS()),range2=range1;
 				if (range1<=2)las=false,done=true;
 			}
 			for (int i=0;i<60;++i)
@@ -1844,6 +1818,114 @@ public:
 			trail[pnt]=CreateBullet2(hbul.bulletpos.x-uv.x*50*sin(rad),hbul.bulletpos.y-uv.y*50*sin(rad),0,0,true);
 		}
 		if (OutOfBound())active=false;
+	}
+};
+class BTail
+{
+//devide the screen into a 16*12 matrix, put random colored bullets, arranged
+//in the shape of the snake, on to it.
+//^Maybe this description is too bad to understand. See the code.
+//Partly based on class WOP
+private:
+	class Pile
+	{
+	private:
+		Bullet* pb[200];
+		int matrixx,matrixy,progress,cnt;
+		double brk;TColors color;
+	public:
+		int getProgress(){return progress;}
+		void create(int _x,int _y,TColors _col)
+		{
+			matrixx=_x;matrixy=_y;color=_col;
+			progress=1;cnt=0;
+		}
+		void update()
+		{
+			if(!progress)return;
+			if(progress<10)
+			{
+				brk+=hge->Timer_GetDelta();
+				if(brk>0.03)
+				{
+					brk=0;if(progress++>5)return (void)(progress=10);
+					for(int i=0;i<10;++i)
+					{
+						vector2d ran=vector2d(rand()%50+matrixx*50,rand()%50+matrixy*50);
+						pb[cnt++]=&bullet[CreateBullet2(ran.x,ran.y,0,0,true)];
+						pb[cnt-1]->alterColor=color;
+					}
+				}
+			}
+			else
+			{
+				brk+=hge->Timer_GetDelta();
+				if(brk>0.03)
+				{
+					bool alldone=true;
+					for(int i=0;i<cnt;++i)
+					{
+						if(pb[i])
+						{
+							if(pb[i]->lifetime>1)
+							{
+								BulletEffect_Death(*pb[i],ColorToDWORD(color));
+								pb[i]->exist=false;pb[i]=0;
+							}
+							else alldone=false;
+						}
+					}
+					if(alldone)progress=0;
+				}
+			}
+		}
+	};
+	Pile piles[30];
+	bool tactive;
+	int listx[30],listy[30],cnt;
+	TColors pcolor;
+	bool check(int x,int y)
+	{
+		if(x<0||x>15)return false;
+		if(y<0||y>12)return false;
+		for(int i=0;i<cnt;++i)
+		if(x==listx[i]&&y==listy[i])return false;
+		return true;
+	}
+public:
+	bool isActive(){return tactive;}
+	void Create()
+	{
+		pcolor=(TColors)(rand()%8);tactive=true;
+		cnt=0;memset(listx,0,sizeof(listx));
+		memset(listy,0,sizeof(listy));
+		listx[cnt++]=rand()%16;listy[cnt-1]=rand()%12;
+		piles[cnt-1].create(listx[cnt-1],listy[cnt-1],pcolor);
+	}
+	void Update()
+	{
+		if(piles[cnt-1].getProgress()==10)
+		{
+			int dlx[4],dly[4],dcnt=0;
+			if(check(listx[cnt-1]+1,listy[cnt-1]))
+			dlx[dcnt]=listx[cnt-1]+1,dly[dcnt++]=listy[cnt-1];
+			if(check(listx[cnt-1]-1,listy[cnt-1]))
+			dlx[dcnt]=listx[cnt-1]-1,dly[dcnt++]=listy[cnt-1];
+			if(check(listx[cnt-1],listy[cnt-1]+1))
+			dlx[dcnt]=listx[cnt-1],dly[dcnt++]=listy[cnt-1]+1;
+			if(check(listx[cnt-1],listy[cnt-1]-1))
+			dlx[dcnt]=listx[cnt-1],dly[dcnt++]=listy[cnt-1]-1;
+			if(dcnt&&cnt<30)
+			{
+				int rd=rand()%dcnt;
+				listx[cnt++]=dlx[rd];listy[cnt-1]=dly[rd];
+				piles[cnt-1].create(listx[cnt-1],listy[cnt-1],pcolor);
+			}
+		}
+		bool none=true;
+		for(int i=0;i<30;++i)
+			if(piles[i].getProgress())none=false,piles[i].update();
+		if(none)tactive=false;
 	}
 };
 class SimpleThing

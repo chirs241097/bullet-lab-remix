@@ -1,7 +1,7 @@
 //Chrisoft Bullet Lab Remix HGE
 //Chrisoft Game Helper header
 //Copyright Chrisoft 2014
-//libcgh version 0003
+//libcgh version 0004
 //^Modify that when big change is made^
 #include <hge.h>
 #include <hgefont.h>
@@ -33,6 +33,18 @@ struct vector2d
 	{
 		return vector2d(a.x+b.x,a.y+b.y);
 	}
+	friend double operator |(vector2d a,vector2d b)//dot product
+	{
+		return a.x*b.x+a.y*b.y;
+	}
+	friend double operator *(vector2d a,vector2d b)//length of cross product
+	{
+		return a.x*b.y-b.x*a.y;
+	}
+	friend vector2d operator *(double a,vector2d b)
+	{
+		return vector2d(b.x*a,b.y*a);
+	}
 };
 inline vector2d ToUnitCircle(vector2d input)
 {
@@ -44,6 +56,16 @@ inline vector2d ToUnitCircle(vector2d input)
 inline double GetDist(const vector2d a,const vector2d b)
 {
 	return sqrtf((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+}
+inline double GetDistSeg(const vector2d a,const vector2d b,const vector2d c)
+{
+	double l2=GetDist(a,b)*GetDist(a,b);
+	if (l2==0.0)return GetDist(c,a);
+	double t=((c-a)|(b-a))/l2;
+	if (t<0)return GetDist(c,a);
+	else if (t>1)return GetDist(c,b);
+	vector2d projection=a+t*(b-a);
+	return GetDist(c,projection);
 }
 inline double normalizerad(double a)
 {

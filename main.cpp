@@ -442,6 +442,10 @@ void CallLevels()
 	if (level==7&&part==22)Level7Part22();
 	if (level==7&&part==23)Level7Part23();
 	if (level==7&&part==24)Level7Part24();
+	if (level==7&&part==25)Level7Part25();
+	if (level==7&&part==26)Level7Part26();
+	if (level==7&&part==27)Level7Part27();
+	if (level==7&&part==28)Level7Part28();
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)level=3,part=0;
 	if (level==3&&part==7)level=4,part=0;
@@ -596,7 +600,6 @@ bool FrameFunc()
 				case 255:ProcessBullet255(i);break;
 			}
 		}
-		for (int i=1;i<=nonamecnt;++i)if (noname[i].Exist())noname[i].Process();
 		ProcessPlayer();
 		RefreshScore();
 		{

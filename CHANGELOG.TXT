@@ -1,12 +1,21 @@
 ===================================================================
 Next version:
-0.7.2-1_PR
+0.7.2-2_PR
 TODOs:
 Couple of tests, new levels, pre-release preparation, resource
 remaking.
 0.7.x-x_PR will be another public pre-release version.
 
 Pre-Released versions:
+0.7.2-1_PR (b71)
+New level "Trypophobia", however it seems that this level won't
+cause trypophobia at all!
+Rewrote laser distance detection using vector2d calculations,
+extending libcgh and bump its version at the same time.
+Put the new level to the correct place.
+Bring back "Minesweeper" level, adjust it to the new interfaces.
+Remake the credits page, it grows from 350KiB to 6MiB.
+
 0.7.2-0_PR (b70)
 I wasn't willing to bump the build number because I want the svn
 revision to chease the build number.

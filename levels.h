@@ -2971,15 +2971,45 @@ void Level7Part18()//Great circles-child2
 		Circles[i].Update();
 	}
 }
-//Rearrange needed since here, see LEVELS.txt
-WOP wop[100];
-void Level7Part19()//Wave of Photon
+BTail btails[50];
+void Level7Part19()
 {
-	memset(bnl,0,sizeof(bnl));
-	frameleft=AMinute;
-	ykbrk=0.5f;++part;
+	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Warning: Trypophobia caution ahead!");
+	}
+	if (Current_Position==1)
+	{
+		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(btails,0,sizeof(btails));
+	}
 }
 void Level7Part20()
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+		avacurbrk=0;avabrk=(frameleft/(double)(AMinute*2))*0.7+0.3;
+		for(int i=0;i<50;++i)
+		if(!btails[i].isActive())
+		{btails[i].Create();break;}
+	}
+	for(int i=0;i<50;++i)
+	if(btails[i].isActive())btails[i].Update();
+}
+//Rearrange needed since here, see LEVELS.txt
+WOP wop[100];
+void Level7Part21()//Wave of Photon
+{
+	memset(bnl,0,sizeof(bnl));
+	frameleft=AMinute;All2pnt();
+	ykbrk=0.5f;++part;
+}
+void Level7Part22()
 {
 	ykbrk-=hge->Timer_GetDelta();
 	if (ykbrk<0&&frameleft>TenSeconds/10*3)
@@ -3005,6 +3035,12 @@ void Level7Part20()
 			{
 				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
 			}
+			if (rand()%100>80)
+			{
+				vector2d d=playerpos-a;
+				b=playerpos;
+				while(b.x>-5&&b.x<805&&b.y>-5&&b.y<605)b=b+d;
+			}
 			wop[i].Init(a,b,1+(AMinute-frameleft)/(double)AMinute,0.02);
 			break;
 		}
@@ -3012,7 +3048,7 @@ void Level7Part20()
 	for (int i=0;i<100;++i)
 	if (wop[i].active)wop[i].Update();
 }
-void Level7Part21()//3 circles
+void Level7Part23()//3 circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -3039,7 +3075,7 @@ void L7P13Creator(vector2d p,int cnt,TColors col)
 		bullet[pnt].bulletaccel=-0.003;bullet[pnt].limv=((AMinute-frameleft)/(double)AMinute)+1.0f;
 	}
 }
-void Level7Part22()
+void Level7Part24()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
@@ -3053,7 +3089,7 @@ void Level7Part22()
 }
 BCircle scircles[200];
 double rspd[200];
-void Level7Part23()//circles
+void Level7Part25()//circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -3069,7 +3105,7 @@ void Level7Part23()//circles
 		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(scircles,0,sizeof(scircles));
 	}
 }
-void Level7Part24()
+void Level7Part26()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=0.1+(frameleft/(double)AMinute)*0.4f;
@@ -3096,83 +3132,16 @@ void Level7Part24()
 		}
 	}
 }
-//vvvvvvvvvvvvvvvvvvvvvv Old Levels vvvvvvvvvvvvvvvvvvvvvv//
-/*
-void Level1Part17()//33*b+1*r-discard?
+void Level7Part27()//Minesweeper?-
 {
-	frameleft=AMinute;clrtime=0;
-	if (bulcnt!=0&&towcnt!=34)
-	{
-		ClearAll();
-		return;
-	}
-	DisableAllTower=false;
-	if (IfShowTip)
-	{
-		IfShowTip=false;
-		FadeTip=false;
-		Current_Position=2;
-		ShowTip("The last level for Dev-version...\n\
-It seems really easy right?");
-		return;
-	}
-	++frameskips;
-	if (frameskips<10&&!LOWFPS)return;
-	frameskips=0;
-	CreateTower6(400,30,500,4,750,1,36);
-	for (int i=1;i<=33;++i)
-	{
-		int tmp=CreateTower1(i*24-20,10,1000,3,i<16?-pi/90:pi/90);
-	}
-	for (int i=1;i<=towcnt;++i)
-		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
-			tower[i].towerspr->SetColor(0x00FFFFFF);
-	for (int i=1;i<=towcnt;++i)
-		if ((tower[i].towerspr->GetColor()>>24)<=0x80)
-			tower[i].towerspr->SetColor(tower[i].towerspr->GetColor()+0x01FFFFFF);
-		else
-		{
-			++part;
-			BTarg.TargHide();
-			return;
-		}
-}
-void Level1Part18()//Child of last level
-{
-	//This is the child of Part17
-	//Keep them together, thanks a lot
-	//                  --Commented by Chirsno, 03/08/2013
-	if (frameleft<2*TwentySeconds)
-	{
-		tower[1].exp2=48;
-		tower[1].towertimer=400;
-	}
-	if (frameleft<ThirtySeconds)
-	{
-		tower[1].exp2=60;
-		tower[1].towertimer=300;
-		tower[1].bulletspeed=3;
-	}
-	if (frameleft<TwentySeconds)
-	{
-		tower[1].exp2=72;
-	}
-	if (frameleft<TenSeconds)
-	{
-		tower[1].exp2=108;
-		tower[1].towertimer=200;
-	}
-}
-void Level1Part21()//Minesweeper?-
-{
-	frameleft=ThirtySeconds;
+	frameleft=AMinute;
 	if (bulcnt!=0)return (void)ClearAll();
 	Lasercnt=0;
 	++part;
 }
-void Level1Part22()//Minesweeper?-child
+void Level7Part28()//Minesweeper?-child
 {
-	if (rand()%100>98)
+	if (rand()%100>95)
 	{
 		int i;
 		for (i=1;i<=nonamecnt+1;++i)
@@ -3180,13 +3149,13 @@ void Level1Part22()//Minesweeper?-child
 			if (!noname[i].Exist())
 			{
 				if (frameleft<TenSeconds)
-					noname[i].Init(rand()%800,4,100,150,70);
+					noname[i].Init(rand()%800,4,100,150,70,0x8033CCFF);
 				else if (frameleft<TwentySeconds)
-					noname[i].Init(rand()%800,4,100,150,75);
-				else noname[i].Init(rand()%800,4,100,150,80);
+					noname[i].Init(rand()%800,4,100,150,75,0x8033CCFF);
+				else noname[i].Init(rand()%800,4,100,150,80,0x8033CCFF);
 				if (i>nonamecnt)nonamecnt=i;break;
 			}
 		}
 	}
+	for (int i=1;i<=nonamecnt;++i)if (noname[i].Exist())noname[i].Process();
 }
-*/
