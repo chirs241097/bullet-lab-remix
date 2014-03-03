@@ -787,9 +787,6 @@ void ProcessBullet255(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
-#ifndef NO_FREE
-		if (bullet[i].bulletspr)free(bullet[i].bulletspr);
-#endif
 	}
 	else
 	{
@@ -1513,7 +1510,7 @@ public:
 			ProcessBullet2(untitledbul),x=untitledbul.bulletpos.x,y=untitledbul.bulletpos.y;
 		else
 			untitledlas.EnableColl=true,
-			untitledlas.Process();//printf("%lf\n",untitledlas.GetDist());
+			untitledlas.Process();
 		if (!untitledbul.exist)y=-1;
 		if (y>pos&&!done&&!las)
 		{
@@ -1546,7 +1543,7 @@ public:
 		{
 			untitledlas.RenCtr=vector2d(x+7.2,y+7.2);
 			untitledlas.Render();untitledlas.EnableColl=true;
-			untitledlas.Process();printf("%lf\n",untitledlas.GetDist());
+			untitledlas.Process();
 			if (!reverse)
 			{
 				if (range1<r1lim)range1+=0.2*(1000.0/hge->Timer_GetFPS()),range2=range1;
@@ -1686,6 +1683,81 @@ public:
 	}
 };
 TCTarg CTarg;
+#undef rad1
+#undef rad2
+class TROF
+{
+public:
+	Bullet *Bul[32];
+	double rad1,rad2,drad,srad,dtrad,dtrad2;
+	double range,drange,dtrange,cdtrange;
+	int stage,cnt,ccnt,delay,cf;
+	double elasp;
+	void init()
+	{
+		stage=0;rad1=rad2=srad;elasp=0.0f;ccnt=0;
+		for (int i=0;i<cnt;++i)Bul[i]=&bullet[CreateBullet8(400,300,0,false)],DirectBullet(*Bul[i],srad),Bul[i]->scale=0.01;
+		Bul[0]->bulletspeed=2;Bul[0]->scale=1;
+	}
+	void stage0()
+	{
+		elasp+=hge->Timer_GetDelta();
+		if ((int)(elasp/0.15f)>ccnt&&ccnt<cnt-1)
+		{
+			ccnt=(int)(elasp/0.2f);
+			if (ccnt==1)dtrange=GetDist(Bul[0]->bulletpos,Bul[1]->bulletpos);
+			Bul[ccnt]->bulletspeed=2;Bul[ccnt]->scale=1;
+		}
+		if (elasp>2)
+		{
+			stage=1;
+			drange=GetDist(Bul[cnt-1]->bulletpos,vector2d(400,300));
+			dtrad=(drad-srad);while (dtrad>pi/6.0f)dtrad-=pi/6.0f;dtrad/=delay;
+			dtrad2=(2*pi-drad+srad);while (dtrad2>pi/6.0f)dtrad2-=pi/6.0f;dtrad2/=delay;
+			for (int i=0;i<cnt;++i)Bul[i]->bulletspeed=0;
+			cf=0;
+		}
+	}
+	void stage1()
+	{
+		cf+=(LOWFPS?17:1);
+		rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
+		for (int i=0;i<cnt;++i)
+		if (Bul[i]->bullettype==8)
+		{
+			if (i&1)
+			Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
+			else
+			Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
+		}
+		if (cf>delay)
+		{
+			cf=delay;
+			rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
+			for (int i=0;i<cnt;++i)
+			if (Bul[i]->bullettype==8)
+			{
+				if (i&1)
+				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
+				else
+				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
+				Bul[i]->bulletspeed=2,Bul[i]->redir(vector2d(400,300)),
+				Bul[i]->bulletdir=vector2d(-Bul[i]->bulletdir.x,-Bul[i]->bulletdir.y);
+			}
+			stage=2;
+		}
+	}
+	void stage2(){}
+	void update()
+	{
+		switch(stage)
+		{
+			case 0:stage0();break;
+			case 1:stage1();break;
+			case 2:stage2();break;
+		}
+	}
+};
 class BCircle
 {
 private:
@@ -1763,12 +1835,11 @@ public:
 		if (OutOfBound())
 		{
             active=false;
-            //Release them!
 			for (int i=1;i<=gencnt;++i)
-			if (generated[i])//explosion prevention
+			if (generated[i])
 			generated[i]->bulletaccel=0.005,generated[i]->limv=2,
 			generated[i]->inv=false,generated[i]->collable=true;
-			memset(generated,0,sizeof(generated));//therefore we won't touch those fucking things accidently
+			memset(generated,0,sizeof(generated));
         }
 		ProcessBullet2(headb);
 	}

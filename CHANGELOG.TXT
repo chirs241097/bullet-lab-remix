@@ -1,9 +1,8 @@
 ===================================================================
 Next version:
-0.7.2-2_PR
+0.7.2-2_PR/0.7.3-0_PR
 TODOs:
-Couple of tests, new levels, pre-release preparation, resource
-remaking.
+Couple of tests, new levels, pre-release preparation.
 0.7.x-x_PR will be another public pre-release version.
 
 Pre-Released versions:
@@ -14,11 +13,16 @@ Rewrote laser distance detection using vector2d calculations,
 extending libcgh and bump its version at the same time.
 Put the new level to the correct place.
 Bring back "Minesweeper" level, adjust it to the new interfaces.
-Remake the credits page, it grows from 350KiB to 6MiB.
+Convert Bullet from struct to class.
+Other minor changes to the level WOP.
+Minor cleanups and code style adjustments. Add missing free's and
+delete's.
+Remake the credits page, it grows from 350KiB to 6MiB. (And so I'll
+enable PNG compression later.)
 
 0.7.2-0_PR (b70)
 I wasn't willing to bump the build number because I want the svn
-revision to chease the build number.
+revision to chase the build number.
 However it wouldn't be appropriate to put three new levels into one
 build...
 The real changelog is here:

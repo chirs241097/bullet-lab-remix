@@ -61,7 +61,7 @@
 #include "menus.h"
 static const char* MAIN_SRC_FN="main.cpp";
 #ifdef WIN32
-void Expand(char source[],char dist[])
+void Expand(const char *source,const char *dist)
 {
 	char cmd[255];
 	sprintf(cmd,"%s -F:* %s",source,dist);
@@ -588,7 +588,6 @@ bool FrameFunc()
 			{
 				case 1:ProcessBullet1(i);break;
 				case 2:ProcessBullet2(i);break;
-				//No ProcessBullet3() needed
 				case 4:ProcessBullet4(i);break;
 				case 5:ProcessBullet5(i);break;
 				case 6:ProcessBullet6(i);break;
@@ -771,11 +770,10 @@ int main()
 	playerspeed=playerfulspd=0.2;
 	playerslospeed=playerfulslospd=0.05;
 #endif
-	Current_Position=0;//We are at the main menu at first
+	Current_Position=0;
 	LE_Active=false;
 	if(hge->System_Initiate())
 	{
-		//nonamecnt=1;
 		quad.tex=hge->Texture_Load("./Resources/b_null.png");
 		SprSheet=hge->Texture_Load("./Resources/ss.png");
 		TLeaf=hge->Texture_Load("./Resources/e_leaf.png");
@@ -786,7 +784,7 @@ int main()
 		snd=hge->Effect_Load("./Resources/tap.ogg");
 		titlespr=new hgeSprite(TexTitle,0,0,640,320);
 		playerspr=new hgeSprite(SprSheet,0,24,24,24);
-		playerspr->SetHotSpot(12,12);//Set player anchor
+		playerspr->SetHotSpot(12,12);
 		playerspr->SetColor(0xC0FFFFFF);
 		ATarg.Init(-0.001,vector2d(400,300));
 		BTarg.Init(-0.001,vector2d(400,300));
@@ -840,10 +838,16 @@ int main()
 		delete gui;delete titlespr;
 		delete fnt;delete playerspr;
 		delete spr;
-		hge->Texture_Free(tex);
-		hge->Texture_Free(quad.tex);
+		for (int ii=0;ii<COLOR_COUNT;++ii)
+		{
+			TColors i=(TColors)ii;
+			delete bulletspr[i];
+			if(i<grey)delete towerspr[i];
+		}
+		hge->Texture_Free(SprSheet);hge->Texture_Free(TLeaf);
+		hge->Texture_Free(quad.tex);hge->Texture_Free(TSflake);
+		hge->Texture_Free(TexTitle);hge->Texture_Free(TexCredits);
 	}
-	// Clean up and shutdown
 	hge->System_Shutdown();
 	hge->Release();
 #ifdef WIN32

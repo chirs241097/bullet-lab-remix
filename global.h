@@ -8,12 +8,10 @@
 #define Resd 20.0f
 HGE *hge=0;
 HEFFECT				snd;
-HTEXTURE			tex;
 hgeQuad				quad;
 hgeGUI				*gui;
 hgeFont				*fnt;
 hgeSprite			*spr,*titlespr;
-//Here are some Varibles in Bullet Lab
 int					Current_Position;//Where we are now
 /*Scenes:
 0: main menu
@@ -126,7 +124,6 @@ public:
 //255: Score point*/
 struct Tower
 {
-	//hgeSprite *towerspr;//So will this one.
 	vector2d towerpos;
 	int towertype;
 	int towertimer,curtimer;

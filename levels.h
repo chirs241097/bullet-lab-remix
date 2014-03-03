@@ -16,11 +16,9 @@ Classic parts need only one procedure, like this.
 		ShowTip("");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].towerspr->GetColor()==0x80FFFFFF)
 			tower[i].towerspr->SetColor(0x00FFFFFF);
@@ -35,7 +33,7 @@ Classic parts need only one procedure, like this.
 */
 /*
 How to write an "advanced" part...
-"Advanced" parts usually need two parts, ont for initalize and one for things to do every frame.
+"Advanced" parts usually need two or more parts, ont for initalize and one for things to do every frame.
 Write on your own thought...
 */
 bool squashrev;
@@ -49,10 +47,7 @@ bool sout,tendone;bool dmt[16];
 //static const char* LEVEL_H_FN="levels.h";
 void Level1Part1()
 {
-	//Level procedure
-	//Simple Level procedures should only run once during a level
 	if ((tower[CreateTower1(400,300,857,2)].RendColor>>24)>=0x80)IfCallLevel=false;
-	//Current_Position=2;
 	frameleft=AMinute*2;
 	tcnt=1;sout=false;dscroll=-0.025f;memset(dmt,true,sizeof(dmt));
 	for (int i=0;i<tcnt;++i)
@@ -70,7 +65,6 @@ Everything going on properly?\n\
 }
 void Level1Part2()
 {
-	//Process the action here...
 	for (int i=0;i<tcnt;++i)
 	{
 		if (LOWFPS)towers[i]+=17*dscroll;else towers[i]+=dscroll;
@@ -124,12 +118,9 @@ void Level1Part3()
 		ShowTip("Double-directed Labyrinth!");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
-	//CreateTower1(400,300,857,2);
 	for (int i=1;i<=25;++i)
 		CreateTower3(772,i*24-24,1714,2,2),
 		CreateTower3(28,i*24-12,1714,2,2);
@@ -211,20 +202,6 @@ void Level2Part1()
 	CreateTower3_fixeddir(183.49,425,300,3,-pi);
 	CreateTower3_fixeddir(183.49,424,300,3,2.0f/3.0f*pi);
 	for (int i=0;i<6;++i)fakes[i]=&bullet[CreateBullet6(400,300,0,999999999,1,1,false)];
-	/*CreateTower1(30,10,500,3);
-	CreateTower1(31,10,500,3,pi/16);
-	CreateTower1(30,11,500,3,-pi/16);
-	CreateTower1(746,10,500,3);
-	CreateTower1(745,10,500,3,pi/16);
-	CreateTower1(746,11,500,3,-pi/16);
-	CreateTower1(30,556,500,3);
-	CreateTower1(31,556,500,3,pi/16);
-	CreateTower1(30,555,500,3,-pi/16);
-	CreateTower1(746,556,500,3);
-	CreateTower1(745,556,500,3,pi/16);
-	CreateTower1(746,555,500,3,pi/16);*/
-	//To prevent to be criticized... I made this much easier to play...
-	//...But a lot harder to write...
 	++part;
 }
 void Level2Part2()
@@ -394,11 +371,9 @@ void Level3Part1()
 		ShowTip("Meet my new weapon...Is it cool?");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	CreateTower8(400,300,857,3,57,30,false);
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].RendColor==0x80FFFFFF)
@@ -426,11 +401,9 @@ void Level3Part2()
 		All2pnt();
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	CreateTower8(30,10,1250,3,57,15,false);
 	CreateTower8(746,10,1250,3,57,15,false);
 	CreateTower8(30,556,1250,3,57,15,false);
@@ -447,85 +420,7 @@ void Level3Part2()
 			return;
 		}
 }
-#undef rad1
-#undef rad2
-class TRotateFucker
-{
-public:
-	Bullet *Bul[32];
-	double rad1,rad2,drad,srad,dtrad,dtrad2;
-	double range,drange,dtrange,cdtrange;
-	//cdtrange: dist to centre from the tail bullet
-	//dtrange : dist limit of cdtrange
-	//drange  : disired range of rotate start
-	//range   : current movement range
-	int stage,cnt,ccnt,delay,cf;
-	double elasp;
-	void init()
-	{
-		stage=0;rad1=rad2=srad;elasp=0.0f;ccnt=0;
-		for (int i=0;i<cnt;++i)Bul[i]=&bullet[CreateBullet8(400,300,0,false)],DirectBullet(*Bul[i],srad),Bul[i]->scale=0.01;
-		Bul[0]->bulletspeed=2;Bul[0]->scale=1;
-	}
-	void stage0()
-	{
-		elasp+=hge->Timer_GetDelta();
-		if ((int)(elasp/0.15f)>ccnt&&ccnt<cnt-1)
-		{
-			ccnt=(int)(elasp/0.2f);
-			if (ccnt==1)dtrange=GetDist(Bul[0]->bulletpos,Bul[1]->bulletpos);
-			Bul[ccnt]->bulletspeed=2;Bul[ccnt]->scale=1;
-		}
-		if (elasp>2)
-		{
-			stage=1;
-			drange=GetDist(Bul[cnt-1]->bulletpos,vector2d(400,300));
-			dtrad=(drad-srad);while (dtrad>pi/6.0f)dtrad-=pi/6.0f;dtrad/=delay;
-			dtrad2=(2*pi-drad+srad);while (dtrad2>pi/6.0f)dtrad2-=pi/6.0f;dtrad2/=delay;
-			for (int i=0;i<cnt;++i)Bul[i]->bulletspeed=0;
-			cf=0;
-		}
-	}
-	void stage1()
-	{
-		cf+=(LOWFPS?17:1);
-		rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
-		for (int i=0;i<cnt;++i)
-		if (Bul[i]->bullettype==8)
-		{
-			if (i&1)
-			Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
-			else
-			Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
-		}
-		if (cf>delay)
-		{
-			cf=delay;
-			rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
-			for (int i=0;i<cnt;++i)
-			if (Bul[i]->bullettype==8)
-			{
-				if (i&1)
-				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
-				else
-				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
-				Bul[i]->bulletspeed=2,Bul[i]->redir(vector2d(400,300)),
-				Bul[i]->bulletdir=vector2d(-Bul[i]->bulletdir.x,-Bul[i]->bulletdir.y);
-			}
-			stage=2;
-		}
-	}
-	void stage2(){}
-	void update()
-	{
-		switch(stage)
-		{
-			case 0:stage0();break;
-			case 1:stage1();break;
-			case 2:stage2();break;
-		}
-	}
-}fr[6][6];
+TROF fr[6][6];
 int cur;
 double elasped;
 void Level3Part3()
@@ -542,11 +437,9 @@ void Level3Part3()
 		ShowTip("Precise mode is not so precise as expected...");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	CreateTower8(400,300,999999999,0,999999999,0,false);
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].RendColor==0x80FFFFFF)
@@ -656,11 +549,9 @@ void Level4Part1()
 		ShowTip("Where is this idea from?");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	CreateTower9(400,300,1000,4,750,36,750);
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].RendColor==0x80FFFFFF)
@@ -1098,11 +989,9 @@ void Level4Part24()
 ...as the end of this level...\nCan you draw perfectly?");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	CreateTower4(400,300,2000,2.5);
 	CreateTower1(9,9,2000,3);
 	CreateTower1(767,11,2000,3);
@@ -1154,11 +1043,9 @@ void Level5Part1()
 	frameleft=ThirtySeconds;
 	if (towcnt!=2&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	CreateTower9(400,300,2000,3,1000,36,750);
 	CreateTower4(400,50,2000,2.5,0);
 	for (int i=1;i<=towcnt;++i)
@@ -1316,11 +1203,9 @@ void Level5Part7()
 		ShowTip("Threatening effect of high speed bullets");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	for (int i=1;i<=33;++i)CreateTower8(i*24-12,12,500,10,20,30);
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].RendColor==0x80FFFFFF)
@@ -1355,11 +1240,9 @@ void Level5Part9()
 		ShowTip("Do not panic!");
 		return;
 	}
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	for (int i=1;i<=33;++i)CreateTower8(i*24-12,12,750,1,1,1),CreateTower8(i*24-12,588,750,1,1,1);
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].RendColor==0x80FFFFFF)
@@ -1572,16 +1455,16 @@ void Level5Part20()
 	if (ntbrk<0.01)return;
 	ntbrk=0;++ntcnt;if (ntcnt>15)ntcnt=0;
 	int a;if (ntcnt==0)
-		a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,500,1,500);
+		a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,500,1,500,true);
 	else
-		a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,999999999,1,999999999);
+		a=CreateBullet9(400+250*sin(ntrot),300+250*cos(ntrot),2,999999999,1,999999999,true);
 	bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
 	bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
 	bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
 	if (ntcnt==0)
-		a=CreateBullet9(400+250*sin(ntrot+pi),300+250*cos(ntrot+pi),2,500,1,500);
+		a=CreateBullet9(400+250*sin(ntrot+pi),300+250*cos(ntrot+pi),2,500,1,500,true);
 	else
-		a=CreateBullet9(400+250*sin(ntrot+pi),300+250*cos(ntrot+pi),2,999999999,1,999999999);
+		a=CreateBullet9(400+250*sin(ntrot+pi),300+250*cos(ntrot+pi),2,999999999,1,999999999,true);
 	bullet[a].redattrib=1;bullet[a].redir(vector2d(400,300));
 	bullet[a].bulletdir.x=-bullet[a].bulletdir.x;
 	bullet[a].bulletdir.y=-bullet[a].bulletdir.y;
@@ -1633,11 +1516,9 @@ void Level6Part1()
 	//Some component of this level is in towernbullet...
 	frameleft=ThirtySeconds;
 	DisableAllTower=false;
-	//Consider Low FPS mode here.
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	//Create your towers
 	whicnt=10;
 	CreateTower7(400,300,750,3,500);
 	for (int i=1;i<=towcnt;++i)
@@ -2370,7 +2251,6 @@ Will there be a clearer day?\
 		frameleft=TenSeconds;++part;
 	}
 }
-//change the color to dark grey. lightning.
 bool skystp;
 void Level7Part1()
 {
@@ -2450,7 +2330,6 @@ void Level7Part2()
 		}
 	}
 }
-//Add a background transform here...
 void Level7Part3()
 {
 	frameleft=TenSeconds;
@@ -2508,7 +2387,7 @@ void Level7Part5()
 		{
 			frameskips=0;
 			towcnt=0;
-			CreateTower9(400,300,600,2,1500,72,1200);//Orange
+			CreateTower9(400,300,600,2,1500,72,1200);
 		}
 	}
 	if (tower[1].towertype==9)
@@ -2517,7 +2396,7 @@ void Level7Part5()
 		{
 			frameskips=0;
 			towcnt=0;
-			CreateTower4(400,300,500,1,500);//Yellow
+			CreateTower4(400,300,500,1,500);
 		}
 	}
 	if (tower[1].towertype==4)
@@ -2526,7 +2405,7 @@ void Level7Part5()
 		{
 			frameskips=0;
 			towcnt=0;
-			CreateTower1(400,300,50,4);//Green
+			CreateTower1(400,300,50,4);
 		}
 	}
 	if (tower[1].towertype==1)
@@ -2535,7 +2414,7 @@ void Level7Part5()
 		{
 			frameskips=0;
 			towcnt=0;
-			CreateTower2(400,300,50,4);//Cyan
+			CreateTower2(400,300,50,4);
 		}
 	}
 	if (tower[1].towertype==2)
@@ -2544,7 +2423,7 @@ void Level7Part5()
 		{
 			frameskips=0;
 			towcnt=0;
-			CreateTower8(400,300,500,5,20,50);//Blue
+			CreateTower8(400,300,500,5,20,50);
 		}
 	}
 	if (tower[1].towertype==8)
@@ -2554,7 +2433,7 @@ void Level7Part5()
 		{
 			frameskips=0;
 			towcnt=0;
-			CreateTower5(400,300,50,5);//Purple
+			CreateTower5(400,300,50,5);
 		}
 	}
 	if (tower[1].towertype==5)
@@ -2563,7 +2442,7 @@ void Level7Part5()
 		{
 			frameskips=0;
 			towcnt=0;
-			CreateTower6(400,300,600,2,1000,3,72);//Red
+			CreateTower6(400,300,600,2,1000,3,72);
 		}
 	}
 }
@@ -2638,7 +2517,6 @@ void rainbowCreator(double rl,double rr,double rad,TColors col,double speed,bool
 }
 void Level7Part9()
 {
-	//(600,600)->(250,600)
 	if (sntang>-pi)
 	{
 		avacurbrk+=hge->Timer_GetDelta();
@@ -2662,31 +2540,24 @@ void Level7Part9()
 		{
 			avacurbrk=0;
 			double spd=((AMinute-frameleft)/(double)AMinute)+1;
-			//======================
 			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
 			rainbowCreator(660,600,sntang,red,spd);
-			//======================
 			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
 			rainbowCreator(610,550,sntang,orange,spd);
-			//======================
 			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
 			rainbowCreator(560,500,sntang,yellow,spd);
-			//======================
 			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
 			rainbowCreator(510,450,sntang,green,spd);
-			//======================
 			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
 			rainbowCreator(460,410,sntang,blue,spd);
-			//======================
 			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
 			rainbowCreator(420,360,sntang,dblue,spd);
-			//======================
 			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
 			rainbowCreator(365,310,sntang,purple,spd);
@@ -2838,7 +2709,6 @@ void Level7Part17()//Great circles-child1
 {
 	frameleft=Infinity;
 	DTCircle+=hge->Timer_GetDelta();
-	//Create New Circles here.
 	if (DTCircle>1&&CCnt<3)
 	{
 		Circles[2].Init(444,10*pi/50000.0f,12,vector2d(400,300));
@@ -2875,49 +2745,49 @@ void Level7Part17()//Great circles-child1
 		Circles[13].Init(444,-3*pi/50000.0f,96,vector2d(400,300));
 		CCnt=13;
 	}
-	if (Circles[0].GetRange()>=50)//6
+	if (Circles[0].GetRange()>=50)
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 			Circles[0].SetRange(Circles[0].GetRange()-0.1),
 			Circles[1].SetRange(Circles[1].GetRange()-0.1);
 	}
-	if (Circles[2].GetRange()>=100&&CCnt>=3)//12
+	if (Circles[2].GetRange()>=100&&CCnt>=3)
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 			Circles[2].SetRange(Circles[2].GetRange()-0.1),
 			Circles[3].SetRange(Circles[3].GetRange()-0.1);
 	}
-	if (Circles[4].GetRange()>=150&&CCnt>=5)//18
+	if (Circles[4].GetRange()>=150&&CCnt>=5)
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 			Circles[4].SetRange(Circles[4].GetRange()-0.1),
 			Circles[5].SetRange(Circles[5].GetRange()-0.1);
 	}
-	if (Circles[6].GetRange()>=210&&CCnt>=7)//27
+	if (Circles[6].GetRange()>=210&&CCnt>=7)
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 			Circles[6].SetRange(Circles[6].GetRange()-0.1),
 			Circles[7].SetRange(Circles[7].GetRange()-0.1);
 	}
-	if (Circles[8].GetRange()>=270&&CCnt>=9)//45
+	if (Circles[8].GetRange()>=270&&CCnt>=9)
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 			Circles[8].SetRange(Circles[8].GetRange()-0.1),
 			Circles[9].SetRange(Circles[9].GetRange()-0.1);
 	}
-	if (Circles[10].GetRange()>=320&&CCnt>=11)//60
+	if (Circles[10].GetRange()>=320&&CCnt>=11)
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 			Circles[10].SetRange(Circles[10].GetRange()-0.1),
 			Circles[11].SetRange(Circles[11].GetRange()-0.1);
 	}
-	if (Circles[12].GetRange()>=420&&CCnt>=13)//96
+	if (Circles[12].GetRange()>=420&&CCnt>=13)
 	{
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
@@ -3132,14 +3002,14 @@ void Level7Part26()
 		}
 	}
 }
-void Level7Part27()//Minesweeper?-
+void Level7Part27()//Minesweeper
 {
 	frameleft=AMinute;
 	if (bulcnt!=0)return (void)ClearAll();
 	Lasercnt=0;
 	++part;
 }
-void Level7Part28()//Minesweeper?-child
+void Level7Part28()//Minesweeper-child
 {
 	if (rand()%100>95)
 	{

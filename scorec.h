@@ -18,7 +18,6 @@ unsigned int Getuint()
 {
 	unsigned int c1,c2,c3,c4,res;
 	c1=c2=c3=c4=0;
-	//scanf("%c%c%c%c",&c1,&c2,&c3,&c4);
 	c1=getchar();c2=getchar();c3=getchar();c4=getchar();
 	res=(c1<<24)+(c2<<16)+(c3<<8)+c4;
 	return res;
@@ -31,7 +30,6 @@ long long Getll()
 {
 	long long c1,c2,c3,c4,c5,c6,c7,c8,res;
 	c1=c2=c3=c4=c5=c6=c7=c8=0;
-	//scanf("%c%c%c%c%c%c%c%c",&c1,&c2,&c3,&c4,&c5,&c6,&c7,&c8);
 	c1=getchar();c2=getchar();c3=getchar();c4=getchar();
 	c5=getchar();c6=getchar();c7=getchar();c8=getchar();
 	res=(c1<<56)+(c2<<48)+(c3<<40)+(c4<<32)+(c5<<24)+(c6<<16)+(c7<<8)+c8;

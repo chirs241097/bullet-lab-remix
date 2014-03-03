@@ -13,7 +13,7 @@ private:
 	DWORD alpha,alim;
 	bool onfadein,onfadeout;
 	int fadebreak;
-	hgeSprite* BGSpr[6][6];
+	hgeSprite* BGSpr;
 	HTEXTURE LeafTex;
 	void DoFadeIn()
 	{
@@ -41,12 +41,8 @@ public:
 	void Init(DWORD limalpha)
 	{
 		LeafTex=hge->Texture_Load("./Resources/b_leaves.png");
-		for (int i=0;i<6;++i)
-		for (int j=0;j<6;++j)
-		{
-			BGSpr[i][j]=new hgeSprite(LeafTex,0,0,200,150);
-			BGSpr[i][j]->SetColor(0x00CCCCCC);
-		}
+		BGSpr=new hgeSprite(LeafTex,0,0,200,150);
+		BGSpr->SetColor(0x00CCCCCC);
 		onfadein=onfadeout=false;alpha=0x00;alim=limalpha;fadebreak=0;
 
 	}
@@ -69,10 +65,10 @@ public:
 		deltaBG+=dt;
 		tx=200*cosf(deltaBG/10);
 		ty=150*sinf(deltaBG/10);
+		BGSpr->SetColor(ARGB(alpha,0xCC,0xCC,0xCC));
 		for (int i=-1;i<5;++i)
 		for (int j=-1;j<5;++j)
-			BGSpr[i+1][j+1]->SetColor(ARGB(alpha,0xCC,0xCC,0xCC)),
-			BGSpr[i+1][j+1]->Render(i*199.0f+tx,j*149.0f+ty);
+			BGSpr->Render(i*199.0f+tx,j*149.0f+ty);
 	}
 };
 BG_Leaves Leaves;
@@ -99,7 +95,6 @@ public:
 	Leaf_Anim *Last,*Next;
 	void init(int _lim)
 	{
-		//Leaf=new hgeSprite(letex,0,0,108,108);
 		Leaf=new hgeSprite(letex,letr.x,letr.y,letr.w,letr.h);
 		Leaf->SetColor(lecolor);
 		x=rand()%908-108;
@@ -123,7 +118,7 @@ public:
 		if (this->Last)
 		this->Last->Next=this->Next;
 		delete this->Leaf;
-		delete this;//Not sure this will work?..--Answer: This worked...
+		delete this;
 	}
 	void Update()
 	{
