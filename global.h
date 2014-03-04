@@ -90,10 +90,10 @@ public:
 	bool exist,inv;
 	int whirem,whiskp,yelbrk;
 	int exp1,exp2;
-	double lifetime;
+	double lifetime,rot;
 	bool scollable,collable;
 	double scale;int effbrk;
-	TColors alterColor;
+	TColors alterColor,alterColor2;
 	void redir(vector2d targ)
 	{
 		bulletdir.x=bulletpos.x-targ.x;
@@ -260,7 +260,7 @@ int coll,semicoll,mode,dsmc,restarts;
 double clrrange,clrrad,clrmaxrange,clrind;
 hgeSprite *clrcircle;
 bool IfCallLevel;
-bool Dis8ref;
+bool Dis8ref,t8special;
 int frameskips=0,stepskips=0;
 bool IfShowTip=false,FadeTip=false;
 hgeFont *TipFont;
@@ -283,7 +283,7 @@ int creditsp;double creditfly,creditacc,credbrk;
 bool credstop,creddone;
 bool tfs;
 int fpslvl,clrmode;
-static const char* GLOBAL_H_FN="global.h";
+//static const char* GLOBAL_H_FN="global.h";
 
 void Throw(char *Filename,char *Info)
 {

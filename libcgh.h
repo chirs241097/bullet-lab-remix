@@ -1,7 +1,8 @@
 //Chrisoft Bullet Lab Remix HGE
 //Chrisoft Game Helper header
 //Copyright Chrisoft 2014
-//libcgh version 0004
+//libcgh version 0005
+//Last full compatible version 0002
 //^Modify that when big change is made^
 #include <hge.h>
 #include <hgefont.h>
@@ -25,6 +26,7 @@ struct vector2d
 		x/=l;y/=l;
 	}
 	void Swap(){double t=x;x=y;y=t;}
+	void rotate(double rad){double tx=x*cos(rad)+y*sin(rad),ty=y*cos(rad)-x*sin(rad);x=tx,y=ty;}
 	friend vector2d operator -(vector2d a,vector2d b)
 	{
 		return vector2d(a.x-b.x,a.y-b.y);

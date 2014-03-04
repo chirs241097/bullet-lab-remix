@@ -80,11 +80,12 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool inv
 	bullet[i].bulletdir.y=sin(rad);
 	bullet[i].bulletspeed=bs;
 	bullet[i].alterColor=blue;
+	bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].lifetime=0;
 	bullet[i].scollable=true;
 	bullet[i].collable=true;
 	bullet[i].bulletaccel=bullet[i].limv=0;
-	bullet[i].scale=1;
+	bullet[i].scale=1;bullet[i].rot=0;
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
@@ -377,7 +378,11 @@ void ProcessBullet2(int i)
 	}
 	else
 	{
+		if(bullet[i].alterColor2==COLOR_COUNT)
 		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		else
+		RenderAlter(vector2d(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2),bullet[i].alterColor,bullet[i].alterColor2,bullet[i].rot,0.6*bullet[i].scale),
+		Current_Position==1?bullet[i].rot+=(i&1?1:-1)*(1000/hge->Timer_GetFPS())*pi/1000:0;
 		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
 	}
 }
@@ -657,7 +662,16 @@ void ProcessBullet8(int i)
 		{
 			int cnt=rand()%4+2;if (Dis8ref)cnt=0;
 			for (int ii=1;ii<=cnt;++ii)
-				CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,rand()%100);
+			{
+				int pnt=CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,rand()%100);
+				if (t8special)
+				{
+					bullet[pnt].alterColor=(TColors)(rand()%8);
+					bullet[pnt].alterColor2=(TColors)(rand()%8);
+					if(rand()%4==3)bullet[pnt].redir(vector2d(400,300));
+					if(rand()%2==1)++ii;
+				}
+			}
 		}
 		bullet[i].exist=false;
 		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
@@ -1274,7 +1288,7 @@ void ProcessTower8()
 				tower[i].dblstate=true;
 				tower[i].curtimer2=tower[i].towertimer2;
 				tower[i].curshotcount=tower[i].shotcount;
-				if (!Dis8ref)BTarg.TargShow(),BTarg.targpos=playerpos;
+				if (!Dis8ref&&!t8special)BTarg.TargShow(),BTarg.targpos=playerpos;
 			}
 		}
 		else
@@ -1294,19 +1308,39 @@ void ProcessTower8()
 					if (!Dis8ref)BTarg.TargHide();
 					continue;
 				}
-				int pnt=CreateBullet8(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].effect);
-				if (Dis8ref)
+				if (!t8special)
 				{
-					if (tower[i].towerpos.y<300)
-					DirectBullet(bullet[pnt],-pi/2);else DirectBullet(bullet[pnt],pi/2);
+					int pnt=CreateBullet8(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].effect);
+					if (Dis8ref)
+					{
+						if (tower[i].towerpos.y<300)
+						DirectBullet(bullet[pnt],-pi/2);else DirectBullet(bullet[pnt],pi/2);
+					}
+					if (tower[i].curshotcount==tower[i].shotcount)
+						tower[i].tdir=bullet[pnt].bulletdir;
+					else
+					{
+						bullet[pnt].bulletdir=tower[i].tdir;
+						bullet[pnt].dist=bullet[pnt].bulletdir.x*bullet[pnt].bulletdir.x+bullet[pnt].bulletdir.y*bullet[pnt].bulletdir.y;
+						bullet[pnt].dist=sqrt(bullet[pnt].dist);
+					}
 				}
-				if (tower[i].curshotcount==tower[i].shotcount)
-					tower[i].tdir=bullet[pnt].bulletdir;
 				else
 				{
-					bullet[pnt].bulletdir=tower[i].tdir;
-					bullet[pnt].dist=bullet[pnt].bulletdir.x*bullet[pnt].bulletdir.x+bullet[pnt].bulletdir.y*bullet[pnt].bulletdir.y;
-					bullet[pnt].dist=sqrt(bullet[pnt].dist);
+					for(int j=0;j<5;++j)
+					{
+						int pnt=CreateBullet8(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].effect);
+						bullet[pnt].alterColor=white;
+						if (tower[i].curshotcount==tower[i].shotcount&&j==0)
+							tower[i].tdir=bullet[pnt].bulletdir;
+						else
+						{
+							bullet[pnt].bulletdir=tower[i].tdir;
+							bullet[pnt].bulletdir.ToUnitCircle();
+							bullet[pnt].dist=1;
+							bullet[pnt].bulletdir.rotate(j*2*pi/5);
+						}
+					}
 				}
 				tower[i].curtimer2=tower[i].towertimer2;
 				--tower[i].curshotcount;
@@ -1847,10 +1881,10 @@ public:
 class WOP
 {
 private:
-	int trail[200];//Pointer to bullet[] in this trail
-	double brk,blim,rad,k,ml;//step break
+	int trail[200];
+	double brk,blim,rad,k,ml;
 	vector2d a,b;
-	Bullet hbul;//hidden header bullet, no col.
+	Bullet hbul;
 	bool OutOfBound()
 	{
 		if (hbul.bulletpos.x<=-25||hbul.bulletpos.x>=825||hbul.bulletpos.y<=-25||hbul.bulletpos.y>=625)
@@ -1861,7 +1895,7 @@ private:
 	}
 public:
 	bool active;
-	void Init(vector2d _a,vector2d _b,double _ml,double _bl)//ml=Max Length, bl=BLumia
+	void Init(vector2d _a,vector2d _b,double _ml,double _bl)
 	{
 		a=_a,b=_b,ml=_ml,blim=_bl;rad=0;
 		if (fabs(b.x-a.x)<1e-6)return;k=(b.y-a.y)/(b.x-a.x);

@@ -3,14 +3,16 @@ Next version:
 0.7.2-2_PR/0.7.3-0_PR
 TODOs:
 Couple of tests, new levels, pre-release preparation.
+There's only one level left before the next pre-release version!!
 0.7.x-x_PR will be another public pre-release version.
 
 Pre-Released versions:
 0.7.2-1_PR (b71)
 New level "Trypophobia", however it seems that this level won't
 cause trypophobia at all!
+New level "Photon fusion", using a slightly modified Tower8.
 Rewrote laser distance detection using vector2d calculations,
-extending libcgh and bump its version at the same time.
+extending libcgh and bump its version at the same time.(*2)
 Put the new level to the correct place.
 Bring back "Minesweeper" level, adjust it to the new interfaces.
 Convert Bullet from struct to class.

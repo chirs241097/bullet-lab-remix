@@ -2871,15 +2871,41 @@ void Level7Part20()
 	for(int i=0;i<50;++i)
 	if(btails[i].isActive())btails[i].Update();
 }
-//Rearrange needed since here, see LEVELS.txt
-WOP wop[100];
-void Level7Part21()//Wave of Photon
+int sttnt;
+void Level7Part21()
 {
-	memset(bnl,0,sizeof(bnl));
+	frameleft=AMinute+ThirtySeconds;
+	if (towcnt!=1&&towcnt!=0)return ClearAll(false);
+	DisableAllTower=false;
+	++frameskips;
+	if (frameskips<10&&!LOWFPS)return;
+	frameskips=0;
+	t8special=true;
+	sttnt=CreateTower8(400,300,2000,2,75,20);
+	for (int i=1;i<=towcnt;++i)
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
+	for (int i=1;i<=towcnt;++i)
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
+		else
+		{
+			++part;
+			return;
+		}
+}
+void Level7Part22()
+{
+	tower[sttnt].towertimer=(frameleft/(double)(AMinute+ThirtySeconds))*1250+750;
+}
+WOP wop[100];
+void Level7Part23()//Wave of Photon
+{
+	memset(bnl,0,sizeof(bnl));t8special=false;
 	frameleft=AMinute;All2pnt();
 	ykbrk=0.5f;++part;
 }
-void Level7Part22()
+void Level7Part24()
 {
 	ykbrk-=hge->Timer_GetDelta();
 	if (ykbrk<0&&frameleft>TenSeconds/10*3)
@@ -2918,7 +2944,8 @@ void Level7Part22()
 	for (int i=0;i<100;++i)
 	if (wop[i].active)wop[i].Update();
 }
-void Level7Part23()//3 circles
+//Rearrange needed since here, see LEVELS.txt
+void Level7Part25()//3 circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -2934,7 +2961,7 @@ void Level7Part23()//3 circles
 		++part;All2pnt();avabrk=1.0f;avacurbrk=0;
 	}
 }
-void L7P13Creator(vector2d p,int cnt,TColors col)
+void L7P26Creator(vector2d p,int cnt,TColors col)
 {
 	for (int i=0;i<cnt;++i)
 	{
@@ -2945,21 +2972,21 @@ void L7P13Creator(vector2d p,int cnt,TColors col)
 		bullet[pnt].bulletaccel=-0.003;bullet[pnt].limv=((AMinute-frameleft)/(double)AMinute)+1.0f;
 	}
 }
-void Level7Part24()
+void Level7Part26()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
 	if(avacurbrk>avabrk)
 	{
 		avacurbrk=0;
-		L7P13Creator(vector2d(400,250),60,red);
-		L7P13Creator(vector2d(350,336.6),60,green);
-		L7P13Creator(vector2d(450,336.6),60,blue);
+		L7P26Creator(vector2d(400,250),60,red);
+		L7P26Creator(vector2d(350,336.6),60,green);
+		L7P26Creator(vector2d(450,336.6),60,blue);
 	}
 }
 BCircle scircles[200];
 double rspd[200];
-void Level7Part25()//circles
+void Level7Part27()//circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -2975,7 +3002,7 @@ void Level7Part25()//circles
 		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(scircles,0,sizeof(scircles));
 	}
 }
-void Level7Part26()
+void Level7Part28()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=0.1+(frameleft/(double)AMinute)*0.4f;
@@ -3002,14 +3029,14 @@ void Level7Part26()
 		}
 	}
 }
-void Level7Part27()//Minesweeper
+void Level7Part29()//Minesweeper
 {
 	frameleft=AMinute;
 	if (bulcnt!=0)return (void)ClearAll();
 	Lasercnt=0;
 	++part;
 }
-void Level7Part28()//Minesweeper-child
+void Level7Part30()//Minesweeper-child
 {
 	if (rand()%100>95)
 	{
