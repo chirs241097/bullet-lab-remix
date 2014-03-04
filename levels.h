@@ -45,9 +45,10 @@ double towers[16];int tcnt;
 double dscroll,roll;
 bool sout,tendone;bool dmt[16];
 //static const char* LEVEL_H_FN="levels.h";
+void Level1Part0(){++part;}
 void Level1Part1()
 {
-	if ((tower[CreateTower1(400,300,857,2)].RendColor>>24)>=0x80)IfCallLevel=false;
+	CreateTower1(400,300,857,2);
 	frameleft=AMinute*2;
 	tcnt=1;sout=false;dscroll=-0.025f;memset(dmt,true,sizeof(dmt));
 	for (int i=0;i<tcnt;++i)
@@ -2874,7 +2875,7 @@ void Level7Part20()
 int sttnt;
 void Level7Part21()
 {
-	frameleft=AMinute+ThirtySeconds;
+	frameleft=AMinute+ThirtySeconds;All2pnt();
 	if (towcnt!=1&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	++frameskips;
@@ -2902,7 +2903,7 @@ WOP wop[100];
 void Level7Part23()//Wave of Photon
 {
 	memset(bnl,0,sizeof(bnl));t8special=false;
-	frameleft=AMinute;All2pnt();
+	frameleft=AMinute;All2pnt();towcnt=0;
 	ykbrk=0.5f;++part;
 }
 void Level7Part24()

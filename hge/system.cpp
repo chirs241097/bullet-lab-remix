@@ -111,7 +111,7 @@ bool CALL HGE_Impl::System_Initiate()
 	}
 
 #else
-	system("uname -s -r -m > os.out");
+	system("uname -s -v -m > os.out");
 	char osv[100];FILE* a=fopen("os.out","r");fgets(osv,50,a);fclose(a);
 	osv[strlen(osv)-1]='\0';
 	System_Log("%s: OS: %s",SYSTEM_SRC_FN,osv);

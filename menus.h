@@ -22,7 +22,7 @@ void PauseGUI_Init();
 void StartGUI_Init()
 {
 	StartGUI=new hgeGUI();
-	StartGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Same as the third one"));
+	StartGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Classic"));
 	StartGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Not Available!!"));
 	StartGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Same as the second one"));
 	StartGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"Free Play Mode"));
@@ -41,21 +41,24 @@ void StartGUI_FrameFnk()
 		switch (id)
 		{
 			case 1:
-				/*playerpos.x=400,playerpos.y=400,playerrot=0;
-				frameleft=TenSeconds;
-				level=1,part=1;frms=0,averfps=0.0;restarts=0;bsscale=0.75;
-				towcnt=bulcnt=0;
-				mode=4;
-				score=0;
-				coll=semicoll=clrusg=0;
+				playerpos.x=400,playerpos.y=400,playerrot=0;
+				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
+				level=1,part=1;frms=0,averfps=0.0;bsscale=1;
+				towcnt=bulcnt=0;whrcnt=12;skyactive=false;
+				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
+				lpst=4625568;lped=9234584;//Music_Play();
+				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
+				Lock.Init(2);
+				//Lock.SetTexture(SprSheet,151,264,2,8);
 				clrrad=pi/2;clrrange=0;
 				memset(tower,0,sizeof(tower));
 				memset(bullet,0,sizeof(bullet));
 				Complete=false;
-				Refliction=false;
+				Current_Position=1;
 				Level1Part1();
 				IfCallLevel=true;
-				break;*/
+				mode=1;
+				break;
 			case 2:
 				/*playerpos.x=400,playerpos.y=400,playerrot=0;
 				frameleft=TenSeconds;
@@ -157,11 +160,12 @@ void DeathGUI_FrameFnk()
 		{
 			case 7:
 				IfCallLevel=true;
+				IfShowTip=true;
 				Current_Position=1;
 				DeathGUI->Leave();
 				score=-abs(score);
 				++restarts;
-				part=1;
+				part=0;
 				clockrot=deltarot=0;
 				coll=towcnt=bulcnt=0;
 				DisableAllTower=DisablePlayer=false;

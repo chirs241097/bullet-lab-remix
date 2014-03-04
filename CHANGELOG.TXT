@@ -2,7 +2,8 @@
 Next version:
 0.7.2-2_PR/0.7.3-0_PR
 TODOs:
-Couple of tests, new levels, pre-release preparation.
+Test classic mode, difficulty adjustments.
+P.S.: Level 1 may be too hard now.
 There's only one level left before the next pre-release version!!
 0.7.x-x_PR will be another public pre-release version.
 
@@ -16,6 +17,10 @@ extending libcgh and bump its version at the same time.(*2)
 Put the new level to the correct place.
 Bring back "Minesweeper" level, adjust it to the new interfaces.
 Convert Bullet from struct to class.
+Bring back Classic Mode. There are no "easy", "normal" or "hard"
+now, there's only "classic"! Fix problems with the classic mode in
+the new code base.
+Fixed a bug appeared after the levels were put together.
 Other minor changes to the level WOP.
 Minor cleanups and code style adjustments. Add missing free's and
 delete's.

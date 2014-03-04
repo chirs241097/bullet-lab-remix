@@ -315,6 +315,7 @@ void CallLevels()
 	if ((mode==4||mode<=2)&&coll!=0){DeathGUI_Init();return;}
 	if (!IfCallLevel) return;
 	//Check Complete
+	if (level==1&&part==0)Level1Part0();
 	if (level==1&&part==1)Level1Part1();
 	if (level==1&&part==2)Level1Part2();
 	if (level==1&&part==3)Level1Part3();
