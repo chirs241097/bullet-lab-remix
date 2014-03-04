@@ -9,6 +9,12 @@ There's only one level left before the next pre-release version!!
 
 Pre-Released versions:
 0.7.2-1_PR (b71)
+(Level7 will be almost twice longer than Level6!)
+I'm extremely tired these days, I can't even keep my eyes open
+while typing...
+Some of my classmates helped testing several levels and found
+some bugs, thanks a lot!
+===Real changelog starts from here===
 New level "Trypophobia", however it seems that this level won't
 cause trypophobia at all!
 New level "Photon fusion", using a slightly modified Tower8.

@@ -1149,7 +1149,7 @@ void Level5Part4()
 			else
 			laser[i].Setdata(j,t,s,0xEEFF8800);
 			trad=initrad+j*pi/36.0f;
-			if (shot&&j==pos)CreateBullet2(400+t.x,300+t.y,0.0f,rand()%100,1);
+			if (shot&&j==pos)bullet[CreateBullet2(400+t.x,300+t.y,0.0f,rand()%100,1)].alterColor=orange;
 		}
 		if (pos>8&&pos<23)
 			laser[i].EnableColl=true;
@@ -3033,7 +3033,7 @@ void Level7Part28()
 void Level7Part29()//Minesweeper
 {
 	frameleft=AMinute;
-	if (bulcnt!=0)return (void)ClearAll();
+	All2pnt();towcnt=0;
 	Lasercnt=0;
 	++part;
 }

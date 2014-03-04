@@ -1450,7 +1450,7 @@ public:
 		Render();
 		if (EnableColl)
 		{
-			if (GetDist()<8.0f&&clrrange<1e-5&&clrrad-pi/2<1e-7)
+			if (GetDist()<4.0f&&clrrange<1e-5&&clrrad-pi/2<1e-7)
 			{
 				if (!LOWFPS)++collbrk;else collbrk+=17;
 				if (collbrk>200)
