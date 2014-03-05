@@ -2512,7 +2512,7 @@ void Level7Part8()
 }
 void rainbowCreator(double rl,double rr,double rad,TColors col,double speed,bool invi=false)
 {
-	double r=rand()%((int)(rr-rl)*10000)/10000.0f+rl;
+	double r=rand()%((int)(abs(rr-rl)*10000))/10000.0f+rl;
 	int pnt=CreateBullet2(900+cos(rad)*r,700+sin(rad)*r,speed,rand()/32767.0f,true,invi);
 	bullet[pnt].alterColor=col;
 }
@@ -2945,8 +2945,37 @@ void Level7Part24()
 	for (int i=0;i<100;++i)
 	if (wop[i].active)wop[i].Update();
 }
-//Rearrange needed since here, see LEVELS.txt
-void Level7Part25()//3 circles
+RTV rtv[100];
+void Level7Part25()
+{
+	frameleft=AMinute+ThirtySeconds;
+	All2pnt();towcnt=Lasercnt=0;
+	++part;memset(rtv,0,sizeof(rtv));
+	avabrk=1;avacurbrk=0.7;
+}
+void Level7Part26()
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk&&frameleft>TenSeconds/3)
+	{
+		avacurbrk=0;avabrk=frameleft/(double)(AMinute+ThirtySeconds)*1.25+0.75;
+		for(int i=0;i<100;++i)if(!rtv[i].isActive())
+		{
+			int spinner=6;
+			if(frameleft<AMinute)spinner=8;
+			if(frameleft<ThirtySeconds)spinner=12;
+			if(rand()%100>40)rtv[i].Init(1,(rand()&1?1:-1)*pi/123,spinner,(TColors)(rand()%8),rand()%12);
+			else if(rand()&1)
+			rtv[i].Init(2,(rand()&1?1:-1)*pi/60,spinner,(TColors)(rand()%8),rand()%12);
+			else
+			rtv[i].Init(3,pi/48,spinner,(TColors)(rand()%8),rand()%12);
+			break;
+		}
+	}
+	for(int i=0;i<100;++i)if(rtv[i].isActive())rtv[i].Update();
+}
+//Level8 stats from here
+void Level7Part27()//3 circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -2973,7 +3002,7 @@ void L7P26Creator(vector2d p,int cnt,TColors col)
 		bullet[pnt].bulletaccel=-0.003;bullet[pnt].limv=((AMinute-frameleft)/(double)AMinute)+1.0f;
 	}
 }
-void Level7Part26()
+void Level7Part28()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
@@ -2987,7 +3016,7 @@ void Level7Part26()
 }
 BCircle scircles[200];
 double rspd[200];
-void Level7Part27()//circles
+void Level7Part29()//circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -3003,7 +3032,7 @@ void Level7Part27()//circles
 		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(scircles,0,sizeof(scircles));
 	}
 }
-void Level7Part28()
+void Level7Part30()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=0.1+(frameleft/(double)AMinute)*0.4f;
@@ -3030,14 +3059,14 @@ void Level7Part28()
 		}
 	}
 }
-void Level7Part29()//Minesweeper
+void Level7Part31()//Minesweeper
 {
 	frameleft=AMinute;
 	All2pnt();towcnt=0;
 	Lasercnt=0;
 	++part;
 }
-void Level7Part30()//Minesweeper-child
+void Level7Part32()//Minesweeper-child
 {
 	if (rand()%100>95)
 	{

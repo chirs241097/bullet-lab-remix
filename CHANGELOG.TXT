@@ -1,19 +1,34 @@
 ===================================================================
 Next version:
-0.7.2-2_PR/0.7.3-0_PR
+0.7.3-0_PR
 TODOs:
-Test classic mode, difficulty adjustments.
+Make multiplier function.
+Test classic mode, difficulty adjustments. Merge code for Windows.
 P.S.: Level 1 may be too hard now.
-There's only one level left before the next pre-release version!!
 0.7.x-x_PR will be another public pre-release version.
 
 Pre-Released versions:
+0.7.2-2_PR (b72)
+New level "return to void". That's a 3 in 1 class. I used
+particularly many "return(void)(...);" in this level (which I
+always love to use).
+This indicates all "normal" levels are completed.
+Fixed: Trypophobia stops if too many CLR's are used.
+Fixed the problem in All2pnt().
+A Small bug in the Windows build is fixed.
+File list in the Windows build is updated.
+
 0.7.2-1_PR (b71)
 (Level7 will be almost twice longer than Level6!)
 I'm extremely tired these days, I can't even keep my eyes open
 while typing...
 Some of my classmates helped testing several levels and found
 some bugs, thanks a lot!
+
+After a short test, I found that the Windows build is almost
+broken... Crashes and misbehaves are everywhere!
+
+Maybe Windows is noble and won't run this garbage:(
 ===Real changelog starts from here===
 New level "Trypophobia", however it seems that this level won't
 cause trypophobia at all!
@@ -51,6 +66,7 @@ under Low FPS Mode.
 Minor code cleanups.
 Removed more useless comments, my code is still hard to comprehend,
 though.
+Fix the misbehave of modulo with minus numbers...
 Small interface and behaviour changes:
 -If a bullet is effect-attatched and the effect is running, it won't
 die.

@@ -303,7 +303,11 @@ void Error(const char *EC,bool hgecreated=false)
 		hge->Release();
 	}
 #ifdef WIN32
-	remove("./Resources/bg.png");
+	remove("./Resources/b_diff.png");
+	remove("./Resources/b_inter.png");
+	remove("./Resources/b_null.png");
+	remove("./Resources/e_sflake.png");
+	remove("./Resources/e_skyitem.png");
 	remove("./Resources/blnsns.png");
 	remove("./Resources/charmap.fnt");
 	remove("./Resources/ss.png");
@@ -315,6 +319,7 @@ void Error(const char *EC,bool hgecreated=false)
 	remove("./Resources/Music/BLR2_TR01.ogg");
 	remove("./Resources/Music/BLR2_TR07.ogg");
 	remove("./Resources/Music/BLR2_TR09.ogg");
+	remove("./Resources/Music/CanonTechno.ogg");
 	_rmdir("./Resources/Music");
 	_rmdir("./Resources");
 #endif

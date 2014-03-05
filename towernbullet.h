@@ -299,12 +299,15 @@ void All2pnt()
 {
 	for (int i=1;i<=bulcnt;++i)
 	{
-		CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
-		bullet[i].exist=false;
-		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
-		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-		bullet[i].dist=0;
-		bullet[i].bullettype=0;
+		if(bullet[i].bullettype<200&&bullet[i].exist)
+		{
+			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
+			bullet[i].exist=false;
+			bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+			bullet[i].dist=0;
+			bullet[i].bullettype=0;
+		}
 	}
 }
 void ProcessBullet1(int i)
@@ -1945,6 +1948,19 @@ private:
 			matrixx=_x;matrixy=_y;color=_col;
 			progress=1;cnt=0;
 		}
+		void kill()
+		{
+			for(int i=0;i<cnt;++i)
+			{
+				if(pb[i])
+				{
+					if(pb[i]->bullettype==2)
+					{
+						pb[i]->exist=false;pb[i]=0;
+					}
+				}
+			}
+		}
 		void update()
 		{
 			if(!progress)return;
@@ -1972,7 +1988,7 @@ private:
 					{
 						if(pb[i])
 						{
-							if(pb[i]->lifetime>1)
+							if(pb[i]->bullettype==2&&pb[i]->lifetime>1)
 							{
 								BulletEffect_Death(*pb[i],ColorToDWORD(color));
 								pb[i]->exist=false;pb[i]=0;
@@ -1988,7 +2004,7 @@ private:
 	Pile piles[30];
 	bool tactive;
 	int listx[30],listy[30],cnt;
-	TColors pcolor;
+	TColors pcolor;double tlifetime;
 	bool check(int x,int y)
 	{
 		if(x<0||x>15)return false;
@@ -2003,12 +2019,19 @@ public:
 	{
 		pcolor=(TColors)(rand()%8);tactive=true;
 		cnt=0;memset(listx,0,sizeof(listx));
-		memset(listy,0,sizeof(listy));
+		memset(listy,0,sizeof(listy));tlifetime=0;
 		listx[cnt++]=rand()%16;listy[cnt-1]=rand()%12;
 		piles[cnt-1].create(listx[cnt-1],listy[cnt-1],pcolor);
 	}
 	void Update()
 	{
+		tlifetime+=hge->Timer_GetDelta();
+		if(tlifetime>15)
+		{
+			tactive=false;
+			for(int i=0;i<30;++i)
+			if(piles[i].getProgress())piles[i].kill();
+		}
 		if(piles[cnt-1].getProgress()==10)
 		{
 			int dlx[4],dly[4],dcnt=0;
@@ -2222,4 +2245,124 @@ public:
 			active=false;
 		}
 	};
+};
+class RTV
+{
+private:
+	int mode,cnt,stage,spnr,dcorr;
+	bool active;TColors col;
+	double drad,rad,brk;
+	Bullet *targ[600];
+public:
+	bool isActive(){return active;}
+	void Init(int _mode,double _drad,int _spnr,TColors _c,int _dcorr)
+	{
+		mode=_mode;drad=_drad;rad=0;spnr=_spnr;
+		brk=0;active=true;cnt=0;stage=0;col=_c;
+		memset(targ,0,sizeof(targ));dcorr=_dcorr;
+	}
+	void Update()
+	{
+		switch(mode)
+		{
+			case 1:
+			{
+				brk+=hge->Timer_GetDelta();
+				bool dchk=(stage==1);
+				for(int i=0;i<cnt;++i)
+				{
+					if(targ[i]->bulletspeed>1&&GetDist(vector2d(400,300),targ[i]->bulletpos)>=200)
+					targ[i]->bulletspeed=0;
+					if(targ[i]->bulletspeed>1)dchk=false;
+				}
+				if(dchk)
+				{
+					for(int i=0;i<cnt;++i)
+					{
+						double rad=atan2(targ[i]->bulletdir.y,targ[i]->bulletdir.x);
+						int cc=(int)(rad/drad);
+						if((cc/6+dcorr)&1)
+						targ[i]->bulletaccel=0.005,
+						targ[i]->limv=3;
+						else
+						targ[i]->bulletaccel=-0.005,
+						targ[i]->limv=-3;
+					}
+					return(void)(active=false);
+				}
+				if(stage==0)
+				{
+					if(brk>0.05)
+					{
+						brk=0;rad+=drad;
+						if(fabs(rad)>2*pi/spnr+pi/180)return(void)(stage=1);
+						for(int i=0;i<spnr;++i)
+						{
+							targ[cnt]=&bullet[CreateBullet2(400,300,2,rad+i*2*pi/spnr)],
+							targ[cnt]->inv=true,
+							targ[cnt++]->alterColor=col;
+						}
+					}
+				}
+			}
+			break;
+			case 2:
+			{
+				brk+=hge->Timer_GetDelta();
+				bool dchk=(stage==1);
+				for(int i=0;i<cnt;++i)
+				{
+					if(targ[i]->bulletspeed>1&&GetDist(vector2d(400,300),targ[i]->bulletpos)>=200)
+					targ[i]->bulletspeed=0;
+					if(targ[i]->bulletspeed>1)dchk=false;
+				}
+				if(dchk)
+				{
+					if(rand()%2)
+					for(int i=0;i<cnt;++i)
+						targ[i]->bulletaccel=-0.005,
+						targ[i]->limv=-3;
+					else
+					for(int i=0;i<cnt;++i)
+						targ[i]->bulletaccel=0.005,
+						targ[i]->limv=3;
+					return(void)(active=false);
+				}
+				if(stage==0)
+				{
+					if(brk>0.05)
+					{
+						brk=0;rad+=drad;
+						if(fabs(rad)>2*pi/spnr+pi/180)return(void)(stage=1);
+						for(int i=0;i<spnr;++i)
+						{
+							targ[cnt]=&bullet[CreateBullet2(400,300,2,rad+i*2*pi/spnr)],
+							targ[cnt]->inv=true;
+							targ[cnt++]->alterColor=col;
+						}
+					}
+				}
+			}
+			break;
+			case 3:
+			{
+				brk+=hge->Timer_GetDelta();
+				if(brk>0.05)
+				{
+					brk=0;rad+=drad;
+					if(fabs(rad)>2*pi/spnr+pi/180)return(void)(active=false);
+					for(int i=0;i<spnr;++i)
+					{
+						targ[cnt]=&bullet[CreateBullet2(400,300,2,rad+i*2*pi/spnr)];
+						targ[cnt]->inv=true;
+						targ[cnt++]->alterColor=col;
+						targ[cnt]=&bullet[CreateBullet2(400,300,2,-rad+i*2*pi/spnr)];
+						targ[cnt]->inv=true;
+						targ[cnt++]->alterColor=col;
+					}
+				}
+			}
+			break;
+		}
+	}
 };

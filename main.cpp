@@ -449,6 +449,8 @@ void CallLevels()
 	if (level==7&&part==28)Level7Part28();
 	if (level==7&&part==29)Level7Part29();
 	if (level==7&&part==30)Level7Part30();
+	if (level==7&&part==31)Level7Part31();
+	if (level==7&&part==32)Level7Part32();
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)level=3,part=0;
 	if (level==3&&part==7)level=4,part=0;
@@ -854,7 +856,11 @@ int main()
 	hge->System_Shutdown();
 	hge->Release();
 #ifdef WIN32
-	remove("./Resources/bg.png");
+	remove("./Resources/b_diff.png");
+	remove("./Resources/b_inter.png");
+	remove("./Resources/b_null.png");
+	remove("./Resources/e_sflake.png");
+	remove("./Resources/e_skyitem.png");
 	remove("./Resources/blnsns.png");
 	remove("./Resources/charmap.fnt");
 	remove("./Resources/ss.png");
@@ -866,6 +872,7 @@ int main()
 	remove("./Resources/Music/BLR2_TR01.ogg");
 	remove("./Resources/Music/BLR2_TR07.ogg");
 	remove("./Resources/Music/BLR2_TR09.ogg");
+	remove("./Resources/Music/CanonTechno.ogg");
 	_rmdir("./Resources/Music");
 	_rmdir("./Resources");
 #endif
