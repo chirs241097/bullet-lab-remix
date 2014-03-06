@@ -13,7 +13,7 @@ HangUpText MT[255];
 void NewMT()
 {
 	int i=0;while (MT[i].Active())++i;
-	char ttext[10];sprintf(ttext,"x%d",mult);
+	char ttext[10];sprintf(ttext,"x%.2lf",mult);
 	MT[i].Init("./Resources/charmap.fnt",ttext,1.0f,200,-50);
 	MT[i].Launch(vector2d(playerpos.x,playerpos.y-25));
 }
@@ -104,10 +104,12 @@ void Mult_FrameFunc()
 	if (Current_Position!=1)return;
 	ProcessMT();ProcessMultpo();
 	--multbrk;
+	if(!dsmc)lsc+=hge->Timer_GetDelta();else lsc=0;
+	if(lsc>1&&mult>1.0f)mult-=hge->Timer_GetDelta()/20.0f;
 	if (multbrk<0)
 	{
 		multbrk=ThirtySeconds;
-		mult+=multbat;
+		mult+=multbat;lsc=0;
 		NewMT();
 		if (multbat<5)++multbat;
 	}

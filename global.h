@@ -265,14 +265,13 @@ int frameskips=0,stepskips=0;
 bool IfShowTip=false,FadeTip=false;
 hgeFont *TipFont;
 char lasttip[200];
-int p2t1,p2t2,p2t3,p2t4;
 int whicnt,whrcnt,shots,clrusg;
 bool yelattrib;
 bool Complete=false;
-double linerad=0;
 double bsscale;
 long long score,scminus;
-int mult,multbrk,multbat;
+double mult,lsc;
+int multbrk,multbat;
 int frms;double averfps;
 int plrspd,plrslospd;
 int TenSeconds=10000,TwentySeconds=20000,ThirtySeconds=30000,AMinute=60000;
@@ -406,43 +405,6 @@ void ClearAll(bool cbullet=true)
 		memset(tower,0,sizeof(tower));
 		if (cbullet)All2pnt();
 	}
-}
-void SaySomethingAndBye(char *text)
-{
-	ClearAll();
-	DisableAllTower=false;
-	if (IfShowTip)
-	{
-		IfShowTip=false;
-		FadeTip=false;
-		Current_Position=2;
-		ShowTip(text);
-		return;
-	}
-	Current_Position=0;
-	towcnt=bulcnt=0;
-	memset(tower,0,sizeof(tower));
-	memset(bullet,0,sizeof(bullet));
-	gui->Enter();
-}
-DWORD ColTrans(DWORD src,DWORD dsr,DWORD speed)
-{
-	DWORD sr=GETR(src),sg=GETG(src),sb=GETB(src);
-	DWORD dr=GETR(dsr),dg=GETG(dsr),db=GETB(dsr);
-	int times=1;if (LOWFPS)times=17;
-	for (int i=1;i<=times;++i)
-	{
-		if (llabs(sr-dr)<speed)dr=sr;
-		else
-			sr-=(sr-dr)/llabs(sr-dr)*speed;
-		if (llabs(sg-dg)<speed)dg=sg;
-		else
-			sg-=(sg-dg)/llabs(sg-dg)*speed;
-		if (llabs(sb-db)<speed)db=sb;
-		else
-			sb-=(sb-db)/llabs(sb-db)*speed;
-	}
-	return ARGB(0xFF,sr,sg,sb);
 }
 TextureRect GetTextureRect(int type,TColors color)
 {

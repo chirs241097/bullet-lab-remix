@@ -294,16 +294,17 @@ void ProcessPlayer()
 }
 void RefreshScore()
 {
+	Mult_FrameFunc();
 	if (DisablePlayer)return;
-	int multp=1;
-	if (mode==2)multp=5;
+	mult+=0.01f*dsmc;
 	if (LOWFPS)
-		score+=multp*16;
+		score+=16*mult;
 	else
-		score+=multp;
-	score+=100*shots;
-	score-=scminus;
-	score+=2000*dsmc;
+		score+=mult;
+	if(scminus){if(mult/2>0.1)mult/=2;else mult=0.5;}
+	score+=100*shots*mult;
+	score-=scminus*mult;
+	score+=2000*dsmc*mult;
 	++frms;
 	averfps=(averfps*(frms-1)+hge->Timer_GetFPS())/(double)frms;
 }
@@ -573,9 +574,7 @@ bool FrameFunc()
 		if (bdiff.active())bdiff.Update();
 		if (LE_Active||Head){if (!Head)Tail=Head=new Leaf_Anim(),Head->init(990);Head->Process();}
 		shots=0;
-		dsmc=0;
-		scminus=0;
-		Mult_FrameFunc();
+		dsmc=scminus=0;
 		Music_Update();
 		ProcessTower1();
 		ProcessTower2();
@@ -604,6 +603,7 @@ bool FrameFunc()
 				case 255:ProcessBullet255(i);break;
 			}
 		}
+		if (Current_Position==1)CallLevels();
 		ProcessPlayer();
 		RefreshScore();
 		{
@@ -612,8 +612,7 @@ bool FrameFunc()
 		{
 			if (BTarg.visible)BTarg.TargRender();
 		}
-		if (!DisablePlayer)
-		--frameleft;//If we are at the tip scene, disable the player movement.
+		if (!DisablePlayer)--frameleft;
 		if (!LOWFPS)
 		{
 			if (playerspeed<playerfulspd)playerspeed+=playerfulspd/400;
@@ -631,16 +630,8 @@ bool FrameFunc()
 		++part;
 		IfShowTip=true;
 	}
-	if (Current_Position==1)
-	{
-		CallLevels();
-	}
-	if (shots)
-		hge->Effect_Play(snd);
-	if (Current_Position==2)
-	{
-		ShowTip(lasttip);
-	}
+	if (shots)hge->Effect_Play(snd);
+	if (Current_Position==2)ShowTip(lasttip);
 	if (Current_Position==4)AboutScene();
 	if (Current_Position==5)DeathGUI->Render();
 	if (Current_Position==6)CompleteGUI->Render();
@@ -682,7 +673,7 @@ bool FrameFunc()
 			fnt->printf(5, 75, HGETEXT_LEFT, "Restarts: %d",restarts);
 		fnt->printf(5, 100, HGETEXT_LEFT, "Semi-Collisions: %d",semicoll);
 		fnt->printf(5, 125, HGETEXT_LEFT, "Clear Range Left: %d",clrtime+clrbns);
-		fnt->printf(5, 150, HGETEXT_LEFT, "Multiplier: %d",mult);
+		fnt->printf(5, 150, HGETEXT_LEFT, "Multiplier: %.2lf",mult);
 	}
 	hge->Gfx_EndScene();
 	return false;

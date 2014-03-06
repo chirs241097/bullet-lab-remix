@@ -8,12 +8,6 @@
 #include "effects.h"
 //static const char* TOWERNBULLET_H_FN="towernbullet.h";
 
-void DirectBullet(Bullet &a,double rad)
-{
-	a.bulletdir.x=cos(rad);
-	a.bulletdir.y=sin(rad);
-	a.dist=1;
-}
 void RenderAlter(vector2d p,TColors ca,TColors cb,double rot=0,double scl=1)
 {
 	float x,y,w,h;
@@ -799,6 +793,7 @@ void ProcessBullet255(int i)
 	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
+		score+=mult*100;
 		bullet[i].exist=false;
 		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
@@ -1317,7 +1312,7 @@ void ProcessTower8()
 					if (Dis8ref)
 					{
 						if (tower[i].towerpos.y<300)
-						DirectBullet(bullet[pnt],-pi/2);else DirectBullet(bullet[pnt],pi/2);
+						bullet[pnt].setdir(-pi/2);else bullet[pnt].setdir(pi/2);
 					}
 					if (tower[i].curshotcount==tower[i].shotcount)
 						tower[i].tdir=bullet[pnt].bulletdir;
@@ -1378,6 +1373,22 @@ private:
 	hgeDistortionMesh *graphic;
 	int Res;
 	vector2d data1[MaxRes],data2[MaxRes];
+	double GetDist()
+	{
+		double res=99999.9999f;
+		double tres=99999.9999f;
+		for (int i=0;i<Res-1;++i)
+		{
+			vector2d sa,sb;
+			sa=data1[i]+RenCtr;sb=data1[i+1]+RenCtr;
+			tres=GetDistSeg(sa,sb,playerpos);
+			sa=data2[i]+RenCtr;sb=data2[i+1]+RenCtr;
+			if(GetDistSeg(sa,sb,playerpos)<tres)
+			tres=GetDistSeg(sa,sb,playerpos);
+			if (tres<res)res=tres;
+		}
+		return res;
+	}
 public:
 	bool EnableColl;
 	vector2d RenCtr;
@@ -1430,23 +1441,6 @@ public:
 		graphic->SetDisplacement(Res-1,1,data2[Res].x,data2[Res].y,HGEDISP_TOPLEFT);
 		graphic->SetColor(Res-1,0,color);graphic->SetColor(Res-1,1,color);
 		--Res;
-	}
-	double GetDist()
-	{
-		double res=99999.9999f;
-		double tres=99999.9999f;
-		//Initalize: 999'99.9'999
-		for (int i=0;i<Res-1;++i)
-		{
-			vector2d sa,sb;
-			sa=data1[i]+RenCtr;sb=data1[i+1]+RenCtr;
-			tres=GetDistSeg(sa,sb,playerpos);
-			sa=data2[i]+RenCtr;sb=data2[i+1]+RenCtr;
-			if(GetDistSeg(sa,sb,playerpos)<tres)
-			tres=GetDistSeg(sa,sb,playerpos);
-			if (tres<res)res=tres;
-		}
-		return res;
 	}
 	void Process()
 	{
@@ -1733,7 +1727,7 @@ public:
 	void init()
 	{
 		stage=0;rad1=rad2=srad;elasp=0.0f;ccnt=0;
-		for (int i=0;i<cnt;++i)Bul[i]=&bullet[CreateBullet8(400,300,0,false)],DirectBullet(*Bul[i],srad),Bul[i]->scale=0.01;
+		for (int i=0;i<cnt;++i)Bul[i]=&bullet[CreateBullet8(400,300,0,false)],Bul[i]->setdir(srad),Bul[i]->scale=0.01;
 		Bul[0]->bulletspeed=2;Bul[0]->scale=1;
 	}
 	void stage0()

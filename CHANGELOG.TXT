@@ -2,7 +2,7 @@
 Next version:
 0.7.3-0_PR
 TODOs:
-Make multiplier function.
+Add MultPo's.
 Test classic mode, difficulty adjustments. Merge code for Windows.
 P.S.: Level 1 may be too hard now.
 0.7.x-x_PR will be another public pre-release version.
@@ -13,8 +13,17 @@ New level "return to void". That's a 3 in 1 class. I used
 particularly many "return(void)(...);" in this level (which I
 always love to use).
 This indicates all "normal" levels are completed.
+Multiplier system was fully adopted into BLR.
 Fixed: Trypophobia stops if too many CLR's are used.
 Fixed the problem in All2pnt().
+Make Laser::GetDist() private to avoid misusage.
+Remove unused statements:
+DWORD ColTrans(DWORD,DWORD,DWORD): replaced by
+DWORD ColorTransfer(DWORD,DWORD).
+void SaySomethingAndBye(char*): useless.
+void DirectBullet(Bullet&,double): this has been coexisted with
+the same method in the Bullet class for a long time. Now it's
+replaced by Bullet::setdir(double).
 A Small bug in the Windows build is fixed.
 File list in the Windows build is updated.
 

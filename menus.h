@@ -48,7 +48,7 @@ void StartGUI_FrameFnk()
 				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
 				lpst=4625568;lped=9234584;//Music_Play();
 				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
-				Lock.Init(2);
+				Lock.Init(2);IfShowTip=true;lsc=0;
 				//Lock.SetTexture(SprSheet,151,264,2,8);
 				clrrad=pi/2;clrrange=0;
 				memset(tower,0,sizeof(tower));
@@ -100,7 +100,7 @@ void StartGUI_FrameFnk()
 				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
 				lpst=4625568;lped=9234584;//Music_Play();
 				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
-				Lock.Init(2);
+				Lock.Init(2);IfShowTip=true;lsc=0;
 				//Lock.SetTexture(SprSheet,151,264,2,8);
 				clrrad=pi/2;clrrange=0;
 				memset(tower,0,sizeof(tower));

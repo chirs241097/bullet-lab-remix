@@ -82,15 +82,11 @@ void Level1Part2()
 		if (towers[tcnt-1]<-12)++roll;
 		for (int i=0;i<tcnt;++i)if (towers[i]<-12)towers[i]=612,dmt[i]=true;
 		if (roll==1)
-		{
 			for (int i=1;i<=towcnt;++i)
 				if (tower[i].towertype==3)tower[i].t3t=5;
-		}
 		if (roll==2)
-		{
 			for (int i=1;i<=towcnt;++i)
 				if (tower[i].towertype==3)tower[i].t3t=0;
-		}
 		if (roll==3&&!tendone)
 		{
 			for (int i=1;i<=towcnt;++i)
@@ -146,9 +142,7 @@ void Level1Part4()
 		if (labyred>=1500)CreateBullet6(rand()%800,rand()%600,2,0,1,12,true),labyred=0;
 	}
 	if (frameleft<=TenSeconds&&tower[1].towertimer>857)
-	{
 		for (int i=1;i<=towcnt;++i)tower[i].towertimer=857;
-	}
 }
 BCircle Level2Circle,Level2Circle2;
 Bullet* fakes[12];
@@ -513,7 +507,7 @@ void Level3Part6()
 	if (l3p5brk>0.2)
 	{
 		l3p5brk=0;
-		for (int i=1;i<=8;++i)DirectBullet(bullet[CreateBullet8(i*100-50,20,2,false)],-pi/2);
+		for (int i=1;i<=8;++i)bullet[CreateBullet8(i*100-50,20,2,false)].setdir(-pi/2);
 	}
 }
 void Level4Part0()
@@ -1826,7 +1820,7 @@ void Level6Part19()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			DirectBullet(*beewx[i],(double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -1839,20 +1833,20 @@ void Level6Part19()
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],-5*pi/6);break;
-					case 1:DirectBullet(bheader[i],-pi/2);break;
-					case 2:DirectBullet(bheader[i],-pi/6);break;
-					case 3:DirectBullet(bheader[i],-pi/2);break;
+					case 0:bheader[i].setdir(-5*pi/6);break;
+					case 1:bheader[i].setdir(-pi/2);break;
+					case 2:bheader[i].setdir(-pi/6);break;
+					case 3:bheader[i].setdir(-pi/2);break;
 				}
 			}
 			else
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],-pi/6);break;
-					case 1:DirectBullet(bheader[i],-pi/2);break;
-					case 2:DirectBullet(bheader[i],-5*pi/6);break;
-					case 3:DirectBullet(bheader[i],-pi/2);break;
+					case 0:bheader[i].setdir(-pi/6);break;
+					case 1:bheader[i].setdir(-pi/2);break;
+					case 2:bheader[i].setdir(-5*pi/6);break;
+					case 3:bheader[i].setdir(-pi/2);break;
 				}
 			}
 		}
@@ -1890,7 +1884,7 @@ void Level6Part21()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			DirectBullet(*beewx[i],(double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -1903,20 +1897,20 @@ void Level6Part21()
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],-5*pi/6);break;
-					case 1:DirectBullet(bheader[i],-pi/2);break;
-					case 2:DirectBullet(bheader[i],-pi/6);break;
-					case 3:DirectBullet(bheader[i],-pi/2);break;
+					case 0:bheader[i].setdir(-5*pi/6);break;
+					case 1:bheader[i].setdir(-pi/2);break;
+					case 2:bheader[i].setdir(-pi/6);break;
+					case 3:bheader[i].setdir(-pi/2);break;
 				}
 			}
 			else
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],-pi/6);break;
-					case 1:DirectBullet(bheader[i],-pi/2);break;
-					case 2:DirectBullet(bheader[i],-5*pi/6);break;
-					case 3:DirectBullet(bheader[i],-pi/2);break;
+					case 0:bheader[i].setdir(-pi/6);break;
+					case 1:bheader[i].setdir(-pi/2);break;
+					case 2:bheader[i].setdir(-5*pi/6);break;
+					case 3:bheader[i].setdir(-pi/2);break;
 				}
 			}
 		}
@@ -1954,7 +1948,7 @@ void Level6Part23()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			DirectBullet(*beewx[i],(double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -1967,20 +1961,20 @@ void Level6Part23()
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],-5*pi/6);break;
-					case 1:DirectBullet(bheader[i],-pi/2);break;
-					case 2:DirectBullet(bheader[i],-pi/6);break;
-					case 3:DirectBullet(bheader[i],-pi/2);break;
+					case 0:bheader[i].setdir(-5*pi/6);break;
+					case 1:bheader[i].setdir(-pi/2);break;
+					case 2:bheader[i].setdir(-pi/6);break;
+					case 3:bheader[i].setdir(-pi/2);break;
 				}
 			}
 			else
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],-pi/6);break;
-					case 1:DirectBullet(bheader[i],-pi/2);break;
-					case 2:DirectBullet(bheader[i],-5*pi/6);break;
-					case 3:DirectBullet(bheader[i],-pi/2);break;
+					case 0:bheader[i].setdir(-pi/6);break;
+					case 1:bheader[i].setdir(-pi/2);break;
+					case 2:bheader[i].setdir(-5*pi/6);break;
+					case 3:bheader[i].setdir(-pi/2);break;
 				}
 			}
 		}
@@ -2018,7 +2012,7 @@ void Level6Part25()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			DirectBullet(*beewx[i],(double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -2031,20 +2025,20 @@ void Level6Part25()
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],5*pi/6);break;
-					case 1:DirectBullet(bheader[i],pi/2);break;
-					case 2:DirectBullet(bheader[i],pi/6);break;
-					case 3:DirectBullet(bheader[i],pi/2);break;
+					case 0:bheader[i].setdir(5*pi/6);break;
+					case 1:bheader[i].setdir(pi/2);break;
+					case 2:bheader[i].setdir(pi/6);break;
+					case 3:bheader[i].setdir(pi/2);break;
 				}
 			}
 			else
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],pi/6);break;
-					case 1:DirectBullet(bheader[i],pi/2);break;
-					case 2:DirectBullet(bheader[i],5*pi/6);break;
-					case 3:DirectBullet(bheader[i],pi/2);break;
+					case 0:bheader[i].setdir(pi/6);break;
+					case 1:bheader[i].setdir(pi/2);break;
+					case 2:bheader[i].setdir(5*pi/6);break;
+					case 3:bheader[i].setdir(pi/2);break;
 				}
 			}
 		}
@@ -2082,7 +2076,7 @@ void Level6Part27()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			DirectBullet(*beewx[i],(double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -2095,20 +2089,20 @@ void Level6Part27()
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],pi/3);break;
-					case 1:DirectBullet(bheader[i],0);break;
-					case 2:DirectBullet(bheader[i],5*pi/3);break;
-					case 3:DirectBullet(bheader[i],0);break;
+					case 0:bheader[i].setdir(pi/3);break;
+					case 1:bheader[i].setdir(0);break;
+					case 2:bheader[i].setdir(5*pi/3);break;
+					case 3:bheader[i].setdir(0);break;
 				}
 			}
 			else
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],5*pi/3);break;
-					case 1:DirectBullet(bheader[i],0);break;
-					case 2:DirectBullet(bheader[i],pi/3);break;
-					case 3:DirectBullet(bheader[i],0);break;
+					case 0:bheader[i].setdir(5*pi/3);break;
+					case 1:bheader[i].setdir(0);break;
+					case 2:bheader[i].setdir(pi/3);break;
+					case 3:bheader[i].setdir(0);break;
 				}
 			}
 		}
@@ -2146,7 +2140,7 @@ void Level6Part29()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			DirectBullet(*beewx[i],(double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -2159,20 +2153,20 @@ void Level6Part29()
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],pi+pi/3);break;
-					case 1:DirectBullet(bheader[i],pi);break;
-					case 2:DirectBullet(bheader[i],pi+5*pi/3);break;
-					case 3:DirectBullet(bheader[i],pi);break;
+					case 0:bheader[i].setdir(pi+pi/3);break;
+					case 1:bheader[i].setdir(pi);break;
+					case 2:bheader[i].setdir(pi+5*pi/3);break;
+					case 3:bheader[i].setdir(pi);break;
 				}
 			}
 			else
 			{
 				switch (seq)
 				{
-					case 0:DirectBullet(bheader[i],pi+5*pi/3);break;
-					case 1:DirectBullet(bheader[i],pi);break;
-					case 2:DirectBullet(bheader[i],pi+pi/3);break;
-					case 3:DirectBullet(bheader[i],pi);break;
+					case 0:bheader[i].setdir(pi+5*pi/3);break;
+					case 1:bheader[i].setdir(pi);break;
+					case 2:bheader[i].setdir(pi+pi/3);break;
+					case 3:bheader[i].setdir(pi);break;
 				}
 			}
 		}
