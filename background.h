@@ -169,7 +169,8 @@ class TDSky
 #define OrbitRadius (ScreenWidth*0.43f)
 private:
 	HTEXTURE skyitem;
-	hgeSprite *sky,*sun,*moon,*glow,*seaglow,*star;
+	hgeQuad skygrad;
+	hgeSprite *sun,*moon,*glow,*seaglow,*star;
 	hgeDistortionMesh *sea,*skylyr;
 	float timet,speed,skya,skylima,seq_residue;
 	int seq_id;
@@ -212,7 +213,16 @@ public:
 	{
 		skyitem=hge->Texture_Load("./Resources/e_skyitem.png");
 		if(!skyitem) return false;
-		sky=new hgeSprite(0, 0, 0, ScreenWidth, ScreenHeight);
+		skygrad.tex=0;skygrad.blend=BLEND_DEFAULT;
+		for(int i=0;i<4;++i)skygrad.v[i].z=0.5;
+		skygrad.v[0].tx=0;skygrad.v[0].ty=0;
+		skygrad.v[1].tx=1;skygrad.v[1].ty=0;
+		skygrad.v[2].tx=1;skygrad.v[2].ty=1;
+		skygrad.v[3].tx=0;skygrad.v[3].ty=1;
+		skygrad.v[0].x=0;skygrad.v[0].y=0;
+		skygrad.v[1].x=800;skygrad.v[1].y=0;
+		skygrad.v[2].x=800;skygrad.v[2].y=600;
+		skygrad.v[3].x=0;skygrad.v[3].y=600;
 		sea=new hgeDistortionMesh(SeaDisize, SeaDisize);
 		sea->SetTextureRect(0, 0, ScreenWidth, ScreenHeight-SkyHeight);
 		sun=new hgeSprite(skyitem,81,0,114,114);
@@ -250,7 +260,7 @@ public:
 	{
 		delete seaglow;delete glow;
 		delete star;delete moon;
-		delete sun;delete sky;
+		delete sun;
 		delete sea;delete skylyr;
 		hge->Texture_Free(skyitem);
 	}
@@ -427,15 +437,13 @@ public:
 	void Render()
 	{
 #ifdef WIN32
-		sky->SetTexture(0);
-		sky->SetTextureRect(0,0,800,600);
-		sky->SetBlendMode(BLEND_DEFAULT);
+		skygrad->SetTexture(0);
+		skygrad->SetTextureRect(0,0,800,600);
+		skygrad->SetBlendMode(BLEND_DEFAULT);
 #endif
-		sky->SetColor(colSkyTop.GetHWColor(), 0);
-		sky->SetColor(colSkyTop.GetHWColor(), 1);
-		sky->SetColor(colSkyBtm.GetHWColor(), 2);
-		sky->SetColor(colSkyBtm.GetHWColor(), 3);
-		sky->Render(0, 0);
+		skygrad.v[0].col=skygrad.v[1].col=colSkyTop.GetHWColor();
+		skygrad.v[2].col=skygrad.v[3].col=colSkyBtm.GetHWColor();
+		hge->Gfx_RenderQuad(&skygrad);
 		if(seq_id>=6 || seq_id<2)
 			for(int i=0; i<Stars; ++i)
 			{

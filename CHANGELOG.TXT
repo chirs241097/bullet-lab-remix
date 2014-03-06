@@ -20,6 +20,7 @@ Fixed: Trypophobia stops if too many CLR's are used.
 Fixed the problem in All2pnt().
 Fixed blinking target.
 Make Laser::GetDist() private to avoid misusage.
+Fixed several background problems.
 Remove unused statements:
 DWORD ColTrans(DWORD,DWORD,DWORD): replaced by
 DWORD ColorTransfer(DWORD,DWORD).
