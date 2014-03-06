@@ -502,7 +502,7 @@ public:
 	void Init(const char *tx,arMode _Mode,DWORD _alim)
 	{
 		quad.tex=hge->Texture_Load(tx);alim=_alim;
-		Mode=_Mode;scale=1;
+		Mode=_Mode;scale=1;quad.blend=BLEND_DEFAULT;
 		quad.v[0].tx=0,quad.v[0].ty=0;
 		quad.v[1].tx=1,quad.v[1].ty=0;
 		quad.v[2].tx=1,quad.v[2].ty=1;

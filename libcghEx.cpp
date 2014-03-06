@@ -6,6 +6,19 @@
 #include <cstring>
 //static const char* LIBCGH_SRC_FN="libcghEx.cpp";
 
+void RandomEngine::SetSeed(unsigned int seed){cseed=seed;}
+int RandomEngine::NextInt(int min,int max)
+{
+	if (min>max){int t=min;min=max;max=t;}
+	cseed*=214013;cseed+=2531011;
+	return min+(cseed^cseed>>15)%(max-min+1);
+}
+double RandomEngine::NextDouble(double min,double max)
+{
+	if (min>max){double t=min;min=max;max=t;}
+	cseed*=214013;cseed+=2531011;
+	return min+(cseed>>16)*(1.0f/65535.0f)*(max-min);
+}
 void CircleIndicator::Init(double _r,double _thk,BYTE _a,bool _gr,HTEXTURE _Texture,TextureRect _TR,DWORD _cc)
 {
 	circle=new hgeDistortionMesh(1025,3);

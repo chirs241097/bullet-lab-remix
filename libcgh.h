@@ -1,7 +1,7 @@
 //Chrisoft Bullet Lab Remix HGE
 //Chrisoft Game Helper header
 //Copyright Chrisoft 2014
-//libcgh version 0005
+//libcgh version 0006
 //Last full compatible version 0002
 //^Modify that when big change is made^
 #include <hge.h>
@@ -80,6 +80,15 @@ struct TextureRect
 	double x,y,w,h;
 	TextureRect(){}
 	TextureRect(double _x,double _y,double _w,double _h){x=_x,y=_y,w=_w,h=_h;}
+};
+class RandomEngine
+{
+private:
+	unsigned int cseed;
+public:
+	void SetSeed(unsigned int seed);
+	int NextInt(int min,int max);
+	double NextDouble(double min,double max);
 };
 class CircleIndicator
 {

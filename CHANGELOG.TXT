@@ -2,6 +2,8 @@
 Next version:
 0.7.3-0_PR
 TODOs:
+Problems with TDSky and PicBack in Windows.
+Use RandomEngine for random number generation.
 Add MultPo's.
 Test classic mode, difficulty adjustments. Merge code for Windows.
 P.S.: Level 1 may be too hard now.
@@ -14,6 +16,7 @@ particularly many "return(void)(...);" in this level (which I
 always love to use).
 This indicates all "normal" levels are completed.
 Multiplier system was fully adopted into BLR.
+Implement a RandomEngine, replacing all rand()(Still in process).
 Fixed: Trypophobia stops if too many CLR's are used.
 Fixed the problem in All2pnt().
 Make Laser::GetDist() private to avoid misusage.

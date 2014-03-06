@@ -139,7 +139,7 @@ void Level1Part4()
 	if (frameleft<=TwentySeconds)
 	{
 		if (LOWFPS)labyred+=17;else ++labyred;
-		if (labyred>=1500)CreateBullet6(rand()%800,rand()%600,2,0,1,12,true),labyred=0;
+		if (labyred>=1500)CreateBullet6(re.NextDouble(0,800),re.NextDouble(0,600),2,0,1,12,true),labyred=0;
 	}
 	if (frameleft<=TenSeconds&&tower[1].towertimer>857)
 		for (int i=1;i<=towcnt;++i)tower[i].towertimer=857;
@@ -475,7 +475,7 @@ void Level3Part4()
 	{
 		elasped=0;++cur;
 		if (cur>=6)cur=0;
-		double sr=(rand()%10)*pi/30.0f;
+		double sr=re.NextInt(0,9)*pi/30.0f;
 		for (int i=0;i<6;++i)
 		{
 			fr[cur][i].drad=(i+1)*pi/3.0f+sr;
@@ -1143,7 +1143,7 @@ void Level5Part4()
 			else
 			laser[i].Setdata(j,t,s,0xEEFF8800);
 			trad=initrad+j*pi/36.0f;
-			if (shot&&j==pos)bullet[CreateBullet2(400+t.x,300+t.y,0.0f,rand()%100,1)].alterColor=orange;
+			if (shot&&j==pos)bullet[CreateBullet2(400+t.x,300+t.y,0.0f,re.NextDouble(0,pi),1)].alterColor=orange;
 		}
 		if (pos>8&&pos<23)
 			laser[i].EnableColl=true;
@@ -1172,12 +1172,12 @@ void Level5Part6()
 	for (int j=0;j<1000;++j)
 	if (tbuls[j]&&tbuls[j]->bulletpos.y<150)
 	{
-		if (rand()%1000>800)
+		if (re.NextInt(1,1000)>=800)
 		{
-			if (rand()%1000>500)
+			if (re.NextInt(1,1000)>=500)
 				CreateBullet6(tbuls[j]->bulletpos.x,tbuls[j]->bulletpos.y,3,200,1,18);
 			else
-				if (rand()%1000>850)
+				if (re.NextInt(1,1000)>=850)
 					CreateBullet9(tbuls[j]->bulletpos.x,tbuls[j]->bulletpos.y,3,500,18,300);
 		}
 		tbuls[j]->exist=false;
@@ -1219,7 +1219,7 @@ void Level5Part8()
 	tbrk+=hge->Timer_GetDelta();
 	if (tbrk<=3)return;
 	tbrk=0;int tg;
-	if (rand()%1000>=500)tg=CreateBullet9(200,12,8,300,12,200);else tg=CreateBullet9(600,12,8,300,12,200);
+	if (re.NextInt(1,1000)>=500)tg=CreateBullet9(200,12,8,300,12,200);else tg=CreateBullet9(600,12,8,300,12,200);
 	bullet[tg].redir(playerpos);
 }
 void Level5Part9()
@@ -1738,8 +1738,8 @@ void Level6Part15()
 	if (avacurbrk>avabrk)
 	{
 		avacurbrk=0;
-		int pnt=CreateBullet2(rand()%780+10,200,-6.25,3*pi/2.0f);
-		bullet[pnt].limv=2+rand()%7;bullet[pnt].bulletaccel=0.005;
+		int pnt=CreateBullet2(re.NextDouble(10,790),200,-6.25,3*pi/2.0f);
+		bullet[pnt].limv=re.NextInt(2,8);bullet[pnt].bulletaccel=0.005;
 	}
 }
 void Level6Part16()
@@ -1774,7 +1774,7 @@ void Level6Part17()
 	{
 		avacurbrk=0;
 		int pnt;
-		if (rand()%100<80)
+		if (re.NextInt(1,100)<=80)
 		pnt=CreateBullet7(ATarg.targpos.x,ATarg.targpos.y,3,500);
 		else
 		pnt=CreateBullet6(ATarg.targpos.x,ATarg.targpos.y,4,1000);
@@ -1820,7 +1820,7 @@ void Level6Part19()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir(re.NextDouble(0,pi));
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -1884,7 +1884,7 @@ void Level6Part21()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir(re.NextDouble(0,pi));
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -1948,7 +1948,7 @@ void Level6Part23()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir(re.NextDouble(0,pi));
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -2012,7 +2012,7 @@ void Level6Part25()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir(re.NextDouble(0,pi));
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -2076,7 +2076,7 @@ void Level6Part27()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir(re.NextDouble(0,pi));
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -2140,7 +2140,7 @@ void Level6Part29()
 		for (int i=0;i<=beecnt;++i)
 		{
 			beewx[i]->bulletaccel=0.001;beewx[i]->limv=1;
-			beewx[i]->setdir((double)(rand()%3140)/1000.0f);
+			beewx[i]->setdir(re.NextDouble(0,pi));
 		}
 	}
 	for (int i=0;i<=sxcnt;++i)ProcessBullet2(bheader[i]);
@@ -2205,24 +2205,24 @@ void Level6Part999999999()//well this isnot an easter egg!
 	if (avacurbrk>avabrk)
 	{
 		avacurbrk=0;
-		for (int i=1;i<=rand()%10;++i)
-		if (rand()%1000>499)
+		for (int i=1;i<=re.NextInt(1,10);++i)
+		if (re.NextInt(1,1000)>500)
 		{
-			int pnt=CreateBullet2(10,rand()%580+10,0,-3*pi/4);
+			int pnt=CreateBullet2(10,re.NextDouble(10,590),0,-3*pi/4);
 			bullet[pnt].bulletaccel=0.0025;bullet[pnt].limv=6;
 		}
 		else
 		{
-			int pnt=CreateBullet2(rand()%780+10,10,0,-3*pi/4);
+			int pnt=CreateBullet2(re.NextDouble(10,790),10,0,-3*pi/4);
 			bullet[pnt].bulletaccel=0.0025;bullet[pnt].limv=6;
 		}
 	}
 	if (sixbrk>0.5)
 	{
 		sixbrk=0;
-		for (int i=1;i<=rand()%10;++i)
+		for (int i=1;i<=re.NextInt(1,10);++i)
 		{
-			int pnt=CreateBullet2(rand()%780+10,590,1,pi/2);
+			int pnt=CreateBullet2(re.NextDouble(10,790),590,1,pi/2);
 			bullet[pnt].alterColor=white;
 		}
 	}
@@ -2259,7 +2259,7 @@ void Level7Part1()
 	if (DBGColor==0xFF0B0916)
 	{
 		frameleft=AMinute,++part;
-		bgdbbrk=rand()%15+5,bgbrk=0;
+		bgdbbrk=re.NextInt(5,20),bgbrk=0;
 		avabrk=0.2f;avacurbrk=0;skystp=false;
 	}
 }
@@ -2282,7 +2282,7 @@ void Level7Part2()
 		if (DBGColor==0xFF0B0916)
 		{
 			if(bgbrk==2)bgbrk=3,bgdbbrk=0.06;
-			if(bgbrk==5)bgbrk=0,bgdbbrk=rand()%15+5;
+			if(bgbrk==5)bgbrk=0,bgdbbrk=re.NextInt(5,20);
 		}
 	}
 	if (bgbrk==3||bgbrk==0)
@@ -2300,26 +2300,26 @@ void Level7Part2()
 	if (avacurbrk>avabrk)
 	{
 		avacurbrk=0;
-		for (int i=1;i<=rand()%10;++i)
+		for (int i=1;i<=re.NextInt(1,10);++i)
 		{
-			if (rand()%1000>499)
+			if (re.NextInt(1,1000)>=500)
 			{
-				int pnt=CreateBullet2(10,rand()%580+10,0,-3*pi/4);
+				int pnt=CreateBullet2(10,re.NextDouble(10,590),0,-3*pi/4);
 				bullet[pnt].bulletaccel=0.0025;bullet[pnt].limv=6;
 			}
 			else
 			{
-				int pnt=CreateBullet2(rand()%780+10,10,0,-3*pi/4);
+				int pnt=CreateBullet2(re.NextDouble(10,790),10,0,-3*pi/4);
 				bullet[pnt].bulletaccel=0.0025;bullet[pnt].limv=6;
 			}
-			if (rand()%1000>499)
+			if (re.NextInt(1,1000)>=500)
 			{
-				int pnt=CreateBullet2(780,rand()%580+10,0,-pi/4);
+				int pnt=CreateBullet2(780,re.NextDouble(10,590),0,-pi/4);
 				bullet[pnt].bulletaccel=0.0025;bullet[pnt].limv=6;
 			}
 			else
 			{
-				int pnt=CreateBullet2(rand()%780+10,10,0,-pi/4);
+				int pnt=CreateBullet2(re.NextDouble(10,790),10,0,-pi/4);
 				bullet[pnt].bulletaccel=0.0025;bullet[pnt].limv=6;
 			}
 		}
@@ -2465,10 +2465,10 @@ void Level7Part7()
 	{
 		avacurbrk=0;
 		bool lasta,lastb;
-		lasta=rand()%1000<500;lastb=rand()%1000<500;
+		lasta=re.NextInt(1,1000)<500;lastb=re.NextInt(1,1000)<500;
 		for (int i=0;i<31;++i)
 		{
-			int rf=rand()%1000;
+			int rf=re.NextInt(0,999);
 			if ((lasta&&rf<600)||(!lasta&&rf<250))
 			{
 				int pnt=CreateBullet2(-15,i*20,2,pi);
@@ -2476,7 +2476,7 @@ void Level7Part7()
 				bullet[pnt].limv=2+2*(AMinute-frameleft)/(double)AMinute;bullet[pnt].bulletaccel=0.002;
 				lasta=true;
 			}else lasta=false;
-			rf=rand()%1000;
+			rf=re.NextInt(0,999);
 			if ((lastb&&rf<600)||(!lastb&&rf<250))
 			{
 				int pnt=CreateBullet2(815,i*20-10,2,0);
@@ -2506,8 +2506,8 @@ void Level7Part8()
 }
 void rainbowCreator(double rl,double rr,double rad,TColors col,double speed,bool invi=false)
 {
-	double r=rand()%((int)(abs(rr-rl)*10000))/10000.0f+rl;
-	int pnt=CreateBullet2(900+cos(rad)*r,700+sin(rad)*r,speed,rand()/32767.0f,true,invi);
+	double r=re.NextDouble(rr,rl);
+	int pnt=CreateBullet2(900+cos(rad)*r,700+sin(rad)*r,speed,re.NextDouble(0,pi),true,invi);
 	bullet[pnt].alterColor=col;
 }
 void Level7Part9()
@@ -2529,32 +2529,32 @@ void Level7Part9()
 	}
 	else
 	{
-		avabrk=0.35+(frameleft/(double)AMinute)*0.4f;
+		avabrk=0.25+(frameleft/(double)AMinute)*0.5f;
 		avacurbrk+=hge->Timer_GetDelta();
 		if (avacurbrk>avabrk)
 		{
 			avacurbrk=0;
 			double spd=((AMinute-frameleft)/(double)AMinute)+1;
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			sntang=re.NextDouble(-pi,-pi/2),
 			rainbowCreator(660,600,sntang,red,spd);
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			sntang=re.NextDouble(-pi,-pi/2),
 			rainbowCreator(610,550,sntang,orange,spd);
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			sntang=re.NextDouble(-pi,-pi/2),
 			rainbowCreator(560,500,sntang,yellow,spd);
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			sntang=re.NextDouble(-pi,-pi/2),
 			rainbowCreator(510,450,sntang,green,spd);
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			sntang=re.NextDouble(-pi,-pi/2),
 			rainbowCreator(460,410,sntang,blue,spd);
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			sntang=re.NextDouble(-pi,-pi/2),
 			rainbowCreator(420,360,sntang,dblue,spd);
-			sntang=-pi+(rand()%(int)(pi/2*10000))/10000.0f;
 			for(int i=0;i<((AMinute-frameleft)/(double)AMinute)*20;++i)
+			sntang=re.NextDouble(-pi,-pi/2),
 			rainbowCreator(365,310,sntang,purple,spd);
 			sntang=-pi-0.1;
 		}
@@ -2614,28 +2614,28 @@ void Level7Part13()
 		for(int i=0;i<200;++i)
 		if (!dfc[i].isActive())
 		{
-			if(rand()%100>75)
+			if(re.NextInt(1,100)>=75)
 			{
-				if(rand()%100>49)
+				if(re.NextInt(1,100)>=50)
 				{
-					vector2d pos=vector2d(playerpos.x,rand()%600);
+					vector2d pos=vector2d(playerpos.x,re.NextDouble(0,600));
 					while (GetDist(pos,playerpos)<100)
-					pos=vector2d(playerpos.x,rand()%600);
+					pos=vector2d(playerpos.x,re.NextDouble(0,600));
 					dfc[i].init(pos);
 				}
 				else
 				{
-					vector2d pos=vector2d(rand()%800,playerpos.y);
+					vector2d pos=vector2d(re.NextDouble(0,800),playerpos.y);
 					while (GetDist(pos,playerpos)<100)
-					pos=vector2d(rand()%800,playerpos.y);
+					pos=vector2d(re.NextDouble(0,800),playerpos.y);
 					dfc[i].init(pos);
 				}
 			}
 			else
 			{
-				vector2d pos=vector2d(rand()%800,rand()%600);
+				vector2d pos=vector2d(re.NextDouble(0,800),re.NextDouble(0,600));
 				while (GetDist(pos,playerpos)<100)
-				pos=vector2d(rand()%800,rand()%600);
+				pos=vector2d(re.NextDouble(0,800),re.NextDouble(0,600));
 				dfc[i].init(pos);
 			}
 			break;
@@ -2664,21 +2664,21 @@ void Level7Part15()
 		if (!bnl[i].active)
 		{
 			vector2d a,b;
-			if (rand()%100>49)
+			if (re.NextInt(1,100)>=50)
 			{
-				if (rand()%100>49)a=vector2d(rand()%780+10,610);else a=vector2d(rand()%780+10,-10);
+				if (re.NextInt(1,100)>=50)a=vector2d(re.NextDouble(10,790),610);else a=vector2d(re.NextDouble(10,790),-10);
 			}
 			else
 			{
-				if (rand()%100>49)a=vector2d(-10,rand()%580+10);else a=vector2d(810,rand()%580+10);
+				if (re.NextInt(1,100)>=50)a=vector2d(-10,re.NextDouble(10,590));else a=vector2d(810,re.NextDouble(10,590));
 			}
-			if (rand()%100>49)
+			if (re.NextInt(1,100)>=50)
 			{
-				if (rand()%100>49)b=vector2d(rand()%780+10,610);else b=vector2d(rand()%780+10,-10);
+				if (re.NextInt(1,100)>=50)b=vector2d(re.NextDouble(10,790),610);else b=vector2d(re.NextDouble(10,790),-10);
 			}
 			else
 			{
-				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
+				if (re.NextInt(1,100)>=50)b=vector2d(-10,re.NextDouble(10,590));else b=vector2d(810,re.NextDouble(10,590));
 			}
 			bnl[i].Init(a,b);
 			break;
@@ -2910,23 +2910,23 @@ void Level7Part24()
 		if (!wop[i].active)
 		{
 			vector2d a,b;
-			if (rand()%100>49)
+			if (re.NextInt(1,100)>=50)
 			{
-				if (rand()%100>49)a=vector2d(rand()%780+10,610);else a=vector2d(rand()%780+10,-10);
+				if (re.NextInt(1,100)>=50)a=vector2d(re.NextDouble(10,790),610);else a=vector2d(re.NextDouble(10,790),-10);
 			}
 			else
 			{
-				if (rand()%100>49)a=vector2d(-10,rand()%580+10);else a=vector2d(810,rand()%580+10);
+				if (re.NextInt(1,100)>=50)a=vector2d(-10,re.NextDouble(10,590));else a=vector2d(810,re.NextDouble(10,590));
 			}
-			if (rand()%100>49)
+			if (re.NextInt(1,100)>=50)
 			{
-				if (rand()%100>49)b=vector2d(rand()%780+10,610);else b=vector2d(rand()%780+10,-10);
+				if (re.NextInt(1,100)>=50)b=vector2d(re.NextDouble(10,790),610);else b=vector2d(re.NextDouble(10,790),-10);
 			}
 			else
 			{
-				if (rand()%100>49)b=vector2d(-10,rand()%580+10);else b=vector2d(810,rand()%580+10);
+				if (re.NextInt(1,100)>=50)b=vector2d(-10,re.NextDouble(10,590));else b=vector2d(810,re.NextDouble(10,590));
 			}
-			if (rand()%100>80)
+			if (re.NextInt(1,100)>=80)
 			{
 				vector2d d=playerpos-a;
 				b=playerpos;
@@ -2958,11 +2958,11 @@ void Level7Part26()
 			int spinner=6;
 			if(frameleft<AMinute)spinner=8;
 			if(frameleft<ThirtySeconds)spinner=12;
-			if(rand()%100>40)rtv[i].Init(1,(rand()&1?1:-1)*pi/123,spinner,(TColors)(rand()%8),rand()%12);
-			else if(rand()&1)
-			rtv[i].Init(2,(rand()&1?1:-1)*pi/60,spinner,(TColors)(rand()%8),rand()%12);
+			if(re.NextInt(1,100)>=40)rtv[i].Init(1,(re.NextInt(0,1)?1:-1)*pi/123,spinner,(TColors)(re.NextInt(0,7)),re.NextInt(0,11));
+			else if(re.NextInt(0,1))
+			rtv[i].Init(2,(re.NextInt(0,1)?1:-1)*pi/60,spinner,(TColors)(re.NextInt(0,7)),re.NextInt(0,11));
 			else
-			rtv[i].Init(3,pi/48,spinner,(TColors)(rand()%8),rand()%12);
+			rtv[i].Init(3,pi/48,spinner,(TColors)(re.NextInt(0,7)),re.NextInt(0,11));
 			break;
 		}
 	}
@@ -3037,7 +3037,7 @@ void Level7Part30()
 		{
 			if (scircles[i].GetRange()>510||scircles[i].GetRange()<1e-7)
 			{
-				scircles[i].Init(1,(rand()&1?1:-1)*(frameleft<TwentySeconds?0.0003:0.0002),36,vector2d(400,300),(TColors)(rand()%8),(TColors)(rand()%8));
+				scircles[i].Init(1,(re.NextInt(0,1)?1:-1)*(frameleft<TwentySeconds?0.0003:0.0002),36,vector2d(400,300),(TColors)re.NextInt(0,7),(TColors)re.NextInt(0,7));
 				rspd[i]=0.575+(frameleft/(double)AMinute)*0.1;break;
 			}
 		}
@@ -3058,22 +3058,23 @@ void Level7Part31()//Minesweeper
 	frameleft=AMinute;
 	All2pnt();towcnt=0;
 	Lasercnt=0;
-	++part;
+	++part;avabrk=1;avacurbrk=0.5;
 }
 void Level7Part32()//Minesweeper-child
 {
-	if (rand()%100>95)
+	avacurbrk+=hge->Timer_GetDelta();
+	if (avacurbrk>avabrk)
 	{
-		int i;
-		for (i=1;i<=nonamecnt+1;++i)
+		avacurbrk=0;avabrk=frameleft/(double)AMinute*0.7+0.3;
+		for (int i=1;i<=nonamecnt+1;++i)
 		{
 			if (!noname[i].Exist())
 			{
 				if (frameleft<TenSeconds)
-					noname[i].Init(rand()%800,4,100,150,70,0x8033CCFF);
+					noname[i].Init(re.NextDouble(0,800),4,100,150,70,0x8033CCFF);
 				else if (frameleft<TwentySeconds)
-					noname[i].Init(rand()%800,4,100,150,75,0x8033CCFF);
-				else noname[i].Init(rand()%800,4,100,150,80,0x8033CCFF);
+					noname[i].Init(re.NextDouble(0,800),4,100,150,75,0x8033CCFF);
+				else noname[i].Init(re.NextDouble(0,800),4,100,150,80,0x8033CCFF);
 				if (i>nonamecnt)nonamecnt=i;break;
 			}
 		}

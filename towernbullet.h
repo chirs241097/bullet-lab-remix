@@ -793,7 +793,7 @@ void ProcessBullet255(int i)
 	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
-		score+=mult*100;
+		score+=mult*100;mult+=0.001f;
 		bullet[i].exist=false;
 		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;

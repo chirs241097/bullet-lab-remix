@@ -263,6 +263,7 @@ bool IfCallLevel;
 bool Dis8ref,t8special;
 int frameskips=0,stepskips=0;
 bool IfShowTip=false,FadeTip=false;
+RandomEngine re;
 hgeFont *TipFont;
 char lasttip[200];
 int whicnt,whrcnt,shots,clrusg;
