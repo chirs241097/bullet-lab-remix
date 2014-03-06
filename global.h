@@ -170,20 +170,21 @@ struct Target//An annoying circle
 	void TargShowProc()
 	{
 		if (LOWFPS)
-			for (int i=1;i<=17;++i)
-				targspr->SetColor(targspr->GetColor()+0x01000000);
+			targspr->SetColor(SETA(targspr->GetColor(),GETA(targspr->GetColor())+17));
 		else
-			targspr->SetColor(targspr->GetColor()+0x01000000);
+			targspr->SetColor(SETA(targspr->GetColor(),GETA(targspr->GetColor())+1));
 		if (GETA(targspr->GetColor())>=0x80)
-			isonshow=isonhide=false;
+			isonshow=isonhide=false,targspr->SetColor(SETA(targspr->GetColor(),0x80));
 	}
 	void TargHideProc()
 	{
 		if (LOWFPS)
-			for (int i=1;i<=17;++i)
-				targspr->SetColor(targspr->GetColor()-0x01000000);
+			if(GETA(targspr->GetColor())<17)
+			targspr->SetColor(SETA(targspr->GetColor(),0));
+			else
+			targspr->SetColor(SETA(targspr->GetColor(),GETA(targspr->GetColor())-17));
 		else
-			targspr->SetColor(targspr->GetColor()-0x01000000);
+			targspr->SetColor(SETA(targspr->GetColor(),GETA(targspr->GetColor())-1));
 		if (GETA(targspr->GetColor())==0x00)
 			isonshow=isonhide=visible=false;
 	}

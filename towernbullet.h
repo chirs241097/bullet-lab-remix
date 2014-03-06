@@ -159,8 +159,8 @@ int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,b
 	bullet[i].bullettype=6;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
-	bullet[i].bulletdir.x=rand()%100-50;
-	bullet[i].bulletdir.y=rand()%100-50;
+	bullet[i].bulletdir.x=re.NextDouble(-1,1);
+	bullet[i].bulletdir.y=re.NextDouble(-1,1);
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
@@ -191,8 +191,8 @@ int CreateBullet7(double x,double y,double bs,int explo,bool eff=false)
 	bullet[i].bullettype=7;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
-	bullet[i].bulletdir.x=rand()%100-50;
-	bullet[i].bulletdir.y=rand()%100-50;
+	bullet[i].bulletdir.x=re.NextDouble(-1,1);
+	bullet[i].bulletdir.y=re.NextDouble(-1,1);
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
@@ -253,8 +253,8 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 	bullet[i].bullettype=9;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
-	bullet[i].bulletdir.x=rand()%100-50;
-	bullet[i].bulletdir.y=rand()%100-50;
+	bullet[i].bulletdir.x=re.NextDouble(-1,1);
+	bullet[i].bulletdir.y=re.NextDouble(-1,1);
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
@@ -657,16 +657,16 @@ void ProcessBullet8(int i)
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		else
 		{
-			int cnt=rand()%4+2;if (Dis8ref)cnt=0;
+			int cnt=re.NextInt(2,5);if (Dis8ref)cnt=0;
 			for (int ii=1;ii<=cnt;++ii)
 			{
-				int pnt=CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,rand()%100);
+				int pnt=CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,re.NextDouble(0,pi));
 				if (t8special)
 				{
-					bullet[pnt].alterColor=(TColors)(rand()%8);
-					bullet[pnt].alterColor2=(TColors)(rand()%8);
-					if(rand()%4==3)bullet[pnt].redir(vector2d(400,300));
-					if(rand()%2==1)++ii;
+					bullet[pnt].alterColor=(TColors)(re.NextInt(0,7));
+					bullet[pnt].alterColor2=(TColors)(re.NextInt(0,7));
+					if(re.NextInt(0,3)==3)bullet[pnt].redir(vector2d(400,300));
+					if(re.NextInt(0,1))++ii;
 				}
 			}
 		}
@@ -793,7 +793,7 @@ void ProcessBullet255(int i)
 	double dis=GetDist(bullet[i].bulletpos,playerpos);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
-		score+=mult*100;mult+=0.001f;
+		score+=mult*100;mult+=0.0002f;
 		bullet[i].exist=false;
 		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
@@ -1175,14 +1175,14 @@ void ProcessTower3()
 			}
 			if (tower[i].t3t==2)
 			{
-				if (rand()%2==0)
+				if (re.NextInt(0,1))
 					CreateBullet3(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,12,tower[i].effect);
 				else
 					CreateBullet3(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,6,tower[i].effect);
 			}
 			if (tower[i].t3t==3)
 			{
-				if (rand()%2==0)
+				if (re.NextInt(0,1))
 					CreateBullet3(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,3,tower[i].effect);
 				else
 					CreateBullet3(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,9,tower[i].effect);
@@ -1529,8 +1529,8 @@ public:
 		done=false;
 		PMod=pmd;
 		r1lim=_r1lim;r2lim=_r2lim;boomlim=_boomlim;
-		if (rand()%100>boomlim)
-			pos=rand()%600;
+		if (re.NextInt(0,99)>boomlim)
+			pos=re.NextInt(0,600);
 		else
 			pos=999;
 		untitledlas.SetTexture(SprSheet,0,264,248,8);
@@ -1966,7 +1966,7 @@ private:
 					brk=0;if(progress++>5)return (void)(progress=10);
 					for(int i=0;i<10;++i)
 					{
-						vector2d ran=vector2d(rand()%50+matrixx*50,rand()%50+matrixy*50);
+						vector2d ran=vector2d(re.NextDouble(0,50)+matrixx*50,re.NextDouble(0,50)+matrixy*50);
 						pb[cnt++]=&bullet[CreateBullet2(ran.x,ran.y,0,0,true)];
 						pb[cnt-1]->alterColor=color;
 					}
@@ -2011,10 +2011,10 @@ public:
 	bool isActive(){return tactive;}
 	void Create()
 	{
-		pcolor=(TColors)(rand()%8);tactive=true;
+		pcolor=(TColors)re.NextInt(0,7);tactive=true;
 		cnt=0;memset(listx,0,sizeof(listx));
 		memset(listy,0,sizeof(listy));tlifetime=0;
-		listx[cnt++]=rand()%16;listy[cnt-1]=rand()%12;
+		listx[cnt++]=re.NextInt(0,15);listy[cnt-1]=re.NextInt(0,11);
 		piles[cnt-1].create(listx[cnt-1],listy[cnt-1],pcolor);
 	}
 	void Update()
@@ -2039,7 +2039,7 @@ public:
 			dlx[dcnt]=listx[cnt-1],dly[dcnt++]=listy[cnt-1]-1;
 			if(dcnt&&cnt<30)
 			{
-				int rd=rand()%dcnt;
+				int rd=re.NextInt(0,dcnt-1);
 				listx[cnt++]=dlx[rd];listy[cnt-1]=dly[rd];
 				piles[cnt-1].create(listx[cnt-1],listy[cnt-1],pcolor);
 			}
@@ -2312,7 +2312,7 @@ public:
 				}
 				if(dchk)
 				{
-					if(rand()%2)
+					if(re.NextInt(0,1))
 					for(int i=0;i<cnt;++i)
 						targ[i]->bulletaccel=-0.005,
 						targ[i]->limv=-3;
