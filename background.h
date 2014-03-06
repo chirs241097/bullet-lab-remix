@@ -426,6 +426,11 @@ public:
 	}
 	void Render()
 	{
+#ifdef WIN32
+		sky->SetTexture(0);
+		sky->SetTextureRect(0,0,800,600);
+		sky->SetBlendMode(BLEND_DEFAULT);
+#endif
 		sky->SetColor(colSkyTop.GetHWColor(), 0);
 		sky->SetColor(colSkyTop.GetHWColor(), 1);
 		sky->SetColor(colSkyBtm.GetHWColor(), 2);
@@ -503,10 +508,22 @@ public:
 	{
 		quad.tex=hge->Texture_Load(tx);alim=_alim;
 		Mode=_Mode;scale=1;quad.blend=BLEND_DEFAULT;
+#ifdef WIN32
+		vector2d srl=vector2d(hge->Texture_GetWidth(quad.tex,true),
+			                  hge->Texture_GetHeight(quad.tex,true));
+		vector2d srm=vector2d(hge->Texture_GetWidth(quad.tex,false),
+			                  hge->Texture_GetHeight(quad.tex,false));
+		srm.x=srl.x/srm.x;srm.y=srl.y/srm.y;
+		quad.v[0].tx=0;quad.v[0].ty=0;
+		quad.v[1].tx=srm.x;quad.v[1].ty=0;
+		quad.v[2].tx=srm.x;quad.v[2].ty=srm.y;
+		quad.v[3].tx=0;quad.v[3].ty=srm.y;
+#else
 		quad.v[0].tx=0,quad.v[0].ty=0;
 		quad.v[1].tx=1,quad.v[1].ty=0;
 		quad.v[2].tx=1,quad.v[2].ty=1;
 		quad.v[3].tx=0,quad.v[3].ty=1;
+#endif
 		onfadein=onfadeout=false;alpha=0;
 	}
 	void Update()
