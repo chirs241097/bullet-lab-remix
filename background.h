@@ -437,9 +437,8 @@ public:
 	void Render()
 	{
 #ifdef WIN32
-		skygrad->SetTexture(0);
-		skygrad->SetTextureRect(0,0,800,600);
-		skygrad->SetBlendMode(BLEND_DEFAULT);
+		skygrad.tex=0;
+		skygrad.blend=BLEND_DEFAULT;
 #endif
 		skygrad.v[0].col=skygrad.v[1].col=colSkyTop.GetHWColor();
 		skygrad.v[2].col=skygrad.v[3].col=colSkyBtm.GetHWColor();

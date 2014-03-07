@@ -1782,7 +1782,7 @@ void Level6Part17()
 	}
 }
 //begin hexagon
-Bullet bheader[100],*beewx[500];
+Bullet bheader[100],*beewx[800];
 static int sxcnt,seq,beecnt;
 bool brdir;
 double offset;

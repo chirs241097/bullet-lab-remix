@@ -2,7 +2,9 @@
 Next version:
 0.7.3-0_PR
 TODOs:
-Problems with TDSky and PicBack in Windows.
+Avoid object sucide, this may cause segmentation fault in Windows.
+(My doubly link list is written in a bad style.)
+Others TODOs:
 Add MultPo's.
 Test classic mode, difficulty adjustments. Merge code for Windows.
 P.S.: Level 1 may be too hard now.
@@ -19,6 +21,8 @@ Implement a RandomEngine, replacing all rand().
 Fixed: Trypophobia stops if too many CLR's are used.
 Fixed the problem in All2pnt().
 Fixed blinking target.
+Fixed Hexagon loops memory leak (the pointer array is too small...)
+Tests under Windows were done, all gameplay features ran perfectly.
 Make Laser::GetDist() private to avoid misusage.
 Fixed several background problems.
 Remove unused statements:
