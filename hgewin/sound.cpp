@@ -16,6 +16,7 @@
 // Channel functions are fully supported now. However music and streaming are
 // still not supported. Some APIs changed for OpenAL is different from BA$$.
 
+#include <cassert>
 #include "hge_impl.h"
 
 #include "AL/al.h"
