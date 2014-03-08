@@ -572,7 +572,7 @@ bool FrameFunc()
 		if (Leaves.IsActive())Leaves.Update();
 		if (binter.active())binter.Update();
 		if (bdiff.active())bdiff.Update();
-		if (LE_Active||Head){if (!Head)Tail=Head=new Leaf_Anim(),Head->init(990);Head->Process();}
+		if (LE_Active)Leaf.Update();
 		shots=0;
 		dsmc=scminus=0;
 		Music_Update();

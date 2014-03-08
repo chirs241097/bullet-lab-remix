@@ -1017,7 +1017,9 @@ void Level5Part0()
 	{
 		IfShowTip=false;
 		FadeTip=false;
-		LE_Active=true;letex=TLeaf;lescale=0.75;letr=TextureRect(0,0,108,108);lecolor=0xCCCC3333;
+		LE_Active=true;letex=TLeaf;lescale=0.75;
+		letr=TextureRect(0,0,108,108);lecolor=0xCCCC3333;
+		Leaf.Init();
 		Current_Position=2;
 		ShowTip("\
 Level 5-Crazy Autumn\n\
@@ -1492,7 +1494,9 @@ void Level6Part0()
 	{
 		IfShowTip=false;
 		FadeTip=false;
-		LE_Active=true;letex=TSflake;lescale=0.2;letr=TextureRect(0,0,350,350);lecolor=0xCC3366CC;
+		LE_Active=true;letex=TSflake;lescale=0.2;
+		letr=TextureRect(0,0,350,350);lecolor=0xCC3366CC;
+		Leaf.Init();
 		Current_Position=2;
 		ShowTip("\
 Level 6-Peaceful(?) Winter\n\

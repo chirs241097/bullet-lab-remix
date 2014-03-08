@@ -1,6 +1,7 @@
 //Chrisoft Bullet Lab Remix HGE
 //Background drawing Implementations
 //Copyright Chrisoft 2014
+#include <list>
 const char* BACKGROUND_H_FN="background.h";
 
 double deltaBG;
@@ -77,78 +78,68 @@ BG_Leaves Leaves;
 //********************************************
 HTEXTURE TLeaf;
 HTEXTURE TSflake;
-class Leaf_Anim;
-Leaf_Anim *Head,*Tail;
 bool LE_Active;
 double lescale;
 HTEXTURE letex;TextureRect letr;
 DWORD lecolor;
-class Leaf_Anim
+class Leaf_Node
 {
 private:
 	hgeSprite* Leaf;
 	double Rotation,DRotate;
 	double x,y,dx,dy;
-	int lim;
-	~Leaf_Anim(){}
 public:
-	Leaf_Anim *Last,*Next;
-	void init(int _lim)
+	void init()
 	{
 		Leaf=new hgeSprite(letex,letr.x,letr.y,letr.w,letr.h);
 		Leaf->SetColor(lecolor);
-		x=rand()%908-108;
-		y=-108;
-		lim=_lim;
-		dx=rand()%200/100.0f-1.0f;
-		dx*=0.075;
-		dy=rand()%200/100.0f+0.5f;
-		dy*=0.075;
-		Rotation=0;
-		DRotate=rand()%100/10000.0f;
-		DRotate*=0.1;
-		Next=NULL;
+		x=rand()%908-108;y=-108;
+		dx=rand()%200/100.0f-1.0f;dx*=0.075;
+		dy=rand()%200/100.0f+0.5f;dy*=0.075;
+		Rotation=0;DRotate=rand()%100/10000.0f;DRotate*=0.1;
 	}
-	void Delete()
+	bool Update()
 	{
-		if (this==Head)Head=this->Next;
-		if (this==Tail)Tail=this->Last;
-		if (this->Next)
-		this->Next->Last=this->Last;
-		if (this->Last)
-		this->Last->Next=this->Next;
-		delete this->Leaf;
-		delete this;
-	}
-	void Update()
-	{
-		if (!this||!Leaf)return;
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 		{
 			Rotation+=DRotate;
 			x+=dx;y+=dy;
 		}
-		if (x>908||x<-108||y>708)return Delete();
-		if (!Leaf)return;
+		if (x>908||x<-108||y>708)return 1;
 		Leaf->RenderEx(x,y,Rotation,lescale);
-	}
-	void Process()
-	{
-		int times=1;
-		if(LOWFPS) times=17;
-		for (int i=1;i<=times;++i)
-		if (rand()%1000>lim&&LE_Active)
-		{
-			Tail->Next=new Leaf_Anim();
-			Tail->Next->init(990);
-			Tail->Next->Last=Tail;
-			Tail=Tail->Next;
-		}
-		Leaf_Anim *cur=Head;
-		while (cur)cur->Update(),cur=cur->Next;
+		return 0;
 	}
 };
+class Leaf_Anim
+{
+public:
+	std::list<Leaf_Node> llist;
+	double brk;
+	void Init()
+	{
+		llist.clear();
+		brk=rand()%1000/1250.0f;
+	}
+	void Update()
+	{
+		brk-=hge->Timer_GetDelta();
+		if(brk<0)
+		{
+			brk=rand()%1000/1250.0f;
+			Leaf_Node a;a.init();
+			llist.push_back(a);
+		}
+		for(std::list<Leaf_Node>::iterator i=llist.begin();i!=llist.end();++i)
+		{
+			if(i->Update())
+			{
+				std::list<Leaf_Node>::iterator r=i;++r;
+				llist.erase(i);i=--r;
+			}
+		}
+	}
+}Leaf;
 //********************************************
 //3D-sky Background
 //Based on a hge tutorial

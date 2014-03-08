@@ -1,16 +1,18 @@
 ===================================================================
 Next version:
-0.7.3-0_PR
-TODOs:
-Avoid object sucide, this may cause segmentation fault in Windows.
-(My doubly link list is written in a bad style.)
-Others TODOs:
-Add MultPo's.
-Test classic mode, difficulty adjustments. Merge code for Windows.
-P.S.: Level 1 may be too hard now.
-0.7.x-x_PR will be another public pre-release version.
+0.8.x?
 
 Pre-Released versions:
+0.7.3-0_PR (b73)
+This is a pre-release version of 0.7.2-2_PR.
+This version is released to public for level previewing.
+This release contains level 1~7 (while level -1/-2 are still
+"imaginary")
+Changes:
+Compress several png files.
+Merge code for Windows.
+This build will be short-lived.
+
 0.7.2-2_PR (b72)
 New level "return to void". That's a 3 in 1 class. I used
 particularly many "return(void)(...);" in this level (which I
@@ -18,6 +20,7 @@ always love to use).
 This indicates all "normal" levels are completed.
 Multiplier system was fully adopted into BLR.
 Implement a RandomEngine, replacing all rand().
+Rewrite Leaf_Anim using std::list.
 Fixed: Trypophobia stops if too many CLR's are used.
 Fixed the problem in All2pnt().
 Fixed blinking target.
