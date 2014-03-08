@@ -11,6 +11,8 @@ This release contains level 1~7 (while level -1/-2 are still
 Changes:
 Compress several png files.
 Merge code for Windows.
+Fixed compile problems of Windows version.
+Small fixes of level2.
 This build will be short-lived.
 
 0.7.2-2_PR (b72)

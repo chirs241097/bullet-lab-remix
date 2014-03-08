@@ -196,7 +196,7 @@ void Level2Part1()
 	//=======
 	CreateTower3_fixeddir(183.49,425,300,3,-pi);
 	CreateTower3_fixeddir(183.49,424,300,3,2.0f/3.0f*pi);
-	for (int i=0;i<6;++i)fakes[i]=&bullet[CreateBullet6(400,300,0,999999999,1,1,false)];
+	for (int i=0;i<6;++i)fakes[i]=&bullet[CreateBullet6(400,300,0,999999999,1,1,false)],fakes[i]->inv=true;
 	++part;
 }
 void Level2Part2()
@@ -220,7 +220,7 @@ void Level2Part3()
 {
 	frameleft=AMinute;
 	for (int i=0;i<6;++i)fakes[i]->exist=false;
-	for (int i=0;i<6;++i)fakes[i]=&bullet[CreateBullet7(400,300,0,999999999,false)];
+	for (int i=0;i<6;++i)fakes[i]=&bullet[CreateBullet7(400,300,0,999999999,false)],fakes[i]->inv=true;
 	whicnt=3;clockrot=deltarot=0;++part;
 }
 void Level2Part4()
@@ -262,7 +262,7 @@ void Level2Part6()
 	double base=Level2Circle.GetRad();
 	double r=(Level2Circle.GetRange()+Level2Circle2.GetRange())/2.0f;
 	for (int i=0;i<6;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
+	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),fakes[i]->inv=true;
 	if (L2D>=5)
 	{
 		L2D=0;
@@ -281,7 +281,7 @@ void Level2Part7()
 	double base=Level2Circle.GetRad();
 	double r=(Level2Circle.GetRange()+Level2Circle2.GetRange())/2.0f;
 	for (int i=0;i<6;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
+	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),fakes[i]->inv=true;
 	if (L2D>=5)
 	{
 		L2D=0;
@@ -295,7 +295,7 @@ void Level2Part8()
 {
 	frameleft=ThirtySeconds;L2D1=0;
 	playerLockY=false;
-	for (int i=6;i<12;++i)fakes[i]=&bullet[CreateBullet6(400,300,0,999999999,1,1,false)];
+	for (int i=6;i<12;++i)fakes[i]=&bullet[CreateBullet6(400,300,0,999999999,1,1,false)],fakes[i]->inv=true;
 	++part;
 }
 void Level2Part9()
