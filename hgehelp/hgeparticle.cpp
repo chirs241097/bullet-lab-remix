@@ -29,6 +29,9 @@ hgeParticleSystem::hgeParticleSystem(const char *filename, hgeSprite *sprite, fl
 	info.sprite = sprite;
 	ptr += 4;  // skip these bytes.
 
+#ifdef WIN32
+#define BYTESWAP(a)
+#endif
 	#define SETMEMBER(typ, x) \
 		{ info.x = *((const typ *) ptr); ptr += sizeof (typ); BYTESWAP(info.x); }
 	SETMEMBER(int, nEmission);
