@@ -452,6 +452,10 @@ void CallLevels()
 	if (level==7&&part==30)Level7Part30();
 	if (level==7&&part==31)Level7Part31();
 	if (level==7&&part==32)Level7Part32();
+	if (level==7&&part==33)Level7Part33();
+	if (level==7&&part==34)Level7Part34();
+	if (level==7&&part==35)Level7Part35();
+	if (level==7&&part==36)Level7Part36();
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)level=3,part=0;
 	if (level==3&&part==7)level=4,part=0;

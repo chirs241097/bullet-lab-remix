@@ -3057,31 +3057,64 @@ void Level7Part30()
 		}
 	}
 }
-void Level7Part31()//Minesweeper
+void Level7Part31()//Spiky
 {
-	frameleft=AMinute;
+	frameleft=AMinute+ThirtySeconds;
 	All2pnt();towcnt=0;
 	Lasercnt=0;
 	++part;avabrk=1;avacurbrk=0.5;
 }
-void Level7Part32()//Minesweeper-child
+void Level7Part32()//Spiky-child
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	if (avacurbrk>avabrk)
 	{
-		avacurbrk=0;avabrk=frameleft/(double)AMinute*0.7+0.3;
-		for (int i=1;i<=nonamecnt+1;++i)
+		avacurbrk=0;avabrk=frameleft/(double)(AMinute+ThirtySeconds)*0.4+0.1;
+		for (int i=0;i<1000;++i)
 		{
 			if (!noname[i].Exist())
 			{
 				if (frameleft<TenSeconds)
-					noname[i].Init(re.NextDouble(0,800),4,100,150,70,0x8033CCFF);
+					noname[i].Init(re.NextDouble(0,800),4,100,150,60,0x8033CCFF);
 				else if (frameleft<TwentySeconds)
-					noname[i].Init(re.NextDouble(0,800),4,100,150,75,0x8033CCFF);
-				else noname[i].Init(re.NextDouble(0,800),4,100,150,80,0x8033CCFF);
-				if (i>nonamecnt)nonamecnt=i;break;
+					noname[i].Init(re.NextDouble(0,800),4,100,150,70,0x8033CCFF);
+				else noname[i].Init(re.NextDouble(0,800),4,100,150,75,0x8033CCFF);
+				break;
 			}
 		}
 	}
-	for (int i=1;i<=nonamecnt;++i)if (noname[i].Exist())noname[i].Process();
+	for (int i=0;i<1000;++i)if (noname[i].Exist())noname[i].Process();
+}
+achromaGroup aca,acb;
+void Level7Part33()//Achromatopsia1
+{
+	frameleft=AMinute;for(int i=0;i<1000;++i)if(noname[i].Exist())noname[i].noname2pnt();
+	aca.Init(red,0.2);acb.Init(green,0.2);
+	++part;avabrk=2.0f;avacurbrk=0;
+}
+void Level7Part34()//Achromatopsia1-child
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	if (avacurbrk>avabrk)
+	{
+		avacurbrk=0;avabrk=2;
+		aca.Reverse();acb.Reverse();
+	}
+	aca.Update();acb.Update();
+}
+void Level7Part35()//Achromatopsia2
+{
+	frameleft=AMinute;
+	aca.Init(red,1);acb.Init(green,1);
+	++part;avabrk=1.5f;avacurbrk=0;
+}
+void Level7Part36()//Achromatopsia2-child
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	if (avacurbrk>avabrk)
+	{
+		avacurbrk=0;avabrk=2;
+		aca.Reverse();acb.Reverse();
+	}
+	aca.Update();acb.Update();
 }

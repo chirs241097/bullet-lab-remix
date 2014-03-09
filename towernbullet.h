@@ -1529,11 +1529,34 @@ public:
 		done=false;
 		PMod=pmd;
 		r1lim=_r1lim;r2lim=_r2lim;boomlim=_boomlim;
-		if (re.NextInt(0,99)>boomlim)
+		if (re.NextInt(0,100)>boomlim)
 			pos=re.NextInt(0,600);
 		else
 			pos=999;
 		untitledlas.SetTexture(SprSheet,0,264,248,8);
+	}
+	void noname2pnt()
+	{
+		if(!las)
+		CreateBullet255(untitledbul.bulletpos.x,untitledbul.bulletpos.y,10);
+		else
+		{
+			for (int i=0;i<60;++i)
+			{
+				double trad=(i/60.0f)*pi*2;
+				vector2d a;
+				if (!(i%PMod))
+				{
+					a.x=cos(trad)*range2;a.y=sin(trad)*range2;
+				}
+				else
+				{
+					a.x=cos(trad)*range1;a.y=sin(trad)*range1;
+				}
+				a=a+untitledbul.bulletpos;
+				CreateBullet255(a.x,a.y,10);
+			}
+		}
 	}
 	void Process()
 	{
@@ -1569,7 +1592,7 @@ public:
 				b.x=cos(trad)*(range1-10);b.y=sin(trad)*(range1-10);
 			}
 			for (int i=60;i<MaxRes;++i)untitledlas.InsPoint(a,b,color);
-		}
+		}else
 		if (las)
 		{
 			untitledlas.RenCtr=vector2d(x+7.2,y+7.2);
@@ -1620,10 +1643,10 @@ public:
 		}
 	}
 }noname[1000];
-int nonamecnt;
 //"CTarg"
-struct SimpleBullet
+class SimpleBullet
 {
+public:
 	TColors aC,aC2;
 	vector2d bulletpos;
 	int scollable,lastcoll;
@@ -2358,5 +2381,65 @@ public:
 			}
 			break;
 		}
+	}
+};
+class achromaGroup
+{
+private:
+	class achromaBullet:private SimpleBullet
+	{
+	private:
+		bool active;
+		double spd,acc,lim;
+	public:
+		bool isActive(){return active;}
+		void achromaInit(vector2d pos,TColors initcol,double _lim)
+		{
+			bulletpos=pos;spd=0;acc=0.0005;lim=_lim;rot=0;
+			lastcoll=0;aC=initcol;aC2=COLOR_COUNT;
+			active=true;
+		}
+		void Reverse()
+		{
+			spd=0;
+			if(aC==green)aC=red;
+			else if(aC==red)aC=green;
+		}
+		void achromaUpdate()
+		{
+			if(aC==red)lastcoll=1;//ignore coll for red.
+			bulletpos.y+=spd*(1000.0f/hge->Timer_GetFPS());
+			if(spd+acc*(1000.0f/hge->Timer_GetFPS())<lim)spd+=acc*(1000.0f/hge->Timer_GetFPS());
+			if(bulletpos.y>610)active=false;
+			Update_SimpBul();
+		}
+	}bullets[1000];
+public:
+	double crbrk,llim;TColors col;
+	void Init(TColors initcol,double _llim)
+	{
+		col=initcol;llim=_llim;
+		crbrk=re.NextDouble(0,frameleft/(double)(AMinute+ThirtySeconds))*(part==36?0.07:0.02)+0.03;
+	}
+	void Reverse()
+	{
+		if(col==red)col=green;
+		else if(col==green)col=red;
+		for(int i=0;i<500;++i)if(bullets[i].isActive())bullets[i].Reverse();
+	}
+	void Update()
+	{
+		crbrk-=hge->Timer_GetDelta();
+		if(crbrk<=0)
+		{
+			crbrk=re.NextDouble(0,frameleft/(double)AMinute)*(part==36?0.07:0.02)+0.03;
+			for(int i=0;i<500;++i)
+			if(!bullets[i].isActive())
+			{
+				bullets[i].achromaInit(vector2d(re.NextDouble(10,790),10),col,llim);
+				break;
+			}
+		}
+		for(int i=0;i<500;++i)if(bullets[i].isActive())bullets[i].achromaUpdate();
 	}
 };
