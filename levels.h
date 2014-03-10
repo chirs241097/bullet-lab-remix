@@ -2972,8 +2972,25 @@ void Level7Part26()
 	}
 	for(int i=0;i<100;++i)if(rtv[i].isActive())rtv[i].Update();
 }
-//Level8 stats from here
-void Level7Part27()//3 circles
+//Level-1 stats from here
+void Levelm1Part0()
+{
+	frameleft=50;All2pnt();towcnt=0;bgbrk=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		LE_Active=false;
+		Current_Position=2;
+		ShowTip("\
+Level -1-Over the Horizon\n\
+?\
+");
+		frameleft=TenSeconds;++part;
+	}
+}
+void Levelm1Part1()//3 circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -2989,7 +3006,7 @@ void Level7Part27()//3 circles
 		++part;All2pnt();avabrk=1.0f;avacurbrk=0;
 	}
 }
-void L7P26Creator(vector2d p,int cnt,TColors col)
+void CircCreator(vector2d p,int cnt,TColors col)
 {
 	for (int i=0;i<cnt;++i)
 	{
@@ -3000,21 +3017,21 @@ void L7P26Creator(vector2d p,int cnt,TColors col)
 		bullet[pnt].bulletaccel=-0.003;bullet[pnt].limv=((AMinute-frameleft)/(double)AMinute)+1.0f;
 	}
 }
-void Level7Part28()
+void Levelm1Part2()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
 	if(avacurbrk>avabrk)
 	{
 		avacurbrk=0;
-		L7P26Creator(vector2d(400,250),60,red);
-		L7P26Creator(vector2d(350,336.6),60,green);
-		L7P26Creator(vector2d(450,336.6),60,blue);
+		CircCreator(vector2d(400,250),60,red);
+		CircCreator(vector2d(350,336.6),60,green);
+		CircCreator(vector2d(450,336.6),60,blue);
 	}
 }
 BCircle scircles[200];
 double rspd[200];
-void Level7Part29()//circles
+void Levelm1Part3()//circles
 {
 	frameleft=AMinute;clrtime=2;towcnt=0;
 	DisableAllTower=false;
@@ -3030,7 +3047,7 @@ void Level7Part29()//circles
 		++part;All2pnt();avabrk=1.0f;avacurbrk=1.0f;memset(scircles,0,sizeof(scircles));
 	}
 }
-void Level7Part30()
+void Levelm1Part4()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	avabrk=0.1+(frameleft/(double)AMinute)*0.4f;
@@ -3057,14 +3074,14 @@ void Level7Part30()
 		}
 	}
 }
-void Level7Part31()//Spiky
+void Levelm1Part5()//Spiky
 {
 	frameleft=AMinute+ThirtySeconds;
 	All2pnt();towcnt=0;
 	Lasercnt=0;
 	++part;avabrk=1;avacurbrk=0.5;
 }
-void Level7Part32()//Spiky-child
+void Levelm1Part6()//Spiky-child
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	if (avacurbrk>avabrk)
@@ -3077,7 +3094,7 @@ void Level7Part32()//Spiky-child
 				if (frameleft<TenSeconds)
 					noname[i].Init(re.NextDouble(0,800),4,100,150,60,0x8033CCFF);
 				else if (frameleft<TwentySeconds)
-					noname[i].Init(re.NextDouble(0,800),4,100,150,70,0x8033CCFF);
+					noname[i].Init(re.NextDouble(0,800),4,100,150,65,0x8033CCFF);
 				else noname[i].Init(re.NextDouble(0,800),4,100,150,75,0x8033CCFF);
 				break;
 			}
@@ -3086,13 +3103,13 @@ void Level7Part32()//Spiky-child
 	for (int i=0;i<1000;++i)if (noname[i].Exist())noname[i].Process();
 }
 achromaGroup aca,acb;
-void Level7Part33()//Achromatopsia1
+void Levelm1Part7()//Achromatopsia1
 {
 	frameleft=AMinute;for(int i=0;i<1000;++i)if(noname[i].Exist())noname[i].noname2pnt();
 	aca.Init(red,0.2);acb.Init(green,0.2);
 	++part;avabrk=2.0f;avacurbrk=0;
 }
-void Level7Part34()//Achromatopsia1-child
+void Levelm1Part8()//Achromatopsia1-child
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	if (avacurbrk>avabrk)
@@ -3102,13 +3119,13 @@ void Level7Part34()//Achromatopsia1-child
 	}
 	aca.Update();acb.Update();
 }
-void Level7Part35()//Achromatopsia2
+void Levelm1Part9()//Achromatopsia2
 {
 	frameleft=AMinute;
 	aca.Init(red,1);acb.Init(green,1);
 	++part;avabrk=1.5f;avacurbrk=0;
 }
-void Level7Part36()//Achromatopsia2-child
+void Levelm1Part10()//Achromatopsia2-child
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	if (avacurbrk>avabrk)

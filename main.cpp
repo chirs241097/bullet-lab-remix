@@ -445,23 +445,25 @@ void CallLevels()
 	if (level==7&&part==23)Level7Part23();
 	if (level==7&&part==24)Level7Part24();
 	if (level==7&&part==25)Level7Part25();
-	if (level==7&&part==26)Level7Part26();
-	if (level==7&&part==27)Level7Part27();
-	if (level==7&&part==28)Level7Part28();
-	if (level==7&&part==29)Level7Part29();
-	if (level==7&&part==30)Level7Part30();
-	if (level==7&&part==31)Level7Part31();
-	if (level==7&&part==32)Level7Part32();
-	if (level==7&&part==33)Level7Part33();
-	if (level==7&&part==34)Level7Part34();
-	if (level==7&&part==35)Level7Part35();
-	if (level==7&&part==36)Level7Part36();
+	if (level==-1&&part==26)Level7Part26();
+	if (level==-1&&part==0)Levelm1Part0();
+	if (level==-1&&part==1)Levelm1Part1();
+	if (level==-1&&part==2)Levelm1Part2();
+	if (level==-1&&part==3)Levelm1Part3();
+	if (level==-1&&part==4)Levelm1Part4();
+	if (level==-1&&part==5)Levelm1Part5();
+	if (level==-1&&part==6)Levelm1Part6();
+	if (level==-1&&part==7)Levelm1Part7();
+	if (level==-1&&part==8)Levelm1Part8();
+	if (level==-1&&part==9)Levelm1Part9();
+	if (level==-1&&part==10)Levelm1Part10();
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)level=3,part=0;
 	if (level==3&&part==7)level=4,part=0;
 	if (level==4&&part==26)level=5,part=0;
 	if (level==5&&part==23)level=6,part=0;
 	if (level==6&&part==32)level=7,part=0;
+	if (level==7&&part==27)level=-1,part=0;
 }
 bool ProcessCurCred()
 {

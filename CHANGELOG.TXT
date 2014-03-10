@@ -2,12 +2,12 @@
 Next version:
 ??????
 New levels...
-Rename function entries for Level -1
 Add missing tips.
 
 Pre-Released versions:
 0.8.0-0_PR (b74)
 New level Achromatopsia.
+Move levels to level -1.
 Rename "Minesweeper"->"Spiky", add noname2pnt.
 
 0.7.3-0_PR (b73)
