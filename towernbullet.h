@@ -47,7 +47,7 @@ int CreateBullet1(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].alterColor=green;
+	bullet[i].alterColor=green;bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
 	if (eff)BulletEffect_Attatch(i);
@@ -112,7 +112,7 @@ void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 	bullet[i].yelbrk=yelbrk;
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
-	bullet[i].alterColor=yellow;
+	bullet[i].alterColor=yellow;bullet[i].alterColor2=COLOR_COUNT;
 	if (eff)BulletEffect_Attatch(i);
 }
 void CreateBullet5(double x,double y,double bs,bool eff=false)
@@ -137,7 +137,7 @@ void CreateBullet5(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].alterColor=purple;
+	bullet[i].alterColor=purple;bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
 	if (eff)BulletEffect_Attatch(i);
@@ -164,7 +164,7 @@ int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,b
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].alterColor=red;
+	bullet[i].alterColor=red;bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].redattrib=0;
 	bullet[i].exp1=exp1;
 	bullet[i].exp2=exp2;
@@ -196,7 +196,7 @@ int CreateBullet7(double x,double y,double bs,int explo,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].alterColor=white;
+	bullet[i].alterColor=white;bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].oriexplo=bullet[i].redexplo=explo;
 	bullet[i].redattrib=0;
 	bullet[i].whirem=whicnt;
@@ -228,7 +228,7 @@ int CreateBullet8(double x,double y,double bs,bool eff=false)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
-	bullet[i].alterColor=dblue;
+	bullet[i].alterColor=dblue;bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
 	if (eff)BulletEffect_Attatch(i);
@@ -262,7 +262,7 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 	bullet[i].redattrib=0;
 	bullet[i].whicnt=cnt;
 	bullet[i].yelbrk=brk;
-	bullet[i].alterColor=orange;
+	bullet[i].alterColor=orange;bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].scollable=true;
 	bullet[i].scale=1;
 	if (eff)BulletEffect_Attatch(i);
@@ -350,37 +350,82 @@ void ProcessBullet2(int i)
 		bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*(1000.0f/hge->Timer_GetFPS());
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);
-	if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
+	if(PlayerSplit)
 	{
-		bullet[i].exist=false;
-		bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
-		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-		bullet[i].dist=0;
-		bullet[i].bullettype=0;
-		return;
-	}
-	if (bullet[i].scale<1.2&&dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
-	{
-		++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;
-		if(!bullet[i].inv)
+		bool rndr=true;
+		for(int j=0;j<4;++j)
 		{
-			bullet[i].exist=false;
-			bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
-			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-			bullet[i].dist=0;
-			bullet[i].bullettype=0;
+			double dis=GetDist(bullet[i].bulletpos,playerpos+splitData[j]);
+			if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
+			{
+				bullet[i].exist=false;rndr=false;
+				bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
+				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+				bullet[i].dist=0;
+				bullet[i].bullettype=0;
+				return;
+			}
+			if (bullet[i].scale<1.2&&dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
+			{
+				++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;rndr=false;
+				if(!bullet[i].inv)
+				{
+					bullet[i].exist=false;
+					bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+					bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+					bullet[i].dist=0;
+					bullet[i].bullettype=0;
+				}
+				return;
+			}
+			else
+			{
+				if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch(playerpos+splitData[j]);
+			}
 		}
-		return;
+		if(rndr)
+		{
+			if(bullet[i].alterColor2==COLOR_COUNT)
+				bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+			else
+				RenderAlter(vector2d(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2),bullet[i].alterColor,bullet[i].alterColor2,bullet[i].rot,0.6*bullet[i].scale),
+				Current_Position==1?bullet[i].rot+=(i&1?1:-1)*(1000/hge->Timer_GetFPS())*pi/1000:0;
+		}
 	}
 	else
 	{
-		if(bullet[i].alterColor2==COLOR_COUNT)
-		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+		double dis=GetDist(bullet[i].bulletpos,playerpos);
+		if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
+		{
+			bullet[i].exist=false;
+			bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
+			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+			bullet[i].dist=0;
+			bullet[i].bullettype=0;
+			return;
+		}
+		if (bullet[i].scale<1.2&&dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
+		{
+			++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;
+			if(!bullet[i].inv)
+			{
+				bullet[i].exist=false;
+				bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+				bullet[i].dist=0;
+				bullet[i].bullettype=0;
+			}
+			return;
+		}
 		else
-		RenderAlter(vector2d(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2),bullet[i].alterColor,bullet[i].alterColor2,bullet[i].rot,0.6*bullet[i].scale),
-		Current_Position==1?bullet[i].rot+=(i&1?1:-1)*(1000/hge->Timer_GetFPS())*pi/1000:0;
-		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
+		{
+			if(bullet[i].alterColor2==COLOR_COUNT)
+			bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+			else
+			RenderAlter(vector2d(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2),bullet[i].alterColor,bullet[i].alterColor2,bullet[i].rot,0.6*bullet[i].scale),
+			Current_Position==1?bullet[i].rot+=(i&1?1:-1)*(1000/hge->Timer_GetFPS())*pi/1000:0;
+			if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
+		}
 	}
 }
 //There is no need for ProcessBullet3() because they are in fact bullet2
@@ -516,20 +561,82 @@ void ProcessBullet6(int i)
 		bullet[i].bullettype=0;
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);
-	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
+	if(PlayerSplit)
 	{
-		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
-		bullet[i].exist=false;
-		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
-		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-		bullet[i].dist=0;
-		bullet[i].bullettype=0;
+		bool rndr=true;
+		for(int j=0;j<4;++j)
+		{
+			double dis=GetDist(bullet[i].bulletpos,playerpos+splitData[j]);
+			if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
+			{
+				bullet[i].exist=false;rndr=false;
+				bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
+				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+				bullet[i].dist=0;
+				bullet[i].bullettype=0;
+				return;
+			}
+			if (bullet[i].scale<1.2&&dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
+			{
+				++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;rndr=false;
+				if(!bullet[i].inv)
+				{
+					bullet[i].exist=false;
+					bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+					bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+					bullet[i].dist=0;
+					bullet[i].bullettype=0;
+				}
+				return;
+			}
+			else
+			{
+				if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch(playerpos+splitData[j]);
+			}
+		}
+		if(rndr)
+		{
+			if(bullet[i].alterColor2==COLOR_COUNT)
+				bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+			else
+				RenderAlter(vector2d(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2),bullet[i].alterColor,bullet[i].alterColor2,bullet[i].rot,0.6*bullet[i].scale),
+				Current_Position==1?bullet[i].rot+=(i&1?1:-1)*(1000/hge->Timer_GetFPS())*pi/1000:0;
+		}
 	}
 	else
 	{
-		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
-		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
+		double dis=GetDist(bullet[i].bulletpos,playerpos);
+		if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
+		{
+			bullet[i].exist=false;
+			bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
+			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+			bullet[i].dist=0;
+			bullet[i].bullettype=0;
+			return;
+		}
+		if (bullet[i].scale<1.2&&dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7&&bullet[i].collable)
+		{
+			++coll,scminus+=10000,Mult_BatClear();bullet[i].collable=false;
+			if(!bullet[i].inv)
+			{
+				bullet[i].exist=false;
+				bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+				bullet[i].dist=0;
+				bullet[i].bullettype=0;
+			}
+			return;
+		}
+		else
+		{
+			if(bullet[i].alterColor2==COLOR_COUNT)
+			bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+			else
+			RenderAlter(vector2d(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2),bullet[i].alterColor,bullet[i].alterColor2,bullet[i].rot,0.6*bullet[i].scale),
+			Current_Position==1?bullet[i].rot+=(i&1?1:-1)*(1000/hge->Timer_GetFPS())*pi/1000:0;
+			if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
+		}
 	}
 }
 void ProcessBullet7(int i)
@@ -651,23 +758,18 @@ void ProcessBullet8(int i)
 		}
 	}
 	BulletEffect_Process(i);
-	double dis=GetDist(bullet[i].bulletpos,playerpos);
-	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
+	if(bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
-		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
-		else
+		int cnt=re.NextInt(2,5);if (Dis8ref)cnt=0;
+		for (int ii=1;ii<=cnt;++ii)
 		{
-			int cnt=re.NextInt(2,5);if (Dis8ref)cnt=0;
-			for (int ii=1;ii<=cnt;++ii)
+			int pnt=CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,re.NextDouble(-pi,pi));
+			if (t8special)
 			{
-				int pnt=CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,re.NextDouble(0,pi));
-				if (t8special)
-				{
-					bullet[pnt].alterColor=(TColors)(re.NextInt(0,7));
-					bullet[pnt].alterColor2=(TColors)(re.NextInt(0,7));
-					if(re.NextInt(0,3)==3)bullet[pnt].redir(vector2d(400,300));
-					if(re.NextInt(0,1))++ii;
-				}
+				bullet[pnt].alterColor=(TColors)(re.NextInt(0,7));
+				bullet[pnt].alterColor2=(TColors)(re.NextInt(0,7));
+				if(re.NextInt(0,3)==3)bullet[pnt].redir(vector2d(400,300));
+				if(re.NextInt(0,1))++ii;
 			}
 		}
 		bullet[i].exist=false;
@@ -675,11 +777,46 @@ void ProcessBullet8(int i)
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
 		bullet[i].dist=0;
 		bullet[i].bullettype=0;
+		return;
+	}
+	if(PlayerSplit)
+	{
+		for(int j=0;j<4;++j)
+		{
+			double dis=GetDist(bullet[i].bulletpos,playerpos+splitData[j]);
+			if (dis<=6)
+			{
+				if (dis<=6){if(clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();}
+				bullet[i].exist=false;
+				bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+				bullet[i].dist=0;
+				bullet[i].bullettype=0;
+			}
+			else
+			{
+				if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch(playerpos+splitData[j]);
+			}
+		}
+		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
 	}
 	else
 	{
-		bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
-		if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
+		double dis=GetDist(bullet[i].bulletpos,playerpos);
+		if (dis<=6)
+		{
+			if (dis<=6){if(clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();}
+			bullet[i].exist=false;
+			bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+			bullet[i].dist=0;
+			bullet[i].bullettype=0;return;
+		}
+		else
+		{
+			bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+			if (dis<=16&&bullet[i].scollable)++semicoll,++dsmc,bullet[i].scollable=false,SCEffect_Attatch();
+		}
 	}
 }
 void ProcessBullet9(int i)
@@ -1286,7 +1423,16 @@ void ProcessTower8()
 				tower[i].dblstate=true;
 				tower[i].curtimer2=tower[i].towertimer2;
 				tower[i].curshotcount=tower[i].shotcount;
-				if (!Dis8ref&&!t8special)BTarg.TargShow(),BTarg.targpos=playerpos;
+				if (!Dis8ref&&!t8special)BTarg.TargShow();
+				if (!Dis8ref)BTarg.targpos=playerpos;
+				if (PlayerSplit)
+				{
+					int r=0;
+					for(int i=1;i<4;++i)
+					if(GetDist(playerpos+splitData[r],vector2d(400,300))>
+					GetDist(playerpos+splitData[i],vector2d(400,300)))r=i;
+					BTarg.targpos=playerpos+splitData[r];
+				}
 			}
 		}
 		else
@@ -1314,14 +1460,7 @@ void ProcessTower8()
 						if (tower[i].towerpos.y<300)
 						bullet[pnt].setdir(-pi/2);else bullet[pnt].setdir(pi/2);
 					}
-					if (tower[i].curshotcount==tower[i].shotcount)
-						tower[i].tdir=bullet[pnt].bulletdir;
-					else
-					{
-						bullet[pnt].bulletdir=tower[i].tdir;
-						bullet[pnt].dist=bullet[pnt].bulletdir.x*bullet[pnt].bulletdir.x+bullet[pnt].bulletdir.y*bullet[pnt].bulletdir.y;
-						bullet[pnt].dist=sqrt(bullet[pnt].dist);
-					}
+					else bullet[pnt].redir(BTarg.targpos);
 				}
 				else
 				{
@@ -1329,15 +1468,8 @@ void ProcessTower8()
 					{
 						int pnt=CreateBullet8(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].effect);
 						bullet[pnt].alterColor=white;
-						if (tower[i].curshotcount==tower[i].shotcount&&j==0)
-							tower[i].tdir=bullet[pnt].bulletdir;
-						else
-						{
-							bullet[pnt].bulletdir=tower[i].tdir;
-							bullet[pnt].bulletdir.ToUnitCircle();
-							bullet[pnt].dist=1;
-							bullet[pnt].bulletdir.rotate(j*2*pi/5);
-						}
+						bullet[pnt].redir(BTarg.targpos);
+						bullet[pnt].bulletdir.rotate(j*2*pi/5);
 					}
 				}
 				tower[i].curtimer2=tower[i].towertimer2;
@@ -1454,7 +1586,7 @@ public:
 					++coll,scminus+=10000,collbrk=0,Mult_BatClear();
 			}
 		}
-		if (GetDist()<16.0f)
+		if (GetDist()<9.0f)
 		{
 			if (!LOWFPS)++scollbrk;else scollbrk+=17;
 				if (scollbrk>200)
@@ -2386,7 +2518,7 @@ public:
 class achromaGroup
 {
 private:
-	class achromaBullet:private SimpleBullet
+	class achromaBullet:public SimpleBullet
 	{
 	private:
 		bool active;
@@ -2426,6 +2558,10 @@ public:
 		if(col==red)col=green;
 		else if(col==green)col=red;
 		for(int i=0;i<500;++i)if(bullets[i].isActive())bullets[i].Reverse();
+	}
+	void achroma2pnt()
+	{
+		for(int i=0;i<500;++i)if(bullets[i].isActive())CreateBullet255(bullets[i].bulletpos.x,bullets[i].bulletpos.y,10);
 	}
 	void Update()
 	{

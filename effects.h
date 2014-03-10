@@ -3,9 +3,10 @@
 //Copyright Chrisoft 2014
 //static const char* EFFECTS_H_FN="effects.h";
 
-void SCEffect_Attatch()
+void SCEffect_Attatch(vector2d Target=vector2d(-100,-100))
 {
 	int cnt=rand()%8+3;
+	if(Target.x<-50&&Target.y<-50)Target=playerpos;
 	for (int ii=1;ii<=cnt;++ii)
 	{
 		int i;
@@ -19,8 +20,8 @@ void SCEffect_Attatch()
 		}
 		bullet[i].exist=true;
 		bullet[i].bullettype=254;
-		bullet[i].bulletpos.x=playerpos.x+3;
-		bullet[i].bulletpos.y=playerpos.y+3;
+		bullet[i].bulletpos.x=Target.x+3;
+		bullet[i].bulletpos.y=Target.y+3;
 		bullet[i].bulletdir.x=rand()%100-50;
 		bullet[i].bulletdir.y=rand()%100-50;
 		bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;

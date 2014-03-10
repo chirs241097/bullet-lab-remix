@@ -3135,3 +3135,54 @@ void Levelm1Part10()//Achromatopsia2-child
 	}
 	aca.Update();acb.Update();
 }
+void Levelm1Part11()
+{
+	frameleft=AMinute+ThirtySeconds;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("I've heard that all of you\n\
+support hyper-threading?");
+		return;
+	}
+	++frameskips;
+	if (frameskips<10&&!LOWFPS)return;
+	frameskips=0;
+	CreateTower8(400,300,857,3,57,20,false);
+	for (int i=1;i<=towcnt;++i)
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
+	for (int i=1;i<=towcnt;++i)
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
+		else
+		{
+			IfCallLevel=false;
+			aca.achroma2pnt();acb.achroma2pnt();
+			playerpos=vector2d(200,150);PlayerSplit=true;
+			return;
+		}
+}
+void Levelm1Part12()
+{
+	frameleft=ThirtySeconds;if(tower[towcnt].towertype!=6)towcnt=0;
+	DisableAllTower=false;
+	++frameskips;
+	if (frameskips<10&&!LOWFPS)return;
+	frameskips=0;
+	CreateTower6(400,300,2500,2,2000,3,12);
+	for (int i=1;i<=towcnt;++i)
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
+	for (int i=1;i<=towcnt;++i)
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
+		else
+		{
+			IfCallLevel=false;
+			return;
+		}
+}

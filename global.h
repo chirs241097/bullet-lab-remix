@@ -128,7 +128,6 @@ struct Tower
 	int towertype;
 	int towertimer,curtimer;
 	int towertimer2,curtimer2,shotcount,curshotcount;
-	vector2d tdir;
 	bool dblstate;
 	double bulletspeed;
 	int redexplo,whicnt,yelbrk;
@@ -260,16 +259,14 @@ int level,part,clrtime,clrbns;
 int coll,semicoll,mode,dsmc,restarts;
 double clrrange,clrrad,clrmaxrange,clrind;
 hgeSprite *clrcircle;
-bool IfCallLevel;
 bool Dis8ref,t8special;
 int frameskips=0,stepskips=0;
-bool IfShowTip=false,FadeTip=false;
+bool IfCallLevel,IfShowTip,FadeTip,PlayerSplit;
 RandomEngine re;
 hgeFont *TipFont;
 char lasttip[200];
 int whicnt,whrcnt,shots,clrusg;
-bool yelattrib;
-bool Complete=false;
+bool yelattrib,Complete;
 double bsscale;
 long long score,scminus;
 double mult,lsc;
@@ -284,6 +281,7 @@ int creditsp;double creditfly,creditacc,credbrk;
 bool credstop,creddone;
 bool tfs;
 int fpslvl,clrmode;
+const vector2d splitData[4]={vector2d(0,0),vector2d(400,0),vector2d(0,300),vector2d(400,300)};
 //static const char* GLOBAL_H_FN="global.h";
 
 void Throw(char *Filename,char *Info)

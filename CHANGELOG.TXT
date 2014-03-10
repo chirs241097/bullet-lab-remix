@@ -7,8 +7,15 @@ Add missing tips.
 Pre-Released versions:
 0.8.0-0_PR (b74)
 New level Achromatopsia.
-Move levels to level -1.
+New level hyper-threading.
+Tower8 partly rewritten, dropping tdir.
+Move levels to level -1. <-typo fixed
+Modify the semi-coll threshold of laser.
+SCEffect_Attatch now take a optional parameter.
+Global varibles cleanup.
+Fix a bug in bullet8 caused by RandomEngine port.
 Rename "Minesweeper"->"Spiky", add noname2pnt.
+Add achroma2pnt.
 
 0.7.3-0_PR (b73)
 This is a pre-release version of 0.7.2-2_PR.
