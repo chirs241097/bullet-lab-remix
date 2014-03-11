@@ -3154,14 +3154,16 @@ support hyper-threading?");
 	CreateTower8(400,300,857,3,57,20,false);
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].RendColor==0x80FFFFFF)
+		{
+			aca.achroma2pnt();acb.achroma2pnt();
 			tower[i].RendColor=0x00FFFFFF;
+		}
 	for (int i=1;i<=towcnt;++i)
 		if ((tower[i].RendColor>>24)<=0x80)
 			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
 			IfCallLevel=false;
-			aca.achroma2pnt();acb.achroma2pnt();
 			playerpos=vector2d(200,150);PlayerSplit=true;
 			return;
 		}
@@ -3185,4 +3187,57 @@ void Levelm1Part12()
 			IfCallLevel=false;
 			return;
 		}
+}
+vector2d snextarg;
+int snexcnt,snexstep;
+Target snexTarg;
+void Levelm1Part13()//Additive blending
+{
+	frameleft=AMinute*2;
+	++bgbrk;if (LOWFPS)bgbrk+=16;
+	if (bgbrk<30)return;
+	bgbrk=0;
+	if (!LOWFPS)
+	DBGColor=ColorTransfer(DBGColor,0xFF000000);
+	else
+	for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFF000000);
+	if (DBGColor==0xFF000000)
+	{
+		frameleft=AMinute,++part;
+		bgdbbrk=re.NextInt(5,20),bgbrk=0;
+		avabrk=2.0f;avacurbrk=0;snexTarg.Init(0.001,vector2d(400,300));
+		snexstep=0;snexcnt=10;snexTarg.TargShow();
+	}
+}
+void Levelm1Part14()
+{
+	snexTarg.TargRender();
+	avacurbrk+=hge->Timer_GetDelta();
+	switch (snexstep)
+	{
+		case 0:
+		if(avacurbrk>avabrk)snexstep=1,snextarg=playerpos;
+		break;
+		case 1:
+		snexTarg.TargGoto(snextarg);
+		if(GetDist(snexTarg.targpos,snextarg)<0.01)
+		{
+			snexstep=2;
+			avabrk=0;
+			avacurbrk=0.05;
+			snexcnt=100-(frameleft/(double)(AMinute*2))*50;
+		}
+		break;
+		case 2:
+		if(avacurbrk>avabrk)
+		{
+			if(--snexcnt>0)
+			{
+				avabrk=0;
+				bullet[CreateBullet2(snexTarg.targpos.x,snexTarg.targpos.y,2,re.NextDouble(-pi,pi),true)].addblend=true;
+			}
+			else snexstep=0,avabrk=2,avacurbrk=0;
+		}
+		break;
+	}
 }

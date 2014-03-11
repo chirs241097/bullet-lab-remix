@@ -74,20 +74,17 @@ inline double GetDist(vector2d,vector2d);
 class Bullet
 {
 public:
-	vector2d bulletpos;
-	vector2d bulletdir;
+	vector2d bulletpos,bulletdir;
 	double dist;
-	int bullettype;
-	int redexplo,redattrib,oriexplo,whicnt;
+	int bullettype,redexplo,redattrib,oriexplo,whicnt;
 	DWORD sccolor;
 	/*In Orange bullets
 	//redattrib also serves as oraattrib to determine if they will explode or change direction
 	//redexplo also serves as orange explo
 	//yelbrk serves as direction-change timer
 	//whicnt describes how much one will explode into (into an exactly circle)*/
-	double bulletspeed;
-	double bulletaccel,limv;
-	bool exist,inv;
+	double bulletspeed,bulletaccel,limv;
+	bool exist,inv,addblend;
 	int whirem,whiskp,yelbrk;
 	int exp1,exp2;
 	double lifetime,rot;
@@ -190,7 +187,7 @@ struct Target//An annoying circle
 	void TargFollowPlayer()
 	{
 		double curspd=0.01f;
-		if (GetDist(playerpos,targpos)>1)curspd=0.02f;
+		if (GetDist(playerpos,targpos)>1)curspd=0.02f;else targpos=playerpos;
 		if (GetDist(playerpos,targpos)>2)curspd=0.1f;
 		if (GetDist(playerpos,targpos)>5)curspd=0.5f;
 		if (GetDist(playerpos,targpos)>10)curspd=0.75f;
@@ -212,7 +209,7 @@ struct Target//An annoying circle
 	void TargGoto(vector2d pos)
 	{
 		double curspd=0.01f;
-		if (GetDist(pos,targpos)>1)curspd=0.02f;
+		if (GetDist(pos,targpos)>1)curspd=0.02f;else targpos=pos;
 		if (GetDist(pos,targpos)>2)curspd=0.1f;
 		if (GetDist(pos,targpos)>5)curspd=0.5f;
 		if (GetDist(pos,targpos)>10)curspd=0.75f;

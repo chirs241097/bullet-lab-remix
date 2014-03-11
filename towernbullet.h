@@ -66,6 +66,7 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool inv
 		if (i>bulcnt)bulcnt=i;
 	}
 	bullet[i].exist=true;
+	bullet[i].addblend=false;
 	bullet[i].inv=invi;
 	bullet[i].bullettype=2;
 	bullet[i].bulletpos.x=x;
@@ -420,7 +421,11 @@ void ProcessBullet2(int i)
 		else
 		{
 			if(bullet[i].alterColor2==COLOR_COUNT)
+			{
+			if(bullet[i].addblend)bulletspr[bullet[i].alterColor]->SetBlendMode(0);
 			bulletspr[bullet[i].alterColor]->RenderEx(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2,0,0.6*bullet[i].scale,0);
+			if(bullet[i].addblend)bulletspr[bullet[i].alterColor]->SetBlendMode(2);
+			}
 			else
 			RenderAlter(vector2d(bullet[i].bulletpos.x+7.2,bullet[i].bulletpos.y+7.2),bullet[i].alterColor,bullet[i].alterColor2,bullet[i].rot,0.6*bullet[i].scale),
 			Current_Position==1?bullet[i].rot+=(i&1?1:-1)*(1000/hge->Timer_GetFPS())*pi/1000:0;

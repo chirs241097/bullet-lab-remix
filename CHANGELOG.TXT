@@ -5,6 +5,9 @@ New levels...
 Add missing tips.
 
 Pre-Released versions:
+0.8.0-1_PR (b75)
+New level Supernova.
+
 0.8.0-0_PR (b74)
 New level Achromatopsia.
 New level hyper-threading.
