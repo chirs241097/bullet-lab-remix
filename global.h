@@ -105,7 +105,7 @@ public:
 		bulletdir.y=sin(rad);
 		dist=1;
 	}
-}bullet[10000];
+}bullet[20000];
 /*Something about bullets:
 //bullettype:
 //1: player dir-based green bullet
@@ -209,12 +209,12 @@ struct Target//An annoying circle
 	void TargGoto(vector2d pos)
 	{
 		double curspd=0.01f;
-		if (GetDist(pos,targpos)>1)curspd=0.02f;else targpos=pos;
-		if (GetDist(pos,targpos)>2)curspd=0.1f;
-		if (GetDist(pos,targpos)>5)curspd=0.5f;
-		if (GetDist(pos,targpos)>10)curspd=0.75f;
-		if (GetDist(pos,targpos)>20)curspd=1.0f;
-		if (GetDist(pos,targpos)>30)curspd=2.0f;
+		if (GetDist(pos,targpos)>1)curspd=0.25f;else targpos=pos;
+		if (GetDist(pos,targpos)>2)curspd=0.5f;
+		if (GetDist(pos,targpos)>5)curspd=1.0f;
+		if (GetDist(pos,targpos)>10)curspd=2.0f;
+		if (GetDist(pos,targpos)>20)curspd=3.0f;
+		if (GetDist(pos,targpos)>30)curspd=4.0f;
 		if (GetDist(pos,targpos)>40)curspd=5.0f;
 		targdir.x=targpos.x-pos.x;
 		targdir.y=targpos.y-pos.y;

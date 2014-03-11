@@ -1474,7 +1474,7 @@ void ProcessTower8()
 						int pnt=CreateBullet8(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].effect);
 						bullet[pnt].alterColor=white;
 						bullet[pnt].redir(BTarg.targpos);
-						bullet[pnt].bulletdir.rotate(j*2*pi/5);
+						bullet[pnt].bulletdir.Rotate(j*2*pi/5);
 					}
 				}
 				tower[i].curtimer2=tower[i].towertimer2;

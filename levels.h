@@ -3191,28 +3191,59 @@ void Levelm1Part12()
 vector2d snextarg;
 int snexcnt,snexstep;
 Target snexTarg;
-void Levelm1Part13()//Additive blending
+void Levelm1Part13()//"Supernova"
 {
-	frameleft=AMinute*2;
+	frameleft=AMinute*2;PlayerSplit=false;
 	++bgbrk;if (LOWFPS)bgbrk+=16;
 	if (bgbrk<30)return;
-	bgbrk=0;
+	bgbrk=0;towcnt=0;
 	if (!LOWFPS)
 	DBGColor=ColorTransfer(DBGColor,0xFF000000);
 	else
 	for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFF000000);
 	if (DBGColor==0xFF000000)
 	{
-		frameleft=AMinute,++part;
-		bgdbbrk=re.NextInt(5,20),bgbrk=0;
-		avabrk=2.0f;avacurbrk=0;snexTarg.Init(0.001,vector2d(400,300));
+		snexTarg.Init(0.001,vector2d(400,300));
+		++part;avabrk=12.0f;avacurbrk=0;tbrk=0;
 		snexstep=0;snexcnt=10;snexTarg.TargShow();
+	}
+}
+void snCircCreator(vector2d p,int cnt,TColors col,bool mode)
+{
+	if(mode)
+	for (int i=0;i<cnt;++i)
+	{
+		int pnt=CreateBullet2(p.x,p.y,6,acos((vector2d(400,300)-playerpos)^vector2d(1,0))+(i-0.5f)*(2*pi/cnt));
+		bullet[pnt].alterColor=col;bullet[pnt].addblend=true;
+	}
+	else
+	for (int i=0;i<cnt;++i)
+	{
+		int pnt=CreateBullet2(p.x,p.y,2,acos((vector2d(400,300)-playerpos)^vector2d(1,0))+i*(2*pi/cnt));
+		bullet[pnt].alterColor=col;bullet[pnt].addblend=true;
 	}
 }
 void Levelm1Part14()
 {
 	snexTarg.TargRender();
 	avacurbrk+=hge->Timer_GetDelta();
+	tbrk+=hge->Timer_GetDelta();
+	if((AMinute*2-frameleft)<TenSeconds)
+	{
+		if(tbrk>0.016)
+		{
+			tbrk=0;
+			snCircCreator(vector2d(400,300),60,(TColors)re.NextInt(0,7),true);
+		}
+	}
+	else
+	{
+		if(tbrk>0.5)
+		{
+			tbrk=0;
+			snCircCreator(vector2d(400,300),27,(TColors)re.NextInt(0,7),false);
+		}
+	}
 	switch (snexstep)
 	{
 		case 0:
@@ -3223,9 +3254,9 @@ void Levelm1Part14()
 		if(GetDist(snexTarg.targpos,snextarg)<0.01)
 		{
 			snexstep=2;
-			avabrk=0;
-			avacurbrk=0.05;
-			snexcnt=100-(frameleft/(double)(AMinute*2))*50;
+			avabrk=(frameleft/(double)(AMinute*2))*0.01666+0.01667;
+			avacurbrk=0;
+			snexcnt=40-(frameleft/(double)(AMinute*2))*20;
 		}
 		break;
 		case 2:
@@ -3233,10 +3264,11 @@ void Levelm1Part14()
 		{
 			if(--snexcnt>0)
 			{
-				avabrk=0;
+				avacurbrk=0;
+				for(int i=0;i<10;++i)
 				bullet[CreateBullet2(snexTarg.targpos.x,snexTarg.targpos.y,2,re.NextDouble(-pi,pi),true)].addblend=true;
 			}
-			else snexstep=0,avabrk=2,avacurbrk=0;
+			else snexstep=0,avabrk=(frameleft/(double)(AMinute*2))*1+1.5f,avacurbrk=0;
 		}
 		break;
 	}

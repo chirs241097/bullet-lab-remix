@@ -1,7 +1,7 @@
 //Chrisoft Bullet Lab Remix HGE
 //Chrisoft Game Helper header
 //Copyright Chrisoft 2014
-//libcgh version 0006
+//libcgh version 0007
 //Last full compatible version 0002
 //^Modify that when big change is made^
 #include <hge.h>
@@ -20,13 +20,10 @@ struct vector2d
 	double x,y;
 	vector2d(double _x,double _y){x=_x;y=_y;}
 	vector2d(){x=y=0;}
-	void ToUnitCircle()
-	{
-		double l=sqrt(sqr(x)+sqr(y));
-		x/=l;y/=l;
-	}
+	double l(){return sqrt(sqr(x)+sqr(y));}
+	void ToUnitCircle(){double len=l();x/=len;y/=len;}
 	void Swap(){double t=x;x=y;y=t;}
-	void rotate(double rad){double tx=x*cos(rad)+y*sin(rad),ty=y*cos(rad)-x*sin(rad);x=tx,y=ty;}
+	void Rotate(double rad){double tx=x*cos(rad)+y*sin(rad),ty=y*cos(rad)-x*sin(rad);x=tx,y=ty;}
 	friend vector2d operator -(vector2d a,vector2d b)
 	{
 		return vector2d(a.x-b.x,a.y-b.y);
@@ -46,6 +43,10 @@ struct vector2d
 	friend vector2d operator *(double a,vector2d b)
 	{
 		return vector2d(b.x*a,b.y*a);
+	}
+	friend double operator ^(vector2d a,vector2d b)//cosine of angle
+	{
+		return (a|b)/a.l()/b.l();
 	}
 };
 inline vector2d ToUnitCircle(vector2d input)

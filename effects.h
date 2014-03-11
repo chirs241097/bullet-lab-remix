@@ -32,39 +32,39 @@ void SCEffect_Attatch(vector2d Target=vector2d(-100,-100))
 }
 void SCEffect_Process(int i)
 {
-		if (!bullet[i].exist||bullet[i].bullettype!=254)return;
-		if (!DisablePlayer)
+	if (!bullet[i].exist||bullet[i].bullettype!=254)return;
+	if (!DisablePlayer)
+	{
+		if (LOWFPS)
 		{
-			if (LOWFPS)
-			{
-				bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
-				bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
-				++effskp;
-				if (effskp==7)
-					bullet[i].sccolor=bullet[i].sccolor-0x1F000000,effskp=0;
-			}
-			else
-			{
-				bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
-				bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
-				++effskp;
-				if (effskp==7)
-					bullet[i].sccolor=bullet[i].sccolor-0x1000000,effskp=0;
-			}
-		}
-		if (GETA(bullet[i].sccolor)<=0x0A||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
-		{
-			bullet[i].exist=false;
-			bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
-			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-			bullet[i].dist=0;
-			bullet[i].bullettype=0;
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20*17;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20*17;
+			++effskp;
+			if (effskp==7)
+				bullet[i].sccolor=bullet[i].sccolor-0x1F000000,effskp=0;
 		}
 		else
 		{
-			bulletspr[grey]->SetColor(bullet[i].sccolor);
-			bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+2.4,bullet[i].bulletpos.y+2.4,0,0.2,0);
+			bullet[i].bulletpos.x-=bullet[i].bulletspeed*(bullet[i].bulletdir.x/bullet[i].dist)/20;
+			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
+			++effskp;
+			if (effskp==7)
+				bullet[i].sccolor=bullet[i].sccolor-0x1000000,effskp=0;
 		}
+	}
+	if (GETA(bullet[i].sccolor)<=0x0A||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
+	{
+		bullet[i].exist=false;
+		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+		bullet[i].dist=0;
+		bullet[i].bullettype=0;
+	}
+	else
+	{
+		bulletspr[grey]->SetColor(bullet[i].sccolor);
+		bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+2.4,bullet[i].bulletpos.y+2.4,0,0.2,0);
+	}
 }
 void BulletEffect_Attatch(int n)
 {
