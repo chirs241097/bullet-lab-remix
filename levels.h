@@ -3149,6 +3149,7 @@ support hyper-threading?");
 		return;
 	}
 	++frameskips;
+	if(!PlayerSplit)playerpos=vector2d(200,150),PlayerSplit=true;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
 	CreateTower8(400,300,857,3,57,20,false);
@@ -3164,7 +3165,6 @@ support hyper-threading?");
 		else
 		{
 			IfCallLevel=false;
-			playerpos=vector2d(200,150);PlayerSplit=true;
 			return;
 		}
 }
@@ -3184,7 +3184,7 @@ void Levelm1Part12()
 			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
 		else
 		{
-			IfCallLevel=false;
+			IfCallLevel=false;BTarg.TargHide();
 			return;
 		}
 }

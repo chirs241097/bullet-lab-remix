@@ -104,12 +104,19 @@ void Player_Clear_Expand()
 		clrrange+=13.6;
 	else
 		clrrange+=0.8;
+	int ds;
 	for (int i=1;i<=bulcnt;++i)
 	{
-		double dis=GetDist(bullet[i].bulletpos,playerpos);
-		if (dis<=clrrange&&bullet[i].exist&&!bullet[i].inv)
+		double dis=GetDist(bullet[i].bulletpos,playerpos);ds=0;
+		if(PlayerSplit)
+		for(int j=1;j<4;++j)
 		{
-			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
+			if(dis>GetDist(bullet[i].bulletpos,playerpos+splitData[j]))
+			dis=GetDist(bullet[i].bulletpos,playerpos+splitData[j]),ds=j;
+		}
+		if (bullet[i].bullettype!=255&&dis<=clrrange&&bullet[i].exist&&!bullet[i].inv)
+		{
+			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10,ds);
 			bullet[i].exist=false;
 			bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
 			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
@@ -130,7 +137,7 @@ void Player_Clear_Rotate()
 		double rad=atan2l(bullet[i].bulletpos.y-playerpos.y,bullet[i].bulletpos.x-playerpos.x);
 		hge->Gfx_RenderLine(playerpos.x+8,playerpos.y+8,playerpos.x+cos(clrrad)*clrmaxrange,playerpos.y+sin(clrrad)*clrmaxrange);
 		while (rad<0)rad+=2*pi;
-		if (dis<=clrmaxrange&&bullet[i].exist&&!bullet[i].inv&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
+		if (bullet[i].bullettype!=255&&dis<=clrmaxrange&&bullet[i].exist&&!bullet[i].inv&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
 		{
 			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
 			bullet[i].exist=false;
@@ -139,6 +146,24 @@ void Player_Clear_Rotate()
 			bullet[i].dist=0;
 			bullet[i].bullettype=0;
 		}
+		if(PlayerSplit)
+		for(int j=1;j<4;++j)
+		{
+			vector2d plsp=playerpos+splitData[j];
+			double dis=GetDist(bullet[i].bulletpos,plsp);
+			double rad=atan2l(bullet[i].bulletpos.y-plsp.y,bullet[i].bulletpos.x-plsp.x);
+			hge->Gfx_RenderLine(plsp.x+8,plsp.y+8,plsp.x+cos(clrrad)*clrmaxrange,plsp.y+sin(clrrad)*clrmaxrange);
+			while (rad<0)rad+=2*pi;
+			if (bullet[i].bullettype!=255&&dis<=clrmaxrange&&bullet[i].exist&&!bullet[i].inv&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
+			{
+				CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10,j);
+				bullet[i].exist=false;
+				bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+				bullet[i].dist=0;
+				bullet[i].bullettype=0;
+			}
+		}
 	}
 }
 void ProcessPlayer()
@@ -146,10 +171,10 @@ void ProcessPlayer()
 	if (!clrcircle)
 	{
 		clrcircle=new hgeSprite(SprSheet,63,71,193,193);
-		clrcircle->SetColor(0x30800000);
 		clrcircle->SetHotSpot(96.5f,96.5f);
 		clrcircle->SetBlendMode(BLEND_ALPHAADD);
 	}
+	if(clrmode)clrcircle->SetColor(0x30008080);else clrcircle->SetColor(0x30800000);;
 	if (playerLockX)
 	{
 		Lock.Setdata(0,vector2d(playerpos.x-1,0),vector2d(playerpos.x-1,600),0xC0FFFFFF);
@@ -219,6 +244,8 @@ void ProcessPlayer()
 			}
 			if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
 			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_KEEP&&clrrange==0&&diffkey)
 		{
@@ -228,6 +255,8 @@ void ProcessPlayer()
 			}
 			if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
 			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
 		}
 		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_RELEASE&&clrrange==0&&!diffkey)
 		{
@@ -251,22 +280,27 @@ void ProcessPlayer()
 				Player_Clear_Expand();++clrusg;
 			}
 		}
-		if (clrrange!=0)Player_Clear_Expand(),
-			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f),
+		if (clrrange!=0)
+		{
+			Player_Clear_Expand();
+			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f);
 			clrind+=(LOWFPS?0.016*pi:0.001*pi);
+		}
 		if (clrrange>=clrmaxrange)clrrange=0;
 	}
 	else
 	{
-		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT&&clrrad-pi/2<1e-7&&clrtime+clrbns&&!diffkey)
+		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT&&clrrad-pi/2<1e-7&&!diffkey)
 		{
 			clrmaxrange=0;clrind=0;
 		}
-		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_HIT&&clrrad-pi/2<1e-7&&clrtime+clrbns&&diffkey)
+		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_HIT&&clrrad-pi/2<1e-7&&diffkey)
 		{
 			clrmaxrange=0;clrind=0;
 		}
-		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_KEEP&&clrrange==0&&clrtime+clrbns&&!diffkey)
+		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_KEEP&&clrrange==0&&!diffkey)
 		{
 			if (clrmaxrange<=400)
 			{
@@ -274,8 +308,10 @@ void ProcessPlayer()
 			}
 			if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
 			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
 		}
-		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_KEEP&&clrrange==0&&clrtime+clrbns&&diffkey)
+		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_KEEP&&clrrange==0&&diffkey)
 		{
 			if (clrmaxrange<=400)
 			{
@@ -283,18 +319,25 @@ void ProcessPlayer()
 			}
 			if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
 			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
 		}
-		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_RELEASE&&clrrad-pi/2<1e-7&&clrtime+clrbns&&!diffkey&&clrmaxrange>50)
+		if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_RELEASE&&clrrad-pi/2<1e-7&&clrtime+clrbns&&!diffkey)
 		{
-			Player_Clear_Rotate();--clrtime;++clrusg;
+			Player_Clear_Rotate();if(clrmaxrange<50)--clrtime,clrmaxrange=350;++clrusg;
 		}
-		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_RELEASE&&clrrad-pi/2<1e-7&&clrtime+clrbns&&diffkey&&clrmaxrange>50)
+		if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_RELEASE&&clrrad-pi/2<1e-7&&clrtime+clrbns&&diffkey)
 		{
-			Player_Clear_Rotate();--clrtime;++clrusg;
+			Player_Clear_Rotate();if(clrmaxrange<50)--clrtime,clrmaxrange=350;++clrusg;
 		}
-		if (clrrad-pi/2>1e-7)Player_Clear_Rotate(),
-			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,(5*pi/2.0f-clrrad)/(2*pi)),
+		if (clrrad-pi/2>1e-7)
+		{
+			Player_Clear_Rotate();
+			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f*(5*pi/2.0f-clrrad)/(2*pi));
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f*(5*pi/2.0f-clrrad)/(2*pi));
 			clrind+=(LOWFPS?0.016*pi:0.001*pi);
+		}
 		if (5*pi/2-clrrad<1e-7)clrrad=pi/2;
 	}
 }

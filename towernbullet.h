@@ -269,7 +269,7 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 	if (eff)BulletEffect_Attatch(i);
 	return i;
 }
-void CreateBullet255(double x,double y,double bs)
+void CreateBullet255(double x,double y,double bs,int spno=0)
 {
 	int i;
 	if (bulcnt==0)
@@ -284,8 +284,10 @@ void CreateBullet255(double x,double y,double bs)
 	bullet[i].bullettype=255;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
-	bullet[i].bulletdir.x=x-playerpos.x;
-	bullet[i].bulletdir.y=y-playerpos.y;
+	bullet[i].redattrib=spno;
+	vector2d spos=playerpos+splitData[spno];
+	bullet[i].bulletdir.x=x-spos.x;
+	bullet[i].bulletdir.y=y-spos.y;
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
@@ -917,8 +919,9 @@ void ProcessBullet255(int i)
 	if (!DisablePlayer)
 	{
 		bullet[i].bulletspeed=10;
-		bullet[i].bulletdir.x=bullet[i].bulletpos.x-playerpos.x;
-		bullet[i].bulletdir.y=bullet[i].bulletpos.y-playerpos.y;
+		vector2d spos=playerpos+splitData[bullet[i].redattrib];
+		bullet[i].bulletdir.x=bullet[i].bulletpos.x-spos.x;
+		bullet[i].bulletdir.y=bullet[i].bulletpos.y-spos.y;
 		bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 		bullet[i].dist=sqrt(bullet[i].dist);
 		if (LOWFPS)
@@ -932,7 +935,7 @@ void ProcessBullet255(int i)
 			bullet[i].bulletpos.y-=bullet[i].bulletspeed*(bullet[i].bulletdir.y/bullet[i].dist)/20;
 		}
 	}
-	double dis=GetDist(bullet[i].bulletpos,playerpos);
+	double dis=GetDist(bullet[i].bulletpos,playerpos+splitData[bullet[i].redattrib]);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
 		score+=mult*100;mult+=0.0002f;

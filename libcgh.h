@@ -2,7 +2,7 @@
 //Chrisoft Game Helper header
 //Copyright Chrisoft 2014
 //libcgh version 0007
-//Last full compatible version 0002
+//Last full compatible version 0007
 //^Modify that when big change is made^
 #include <hge.h>
 #include <hgefont.h>
@@ -52,13 +52,13 @@ struct vector2d
 inline vector2d ToUnitCircle(vector2d input)
 {
 	vector2d res=input;
-	res.x=res.x/sqrt(sqr(input.x)+sqr(input.y));
-	res.y=res.y/sqrt(sqr(input.x)+sqr(input.y));
+	res.x=res.x/input.l();
+	res.y=res.y/input.l();
 	return res;
 }
 inline double GetDist(const vector2d a,const vector2d b)
 {
-	return sqrtf((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+	return sqrt(sqr(a.x-b.x)+sqr(a.y-b.y));
 }
 inline double GetDistSeg(const vector2d a,const vector2d b,const vector2d c)
 {

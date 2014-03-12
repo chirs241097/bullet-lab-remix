@@ -8,6 +8,8 @@ Pre-Released versions:
 0.8.0-1_PR (b75)
 New level Supernova.
 Extend libcgh again. Adding operator ^ and method l().
+Modify clearrange behaviour in level hyper-threading.
+Modify the corresponding score bullet.
 
 0.8.0-0_PR (b74)
 New level Achromatopsia.
