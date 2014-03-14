@@ -3304,9 +3304,9 @@ void Levelm1Part16()
 		if(!fyg[i].isActive())
 		{
 			if(frameleft>AMinute)
-			fyg[i].Init(12,2.25-1.25*(frameleft/(double)(AMinute+ThirtySeconds)));
+				fyg[i].Init(12,2.5-1.5*(frameleft/(double)(AMinute+ThirtySeconds)));
 			else
-			fyg[i].Init(18,2.25-1.25*(frameleft/(double)(AMinute+ThirtySeconds)));
+				fyg[i].Init(36,2.5-1.5*(frameleft/(double)(AMinute+ThirtySeconds)));
 			break;
 		}
 	}

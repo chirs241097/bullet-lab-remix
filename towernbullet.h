@@ -2612,9 +2612,9 @@ public:
 		bool done=true;
 		for (int i=0;i<100;++i)
 		{
-			if(ylw[i]&&ylw[i]->lifetime>2&&!dirdone[i])
+			if(ylw[i]&&ylw[i]->lifetime>2&&!dirdone[i]&&ylw[i]->alterColor==yellow)
 			ylw[i]->redir(playerpos),dirdone[i]=true;
-			if(ylw[i]&&ylw[i]->lifetime>5)
+			if(ylw[i]&&ylw[i]->lifetime>5&&ylw[i]->alterColor==yellow)
 			{
 				int cc=re.NextInt(0,5);
 				for(int j=0;j<cc;++j)
