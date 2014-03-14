@@ -3197,6 +3197,16 @@ void Levelm1Part13()//"Supernova"
 	++bgbrk;if (LOWFPS)bgbrk+=16;
 	if (bgbrk<30)return;
 	bgbrk=0;towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Super...\n\
+...nova!!");
+		return;
+	}
 	if (!LOWFPS)
 	DBGColor=ColorTransfer(DBGColor,0xFF000000);
 	else
@@ -3204,6 +3214,7 @@ void Levelm1Part13()//"Supernova"
 	if (DBGColor==0xFF000000)
 	{
 		snexTarg.Init(0.001,vector2d(400,300));
+		All2pnt();
 		++part;avabrk=12.0f;avacurbrk=0;tbrk=0;
 		snexstep=0;snexcnt=10;snexTarg.TargShow();
 	}
@@ -3213,13 +3224,15 @@ void snCircCreator(vector2d p,int cnt,TColors col,bool mode)
 	if(mode)
 	for (int i=0;i<cnt;++i)
 	{
-		int pnt=CreateBullet2(p.x,p.y,6,acos((vector2d(400,300)-playerpos)^vector2d(1,0))+(i-0.5f)*(2*pi/cnt));
+		int pnt=CreateBullet2(p.x,p.y,6,acos((playerpos-vector2d(400,300))^vector2d(1,0))+(i-0.5f)*(2*pi/cnt));
+		bullet[pnt].redir(playerpos);bullet[pnt].bulletdir.Rotate((i+0.5f)*(2*pi/cnt));
 		bullet[pnt].alterColor=col;bullet[pnt].addblend=true;
 	}
 	else
 	for (int i=0;i<cnt;++i)
 	{
-		int pnt=CreateBullet2(p.x,p.y,2,acos((vector2d(400,300)-playerpos)^vector2d(1,0))+i*(2*pi/cnt));
+		int pnt=CreateBullet2(p.x,p.y,2,acos((playerpos-vector2d(400,300))^vector2d(1,0))+i*(2*pi/cnt));
+		bullet[pnt].redir(playerpos);bullet[pnt].bulletdir.Rotate(i*(2*pi/cnt));
 		bullet[pnt].alterColor=col;bullet[pnt].addblend=true;
 	}
 }
@@ -3230,10 +3243,10 @@ void Levelm1Part14()
 	tbrk+=hge->Timer_GetDelta();
 	if((AMinute*2-frameleft)<TenSeconds)
 	{
-		if(tbrk>0.016)
+		if(tbrk>0.016&&(AMinute*2-frameleft)>TenSeconds/5)
 		{
 			tbrk=0;
-			snCircCreator(vector2d(400,300),60,(TColors)re.NextInt(0,7),true);
+			snCircCreator(vector2d(400,300),144,(TColors)re.NextInt(0,7),true);
 		}
 	}
 	else
@@ -3272,4 +3285,31 @@ void Levelm1Part14()
 		}
 		break;
 	}
+}
+yellowGroup fyg[100];
+Spinner fygs;
+void Levelm1Part15()//?
+{
+	frameleft=AMinute+ThirtySeconds;
+	All2pnt();towcnt=0;memset(fyg,0,sizeof(fyg));
+	++part;avabrk=1;avacurbrk=0.5;fygs.Init(3,20);
+}
+void Levelm1Part16()
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+		avacurbrk=0;
+		for(int i=0;i<100;++i)
+		if(!fyg[i].isActive())
+		{
+			if(frameleft>AMinute)
+			fyg[i].Init(12,2.25-1.25*(frameleft/(double)(AMinute+ThirtySeconds)));
+			else
+			fyg[i].Init(18,2.25-1.25*(frameleft/(double)(AMinute+ThirtySeconds)));
+			break;
+		}
+	}
+	for(int i=0;i<100;++i)if(fyg[i].isActive())fyg[i].Update();
+	fygs.Update(pi/7200*(0.5+frameleft/(double)(AMinute+ThirtySeconds)));
 }

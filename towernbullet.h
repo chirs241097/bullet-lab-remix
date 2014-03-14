@@ -112,7 +112,7 @@ void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 	bullet[i].bulletspeed=bs;
 	bullet[i].yelbrk=yelbrk;
 	bullet[i].scollable=true;
-	bullet[i].scale=1;
+	bullet[i].scale=1;bullet[i].lifetime=0;
 	bullet[i].alterColor=yellow;bullet[i].alterColor2=COLOR_COUNT;
 	if (eff)BulletEffect_Attatch(i);
 }
@@ -439,6 +439,7 @@ void ProcessBullet2(int i)
 void ProcessBullet4(int i)
 {
 	if (!bullet[i].exist||bullet[i].bullettype!=4)return;
+	if (Current_Position==1)bullet[i].lifetime+=hge->Timer_GetDelta();
 	if (!DisablePlayer)
 	{
 		if (LOWFPS)
@@ -2585,5 +2586,79 @@ public:
 			}
 		}
 		for(int i=0;i<500;++i)if(bullets[i].isActive())bullets[i].achromaUpdate();
+	}
+};
+class yellowGroup
+{
+private:
+	Bullet *ylw[100];
+	bool dirdone[100];
+	bool active;
+public:
+	bool isActive(){return active;}
+	void Init(int _cnt,double _yv)
+	{
+		memset(ylw,0,sizeof(ylw));active=true;
+		memset(dirdone,0,sizeof(dirdone));
+		for (int i=0;i<_cnt;++i)
+		{
+			int pnt=CreateBullet2(400,300,_yv,frameleft*pi/AMinute+i*(2*pi/_cnt));
+			bullet[pnt].alterColor=yellow;
+			ylw[i]=&bullet[pnt];
+		}
+	}
+	void Update()
+	{
+		bool done=true;
+		for (int i=0;i<100;++i)
+		{
+			if(ylw[i]&&ylw[i]->lifetime>2&&!dirdone[i])
+			ylw[i]->redir(playerpos),dirdone[i]=true;
+			if(ylw[i]&&ylw[i]->lifetime>5)
+			{
+				int cc=re.NextInt(0,5);
+				for(int j=0;j<cc;++j)
+				{
+					int pnt=CreateBullet2(ylw[i]->bulletpos.x,ylw[i]->bulletpos.y,0,re.NextDouble(-pi,pi));
+					if(!re.NextInt(0,3))bullet[pnt].redir(playerpos);
+					bullet[pnt].bulletaccel=0.002;bullet[pnt].limv=3;
+				}
+				BulletEffect_Death(*ylw[i],ColorToDWORD(yellow));
+				ylw[i]->exist=false;
+				ylw[i]->bullettype=0;
+				ylw[i]=0;
+			}
+			else done=false;
+		}
+		if(done)active=false;
+	}
+};
+class Spinner
+{
+private:
+	SimpleBullet abullet[40][100];
+	int arms;
+	double rad,rstep;
+public:
+	void Init(int _arms,double _rstep)
+	{
+		memset(abullet,0,sizeof(abullet));
+		arms=_arms;rstep=_rstep;rad=0;
+		for(int i=0;i<arms;++i)
+		for(int j=0;j*rstep<505;++j)
+		{
+			abullet[i][j].aC=blue;abullet[i][j].aC2=COLOR_COUNT;
+		}
+	}
+	void Update(double delta)
+	{
+		for(int i=0;i<arms;++i)
+		for(int j=0;j*rstep<505;++j)
+		{
+			double crad=rad+i*(2*pi/arms);
+			abullet[i][j].bulletpos=vector2d(400+j*rstep*cos(crad),300+j*rstep*sin(crad));
+			abullet[i][j].Update_SimpBul();
+		}
+		rad+=hge->Timer_GetDelta()*1000*delta;
 	}
 };

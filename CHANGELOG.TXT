@@ -7,6 +7,8 @@ Add missing tips.
 Pre-Released versions:
 0.8.0-1_PR (b75)
 New level Supernova.
+New level (still unnamed).
+Add some additional tips.
 Extend libcgh again. Adding operator ^ and method l().
 Modify clearrange behaviour in level hyper-threading.
 Modify the corresponding score bullet.
