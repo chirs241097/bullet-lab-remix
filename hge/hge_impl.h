@@ -10,7 +10,7 @@
 #define HGE_IMPL_UNIX_H
 #include "unix_compat.h"
 
-#include "../../include/hge.h"
+#include "hge.h"
 #include <stdio.h>
 #include <dirent.h>
 #include "SDL/SDL.h"
@@ -214,6 +214,7 @@ public:
 	virtual void		CALL	Gfx_FinishBatch(int nprim);
 	virtual void		CALL	Gfx_SetClipping(int x=0, int y=0, int w=0, int h=0);
 	virtual void		CALL	Gfx_SetTransform(float x=0, float y=0, float dx=0, float dy=0, float rot=0, float hscale=0, float vscale=0);
+	virtual void		CALL	Gfx_SetTDRotate(float ang=0, float x=0, float y=0, float z=0);
 
 	virtual HTARGET		CALL	Target_Create(int width, int height, bool zbuffer);
 	virtual void		CALL	Target_Free(HTARGET target);

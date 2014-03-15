@@ -7,7 +7,7 @@
 */
 
 
-#include "../../include/hgegui.h"
+#include "hgegui.h"
 
 
 HGE *hgeGUI::hge=0;
@@ -279,7 +279,7 @@ int hgeGUI::Update(float dt)
 		}
 	}
 
-// Handle keys	
+// Handle keys
 
 	key=hge->Input_GetKey();
 	if(((navmode & HGEGUI_LEFTRIGHT) && key==HGEK_LEFT) ||

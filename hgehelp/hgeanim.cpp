@@ -7,7 +7,7 @@
 */
 
 
-#include "../../include/hgeanim.h"
+#include "hgeanim.h"
 
 
 hgeAnimation::hgeAnimation(HTEXTURE tex, int nframes, float FPS, float x, float y, float w, float h)
@@ -27,11 +27,11 @@ hgeAnimation::hgeAnimation(HTEXTURE tex, int nframes, float FPS, float x, float 
 
 hgeAnimation::hgeAnimation(const hgeAnimation & anim)
 : hgeSprite(anim)
-{ 
-	// Copy hgeAnimation parameters: 
+{
+	// Copy hgeAnimation parameters:
 	this->orig_width	  = anim.orig_width;
-	this->bPlaying        = anim.bPlaying; 
-	this->fSpeed          = anim.fSpeed; 
+	this->bPlaying        = anim.bPlaying;
+	this->fSpeed          = anim.fSpeed;
 	this->fSinceLastFrame = anim.fSinceLastFrame;
 	this->Mode            = anim.Mode;
 	this->nDelta          = anim.nDelta;

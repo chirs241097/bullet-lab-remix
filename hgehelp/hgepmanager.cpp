@@ -11,7 +11,7 @@
 */
 
 
-#include "../../include/hgeparticle.h"
+#include "hgeparticle.h"
 
 
 hgeParticleManager::hgeParticleManager(const float fps)

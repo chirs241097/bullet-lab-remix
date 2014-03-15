@@ -7,7 +7,7 @@
 */
 
 
-#include "../../include/hgeresource.h"
+#include "hgeresource.h"
 #include "parser.h"
 #include "resources.h"
 

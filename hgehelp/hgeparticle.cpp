@@ -11,7 +11,7 @@
 */
 
 
-#include "../../include/hgeparticle.h"
+#include "hgeparticle.h"
 
 HGE	*hgeParticleSystem::hge=0;
 
@@ -242,7 +242,7 @@ void hgeParticleSystem::MoveTo(float x, float y, bool bMoveParticles)
 {
 	int i;
 	float dx,dy;
-	
+
 	if(bMoveParticles)
 	{
 		dx=x-vecLocation.x;
@@ -284,7 +284,7 @@ void hgeParticleSystem::Fire()
 void hgeParticleSystem::Stop(bool bKillParticles)
 {
 	fAge=-2.0f;
-	if(bKillParticles) 
+	if(bKillParticles)
 	{
 		nParticlesAlive=0;
 		rectBoundingBox.Clear();

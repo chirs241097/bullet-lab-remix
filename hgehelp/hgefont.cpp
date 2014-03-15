@@ -7,7 +7,7 @@
 */
 
 
-#include "../../include/hgefont.h"
+#include "hgefont.h"
 #include <stdlib.h>
 #include <stdio.h>
 

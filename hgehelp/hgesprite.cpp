@@ -7,7 +7,7 @@
 */
 
 
-#include "../../include/hgesprite.h"
+#include "hgesprite.h"
 #include <math.h>
 
 
@@ -19,7 +19,7 @@ hgeSprite::hgeSprite(HTEXTURE texture, float texx, float texy, float w, float h)
 	float texx1, texy1, texx2, texy2;
 
 	hge=hgeCreate(HGE_VERSION);
-	
+
 	tx=texx; ty=texy;
 	width=w; height=h;
 
@@ -51,14 +51,14 @@ hgeSprite::hgeSprite(HTEXTURE texture, float texx, float texy, float w, float h)
 	quad.v[2].tx = texx2; quad.v[2].ty = texy2;
 	quad.v[3].tx = texx1; quad.v[3].ty = texy2;
 
-	quad.v[0].z = 
-	quad.v[1].z = 
-	quad.v[2].z = 
+	quad.v[0].z =
+	quad.v[1].z =
+	quad.v[2].z =
 	quad.v[3].z = 0.5f;
-	
-	quad.v[0].col = 
-	quad.v[1].col = 
-	quad.v[2].col = 
+
+	quad.v[0].col =
+	quad.v[1].col =
+	quad.v[2].col =
 	quad.v[3].col = 0xffffffff;
 
 	quad.blend=BLEND_DEFAULT;
@@ -104,18 +104,18 @@ void hgeSprite::RenderEx(float x, float y, float rot, float hscale, float vscale
 	{
 		cost = cosf(rot);
 		sint = sinf(rot);
-			
+
 		quad.v[0].x  = tx1*cost - ty1*sint + x;
-		quad.v[0].y  = tx1*sint + ty1*cost + y;	
+		quad.v[0].y  = tx1*sint + ty1*cost + y;
 
 		quad.v[1].x  = tx2*cost - ty1*sint + x;
-		quad.v[1].y  = tx2*sint + ty1*cost + y;	
+		quad.v[1].y  = tx2*sint + ty1*cost + y;
 
 		quad.v[2].x  = tx2*cost - ty2*sint + x;
-		quad.v[2].y  = tx2*sint + ty2*cost + y;	
+		quad.v[2].y  = tx2*sint + ty2*cost + y;
 
 		quad.v[3].x  = tx1*cost - ty2*sint + x;
-		quad.v[3].y  = tx1*sint + ty2*cost + y;	
+		quad.v[3].y  = tx1*sint + ty2*cost + y;
 	}
 	else
 	{
@@ -157,7 +157,7 @@ hgeRect* hgeSprite::GetBoundingBoxEx(float x, float y, float rot, float hscale, 
 	float sint, cost;
 
 	rect->Clear();
-	
+
 	tx1 = -hotX*hscale;
 	ty1 = -hotY*vscale;
 	tx2 = (width-hotX)*hscale;
@@ -167,11 +167,11 @@ hgeRect* hgeSprite::GetBoundingBoxEx(float x, float y, float rot, float hscale, 
 	{
 		cost = cosf(rot);
 		sint = sinf(rot);
-			
-		rect->Encapsulate(tx1*cost - ty1*sint + x, tx1*sint + ty1*cost + y);	
-		rect->Encapsulate(tx2*cost - ty1*sint + x, tx2*sint + ty1*cost + y);	
-		rect->Encapsulate(tx2*cost - ty2*sint + x, tx2*sint + ty2*cost + y);	
-		rect->Encapsulate(tx1*cost - ty2*sint + x, tx1*sint + ty2*cost + y);	
+
+		rect->Encapsulate(tx1*cost - ty1*sint + x, tx1*sint + ty1*cost + y);
+		rect->Encapsulate(tx2*cost - ty1*sint + x, tx2*sint + ty1*cost + y);
+		rect->Encapsulate(tx2*cost - ty2*sint + x, tx2*sint + ty2*cost + y);
+		rect->Encapsulate(tx1*cost - ty2*sint + x, tx1*sint + ty2*cost + y);
 	}
 	else
 	{
@@ -192,7 +192,7 @@ void hgeSprite::SetFlip(bool bX, bool bY, bool bHotSpot)
 	if(bHSFlip && bYFlip) hotY = height - hotY;
 
 	bHSFlip = bHotSpot;
-	
+
 	if(bHSFlip && bXFlip) hotX = width - hotX;
 	if(bHSFlip && bYFlip) hotY = height - hotY;
 
@@ -249,10 +249,10 @@ void hgeSprite::SetTexture(HTEXTURE tex)
 		tx1/=tw; ty1/=th;
 		tx2/=tw; ty2/=th;
 
-		quad.v[0].tx=tx1; quad.v[0].ty=ty1; 
-		quad.v[1].tx=tx2; quad.v[1].ty=ty1; 
-		quad.v[2].tx=tx2; quad.v[2].ty=ty2; 
-		quad.v[3].tx=tx1; quad.v[3].ty=ty2; 
+		quad.v[0].tx=tx1; quad.v[0].ty=ty1;
+		quad.v[1].tx=tx2; quad.v[1].ty=ty1;
+		quad.v[2].tx=tx2; quad.v[2].ty=ty2;
+		quad.v[3].tx=tx1; quad.v[3].ty=ty2;
 	}
 }
 
@@ -264,7 +264,7 @@ void hgeSprite::SetTextureRect(float x, float y, float w, float h, bool adjSize)
 
 	tx=x;
 	ty=y;
-	
+
 	if(adjSize)
 	{
 		width=w;
@@ -274,10 +274,10 @@ void hgeSprite::SetTextureRect(float x, float y, float w, float h, bool adjSize)
 	tx1=tx/tex_width; ty1=ty/tex_height;
 	tx2=(tx+w)/tex_width; ty2=(ty+h)/tex_height;
 
-	quad.v[0].tx=tx1; quad.v[0].ty=ty1; 
-	quad.v[1].tx=tx2; quad.v[1].ty=ty1; 
-	quad.v[2].tx=tx2; quad.v[2].ty=ty2; 
-	quad.v[3].tx=tx1; quad.v[3].ty=ty2; 
+	quad.v[0].tx=tx1; quad.v[0].ty=ty1;
+	quad.v[1].tx=tx2; quad.v[1].ty=ty1;
+	quad.v[2].tx=tx2; quad.v[2].ty=ty2;
+	quad.v[3].tx=tx1; quad.v[3].ty=ty2;
 
 	bX=bXFlip; bY=bYFlip; bHS=bHSFlip;
 	bXFlip=false; bYFlip=false;

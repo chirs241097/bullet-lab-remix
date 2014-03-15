@@ -6,7 +6,7 @@
 ** hgeDistortionMesh helper class implementation
 */
 
-#include "../../include/hgedistort.h"
+#include "hgedistort.h"
 
 
 HGE *hgeDistortionMesh::hge=0;
@@ -15,7 +15,7 @@ HGE *hgeDistortionMesh::hge=0;
 hgeDistortionMesh::hgeDistortionMesh(int cols, int rows)
 {
 	int i;
-	
+
 	hge=hgeCreate(HGE_VERSION);
 
 	nRows=rows;
@@ -31,7 +31,7 @@ hgeDistortionMesh::hgeDistortionMesh(int cols, int rows)
 		disp_array[i].y=0.0f;
 		disp_array[i].tx=0.0f;
 		disp_array[i].ty=0.0f;
-		
+
 		disp_array[i].z=0.5f;
 		disp_array[i].col=0xFFFFFFFF;
 	}
@@ -81,7 +81,7 @@ hgeDistortionMesh& hgeDistortionMesh::operator= (const hgeDistortionMesh &dm)
 	}
 
 	return *this;
-	
+
 }
 
 void hgeDistortionMesh::SetTexture(HTEXTURE tex)

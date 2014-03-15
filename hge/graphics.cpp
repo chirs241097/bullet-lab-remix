@@ -253,6 +253,22 @@ void CALL HGE_Impl::Gfx_SetTransform(float x, float y, float dx, float dy, float
 	}
 }
 
+void CALL HGE_Impl::Gfx_SetTDRotate(float ang, float x, float y, float z)
+{
+	if (!bTransforming)
+	{
+		if ((x == 0.0f) && (y == 0.0f) && (z == 0.0f) && (ang == 0.0f))
+			return;   // nothing to do here, don't call into the GL.
+	}
+
+	_render_batch();
+
+	bTransforming = true;
+
+	pOpenGLDevice->glMatrixMode(GL_MODELVIEW);
+	pOpenGLDevice->glRotatef(ang, x, y, z);
+}
+
 bool CALL HGE_Impl::Gfx_BeginScene(HTARGET targ)
 {
 	CRenderTargetList *target=(CRenderTargetList *)targ;

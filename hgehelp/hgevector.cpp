@@ -7,7 +7,7 @@
 */
 
 
-#include "../../include/hgevector.h"
+#include "hgevector.h"
 
 float InvSqrt(float x)
 {
