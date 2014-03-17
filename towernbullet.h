@@ -77,6 +77,7 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool inv
 	bullet[i].alterColor=blue;
 	bullet[i].alterColor2=COLOR_COUNT;
 	bullet[i].lifetime=0;
+	bullet[i].whirem=0;
 	bullet[i].scollable=true;
 	bullet[i].collable=true;
 	bullet[i].bulletaccel=bullet[i].limv=0;
@@ -347,8 +348,13 @@ void ProcessBullet2(int i)
 	if (!DisablePlayer)
 	{
 		//experimental new coor processing code, FPS independent
-		if (bullet[i].bulletaccel>0&&bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
-		if (bullet[i].bulletaccel<0&&bullet[i].bulletspeed>bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
+		if (bullet[i].whirem<=0)
+		{
+			if (bullet[i].bulletaccel>0&&bullet[i].bulletspeed<bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
+			if (bullet[i].bulletaccel<0&&bullet[i].bulletspeed>bullet[i].limv)bullet[i].bulletspeed+=bullet[i].bulletaccel*(1000.0f/hge->Timer_GetFPS());
+		}
+		else
+			bullet[i].whirem-=1000.0f/hge->Timer_GetFPS();
 		bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*(1000.0f/hge->Timer_GetFPS());
 		bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*(1000.0f/hge->Timer_GetFPS());
 	}

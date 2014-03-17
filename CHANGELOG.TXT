@@ -5,6 +5,10 @@ New levels...
 Add missing tips.
 
 Pre-Released versions:
+0.8.1-0_PR (b76)
+New level "Sink" (temporary name).
+Allow bullets to pause before being accelerated.
+
 0.8.0-1_PR (b75)
 New level Supernova.
 New level (still unnamed).

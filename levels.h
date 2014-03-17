@@ -3313,3 +3313,67 @@ void Levelm1Part16()
 	for(int i=0;i<100;++i)if(fyg[i].isActive())fyg[i].Update();
 	fygs.Update(pi/7200*(0.5+frameleft/(double)(AMinute+ThirtySeconds)));
 }
+Bullet* m17lead[4];
+void Levelm1Part17()
+{
+	frameleft=AMinute+ThirtySeconds;towcnt=0;
+	All2pnt();memset(m17lead,0,sizeof(m17lead));
+	++part;
+	m17lead[0]=&bullet[CreateBullet2(10,10,4,0)];m17lead[0]->redir(vector2d(790,10));m17lead[0]->alterColor=red;
+	m17lead[1]=&bullet[CreateBullet2(780,10,4,0)];m17lead[1]->redir(vector2d(780,580));m17lead[1]->alterColor=green;
+	m17lead[2]=&bullet[CreateBullet2(780,580,4,0)];m17lead[2]->redir(vector2d(10,580));m17lead[2]->alterColor=dblue;
+	m17lead[3]=&bullet[CreateBullet2(10,580,4,0)];m17lead[3]->redir(vector2d(10,10));m17lead[3]->alterColor=white;
+	for(int i=0;i<4;++i)m17lead[i]->inv=true;snexTarg.Init(0.001,vector2d(400,300));
+	snexstep=0;snexTarg.TargShow();avabrk=5.0f;avacurbrk=0;tbrk=0;
+}
+void Levelm1Part18()
+{
+	snexTarg.TargRender();avacurbrk+=hge->Timer_GetDelta();
+	tbrk+=hge->Timer_GetDelta();
+	switch (snexstep)
+	{
+		case 0:
+		if(avacurbrk>avabrk)snexstep=1,snextarg=playerpos;
+		break;
+		case 1:
+		snexTarg.TargGoto(snextarg);
+		if(GetDist(snexTarg.targpos,snextarg)<0.01)
+		{
+			snexstep=0;
+			avabrk=(frameleft/(double)(AMinute*2))*3+2;
+			avacurbrk=0;
+		}
+		break;
+	}
+	if(m17lead[0]->bulletpos.x>780.01f)m17lead[0]->bulletpos=vector2d(780,10),m17lead[0]->redir(vector2d(780,580));
+	if(m17lead[0]->bulletpos.y>580.01f)m17lead[0]->bulletpos=vector2d(780,580),m17lead[0]->redir(vector2d(10,580));
+	if(m17lead[0]->bulletpos.x<9.99f)m17lead[0]->bulletpos=vector2d(10,580),m17lead[0]->redir(vector2d(10,10));
+	if(m17lead[0]->bulletpos.y<9.99f)m17lead[0]->bulletpos=vector2d(10,10),m17lead[0]->redir(vector2d(780,10));
+
+	if(m17lead[1]->bulletpos.x>780.01)m17lead[1]->bulletpos=vector2d(780,10),m17lead[1]->redir(vector2d(780,580));
+	if(m17lead[1]->bulletpos.y>580.01f)m17lead[1]->bulletpos=vector2d(780,580),m17lead[1]->redir(vector2d(10,580));
+	if(m17lead[1]->bulletpos.x<9.99f)m17lead[1]->bulletpos=vector2d(10,580),m17lead[1]->redir(vector2d(10,10));
+	if(m17lead[1]->bulletpos.y<9.99f)m17lead[1]->bulletpos=vector2d(10,10),m17lead[1]->redir(vector2d(780,10));
+
+	if(m17lead[2]->bulletpos.x>780.01f)m17lead[2]->bulletpos=vector2d(780,10),m17lead[2]->redir(vector2d(780,580));
+	if(m17lead[2]->bulletpos.y>580.01f)m17lead[2]->bulletpos=vector2d(780,580),m17lead[2]->redir(vector2d(10,580));
+	if(m17lead[2]->bulletpos.x<9.99f)m17lead[2]->bulletpos=vector2d(10,580),m17lead[2]->redir(vector2d(10,10));
+	if(m17lead[2]->bulletpos.y<9.99f)m17lead[2]->bulletpos=vector2d(10,10),m17lead[2]->redir(vector2d(780,10));
+
+	if(m17lead[3]->bulletpos.x>780.01f)m17lead[3]->bulletpos=vector2d(780,10),m17lead[3]->redir(vector2d(780,580));
+	if(m17lead[3]->bulletpos.y>580.01f)m17lead[3]->bulletpos=vector2d(780,580),m17lead[3]->redir(vector2d(10,580));
+	if(m17lead[3]->bulletpos.x<9.99f)m17lead[3]->bulletpos=vector2d(10,580),m17lead[3]->redir(vector2d(10,10));
+	if(m17lead[3]->bulletpos.y<9.99f)m17lead[3]->bulletpos=vector2d(10,10),m17lead[3]->redir(vector2d(780,10));
+	if(tbrk>0.02+(frameleft/(double)(AMinute+ThirtySeconds))*0.08)
+	{
+		for(int i=0;i<4;++i)
+		{
+			int pnt=CreateBullet2(m17lead[i]->bulletpos.x,m17lead[i]->bulletpos.y,0,0,true);
+			bullet[pnt].redir(snexTarg.targpos);
+			bullet[pnt].bulletaccel=0.002;bullet[pnt].limv=3;
+			bullet[pnt].whirem=500+(frameleft/(double)(AMinute+ThirtySeconds))*750;
+			bullet[pnt].alterColor=i==0?red:i==1?green:i==2?dblue:white;
+		}
+		tbrk=0;
+	}
+}
