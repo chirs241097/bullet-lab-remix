@@ -9,8 +9,7 @@ Pre-Released versions:
 New level Supernova.
 New level (still unnamed).
 Add some additional tips.
-Add HGE::Gfx_SetTDRotate(float,float,float,float), which is almost
-a direct OpenGL call. It will be tested and ported to DX later.
+Fix blinking of HGE::Gfx_SetTransform in OpenGL.
 Fix includes like " #include "../../include/..." " that would
 cause errors.
 Extend libcgh again. Adding operator ^ and method l().

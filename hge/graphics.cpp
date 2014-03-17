@@ -230,43 +230,26 @@ void CALL HGE_Impl::Gfx_SetClipping(int x, int y, int w, int h)
 
 void CALL HGE_Impl::Gfx_SetTransform(float x, float y, float dx, float dy, float rot, float hscale, float vscale)
 {
-	if (!bTransforming)
+	if ((x == 0.0f) && (y == 0.0f) && (dx == 0.0f) && (dy == 0.0f) && (rot == 0.0f) && (hscale == 0.0f) && (vscale == 0.0f))
 	{
-		if ((x == 0.0f) && (y == 0.0f) && (dx == 0.0f) && (dy == 0.0f) && (rot == 0.0f) && (hscale == 1.0f) && (vscale == 1.0f))
-			return;   // nothing to do here, don't call into the GL.
+		//reset everything
+		pOpenGLDevice->glMatrixMode(GL_MODELVIEW);
+		pOpenGLDevice->glLoadIdentity();
+		bTransforming=false;
+		return;
 	}
 
 	_render_batch();
-
-	bTransforming = true;
-
-	// !!! FIXME: this math is probably wrong. Re-sync with the Direct3D code.
-
-	pOpenGLDevice->glMatrixMode(GL_MODELVIEW);
-	if(vscale==0.0f) pOpenGLDevice->glLoadIdentity();
-	else
-	{
-		pOpenGLDevice->glTranslatef(-x, -y, 0.0f);
-		//pOpenGLDevice->glScalef(1.0f, -1.0f, 1.0f);
-		pOpenGLDevice->glRotatef(-rot, 0.0f, 0.0f, -1.0f);
-		pOpenGLDevice->glTranslatef(x+dx, y+dy, 0.0f);
-	}
-}
-
-void CALL HGE_Impl::Gfx_SetTDRotate(float ang, float x, float y, float z)
-{
-	if (!bTransforming)
-	{
-		if ((x == 0.0f) && (y == 0.0f) && (z == 0.0f) && (ang == 0.0f))
-			return;   // nothing to do here, don't call into the GL.
-	}
-
-	_render_batch();
-
 	bTransforming = true;
 
 	pOpenGLDevice->glMatrixMode(GL_MODELVIEW);
-	pOpenGLDevice->glRotatef(ang, x, y, z);
+	//we have to reset the matrix in all cases.
+	//or this would cause insane transforming...
+	pOpenGLDevice->glLoadIdentity();
+	pOpenGLDevice->glTranslatef(-x, -y, 0.0f);
+	pOpenGLDevice->glScalef(hscale, vscale, 1.0f);
+	pOpenGLDevice->glRotatef(rot, 0.0f, 0.0f, 1.0f);
+	pOpenGLDevice->glTranslatef(x+dx, y+dy, 0.0f);
 }
 
 bool CALL HGE_Impl::Gfx_BeginScene(HTARGET targ)

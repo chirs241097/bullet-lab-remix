@@ -409,7 +409,7 @@ public:
 	virtual bool		CALL	Input_KeyUp(int key) = 0;
 	virtual bool		CALL	Input_GetKeyState(int key) = 0;
 	virtual int			CALL	Input_GetKeyStateEx(int key) = 0;
-	virtual const char*		CALL	Input_GetKeyName(int key) = 0;
+	virtual const char*	CALL	Input_GetKeyName(int key) = 0;
 	virtual int			CALL	Input_GetKey() = 0;
 	virtual int			CALL	Input_GetChar() = 0;
 	virtual bool		CALL	Input_GetEvent(hgeInputEvent *event) = 0;
@@ -424,7 +424,6 @@ public:
 	virtual void		CALL	Gfx_FinishBatch(int nprim) = 0;
 	virtual void		CALL	Gfx_SetClipping(int x=0, int y=0, int w=0, int h=0) = 0;
 	virtual void		CALL	Gfx_SetTransform(float x=0, float y=0, float dx=0, float dy=0, float rot=0, float hscale=0, float vscale=0) = 0;
-	virtual void		CALL	Gfx_SetTDRotate(float ang=0, float x=0, float y=0, float z=0) = 0;
 
 	virtual HTARGET		CALL	Target_Create(int width, int height, bool zbuffer) = 0;
 	virtual void		CALL	Target_Free(HTARGET target) = 0;
