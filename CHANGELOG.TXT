@@ -7,11 +7,14 @@ Add missing tips.
 Pre-Released versions:
 0.8.1-0_PR (b76)
 New level "Sink" (temporary name).
+New level "Gravity vortex".
+Make point bullet additive blending.
 Allow bullets to pause before being accelerated.
 
 0.8.0-1_PR (b75)
 New level Supernova.
 New level (still unnamed).
+Support additive blending bullets(for Supernova).
 Add some additional tips.
 Fix blinking of HGE::Gfx_SetTransform in OpenGL.
 Fix includes like " #include "../../include/..." " that would

@@ -3319,7 +3319,7 @@ void Levelm1Part17()
 	frameleft=AMinute+ThirtySeconds;towcnt=0;
 	All2pnt();memset(m17lead,0,sizeof(m17lead));
 	++part;
-	m17lead[0]=&bullet[CreateBullet2(10,10,4,0)];m17lead[0]->redir(vector2d(790,10));m17lead[0]->alterColor=red;
+	m17lead[0]=&bullet[CreateBullet2(10,10,4,0)];m17lead[0]->redir(vector2d(780,10));m17lead[0]->alterColor=red;
 	m17lead[1]=&bullet[CreateBullet2(780,10,4,0)];m17lead[1]->redir(vector2d(780,580));m17lead[1]->alterColor=green;
 	m17lead[2]=&bullet[CreateBullet2(780,580,4,0)];m17lead[2]->redir(vector2d(10,580));m17lead[2]->alterColor=dblue;
 	m17lead[3]=&bullet[CreateBullet2(10,580,4,0)];m17lead[3]->redir(vector2d(10,10));m17lead[3]->alterColor=white;
@@ -3371,9 +3371,87 @@ void Levelm1Part18()
 			int pnt=CreateBullet2(m17lead[i]->bulletpos.x,m17lead[i]->bulletpos.y,0,0,true);
 			bullet[pnt].redir(snexTarg.targpos);
 			bullet[pnt].bulletaccel=0.002;bullet[pnt].limv=3;
-			bullet[pnt].whirem=500+(frameleft/(double)(AMinute+ThirtySeconds))*750;
+			bullet[pnt].whirem=1500-(frameleft/(double)(AMinute+ThirtySeconds))*500;
 			bullet[pnt].alterColor=i==0?red:i==1?green:i==2?dblue:white;
 		}
 		tbrk=0;
+	}
+}
+Bullet *m19lead[10],*m19gen[700];
+double m19rad;
+int m19step,m19cnt;
+void Levelm1Part19()
+{
+	frameleft=AMinute*2;towcnt=0;
+	All2pnt();memset(m19lead,0,sizeof(m19lead));
+	memset(m19gen,0,sizeof(m19gen));
+	++part;m19rad=m19step=m19cnt=0;
+	avabrk=0.05;avacurbrk=0;
+	for(int i=0;i<8;++i)
+	{
+		m19lead[i]=&bullet[CreateBullet2(400,300,0,0)];
+		m19lead[i]->bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
+		m19lead[i]->alterColor=(TColors)i;
+		m19lead[i]->inv=true;
+	}
+}
+void Levelm1Part20update()
+{
+	for(int i=0;i<m19cnt;++i)
+	{
+		if(m19gen[i]->redattrib)
+		{
+			if(m19gen[i]->redattrib>1)
+			{
+				double r=re.NextDouble(0,75-50*(frameleft/(double)(AMinute*2))),theta=re.NextDouble(-pi,pi);
+				m19gen[i]->bulletpos=vector2d(400+r*cos(theta),300+r*sin(theta));
+				m19gen[i]->bulletspeed=0;
+			}
+			else
+			{
+				if(GetDist(m19gen[i]->bulletpos,vector2d(400,300))<4)
+				{
+					m19gen[i]->redattrib=2;
+					m19gen[i]->setdir(re.NextDouble(-pi,pi));
+					m19gen[i]->bulletaccel=0.0015;
+					m19gen[i]->limv=re.NextDouble(2,6);
+				}
+			}
+		}
+	}
+}
+void Levelm1Part20()
+{
+	avacurbrk+=hge->Timer_GetDelta();
+	m19rad+=pi/(5400.0f+1800.0f*(frameleft/(double)(AMinute*2)))*(1000.0f/hge->Timer_GetFPS());
+	for(int i=0;i<8;++i)m19lead[i]->bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
+	switch(m19step)
+	{
+		case 0:
+			if(avacurbrk>avabrk)
+			{
+				for(int i=0;i<8;++i)
+				{
+					m19gen[m19cnt]=&bullet[CreateBullet2(m19lead[i]->bulletpos.x,m19lead[i]->bulletpos.y,0,0)];
+					m19gen[m19cnt]->redir(vector2d(400,300));
+					m19gen[m19cnt]->alterColor=(TColors)i;
+					m19gen[m19cnt]->bulletaccel=0.002;
+					m19gen[m19cnt]->limv=3;
+					m19gen[m19cnt]->whirem=1000;
+					m19gen[m19cnt]->addblend=true;
+					m19gen[m19cnt++]->redattrib=re.NextInt(0,3)?0:1;
+				}
+				if(m19cnt/8>80-50*(frameleft/(double)(AMinute*2)))m19step=1,avabrk=3;
+				avacurbrk=0;
+			}
+			Levelm1Part20update();
+			break;
+		case 1:
+			if(avacurbrk>avabrk)
+			{
+				m19step=0;avabrk=0.05;memset(m19gen,0,sizeof(m19gen));m19cnt=0;
+			}
+			Levelm1Part20update();
+			break;
 	}
 }

@@ -514,6 +514,8 @@ void CallLevels()
 	if (level==-1&&part==16)Levelm1Part16();
 	if (level==-1&&part==17)Levelm1Part17();
 	if (level==-1&&part==18)Levelm1Part18();
+	if (level==-1&&part==19)Levelm1Part19();
+	if (level==-1&&part==20)Levelm1Part20();
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)level=3,part=0;
 	if (level==3&&part==7)level=4,part=0;

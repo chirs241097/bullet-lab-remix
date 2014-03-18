@@ -954,8 +954,10 @@ void ProcessBullet255(int i)
 	}
 	else
 	{
-		bulletspr[grey]->SetColor(0x80FFFFFF);
+		bulletspr[grey]->SetColor(0x10FFFFFF);
+		bulletspr[grey]->SetBlendMode(BLEND_ALPHAADD);
 		bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+6,bullet[i].bulletpos.y+6,0,0.5,0);
+		bulletspr[grey]->SetBlendMode(BLEND_ALPHABLEND);
 	}
 }
 int CreateTower1(double x,double y,int timer,double bs,double offset=0,bool eff=false)
