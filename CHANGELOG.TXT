@@ -13,6 +13,8 @@ New level "Gravity vortex".
 New level "Double reflective".
 Make point bullet additive blending.
 Allow bullets to pause before being accelerated.
+Add command line argument support. Use "--help" for usage.
+Modify player speed settings.
 
 0.8.0-1_PR (b75)
 New level Supernova.

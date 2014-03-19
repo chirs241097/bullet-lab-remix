@@ -777,6 +777,7 @@ void OptionsGUI_FrameFnk()
 						TwentySeconds=1200;
 						ThirtySeconds=1800;
 						AMinute=3600;
+						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
 						break;
 					case 1:
 						fpslvl=2;LOWFPS=false;
@@ -785,6 +786,7 @@ void OptionsGUI_FrameFnk()
 						TwentySeconds=20000;
 						ThirtySeconds=30000;
 						AMinute=60000;
+						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
 						break;
 					case 2:
 						fpslvl=0;LOWFPS=false;
@@ -793,6 +795,7 @@ void OptionsGUI_FrameFnk()
 						TwentySeconds=20000;
 						ThirtySeconds=30000;
 						AMinute=60000;
+						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
 						break;
 				}
 				switch (fpslvl)

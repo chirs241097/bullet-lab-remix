@@ -6,6 +6,7 @@
 #include <hgegui.h>
 #define MaxRes 80
 #define Resd 20.0f
+#define BLRVERSION "0.8.1-0_PR (b76)"
 HGE *hge=0;
 HEFFECT				snd;
 hgeQuad				quad;
@@ -279,6 +280,14 @@ bool credstop,creddone;
 bool tfs;
 int fpslvl,clrmode;
 const vector2d splitData[4]={vector2d(0,0),vector2d(400,0),vector2d(0,300),vector2d(400,300)};
+//options from command line arguments
+bool fNoSound,
+#ifdef WIN32
+noHideConsole,
+#endif
+fFristStartUp,fFast;
+int startLvl,startPrt,fFullScreen;
+char alterLog[64];
 //static const char* GLOBAL_H_FN="global.h";
 
 void Throw(char *Filename,char *Info)

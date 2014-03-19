@@ -40,6 +40,7 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
+#include <cstring>
 #include <cstdio>
 #ifdef WIN32
 #include <io.h>
@@ -744,15 +745,87 @@ bool FrameFunc()
 	hge->Gfx_EndScene();
 	return false;
 }
-#ifdef WIN32
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
-#endif
-#ifndef WIN32
-int main()
-#endif
+void printHelp(char *exec,const char* str="")
 {
+	printf("Usage %s [options]...\n",exec);
+	printf("To run the game normally, just start without arguments.\n");
+	printf("Options:\n");
+	printf("--help            Print this help and exit.\n");
+	printf("--version         Print version and exit.\n");
+	printf("--start=x,y       Start the game directly from level x part y. The part must be valid.\n");
+	printf("--nosound         Forcibly use no sound.\n");
+	printf("--fullscreen=1/0  Forcibly use fullscreen/windowed. This will override your configuration.\n");
+	printf("--firststartup    Forcibly run first start up. This will reset the score file.\n");
+	printf("--fast            Fast mode. All levels are two times shorter.\n");
+	printf("--logfile=...     Use an alternate log file name instead of the default \"BLRLOG.txt\".\n");
+#ifdef WIN32
+	printf("--nohideconsole   Do not hide console (Windows version only).\n");
+#endif
+	if(strcmp(str,""))printf("%s\n",str);
+	exit(0);
+}
+void parseArgs(int argc,char *argv[])
+{
+	for(int i=1;i<argc;++i)
+	{
+		if(!strcmp(argv[i],"--help"))printHelp(argv[0]);
+		if(!strcmp(argv[i],"--version"))
+		{
+			printf("Bullet Lab Remix II %s\n",BLRVERSION);
+			exit(0);
+		}
+		bool valid=false;
+		if(!strcmp(argv[i],"--nosound"))fNoSound=true,valid=true;
+		if(!strcmp(argv[i],"--fast"))fFast=true,valid=true;
+		if(!strcmp(argv[i],"--firststartup"))fFristStartUp=true,valid=true;
+		if(!strncmp(argv[i],"--fullscreen",12))
+		{
+			char *ptr=argv[i];while(*ptr!='='&&*ptr)++ptr;
+			if(!*ptr)printHelp(argv[0],"--fullscreen need a parameter!\n");
+			++ptr;
+			int para=strtol(ptr,&ptr,10);
+			if(*ptr||(para!=1&&para!=0))printHelp(argv[0],"Invalid parameter for --fullscreen!\n");
+			if(para)fFullScreen=2;else fFullScreen=1;
+			valid=true;
+		}
+		if(!strncmp(argv[i],"--start",7))
+		{
+			char *ptr=argv[i];while(*ptr!='='&&*ptr)++ptr;
+			if(!*ptr)printHelp(argv[0],"--start need two parameters!");
+			++ptr;startLvl=strtol(ptr,&ptr,10);
+			if(*ptr!=',')printHelp(argv[0],"Invalid parameter for --start!\n");
+			++ptr;startPrt=strtol(ptr,&ptr,10);
+			if(*ptr)printHelp(argv[0],"Invalid parameter for --start!\n");
+			valid=true;
+		}
+		if(!strncmp(argv[i],"--logfile",9))
+		{
+			char *ptr=argv[i];while(*ptr!='='&&*ptr)++ptr;
+			if(!*ptr)printHelp(argv[0],"--logfile need a parameter!");
+			++ptr;strcpy(alterLog,ptr);
+			valid=true;
+		}
+#ifdef WIN32
+		if(!strncmp(argv[i],"--nohideconsole",15))noHideConsole=true,valid=true;
+#endif
+		if(!valid)
+		{
+			char err[256];sprintf(err,"Unknown option: %s\n",argv[i]);
+			printHelp(argv[0],err);
+		}
+	}
+}
+int main(int argc,char *argv[])
+{
+	parseArgs(argc,argv);
+#ifdef WIN32
+	if(!noHideConsole)FreeConsole();
+#endif
 	srand(time(NULL));
 	hge=hgeCreate(HGE_VERSION);
+	if(alterLog[0])
+	hge->System_SetState(HGE_LOGFILE, alterLog);
+	else
 	hge->System_SetState(HGE_LOGFILE, "BLRLOG.txt");
 	hge->System_Log("%s: Bullet Lab Remix Log File",MAIN_SRC_FN);
 #ifdef WIN32
@@ -771,6 +844,7 @@ int main()
 	hge->System_SetState(HGE_SCREENWIDTH, 800);
 	hge->System_SetState(HGE_SCREENHEIGHT, 600);
 	hge->System_SetState(HGE_SCREENBPP, 32);
+	if(fNoSound)hge->System_SetState(HGE_USESOUND,false);
 #ifdef WIN32
 	hge->System_SetState(HGE_ICON, MAKEINTRESOURCE(1));
 #endif
@@ -780,6 +854,7 @@ int main()
 		hge->System_Log("%s: Config file not found. Calling first startup.",MAIN_SRC_FN);
 		firststartup();
 	}
+	if(fFristStartUp)firststartup();
 	hge->System_Log("%s: Loading config file",MAIN_SRC_FN);
 	freopen("blr.cfg","r",stdin);
 	char tch=getchar();
@@ -802,10 +877,13 @@ int main()
 		hge->System_SetState(HGE_FPS,61);
 		fpslvl=1;
 	}
+	if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
 	tch=getchar();//FULLSCRREEN
 	tfs=false;
 	if (tch==1)
 	hge->System_SetState(HGE_WINDOWED, false),tfs=true;
+	if(fFullScreen==2)hge->System_SetState(HGE_WINDOWED, false),tfs=true;
+	if(fFullScreen==1)hge->System_SetState(HGE_WINDOWED, true),tfs=false;
 	tch=getchar();//LockFPS
 	if (tch==1&&!LOWFPS)
 	{
@@ -815,7 +893,7 @@ int main()
 	tch=getchar();//Key binding
 	if (tch==1)diffkey=true;
 	plrspd=tch=getchar();
-	playerfulspd=(tch)*0.05f;
+	playerfulspd=(tch)*0.08f;
 	playerspeed=playerfulspd;
 	plrslospd=tch=getchar();
 	playerfulslospd=(tch)*0.0125f;
@@ -894,8 +972,27 @@ int main()
 		gui->SetCursor(spr);
 		gui->SetFocus(1);
 		gui->Enter();
-		if (LOWFPS)
-			hge->System_Log("%s: Low FPS Mode Enabled.\n",MAIN_SRC_FN);
+		if(LOWFPS)hge->System_Log("%s: Low FPS Mode Enabled.",MAIN_SRC_FN);
+		if(fNoSound)hge->System_Log("%s: Sound is disabled.",MAIN_SRC_FN);
+		if(startLvl)
+		{
+			hge->System_Log("%s: Starting from Level%dPart%d",MAIN_SRC_FN,startLvl,startPrt);
+			gui->Leave();
+			playerpos.x=400,playerpos.y=400,playerrot=0;
+			frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
+			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;
+			towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
+			score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
+			lpst=4625568;lped=9234584;//Music_Play();
+			coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
+			Lock.Init(2);IfShowTip=true;lsc=0;
+			clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
+			memset(tower,0,sizeof(tower));
+			memset(bullet,0,sizeof(bullet));
+			Complete=false;Current_Position=1;
+			IfCallLevel=true;
+			mode=3;
+		}
 		hge->System_Start();
 		delete gui;delete titlespr;
 		delete fnt;delete playerspr;

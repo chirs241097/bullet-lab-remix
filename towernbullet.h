@@ -977,7 +977,7 @@ void ProcessBullet255(int i)
 	}
 	else
 	{
-		bulletspr[grey]->SetColor(0x10FFFFFF);
+		bulletspr[grey]->SetColor(0x20FFFFFF);
 		bulletspr[grey]->SetBlendMode(BLEND_ALPHAADD);
 		bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+6,bullet[i].bulletpos.y+6,0,0.5,0);
 		bulletspr[grey]->SetBlendMode(BLEND_ALPHABLEND);
