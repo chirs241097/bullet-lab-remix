@@ -6,8 +6,11 @@ Add missing tips.
 
 Pre-Released versions:
 0.8.1-0_PR (b76)
-New level "Sink" (temporary name).
+There're only one level left before another public PR version!...
+===Real changelog starts from here===
+New level "Sink over the horizon".
 New level "Gravity vortex".
+New level "Double reflective".
 Make point bullet additive blending.
 Allow bullets to pause before being accelerated.
 
@@ -16,6 +19,7 @@ New level Supernova.
 New level (still unnamed).
 Support additive blending bullets(for Supernova).
 Add some additional tips.
+Move levels to level -1.
 Fix blinking of HGE::Gfx_SetTransform in OpenGL.
 Fix includes like " #include "../../include/..." " that would
 cause errors.
@@ -27,6 +31,7 @@ Modify the corresponding score bullet.
 New level Achromatopsia.
 New level hyper-threading.
 Tower8 partly rewritten, dropping tdir.
+Fix a small problem in level 2.
 Move levels to level -1. <-typo fixed
 Modify the semi-coll threshold of laser.
 SCEffect_Attatch now take a optional parameter.
@@ -54,7 +59,7 @@ always love to use).
 This indicates all "normal" levels are completed.
 Multiplier system was fully adopted into BLR.
 Implement a RandomEngine, replacing all rand().
-Rewrite Leaf_Anim using std::list.
+Rewrite Leaf_Anim using std::list, won't cause crashes now.
 Fixed: Trypophobia stops if too many CLR's are used.
 Fixed the problem in All2pnt().
 Fixed blinking target.

@@ -775,23 +775,46 @@ void ProcessBullet8(int i)
 	if(bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
 		int cnt=re.NextInt(2,5);if (Dis8ref)cnt=0;
-		for (int ii=1;ii<=cnt;++ii)
+		if(bullet[i].redattrib)
 		{
-			int pnt=CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,re.NextDouble(-pi,pi));
-			if (t8special)
+			if(re.NextInt(0,3))//more possibility to reflect
 			{
-				bullet[pnt].alterColor=(TColors)(re.NextInt(0,7));
-				bullet[pnt].alterColor2=(TColors)(re.NextInt(0,7));
-				if(re.NextInt(0,3)==3)bullet[pnt].redir(vector2d(400,300));
-				if(re.NextInt(0,1))++ii;
+				if(bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800)bullet[i].bulletdir.x=-bullet[i].bulletdir.x;
+				if(bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)bullet[i].bulletdir.y=-bullet[i].bulletdir.y;
+			}
+			else//vanish or reflect?...
+			{
+				cnt=4-4*(frameleft/(double)(AMinute*1.5));
+				for (int ii=1;ii<=cnt;++ii)
+					CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,2,re.NextDouble(-pi,pi));
+				bullet[i].exist=false;
+				bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+				bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+				bullet[i].dist=0;
+				bullet[i].bullettype=0;
+				return;
 			}
 		}
-		bullet[i].exist=false;
-		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
-		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
-		bullet[i].dist=0;
-		bullet[i].bullettype=0;
-		return;
+		else
+		{
+			for (int ii=1;ii<=cnt;++ii)
+			{
+				int pnt=CreateBullet2(bullet[i].bulletpos.x,bullet[i].bulletpos.y,bullet[i].bulletspeed,re.NextDouble(-pi,pi));
+				if (t8special)
+				{
+					bullet[pnt].alterColor=(TColors)(re.NextInt(0,7));
+					bullet[pnt].alterColor2=(TColors)(re.NextInt(0,7));
+					if(re.NextInt(0,3)==3)bullet[pnt].redir(vector2d(400,300));
+					if(re.NextInt(0,1))++ii;
+				}
+			}
+			bullet[i].exist=false;
+			bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
+			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+			bullet[i].dist=0;
+			bullet[i].bullettype=0;
+			return;
+		}
 	}
 	if(PlayerSplit)
 	{
@@ -1472,6 +1495,7 @@ void ProcessTower8()
 				if (!t8special)
 				{
 					int pnt=CreateBullet8(tower[i].towerpos.x,tower[i].towerpos.y,tower[i].bulletspeed,tower[i].effect);
+					if(level==-1&&part==21)bullet[pnt].redattrib=1;else bullet[pnt].redattrib=0;
 					if (Dis8ref)
 					{
 						if (tower[i].towerpos.y<300)

@@ -3288,7 +3288,7 @@ void Levelm1Part14()
 }
 yellowGroup fyg[100];
 Spinner fygs;
-void Levelm1Part15()//?
+void Levelm1Part15()
 {
 	frameleft=AMinute+ThirtySeconds;
 	All2pnt();towcnt=0;memset(fyg,0,sizeof(fyg));
@@ -3454,4 +3454,38 @@ void Levelm1Part20()
 			Levelm1Part20update();
 			break;
 	}
+}
+void Levelm1Part21()
+{
+	//some part of this level is in towernbullet...
+	frameleft=AMinute*1.5;
+	if (towcnt!=4&&towcnt!=0)return ClearAll(false);
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Zzz");
+		All2pnt();
+		return;
+	}
+	++frameskips;
+	if (frameskips<10&&!LOWFPS)return;
+	frameskips=0;
+	CreateTower8(30,10,1500,3,20,30,false);
+	CreateTower8(746,10,1500,3,20,30,false);
+	CreateTower8(30,556,1500,3,20,30,false);
+	CreateTower8(746,556,1500,3,20,30,false);
+	for (int i=1;i<=towcnt;++i)
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
+	for (int i=1;i<=towcnt;++i)
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
+		else
+		{
+			IfCallLevel=false;
+			return;
+		}
 }

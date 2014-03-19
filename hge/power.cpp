@@ -5,7 +5,7 @@
 **
 ** Core functions implementation: power status
 */
-
+//DO NOT USE THIS, USE "acpi".
 
 #include "hge_impl.h"
 
