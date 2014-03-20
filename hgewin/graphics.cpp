@@ -11,7 +11,7 @@
 #include "hge_impl.h"
 #include <d3d9.h>
 #include <d3dx9.h>
-
+static const char* GRAPHICS_SRC_FN="hge/graphics.cpp";
 
 void CALL HGE_Impl::Gfx_Clear(DWORD color)
 {
@@ -628,9 +628,10 @@ bool HGE_Impl::_GfxInit()
 // Get adapter info
 
 	pD3D->GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, &AdID);
-	System_Log("D3D Driver: %s",AdID.Driver);
-	System_Log("Description: %s",AdID.Description);
-	System_Log("Version: %d.%d.%d.%d",
+	System_Log("%s: D3D Driver: %s",GRAPHICS_SRC_FN,AdID.Driver);
+	System_Log("%s: Description: %s",GRAPHICS_SRC_FN,AdID.Description);
+	System_Log("%s: Version: %d.%d.%d.%d",
+			GRAPHICS_SRC_FN,
 			HIWORD(AdID.DriverVersion.HighPart),
 			LOWORD(AdID.DriverVersion.HighPart),
 			HIWORD(AdID.DriverVersion.LowPart),
@@ -720,7 +721,7 @@ bool HGE_Impl::_GfxInit()
 
 	_AdjustWindow();
 
-	System_Log("Mode: %d x %d x %s\n",nScreenWidth,nScreenHeight,szFormats[_format_id(Format)]);
+	System_Log("%s: Mode: %d x %d x %s\n",GRAPHICS_SRC_FN,nScreenWidth,nScreenHeight,szFormats[_format_id(Format)]);
 
 // Create vertex batch buffer
 

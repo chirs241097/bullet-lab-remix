@@ -13,6 +13,7 @@
 
 #define LOWORDINT(n) ((int)((signed short)(LOWORD(n))))
 #define HIWORDINT(n) ((int)((signed short)(HIWORD(n))))
+static const char* SYSTEM_SRC_FN="hge/system.cpp";
 
 
 const char *WINDOW_CLASS_NAME = "HGE__WNDCLASS";
@@ -74,19 +75,19 @@ bool CALL HGE_Impl::System_Initiate()
 
 	// Log system info
 
-	System_Log("Initalizing HGE...\n");
+	System_Log("%s: HGE Started...",SYSTEM_SRC_FN);
 
-	System_Log("DirectX API Package version: HGE %X.%X for DirectX9", HGE_VERSION>>8, HGE_VERSION & 0xFF);
+	System_Log("%s: hge-unix version: %X.%X", SYSTEM_SRC_FN, HGE_VERSION>>8, HGE_VERSION & 0xFF);
 	GetLocalTime(&tm);
-	System_Log("Date: %02d.%02d.%d, %02d:%02d:%02d\n", tm.wDay, tm.wMonth, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond);
+	System_Log("%s: Date: %02d.%02d.%d, %02d:%02d:%02d\n", SYSTEM_SRC_FN, tm.wDay, tm.wMonth, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond);
 
-	System_Log("Application: %s",szWinTitle);
+	System_Log("%s: Application: %s", SYSTEM_SRC_FN, szWinTitle);
 	os_ver.dwOSVersionInfoSize=sizeof(os_ver);
 	GetVersionEx(&os_ver);
-	System_Log("OS: Windows %ld.%ld.%ld",os_ver.dwMajorVersion,os_ver.dwMinorVersion,os_ver.dwBuildNumber);
+	System_Log("%s: OS: Windows %ld.%ld.%ld", SYSTEM_SRC_FN, os_ver.dwMajorVersion,os_ver.dwMinorVersion,os_ver.dwBuildNumber);
 
 	GlobalMemoryStatus(&mem_st);
-	System_Log("Memory: %ldK total, %ldK free\n",mem_st.dwTotalPhys/1024L,mem_st.dwAvailPhys/1024L);
+	System_Log("%s: Memory: %ldK total, %ldK free\n", SYSTEM_SRC_FN, mem_st.dwTotalPhys/1024L,mem_st.dwAvailPhys/1024L);
 
 
 	// Register window class
@@ -160,7 +161,7 @@ bool CALL HGE_Impl::System_Initiate()
 	if(!_GfxInit()) { System_Shutdown(); return false; }
 	if(!_SoundInit()) { System_Shutdown(); return false; }
 
-	System_Log("Initialization done.\n");
+	System_Log("%s: Init done.\n",SYSTEM_SRC_FN);
 
 	fTime=0.0f;
 	t0=t0fps=timeGetTime();
@@ -200,7 +201,7 @@ bool CALL HGE_Impl::System_Initiate()
 
 void CALL HGE_Impl::System_Shutdown()
 {
-	System_Log("\nClosing session...");
+	System_Log("\n%s: Closing session..",SYSTEM_SRC_FN);
 
 	timeEndPeriod(1);
 	if(hSearch) { FindClose(hSearch); hSearch=0; }
@@ -220,7 +221,7 @@ void CALL HGE_Impl::System_Shutdown()
 
 	if(hInstance) UnregisterClass(WINDOW_CLASS_NAME, hInstance);
 
-	System_Log("Session ended.");
+	System_Log("%s: Session ended.",SYSTEM_SRC_FN);
 }
 
 
@@ -605,8 +606,11 @@ void CALL HGE_Impl::System_Log(const char *szFormat, ...)
 	va_start(ap, szFormat);
 	vfprintf(hf, szFormat, ap);
 	va_end(ap);
-
+	va_start(ap, szFormat);
+	vfprintf(stderr, szFormat, ap);
+	va_end(ap);
 	fprintf(hf, "\n");
+	fprintf(stderr, "\n");
 
 	fclose(hf);
 }
