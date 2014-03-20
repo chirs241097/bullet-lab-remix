@@ -1,8 +1,9 @@
 ===================================================================
 Next version:
-??????
-New levels...
-Add missing tips.
+0.8.1-1_PR (b77)
+New level.
+Random segmentation fault in "Hyper-threading".
+Random crashes in Windows.
 
 Pre-Released versions:
 0.8.1-0_PR (b76)
@@ -14,7 +15,9 @@ New level "Double reflective".
 Make point bullet additive blending.
 Allow bullets to pause before being accelerated.
 Add command line argument support. Use "--help" for usage.
+Add freetype support to hge. It's still pretty buggy.
 Modify player speed settings.
+Beewx still messes up memory... fixed now.
 
 0.8.0-1_PR (b75)
 New level Supernova.

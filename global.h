@@ -252,6 +252,7 @@ double clockrot,deltarot,deltadelta;
 double whirot,dwhirot;
 hgeSprite *playerspr;
 DWORD DBGColor;
+hgeTTFont rbPanelFont;
 int frameleft,infofade;
 int level,part,clrtime,clrbns;
 int coll,semicoll,mode,dsmc,restarts;

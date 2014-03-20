@@ -51,6 +51,7 @@
 #include <mmsystem.h>
 #endif
 #include "libcgh.h"
+#include "hgeft.h"
 #include "menuitem.h"
 #include "global.h"
 #include "music.h"
@@ -711,10 +712,14 @@ bool FrameFunc()
 	if (Current_Position==13)OptionsGUI->Render();
 	if (Current_Position==14)PlayerProfGUI->Render();
 	fnt->SetColor(0xFFFFFFFF);
-	fnt->printf(680, 575, HGETEXT_LEFT, "FPS: %d", hge->Timer_GetFPS());
+	//fnt->printf(680, 575, HGETEXT_LEFT, "FPS: %d", hge->Timer_GetFPS());
+	rbPanelFont.UpdateString(L" FPS: %d",hge->Timer_GetFPS());
+	rbPanelFont.Render(785,595,0xFFFFFFFF,1);
 	if (Current_Position==1||Current_Position==2)
 	{
-		fnt->printf(670,560, HGETEXT_LEFT, "AF: %.2f", averfps);
+		//fnt->printf(670,560, HGETEXT_LEFT, "AF: %.2f", averfps);
+		rbPanelFont.UpdateString(L"AF: %.2f",averfps);
+		rbPanelFont.Render(785,575,0xFFFFFFFF,1);
 		if (playerpos.x<220&&playerpos.y<200)
 		{
 			if (!LOWFPS&&infofade>=0x33)--infofade;
@@ -747,12 +752,12 @@ bool FrameFunc()
 }
 void printHelp(char *exec,const char* str="")
 {
-	printf("Usage %s [options]...\n",exec);
+	printf("Usage: %s [options]...\n",exec);
 	printf("To run the game normally, just start without arguments.\n");
 	printf("Options:\n");
 	printf("--help            Print this help and exit.\n");
 	printf("--version         Print version and exit.\n");
-	printf("--start=x,y       Start the game directly from level x part y. The part must be valid.\n");
+	printf("--start=x,y       Start free play mode directly from level x part y. The part must be valid.\n");
 	printf("--nosound         Forcibly use no sound.\n");
 	printf("--fullscreen=1/0  Forcibly use fullscreen/windowed. This will override your configuration.\n");
 	printf("--firststartup    Forcibly run first start up. This will reset the score file.\n");
@@ -944,6 +949,11 @@ int main(int argc,char *argv[])
 		quad.v[1].x=800; quad.v[1].y=0;
 		quad.v[2].x=800; quad.v[2].y=600;
 		quad.v[3].x=0; quad.v[3].y=600;
+#ifdef WIN32
+		rbPanelFont.Init("%SystemRoot%/Fonts/cour.ttf",18);
+#else
+		rbPanelFont.Init("/usr/share/fonts/truetype/freefont/FreeMono.ttf",18);
+#endif
 		fnt=new hgeFont("./Resources/charmap.fnt");
 		TipFont=new hgeFont("./Resources/charmap.fnt");
 		MultFnt=new hgeFont("./Resources/charmap.fnt");
