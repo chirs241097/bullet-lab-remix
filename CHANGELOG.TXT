@@ -1,9 +1,11 @@
 ===================================================================
 Next version:
 0.8.1-1_PR (b77)
-New level.
+Todo's:
+(the only) New level.
 Random segmentation fault in "Hyper-threading".
 Random crashes in Windows.
+Circle Indicator crashes in mingw-w64 build.
 
 Pre-Released versions:
 0.8.1-0_PR (b76)
@@ -17,9 +19,13 @@ Allow bullets to pause before being accelerated.
 Modify "Gravity vortex".
 Add command line argument support. Use "--help" for usage.
 Add freetype support to hge. It's still pretty buggy.
+Add experimental support for cross compiling with mingw-w64.
+(Mingw-w64 build might be the official build in the future.)
+Fix blinking HangUpText.
 Change numeric characters to monospace.
 Modify player speed settings.
 Beewx still messes up memory... fixed now.
+Exit 1 if not terminated correctly.
 
 0.8.0-1_PR (b75)
 New level Supernova.

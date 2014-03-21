@@ -1,13 +1,14 @@
 #include "hgeft.h"
+static const char* HGEFT_SRC_FN="hgeft.cpp";
 void hgeTTChar::Free(){if(quad.tex)hge->Texture_Free(quad.tex),quad.tex=0;}
 bool hgeTTChar::SetChar(wchar_t ch,FT_Face ttfface)
 {
 	FT_GlyphSlot slot=ttfface->glyph;
 	FT_UInt glyph_index=FT_Get_Char_Index(ttfface,ch);
 	FT_Error err=FT_Load_Glyph(ttfface,glyph_index,FT_LOAD_DEFAULT);
-	if(err)return false;
+	if(err){hge->System_Log("%s: Glyph load failed!",HGEFT_SRC_FN);return false;}
 	err=FT_Render_Glyph(ttfface->glyph,FT_RENDER_MODE_NORMAL);
-	if(err)return false;
+	if(err){hge->System_Log("%s: Glyph render failed!",HGEFT_SRC_FN);return false;}
 	_w=slot->advance.x>>6;_h=slot->bitmap.rows;//we are one line only.
 	rw=slot->bitmap.width;rh=slot->bitmap.rows;
 	quad.tex=hge->Texture_Create(
@@ -46,9 +47,9 @@ void hgeTTChar::Render(double x,double y,DWORD col)
 bool hgeTTFont::Init(const char *ttf,int size)
 {
 	FT_Error err=FT_Init_FreeType(&libft);
-	if(err)return false;
+	if(err){hge->System_Log("%s: Failed to initialize freetype",HGEFT_SRC_FN);return false;}
 	err=FT_New_Face(libft,ttf,0,&ttfface);
-	if(err)return false;
+	if(err){hge->System_Log("%s: Failed to load font: %s",HGEFT_SRC_FN,ttf);return false;}
 	err=FT_Set_Char_Size(ttfface,0,size*64,96,96);
 	return true;
 }

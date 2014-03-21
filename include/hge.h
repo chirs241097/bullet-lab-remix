@@ -12,8 +12,9 @@
 
 #include "unix_compat.h"
 
-#ifdef _WINDOWS
+#ifdef WIN32
 #include <windows.h>
+#include <cstddef>
 #endif
 
 #define HGE_VERSION 0x181
@@ -47,10 +48,10 @@
  #define sinf (float)sin
  #define powf (float)pow
  #define fabsf (float)fabs
-
- #define min(x,y) ((x) < (y)) ? (x) : (y)
- #define max(x,y) ((x) > (y)) ? (x) : (y)
+ #define min(x,y) ((x) < (y)? (x) : (y))
+ #define max(x,y) ((x) > (y)? (x) : (y))
 #endif
+
 
 
 /*

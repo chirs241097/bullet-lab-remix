@@ -329,7 +329,7 @@ void Error(const char *EC,bool hgecreated=false)
 	_rmdir("./Resources/Music");
 	_rmdir("./Resources");
 #endif
-	exit(0);
+	exit(1);
 }
 void ShowTip(const char *tip)
 {

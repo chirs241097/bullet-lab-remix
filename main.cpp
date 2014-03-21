@@ -45,8 +45,8 @@
 #ifdef WIN32
 #include <io.h>
 #include <direct.h>
-#include <Shlwapi.h>
-#include <Shellapi.h>
+#include <shlwapi.h>
+#include <shellapi.h>
 #include <windows.h>
 #include <mmsystem.h>
 #endif
@@ -933,9 +933,7 @@ int main(int argc,char *argv[])
 		BTarg.Init(-0.001,vector2d(400,300));
 		BTarg.targspr->SetColor(0xFFC00000);
 		if(!quad.tex||!SprSheet||!TexTitle||!TexCredits)
-		{
-			Error("Error Loading Resources!",true);
-		}
+		Error("Error Loading Resources!",true);
 		quad.blend=BLEND_ALPHABLEND | BLEND_COLORMUL | BLEND_NOZWRITE;
 		DBGColor=0xFF888820;
 		for(int i=0;i<4;i++)
@@ -948,9 +946,9 @@ int main(int argc,char *argv[])
 		quad.v[2].x=800; quad.v[2].y=600;
 		quad.v[3].x=0; quad.v[3].y=600;
 #ifdef WIN32
-		rbPanelFont.Init("%SystemRoot%/Fonts/cour.ttf",18);
+		if(!rbPanelFont.Init("C:/Windows/Fonts/cour.ttf",18))return 1;
 #else
-		rbPanelFont.Init("/usr/share/fonts/truetype/freefont/FreeMono.ttf",18);
+		if(!rbPanelFont.Init("/usr/share/fonts/truetype/freefont/FreeMono.ttf",18))return 1;
 #endif
 		fnt=new hgeFont("./Resources/charmap.fnt");
 		TipFont=new hgeFont("./Resources/charmap.fnt");
