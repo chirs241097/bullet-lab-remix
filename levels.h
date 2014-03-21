@@ -3380,6 +3380,7 @@ void Levelm1Part18()
 Bullet *m19lead[10],*m19gen[700];
 double m19rad;
 int m19step,m19cnt;
+bool m19pldir;
 void Levelm1Part19()
 {
 	frameleft=AMinute*2;towcnt=0;
@@ -3394,9 +3395,12 @@ void Levelm1Part19()
 		m19lead[i]->alterColor=(TColors)i;
 		m19lead[i]->inv=true;
 	}
+	m19pldir=false;BTarg.targpos=playerpos;
 }
 void Levelm1Part20update()
 {
+	if(!m19pldir)BTarg.TargGoto(vector2d(400,300)),playerpos=BTarg.targpos;
+	if(!m19pldir&&GetDist(playerpos,vector2d(400,300))<0.01)m19pldir=true;
 	for(int i=0;i<m19cnt;++i)
 	{
 		if(m19gen[i]->redattrib)
@@ -3414,7 +3418,7 @@ void Levelm1Part20update()
 					m19gen[i]->redattrib=2;
 					m19gen[i]->setdir(re.NextDouble(-pi,pi));
 					m19gen[i]->bulletaccel=0.0015;
-					m19gen[i]->limv=re.NextDouble(2,6);
+					m19gen[i]->limv=re.NextDouble(1,8-2*(frameleft/(double)(AMinute*2)));
 				}
 			}
 		}
@@ -3441,7 +3445,7 @@ void Levelm1Part20()
 					m19gen[m19cnt]->addblend=true;
 					m19gen[m19cnt++]->redattrib=re.NextInt(0,3)?0:1;
 				}
-				if(m19cnt/8>80-50*(frameleft/(double)(AMinute*2)))m19step=1,avabrk=3;
+				if(m19cnt/8>80-50*(frameleft/(double)(AMinute*2)))m19step=1,avabrk=3,tbrk=0;
 				avacurbrk=0;
 			}
 			Levelm1Part20update();
@@ -3450,6 +3454,21 @@ void Levelm1Part20()
 			if(avacurbrk>avabrk)
 			{
 				m19step=0;avabrk=0.05;memset(m19gen,0,sizeof(m19gen));m19cnt=0;
+			}
+			tbrk+=hge->Timer_GetDelta();
+			if(tbrk>0.05)
+			{
+				tbrk=0;
+				for(int i=0;i<8;++i)
+				{
+					int pnt=CreateBullet2(m19lead[i]->bulletpos.x,m19lead[i]->bulletpos.y,0,0);
+					bullet[pnt].redir(vector2d(400,300));
+					bullet[pnt].alterColor=(TColors)i;
+					bullet[pnt].bulletdir.x=-bullet[pnt].bulletdir.x;
+					bullet[pnt].bulletdir.y=-bullet[pnt].bulletdir.y;
+					bullet[pnt].bulletaccel=0.002;bullet[pnt].limv=2;
+					bullet[pnt].whirem=2500;bullet[pnt].addblend=true;
+				}
 			}
 			Levelm1Part20update();
 			break;
@@ -3466,7 +3485,7 @@ void Levelm1Part21()
 		IfShowTip=false;
 		FadeTip=false;
 		Current_Position=2;
-		ShowTip("Zzz");
+		ShowTip("Zzz...");
 		All2pnt();
 		return;
 	}

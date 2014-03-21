@@ -14,8 +14,10 @@ New level "Gravity vortex".
 New level "Double reflective".
 Make point bullet additive blending.
 Allow bullets to pause before being accelerated.
+Modify "Gravity vortex".
 Add command line argument support. Use "--help" for usage.
 Add freetype support to hge. It's still pretty buggy.
+Change numeric characters to monospace.
 Modify player speed settings.
 Beewx still messes up memory... fixed now.
 

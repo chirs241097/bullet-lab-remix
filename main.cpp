@@ -362,11 +362,9 @@ void RefreshScore()
 void CallLevels()
 {
 	//Use this to call level procedures.
-	//Don't use this to call the first level!
-	//if (level<6)clrtime=0;
 	if ((mode==4||mode<=2)&&coll!=0){DeathGUI_Init();return;}
 	if (!IfCallLevel) return;
-	//Check Complete
+	//Check Complete here
 	if (level==1&&part==0)Level1Part0();
 	if (level==1&&part==1)Level1Part1();
 	if (level==1&&part==2)Level1Part2();
