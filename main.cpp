@@ -840,7 +840,7 @@ int main(int argc,char *argv[])
 #else
 	hge->System_Log("%s: Build: Unix build",MAIN_SRC_FN);
 #endif
-	hge->System_Log("%s: Version: %s",BLRVERSION);
+	hge->System_Log("%s: Version: %s",MAIN_SRC_FN,BLRVERSION);
 #ifdef WIN32
 	if (_mkdir("./Resources")!=0||_mkdir("./Resources/Music")!=0)
 		Error("Cannot decompress resources!\nDetailed Information: An error occured while creating folder.\n\nTry restarting the game.");
