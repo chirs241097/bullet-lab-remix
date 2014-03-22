@@ -832,12 +832,22 @@ int main(int argc,char *argv[])
 	hge->System_SetState(HGE_LOGFILE, "BLRLOG.txt");
 	hge->System_Log("%s: Bullet Lab Remix Log File",MAIN_SRC_FN);
 #ifdef WIN32
+#ifdef MINGW_BUILD
+	hge->System_Log("%s: Build: MinGW_w64 cross build",MAIN_SRC_FN);
+#else
+	hge->System_Log("%s: Build: Win32 build",MAIN_SRC_FN);
+#endif
+#else
+	hge->System_Log("%s: Build: Unix build",MAIN_SRC_FN);
+#endif
+	hge->System_Log("%s: Version: %s",BLRVERSION);
+#ifdef WIN32
 	if (_mkdir("./Resources")!=0||_mkdir("./Resources/Music")!=0)
 		Error("Cannot decompress resources!\nDetailed Information: An error occured while creating folder.\n\nTry restarting the game.");
-	hge->System_Log("Folders created successfully.");
+	hge->System_Log("%s: Folders created successfully.",MAIN_SRC_FN);
 	Expand("BLRData.dtp","Resources");
 	Expand("BLRMusic.dtp","Resources/Music");
-	hge->System_Log("Resources decompressed successfully.");
+	hge->System_Log("%s: Resources decompressed successfully.",MAIN_SRC_FN);
 #endif
 	hge->System_SetState(HGE_FRAMEFUNC, FrameFunc);
 	hge->System_SetState(HGE_FOCUSLOSTFUNC, Foclost);

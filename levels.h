@@ -3106,8 +3106,8 @@ achromaGroup aca,acb;
 void Levelm1Part7()//Achromatopsia1
 {
 	frameleft=AMinute;for(int i=0;i<1000;++i)if(noname[i].Exist())noname[i].noname2pnt();
-	aca.Init(red,0.2);acb.Init(green,0.2);
-	++part;avabrk=2.0f;avacurbrk=0;
+	aca.Init(red,0.075);acb.Init(green,0.075);
+	++part;avabrk=2.0f;avacurbrk=0;achromab=false;
 }
 void Levelm1Part8()//Achromatopsia1-child
 {
@@ -3117,13 +3117,13 @@ void Levelm1Part8()//Achromatopsia1-child
 		avacurbrk=0;avabrk=2;
 		aca.Reverse();acb.Reverse();
 	}
-	aca.Update();acb.Update();
+	aca.Update(1);acb.Update();
 }
 void Levelm1Part9()//Achromatopsia2
 {
 	frameleft=AMinute;
 	aca.Init(red,1);acb.Init(green,1);
-	++part;avabrk=1.5f;avacurbrk=0;
+	++part;avabrk=1.5f;avacurbrk=0;achromab=true;
 }
 void Levelm1Part10()//Achromatopsia2-child
 {

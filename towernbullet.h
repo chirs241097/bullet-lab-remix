@@ -2556,6 +2556,7 @@ public:
 		}
 	}
 };
+bool achromab,achromaB[100];
 class achromaGroup
 {
 private:
@@ -2598,26 +2599,63 @@ public:
 	{
 		if(col==red)col=green;
 		else if(col==green)col=red;
-		for(int i=0;i<500;++i)if(bullets[i].isActive())bullets[i].Reverse();
+		for(int i=0;i<1000;++i)if(bullets[i].isActive())bullets[i].Reverse();
 	}
 	void achroma2pnt()
 	{
-		for(int i=0;i<500;++i)if(bullets[i].isActive())CreateBullet255(bullets[i].bulletpos.x,bullets[i].bulletpos.y,10);
+		for(int i=0;i<1000;++i)if(bullets[i].isActive())CreateBullet255(bullets[i].bulletpos.x,bullets[i].bulletpos.y,10);
 	}
-	void Update()
+	void Update(int msk=0)
 	{
 		crbrk-=hge->Timer_GetDelta();
-		if(crbrk<=0)
+		if(achromab)
 		{
-			crbrk=re.NextDouble(0,frameleft/(double)AMinute)*(part==36?0.07:0.02)+0.03;
-			for(int i=0;i<500;++i)
-			if(!bullets[i].isActive())
+			if(crbrk<=0)
 			{
-				bullets[i].achromaInit(vector2d(re.NextDouble(10,790),10),col,llim);
-				break;
+				crbrk=re.NextDouble(0,frameleft/(double)AMinute)*(part==36?0.07:0.02)+0.03;
+				for(int i=0;i<1000;++i)
+				if(!bullets[i].isActive())
+				{
+					bullets[i].achromaInit(vector2d(re.NextDouble(10,790),-5),col,llim);
+					break;
+				}
 			}
+			for(int i=0;i<1000;++i)if(bullets[i].isActive())bullets[i].achromaUpdate();
 		}
-		for(int i=0;i<500;++i)if(bullets[i].isActive())bullets[i].achromaUpdate();
+		else
+		{
+			if(crbrk<=0)
+			{
+				crbrk=1;
+				if(msk)
+				{
+					memset(achromaB,0,sizeof(achromaB));
+					for(int i=0;i<80;++i)achromaB[i]=re.NextInt(0,1);
+				}
+				for(int i=0;i<80;++i)
+				{
+					if(achromaB[i]&&col==green)
+					{
+						for(int j=0;j<1000;++j)
+						if(!bullets[j].isActive())
+						{
+							bullets[j].achromaInit(vector2d(i*10,-5),col,llim);
+							break;
+						}
+					}
+					if(!achromaB[i]&&col==red)
+					{
+						for(int j=0;j<500;++j)
+						if(!bullets[j].isActive())
+						{
+							bullets[j].achromaInit(vector2d(i*10,-5),col,llim);
+							break;
+						}
+					}
+				}
+			}
+			for(int i=0;i<500;++i)if(bullets[i].isActive())bullets[i].achromaUpdate();
+		}
 	}
 };
 class yellowGroup

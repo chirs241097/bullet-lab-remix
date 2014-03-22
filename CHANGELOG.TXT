@@ -17,11 +17,14 @@ New level "Double reflective".
 Make point bullet additive blending.
 Allow bullets to pause before being accelerated.
 Modify "Gravity vortex".
+Modify "Achromatopsia". (Thanks to my classmate's advice...)
+Report build and version in the log file.
 Add command line argument support. Use "--help" for usage.
 Add freetype support to hge. It's still pretty buggy.
 Add experimental support for cross compiling with mingw-w64.
 (Mingw-w64 build might be the official build in the future.)
 Fix blinking HangUpText.
+Fix crashes in mingw-64 build.
 Change numeric characters to monospace.
 Modify player speed settings.
 Beewx still messes up memory... fixed now.

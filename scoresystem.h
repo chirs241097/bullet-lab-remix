@@ -120,7 +120,7 @@ void Mult_FrameFunc()
 		MultTimer.SetValue((double)multbrk/((double)TenSeconds/2.0f));
 		if (valbrk>30)valbrk=0;
 		MultTimer.Render(playerpos.x+8.4,playerpos.y+8.4);
-		MB->SetColor(SETA(0x00FFFFFF,GetAlpha()));
+		MB->SetColor(SETA(0x00FFFFFF,0.8*GetAlpha()));
 		MB->RenderEx(playerpos.x+8.4,playerpos.y-26.4,0,GetHscle(),1.0f);
 	}
 }
