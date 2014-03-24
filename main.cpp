@@ -518,12 +518,42 @@ void CallLevels()
 	if (level==-1&&part==20)Levelm1Part20();
 	if (level==-1&&part==21)Levelm1Part21();
 	if (level==1&&part==5)level=2,part=0;
-	if (level==2&&part==10)level=3,part=0;
-	if (level==3&&part==7)level=4,part=0;
-	if (level==4&&part==26)level=5,part=0;
-	if (level==5&&part==23)level=6,part=0;
-	if (level==6&&part==32)level=7,part=0;
-	if (level==7&&part==27)level=-1,part=0;
+	if (level==2&&part==10)
+	{
+		if(mode==3&&coll>10){CompleteGUI_Init();return;}
+		if(mode==1&&restarts>1){CompleteGUI_Init();return;}
+		level=3,part=0;
+	}
+	if (level==3&&part==7)
+	{
+		if(mode==3&&coll>40){CompleteGUI_Init();return;}
+		if(mode==1&&restarts>2){CompleteGUI_Init();return;}
+		level=4,part=0;
+	}
+	if (level==4&&part==26)
+	{
+		if(mode==3&&coll>75){CompleteGUI_Init();return;}
+		if(mode==1&&restarts>3){CompleteGUI_Init();return;}
+		level=5,part=0;
+	}
+	if (level==5&&part==23)
+	{
+		if(mode==3&&coll>125){CompleteGUI_Init();return;}
+		if(mode==1&&restarts>5){CompleteGUI_Init();return;}
+		level=6,part=0;
+	}
+	if (level==6&&part==32)
+	{
+		if(mode==3&&coll>200){CompleteGUI_Init();return;}
+		if(mode==1&&restarts>8){CompleteGUI_Init();return;}
+		level=7,part=0;
+	}
+	if (level==7&&part==27)
+	{
+		if(mode==3&&coll>50){CompleteGUI_Init();return;}
+		if(mode==1&&restarts>2){CompleteGUI_Init();return;}
+		level=-1,part=0;
+	}
 }
 bool ProcessCurCred()
 {

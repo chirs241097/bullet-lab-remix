@@ -38,26 +38,26 @@ long long Getll()
 void Putuint(unsigned int a)
 {
 	unsigned int c1,c2,c3,c4;
-	c1=a&0xFF000000;c2=a&0x00FF0000;
-	c3=a&0x0000FF00;c4=a&0x000000FF;
+	c1=a&0xFF000000;c1>>=24;c2=a&0x00FF0000;c2>>=16;
+	c3=a&0x0000FF00;c3>>=8;c4=a&0x000000FF;
 	printf("%c%c%c%c",c1,c2,c3,c4);
 }
 void Putint(int a)
 {
 	Putuint((unsigned int)a);
 }
-void Putll(long long a)
+void Putll(unsigned long long a)
 {
-	int c1,c2,c3,c4,c5,c6,c7,c8;
-	c1=a&0xFF00000000000000;
-	c2=a&0x00FF000000000000;
-	c3=a&0x0000FF0000000000;
-	c4=a&0x000000FF00000000;
-	c5=a&0x00000000FF000000;
-	c6=a&0x0000000000FF0000;
-	c7=a&0x000000000000FF00;
+	unsigned long long c1,c2,c3,c4,c5,c6,c7,c8;
+	c1=a&0xFF00000000000000;c1>>=44LL;
+	c2=a&0x00FF000000000000;c2>>=40LL;
+	c3=a&0x0000FF0000000000;c3>>=36LL;
+	c4=a&0x000000FF00000000;c4>>=32LL;
+	c5=a&0x00000000FF000000;c5>>=24LL;
+	c6=a&0x0000000000FF0000;c6>>=16LL;
+	c7=a&0x000000000000FF00;c7>>=8LL;
 	c8=a&0x00000000000000FF;
-	printf("%c%c%c%c%c%c%c%c",c1,c2,c3,c4,c5,c6,c7,c8);
+	printf("%c%c%c%c%c%c%c%c",(int)c1,(int)c2,(int)c3,(int)c4,(int)c5,(int)c6,(int)c7,(int)c8);
 }
 TRecord GetTRecord()
 {

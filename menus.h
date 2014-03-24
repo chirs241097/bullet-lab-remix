@@ -9,7 +9,7 @@ hgeGUI			*StartGUI,*DeathGUI,*CompleteGUI,*HighScoreGUI;
 hgeGUI			*HSViewGUI,*HSDetailGUI,*PauseGUI,*BkTTitleGUI;
 hgeGUI			*OptionsGUI,*PlayerProfGUI;
 char			ds1[255],ds2[255],ds3[255],ds4[255];
-char			hs1[255],hs2[255],hs3[255],hs4[255],hs5[255],hs6[255];
+char			hs1[255],hs2[255],hs3[255],hs4[255],hs5[255],hs6[255],hs7[255];
 char			HSVstr[7][255];
 char			HSDetstr[10][255];
 char			opt[10][255];
@@ -224,24 +224,33 @@ void NewHighScoreGUI_Render()
 	else
 		TipFont->printf(200,240,HGETEXT_LEFT,"%s_",newname);
 }
+char *getRank()
+{
+	static char retval[256];
+	//stub!
+	//sprintf something to retval
+	return retval;
+}
 void CompleteGUI_Init()
 {
 	CompleteGUI=new hgeGUI();
 	Current_Position=6;
 	DisableAllTower=true;DisablePlayer=true;
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,120,0.0f,"YOU DID THAT!"));
+	CompleteGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,120,0.0f,"It Ends Here!"));
 #ifdef WIN32
 	if (CheckHighScore()!=-1)
 		sprintf(hs1,"New Highscore %I64d!",score);
 	else
 		sprintf(hs1,"Score %I64d",score);
 #else
-	if (CheckHighScore()!=-1)
+	if (~CheckHighScore())
 		sprintf(hs1,"New Highscore %lld!",score);
 	else
 		sprintf(hs1,"Score %lld",score);
 #endif
 	CompleteGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,160,0.1f,hs1));
+	sprintf(hs7,"Your Ranking: %s",getRank());
+	CompleteGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,200,0.1f,hs7));
 	switch (mode)
 	{
 		case 1:
@@ -249,29 +258,29 @@ void CompleteGUI_Init()
 		case 4:sprintf(hs2,"Restarts %d",restarts);break;
 		case 3:sprintf(hs2,"Collisions %d",coll);break;
 	}
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,200,0.2f,hs2));
+	CompleteGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,240,0.2f,hs2));
 	sprintf(hs3,"Semi-Collisions %d",semicoll);
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,240,0.3f,hs3));
+	CompleteGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,280,0.3f,hs3));
 	sprintf(hs4,"CLR usage %d",clrusg);
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,280,0.3f,hs4));
+	CompleteGUI->AddCtrl(new hgeGUIMenuItem(6,fnt,snd,400,320,0.3f,hs4));
 	sprintf(hs5,"Average FPS %.2f",averfps);
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(6,fnt,snd,400,320,0.4f,hs5));
+	CompleteGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,360,0.4f,hs5));
 	if (CheckHighScore()!=-1)
 	{
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,360,0.5f,"Keep this in your record?"));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,400,0.6f,"Yes"));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(9,fnt,snd,400,440,0.7f,"No thanks..."));
+		CompleteGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,400,0.5f,"Keep this in your record?"));
+		CompleteGUI->AddCtrl(new hgeGUIMenuItem(9,fnt,snd,400,440,0.6f,"Yes"));
+		CompleteGUI->AddCtrl(new hgeGUIMenuItem(10,fnt,snd,400,480,0.7f,"No thanks..."));
 	}
 	else
 	{
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,360,0.5f,""));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,400,0.6f,""));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(9,fnt,snd,400,440,0.7f,"Back to menu"));
+		CompleteGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,400,0.5f,""));
+		CompleteGUI->AddCtrl(new hgeGUIMenuItem(9,fnt,snd,400,440,0.6f,""));
+		CompleteGUI->AddCtrl(new hgeGUIMenuItem(10,fnt,snd,400,480,0.7f,"Back to menu"));
 	}
 	for (int i=1;i<=7;++i)CompleteGUI->EnableCtrl(i,false);
 	CompleteGUI->SetCursor(spr);
 	CompleteGUI->SetNavMode(HGEGUI_UPDOWN|HGEGUI_CYCLED);
-	CompleteGUI->SetFocus(7);
+	CompleteGUI->SetFocus(8);
 	CompleteGUI->Enter();
 }
 void CompleteGUI_FrameFnk()
@@ -282,8 +291,8 @@ void CompleteGUI_FrameFnk()
 	{
 		switch (id)
 		{
-			case 8:NewHighScoreGUI_Init();CompleteGUI->Leave();break;
-			case 9:Current_Position=0;gui->Enter();CompleteGUI->Leave();break;
+			case 9:NewHighScoreGUI_Init();CompleteGUI->Leave();break;
+			case 10:Current_Position=0;gui->Enter();CompleteGUI->Leave();break;
 		}
 	}
 }

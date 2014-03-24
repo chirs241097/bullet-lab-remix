@@ -1,16 +1,16 @@
 ===================================================================
 Next version:
-0.8.1-1_PR (b77)
+0.8.2-0_PR (b78)
 Todo's:
-(the only) New level.
-Random segmentation fault in "Hyper-threading".
-Random crashes in Windows.
-Circle Indicator crashes in mingw-w64 build.
+Random segmentation fault in "Hyper-threading".(seen only once,
+can not reproduce now...)
 
 Pre-Released versions:
+0.8.1-1_PR (b77)
+All parts from level -1 to 7 are completed!
+Fixed the crash in the mingw-w64 build.
+
 0.8.1-0_PR (b76)
-There're only one level left before another public PR version!...
-===Real changelog starts from here===
 New level "Sink over the horizon".
 New level "Gravity vortex".
 New level "Double reflective".
@@ -20,7 +20,8 @@ Modify "Gravity vortex".
 Modify "Achromatopsia". (Thanks to my classmate's advice...)
 Report build and version in the log file.
 Add command line argument support. Use "--help" for usage.
-Add freetype support to hge. It's still pretty buggy.
+Add freetype support to hge. It's still pretty buggy. (and make
+the executable extremely big!)
 Add experimental support for cross compiling with mingw-w64.
 (Mingw-w64 build might be the official build in the future.)
 Fix blinking HangUpText.
