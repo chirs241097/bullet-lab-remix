@@ -2014,6 +2014,11 @@ public:
 	void SetDT(double _DT){DT=_DT;}
 	double GetDT(){return DT;}
 	double GetRad(){return radian;}
+	void circ2pnt()
+	{
+		for(int i=1;i<=BCnt;++i)
+			CreateBullet255(Bullets[i].bulletpos.x,Bullets[i].bulletpos.y,10);
+	}
 	void Update()
 	{
 		DT+=hge->Timer_GetDelta();

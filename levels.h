@@ -3077,7 +3077,10 @@ void Levelm1Part4()
 void Levelm1Part5()//Spiky
 {
 	frameleft=AMinute+ThirtySeconds;
-	All2pnt();towcnt=0;
+	for(int i=0;i<200;++i)
+	if (scircles[i].GetRange()>1e-7&&scircles[i].GetRange()<510)
+	scircles[i].circ2pnt();
+	towcnt=0;
 	Lasercnt=0;
 	++part;avabrk=1;avacurbrk=0.5;
 }
@@ -3618,5 +3621,102 @@ void Levelm2Part4()
         double rspeed=re.NextDouble(0.5+3*assetime/180.0f,1+5*assetime/180.0f);
         for(int i=0;i<rcnt;++i)
 			CreateBullet2(400,300,rspeed,re.NextDouble(-pi,pi));
+	}
+}
+BCircle asscircles[200];
+void Levelm2Part5()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 4 - Crossing 1");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		assetime=0;memset(asscircles,0,sizeof(asscircles));
+		++part;avabrk=0;avacurbrk=0;
+	}
+}
+void Levelm2Part6()
+{
+	frameleft=Infinity;
+	assetime+=hge->Timer_GetDelta();
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+		for(int i=0;i<200;++i)
+			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+				asscircles[i].Init(1,assetime/120.0f*0.00025,36,vector2d(250,300),blue);break;
+		for(int i=0;i<200;++i)
+			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+				asscircles[i].Init(1,-assetime/120.0f*0.00025,36,vector2d(550,300),blue);break;
+		avacurbrk=0;
+		avabrk=3-assetime/60;
+		if(avabrk<0.5)avabrk=0.5;
+	}
+	for(int i=0;i<200;++i)
+	{
+		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
+		{
+			asscircles[i].SetRange(asscircles[i].GetRange()+(LOWFPS?17:1)*0.05);
+			asscircles[i].Update();
+		}
+	}
+}
+void Levelm2Part7()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 4 - Crossing 2");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		assetime=0;
+		for(int i=0;i<200;++i)
+		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
+		asscircles[i].circ2pnt();
+		memset(asscircles,0,sizeof(asscircles));
+		++part;avabrk=0;avacurbrk=0;
+	}
+}
+void Levelm2Part8()
+{
+	frameleft=Infinity;
+	assetime+=hge->Timer_GetDelta();
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+		for(int i=0;i<200;++i)
+			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+				asscircles[i].Init(1,0.0001,36+(24*assetime/120.0f),vector2d(400,300),blue);break;
+		for(int i=0;i<200;++i)
+			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+				asscircles[i].Init(1,-0.0001,36+(24*assetime/120.0f),vector2d(400,300),blue);break;
+		avacurbrk=0;
+		avabrk=2-assetime/60;
+		if(avabrk<0.3)avabrk=0.3;
+	}
+	for(int i=0;i<200;++i)
+	{
+		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
+		{
+			asscircles[i].SetRange(asscircles[i].GetRange()+(LOWFPS?17:1)*0.05);
+			asscircles[i].Update();
+		}
 	}
 }

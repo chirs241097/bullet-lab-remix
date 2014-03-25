@@ -9,7 +9,9 @@ can not reproduce now...)
 Pre-Released versions:
 0.9.0-0_PR (b78)
 First two assessment levels.
+Two more assessment levels...
 Finish assessment system framework.
+Add circ2pnt.
 
 0.8.1-1_PR (b77)
 All parts from level -1 to 7 are completed!
