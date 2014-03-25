@@ -6,7 +6,6 @@
 #include <hgegui.h>
 #define MaxRes 80
 #define Resd 20.0f
-#define BLRVERSION "0.8.1-0_PR (b76)"
 HGE *hge=0;
 HEFFECT				snd;
 hgeQuad				quad;
@@ -134,7 +133,7 @@ struct Tower
 	bool exist,effect;
 	double offset;
 	DWORD RendColor;
-}tower[100];
+}tower[250];
 //t3t is for Tower3
 //0:All 12 directions
 //1:four default directions
@@ -256,7 +255,7 @@ hgeTTFont rbPanelFont;
 int frameleft,infofade;
 int level,part,clrtime,clrbns;
 int coll,semicoll,mode,dsmc,restarts;
-double clrrange,clrrad,clrmaxrange,clrind;
+double clrrange,clrrad,clrmaxrange,clrind,assetime;
 hgeSprite *clrcircle;
 bool Dis8ref,t8special;
 int frameskips=0,stepskips=0;
@@ -290,6 +289,7 @@ fFristStartUp,fFast;
 int startLvl,startPrt,fFullScreen;
 char alterLog[64];
 //static const char* GLOBAL_H_FN="global.h";
+static const char* BLRVERSION="0.9.0-0_PR (b78)";
 
 void Throw(char *Filename,char *Info)
 {

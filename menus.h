@@ -76,21 +76,22 @@ void StartGUI_FrameFnk()
 				IfCallLevel=true;
 				break;*/
 			case 3:
-				/*playerpos.x=400,playerpos.y=400,playerrot=0;
-				frameleft=ThirtySeconds;
-				level=3,part=1;frms=0,averfps=0.0;restarts=0;bsscale=1.5;
-				towcnt=4;bulcnt=0;
-				clrrad=pi/2;clrrange=0;
+				playerpos.x=400,playerpos.y=400,playerrot=0;
+				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
+				level=-2,part=0;frms=0,averfps=0.0;bsscale=1;
+				towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
+				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
+				lpst=4625568;lped=9234584;//Music_Play();
+				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
+				Lock.Init(2);IfShowTip=true;lsc=0;
+				//Lock.SetTexture(SprSheet,151,264,2,8);
+				clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
 				memset(tower,0,sizeof(tower));
 				memset(bullet,0,sizeof(bullet));
-				mode=2;
-				score=0;
-				coll=semicoll=clrusg=0;
-				IfShowTip=true;
 				Complete=false;
-				Refliction=false;
-				Level3Part0();
-				IfCallLevel=true;*/
+				Current_Position=1;
+				IfCallLevel=true;
+				mode=2;
 				break;
 			case 4:
 				playerpos.x=400,playerpos.y=400,playerrot=0;

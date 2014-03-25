@@ -2985,7 +2985,7 @@ void Levelm1Part0()
 		Current_Position=2;
 		ShowTip("\
 Level -1-Over the Horizon\n\
-?\
+Level -1! Getting ready?\
 ");
 		frameleft=TenSeconds;++part;
 	}
@@ -3507,4 +3507,116 @@ void Levelm1Part21()
 			IfCallLevel=false;
 			return;
 		}
+}
+void Levelm2Part0()
+{
+	frameleft=50;All2pnt();towcnt=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("\
+Level -2-Assessments\n\
+Welcome to assessment mode!\n\
+You won't step to the next level until\n\
+you have a collision.\n\
+Good luck and go for the highest score!\
+");
+		IfCallLevel=false;
+	}
+	if (Current_Position==1)
+	{
+		frameleft=0;bulcnt=0;BTarg.TargHide();
+		return;
+	}
+}
+Tower* dbtows[200];
+double dbroll[10];
+void Levelm2Part1()
+{
+	frameleft=Infinity;tbrk=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 1 - Directed bullet");
+		return;
+	}
+	for(int i=0;i<5;++i)
+	{
+		dbroll[i]=-i*120-20;
+		for(int j=0;j<20;++j)
+			dbtows[i*20+j]=&tower[CreateTower1(j*40+10,dbroll[i],4000,4)];
+	}
+	++part;assetime=0;
+}
+void Levelm2Part2()
+{
+	frameleft=Infinity;assetime+=hge->Timer_GetDelta();
+	tbrk+=hge->Timer_GetDelta();
+	for(int i=0;i<5;++i)
+	{
+		dbroll[i]+=0.05*(1000.0f/hge->Timer_GetFPS());
+		if(dbroll[i]>600)dbroll[i]=-20;
+		for(int j=0;j<20;++j)
+		{
+			dbtows[i*20+j]->towerpos=vector2d(j*40+10,dbroll[i]);
+			if(tbrk>0.033&&dbtows[i*20+j]->towertimer>2000)dbtows[i*20+j]->towertimer-=2;
+		}
+	}
+	if(tbrk>0.033)tbrk=0;
+}
+void Levelm2Part3()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 2 - Random bullets");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=1&&towcnt!=0)return ClearAll(false);
+	++frameskips;
+	if (frameskips<10&&!LOWFPS)return;
+	CreateTower2(400,300,999999999,0);
+	for (int i=1;i<=towcnt;++i)
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
+	for (int i=1;i<=towcnt;++i)
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
+		else
+		{
+			++part;assetime=tbrk=0;
+			return;
+		}
+}
+int rcnt;
+void Levelm2Part4()
+{
+	frameleft=Infinity;
+	tbrk-=hge->Timer_GetDelta();
+	assetime+=hge->Timer_GetDelta();
+	if(tbrk<0)
+	{
+		tbrk=0.5;
+		if(assetime>=5)tbrk=re.NextDouble(0.25,0.5);
+		if(assetime>=10)tbrk=re.NextDouble(0.1,0.2);
+        if(assetime>=20)tbrk=re.NextDouble(0.05,0.08);
+        if(assetime>=30)tbrk=re.NextDouble(0.02,0.035);
+        if(assetime>=60)tbrk=0.02;
+        if(assetime<75)rcnt=1;if(assetime>=75)rcnt=2;
+        if(assetime>=120)rcnt=4;if(assetime>=150)rcnt=8;
+        double rspeed=re.NextDouble(0.5+3*assetime/180.0f,1+5*assetime/180.0f);
+        for(int i=0;i<rcnt;++i)
+			CreateBullet2(400,300,rspeed,re.NextDouble(-pi,pi));
+	}
 }
