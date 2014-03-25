@@ -23,8 +23,8 @@ void StartGUI_Init()
 {
 	StartGUI=new hgeGUI();
 	StartGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Classic"));
-	StartGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Not Available!!"));
-	StartGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Same as the second one"));
+	StartGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,""));
+	StartGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Assessment Mode"));
 	StartGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"Free Play Mode"));
 	StartGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,360,0.4f,"Back"));
 	StartGUI->SetCursor(spr);
@@ -132,10 +132,8 @@ void DeathGUI_Init()
 	DeathGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,200,0.1f,ds1));
 	switch (mode)
 	{
-		case 1:sprintf(ds2,"Difficulty: Normal");break;
-		case 2:sprintf(ds2,"Difficulty: Extreme");break;
+		case 1:sprintf(ds2,"Mode: Classic");break;
 		case 3:sprintf(ds2,"What Happened?! You died in Free Play Mode?!");break;
-		case 4:sprintf(ds2,"Difficulty: Easy");break;
 	}
 	DeathGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,240,0.2f,ds2));
 	sprintf(ds3,"Average FPS: %.2f",averfps);
@@ -229,6 +227,10 @@ char *getRank()
 	static char retval[256];
 	//stub!
 	//sprintf something to retval
+	if(level<=3)sprintf(retval,"Try more...");
+	if(level<=6)sprintf(retval,"Still need more effort!");
+	if(level==7)sprintf(retval,"You've done it!");
+	if(level==-1)sprintf(retval,"Why do you come to Earth?");
 	return retval;
 }
 void CompleteGUI_Init()
@@ -253,9 +255,7 @@ void CompleteGUI_Init()
 	CompleteGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,200,0.1f,hs7));
 	switch (mode)
 	{
-		case 1:
-		case 2:
-		case 4:sprintf(hs2,"Restarts %d",restarts);break;
+		case 1:sprintf(hs2,"Restarts %d",restarts);break;
 		case 3:sprintf(hs2,"Collisions %d",coll);break;
 	}
 	CompleteGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,240,0.2f,hs2));
@@ -351,9 +351,9 @@ void HSDetGUI_Init()
 			{
 				sprintf(HSDetstr[1],"No. %d of Extreme Mode",detv);
 #ifdef WIN32
-				sprintf(HSDetstr[2],"Scored %I64d by %s",NRec[detv].score,NRec[detv].name);
+				sprintf(HSDetstr[2],"Scored %I64d by %s",ExRec[detv].score,ExRec[detv].name);
 #else
-				sprintf(HSDetstr[2],"Scored %lld by %s",NRec[detv].score,NRec[detv].name);
+				sprintf(HSDetstr[2],"Scored %lld by %s",ExRec[detv].score,ExRec[detv].name);
 #endif
 				sprintf(HSDetstr[3],"Restarts %d",ExRec[detv].rescol);
 				sprintf(HSDetstr[4],"Semi-Collisions %d",ExRec[detv].scoll);
@@ -372,9 +372,9 @@ void HSDetGUI_Init()
 			{
 				sprintf(HSDetstr[1],"No. %d of Free Play Mode",detv);
 #ifdef WIN32
-				sprintf(HSDetstr[2],"Scored %I64d by %s",NRec[detv].score,NRec[detv].name);
+				sprintf(HSDetstr[2],"Scored %I64d by %s",FPMRec[detv].score,FPMRec[detv].name);
 #else
-				sprintf(HSDetstr[2],"Scored %lld by %s",NRec[detv].score,NRec[detv].name);
+				sprintf(HSDetstr[2],"Scored %lld by %s",FPMRec[detv].score,FPMRec[detv].name);
 #endif
 				sprintf(HSDetstr[3],"Collisions %d",FPMRec[detv].rescol);
 				sprintf(HSDetstr[4],"Semi-Collisions %d",FPMRec[detv].scoll);
@@ -509,9 +509,9 @@ void HighScoreGUI_Init()
 	HighScoreGUI=new hgeGUI();
 	Current_Position=8;
 	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,350,200,0.0f,"View Highscores && Records for..."));
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Easy"));
+	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Classic"));
 	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Normal"));
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"Extreme"));
+	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"Assessment Mode"));
 	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,360,0.4f,"Free Play Mode"));
 	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(6,fnt,snd,400,400,0.5f,"Back"));
 	HighScoreGUI->EnableCtrl(1,false);

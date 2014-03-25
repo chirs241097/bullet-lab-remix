@@ -362,7 +362,7 @@ void RefreshScore()
 void CallLevels()
 {
 	//Use this to call level procedures.
-	if ((mode==4||mode<=2)&&coll!=0){DeathGUI_Init();return;}
+	if ((mode==1)&&coll!=0){DeathGUI_Init();return;}
 	if (!IfCallLevel) return;
 	//Check Complete here
 	if (level==1&&part==0)Level1Part0();
@@ -554,6 +554,7 @@ void CallLevels()
 		if(mode==1&&restarts>2){CompleteGUI_Init();return;}
 		level=-1,part=0;
 	}
+	if (level==-1&&part==22){CompleteGUI_Init();return;}
 }
 bool ProcessCurCred()
 {
