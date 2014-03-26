@@ -366,8 +366,9 @@ void CallLevels()
 {
 	//Use this to call level procedures.
 	if ((mode==1)&&coll!=0){DeathGUI_Init();return;}
-	if ((mode==2)&&coll!=0){++part;coll=0;IfCallLevel=IfShowTip=true;return;}
+	if ((mode==2)&&coll!=0){assetime=0;++part;coll=0;IfCallLevel=IfShowTip=true;return;}
 	if (!IfCallLevel) return;
+	if (mode==2)assetime+=hge->Timer_GetDelta();
 	//Check Complete here
 	if (level==1&&part==0)Level1Part0();
 	if (level==1&&part==1)Level1Part1();
@@ -530,6 +531,8 @@ void CallLevels()
 	if (level==-2&&part==6)Levelm2Part6();
 	if (level==-2&&part==7)Levelm2Part7();
 	if (level==-2&&part==8)Levelm2Part8();
+	if (level==-2&&part==9)Levelm2Part9();
+	if (level==-2&&part==10)Levelm2Part10();
 
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)

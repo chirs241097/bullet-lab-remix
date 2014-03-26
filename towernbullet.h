@@ -2737,3 +2737,44 @@ public:
 		rad+=hge->Timer_GetDelta()*1000*delta;
 	}
 };
+class expSpinner
+{
+private:
+	Bullet *bullets[1000];
+	int arms,cnt,lc;
+	double brk,len,dr,da;
+	bool active;
+	bool InBound(vector2d pos)
+	{
+		if (pos.x<=-25||pos.x>=825||pos.y<=-25||pos.y>=625)
+		return false;return true;
+	}
+public:
+	void Init(int _arms,double _drange,double _drad)
+	{
+		arms=_arms;lc=cnt=len=0;dr=_drange;da=_drad;active=true;
+	}
+	bool isActive(){return active;}
+	void Update()
+	{
+		brk+=hge->Timer_GetDelta();
+		if(brk<0.03)return;brk=0;
+		bool none=true;
+		for(int i=0;i<arms;++i)
+		{
+			double rad=da+i*2*pi/(double)arms,drad=rad+lc*pi/15;int c=(lc&1)?1:-1;
+			if(InBound(vector2d(400+len*cos(rad),300+len*sin(rad))))
+			{
+				bullets[cnt++]=&bullet[CreateBullet2(
+				400+len*cos(rad),300+len*sin(rad),0,c*drad,true)];
+				c=-c;none=false;
+			}
+		}
+		len+=dr;++lc;
+		if(none)
+		{
+			active=false;
+			for(int i=0;i<cnt;++i)bullets[i]->bulletaccel=0.002,bullets[i]->limv=2;
+		}
+	}
+};

@@ -3531,7 +3531,7 @@ Good luck and go for the highest score!\
 	}
 	if (Current_Position==1)
 	{
-		frameleft=0;bulcnt=0;BTarg.TargHide();
+		frameleft=0;bulcnt=0;
 		return;
 	}
 }
@@ -3555,11 +3555,11 @@ void Levelm2Part1()
 		for(int j=0;j<20;++j)
 			dbtows[i*20+j]=&tower[CreateTower1(j*40+10,dbroll[i],4000,4)];
 	}
-	++part;assetime=0;
+	++part;
 }
 void Levelm2Part2()
 {
-	frameleft=Infinity;assetime+=hge->Timer_GetDelta();
+	frameleft=Infinity;
 	tbrk+=hge->Timer_GetDelta();
 	for(int i=0;i<5;++i)
 	{
@@ -3607,7 +3607,6 @@ void Levelm2Part4()
 {
 	frameleft=Infinity;
 	tbrk-=hge->Timer_GetDelta();
-	assetime+=hge->Timer_GetDelta();
 	if(tbrk<0)
 	{
 		tbrk=0.5;
@@ -3623,8 +3622,42 @@ void Levelm2Part4()
 			CreateBullet2(400,300,rspeed,re.NextDouble(-pi,pi));
 	}
 }
-BCircle asscircles[200];
+
+expSpinner es;
 void Levelm2Part5()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 3 - Constant patterns");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		++part;avabrk=0;avacurbrk=0;
+	}
+}
+void Levelm2Part6()
+{
+    avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+        avacurbrk=0;
+        avabrk=6-2*assetime/120.0f;
+        if(avabrk<3)avabrk=1;
+        es.Init(3+5*assetime/120.0f,10,re.NextInt(-pi,pi));
+	}
+	if(es.isActive())es.Update();
+}
+
+BCircle asscircles[200];
+void Levelm2Part7()
 {
 	frameleft=Infinity;
 	DisableAllTower=false;
@@ -3640,23 +3673,26 @@ void Levelm2Part5()
 	if (towcnt!=0)return ClearAll(false);
 	if(Current_Position==1)
 	{
-		assetime=0;memset(asscircles,0,sizeof(asscircles));
+		memset(asscircles,0,sizeof(asscircles));
 		++part;avabrk=0;avacurbrk=0;
 	}
 }
-void Levelm2Part6()
+void Levelm2Part8()
 {
 	frameleft=Infinity;
-	assetime+=hge->Timer_GetDelta();
 	avacurbrk+=hge->Timer_GetDelta();
 	if(avacurbrk>avabrk)
 	{
 		for(int i=0;i<200;++i)
-			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
-				asscircles[i].Init(1,assetime/120.0f*0.00025,36,vector2d(250,300),blue);break;
+		if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+		{
+			asscircles[i].Init(1,assetime/120.0f*0.00025,36,vector2d(250,300),blue);break;
+		}
 		for(int i=0;i<200;++i)
-			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
-				asscircles[i].Init(1,-assetime/120.0f*0.00025,36,vector2d(550,300),blue);break;
+		if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+		{
+			asscircles[i].Init(1,-assetime/120.0f*0.00025,36,vector2d(550,300),blue);break;
+		}
 		avacurbrk=0;
 		avabrk=3-assetime/60;
 		if(avabrk<0.5)avabrk=0.5;
@@ -3670,7 +3706,7 @@ void Levelm2Part6()
 		}
 	}
 }
-void Levelm2Part7()
+void Levelm2Part9()
 {
 	frameleft=Infinity;
 	DisableAllTower=false;
@@ -3679,14 +3715,13 @@ void Levelm2Part7()
 		IfShowTip=false;
 		FadeTip=false;
 		Current_Position=2;
-		ShowTip("Test 4 - Crossing 2");
+		ShowTip("Test 5 - Crossing 2");
 		All2pnt();
 		return;
 	}
 	if (towcnt!=0)return ClearAll(false);
 	if(Current_Position==1)
 	{
-		assetime=0;
 		for(int i=0;i<200;++i)
 		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
 		asscircles[i].circ2pnt();
@@ -3694,19 +3729,22 @@ void Levelm2Part7()
 		++part;avabrk=0;avacurbrk=0;
 	}
 }
-void Levelm2Part8()
+void Levelm2Part10()
 {
 	frameleft=Infinity;
-	assetime+=hge->Timer_GetDelta();
 	avacurbrk+=hge->Timer_GetDelta();
 	if(avacurbrk>avabrk)
 	{
 		for(int i=0;i<200;++i)
-			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
-				asscircles[i].Init(1,0.0001,36+(24*assetime/120.0f),vector2d(400,300),blue);break;
+		if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+		{
+			asscircles[i].Init(1,0.0001,36+(24*assetime/120.0f),vector2d(400,300),blue);break;
+		}
 		for(int i=0;i<200;++i)
-			if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
-				asscircles[i].Init(1,-0.0001,36+(24*assetime/120.0f),vector2d(400,300),blue);break;
+		if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
+		{
+			asscircles[i].Init(1,-0.0001,36+(24*assetime/120.0f),vector2d(400,300),blue);break;
+		}
 		avacurbrk=0;
 		avabrk=2-assetime/60;
 		if(avabrk<0.3)avabrk=0.3;
