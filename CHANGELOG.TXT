@@ -11,6 +11,7 @@ Pre-Released versions:
 First two assessment levels.
 Two more assessment levels...
 One more assessment level......
+Modify player attribute.
 Finish assessment system framework.
 Add circ2pnt.
 

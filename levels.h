@@ -3645,6 +3645,7 @@ void Levelm2Part5()
 }
 void Levelm2Part6()
 {
+	frameleft=Infinity;
     avacurbrk+=hge->Timer_GetDelta();
 	if(avacurbrk>avabrk)
 	{

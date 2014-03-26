@@ -966,7 +966,7 @@ int main(int argc,char *argv[])
 	playerfulspd=(tch)*0.08f;
 	playerspeed=playerfulspd;
 	plrslospd=tch=getchar();
-	playerfulslospd=(tch)*0.0125f;
+	playerfulslospd=(tch)*0.02f;
 	playerslospeed=playerfulslospd;
 	tch=getchar();
 	clrbns=tch;
