@@ -3,6 +3,7 @@ Next version:
 0.9.x-x_PR (b??)
 Todo's:
 Complete the game system.
+Menu rewrite...
 Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
@@ -10,8 +11,9 @@ Pre-Released versions:
 0.9.0-0_PR (b78)
 First two assessment levels.
 Two more assessment levels...
-One more assessment level......
+Tow _more_ assessment levels......
 Modify player attribute.
+Allow bullet to kill itself at a certain point.
 Finish assessment system framework.
 Add circ2pnt.
 

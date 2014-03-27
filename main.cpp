@@ -533,6 +533,8 @@ void CallLevels()
 	if (level==-2&&part==8)Levelm2Part8();
 	if (level==-2&&part==9)Levelm2Part9();
 	if (level==-2&&part==10)Levelm2Part10();
+	if (level==-2&&part==11)Levelm2Part11();
+	if (level==-2&&part==12)Levelm2Part12();
 
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)

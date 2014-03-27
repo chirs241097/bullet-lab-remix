@@ -74,7 +74,7 @@ inline double GetDist(vector2d,vector2d);
 class Bullet
 {
 public:
-	vector2d bulletpos,bulletdir;
+	vector2d bulletpos,bulletdir,limpos;
 	double dist;
 	int bullettype,redexplo,redattrib,oriexplo,whicnt;
 	DWORD sccolor;

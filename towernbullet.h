@@ -71,8 +71,8 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool inv
 	bullet[i].bullettype=2;
 	bullet[i].bulletpos.x=x;
 	bullet[i].bulletpos.y=y;
-	bullet[i].bulletdir.x=cos(rad);
-	bullet[i].bulletdir.y=sin(rad);
+	bullet[i].bulletdir=vector2d(cos(rad),sin(rad));
+	bullet[i].limpos=vector2d(-999,-999);
 	bullet[i].bulletspeed=bs;
 	bullet[i].alterColor=blue;
 	bullet[i].alterColor2=COLOR_COUNT;
@@ -357,6 +357,15 @@ void ProcessBullet2(int i)
 			bullet[i].whirem-=1000.0f/hge->Timer_GetFPS();
 		bullet[i].bulletpos.x-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.x)/20*(1000.0f/hge->Timer_GetFPS());
 		bullet[i].bulletpos.y-=bsscale*bullet[i].bulletspeed*(bullet[i].bulletdir.y)/20*(1000.0f/hge->Timer_GetFPS());
+		if(GetDist(bullet[i].bulletpos,bullet[i].limpos)<1)
+		{
+			BulletEffect_Death(bullet[i],ColorToDWORD(bullet[i].alterColor));
+			bullet[i].exist=false;
+			bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;
+			bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
+			bullet[i].dist=0;
+			bullet[i].bullettype=0;return;
+		}
 	}
 	BulletEffect_Process(i);
 	if(PlayerSplit)

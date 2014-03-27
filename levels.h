@@ -3759,3 +3759,53 @@ void Levelm2Part10()
 		}
 	}
 }
+double assrad;
+void Levelm2Part11()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 6 - Fake sink");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		for(int i=0;i<200;++i)
+		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
+		asscircles[i].circ2pnt();
+		memset(asscircles,0,sizeof(asscircles));
+		++part;avabrk=0;avacurbrk=0;assrad=0;tbrk=0;
+	}
+}
+void Levelm2Part12()
+{
+	frameleft=Infinity;
+	avacurbrk+=hge->Timer_GetDelta();
+	tbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+		CreateBullet2(400,300,re.NextInt(1.5,3),re.NextDouble(-pi,pi));
+		avacurbrk=0;
+		avabrk=0.05-0.03*assetime/120;
+		if(avabrk<0.01)avabrk=0.01;
+	}
+	if(tbrk>0.05)
+	{
+		for(int i=0;i<6;++i)
+		{
+			int pnt=CreateBullet2(400+305*cos(assrad+i*pi/3),305+280*sin(assrad+i*pi/3),1.5,0);
+			double r2=275.0f*(assetime/120.0f);
+			r2=305-r2;double r3=r2;
+			if(r2<1)r2=1;
+			bullet[pnt].redir(vector2d(400+r2*cos(assrad+i*pi/3),300+r2*sin(assrad+i*pi/3)));
+			bullet[pnt].limpos=vector2d(400+r3*cos(assrad+i*pi/3),300+r3*sin(assrad+i*pi/3));
+		}
+		tbrk=0;assrad+=pi/60;
+	}
+}
