@@ -3808,3 +3808,65 @@ void Levelm2Part12()
 		tbrk=0;assrad+=pi/60;
 	}
 }
+double asssrd1;
+void Levelm2Part13()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 7 - Sine wave");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		for(int i=0;i<200;++i)
+		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
+		asscircles[i].circ2pnt();
+		memset(asscircles,0,sizeof(asscircles));
+		++part;tbrk=asssrd1=avacurbrk=0;
+	}
+}
+void Levelm2Part14()
+{
+	frameleft=Infinity;
+	tbrk+=hge->Timer_GetDelta();
+	if(tbrk>0.075)
+	{
+		tbrk=0;
+		//right
+		for(int i=0;i<5;++i)
+			CreateBullet2(810,120*(i+1)+120*sin(asssrd1),2,0,true);
+		asssrd1+=pi/45;
+		//right2
+		if(assetime>30)
+		{
+			for(int i=0;i<5;++i)
+			CreateBullet2(810,120*(i+1)+120*sin(asssrd1+pi/12),2,0,true);
+		}
+		//left
+		if(assetime>60)
+		{
+			for(int i=0;i<5;++i)
+			CreateBullet2(-10,120*(i+1)+120*sin(asssrd1),2,pi,true);
+		}
+		//left2
+		if(assetime>90)
+		{
+			for(int i=0;i<5;++i)
+			CreateBullet2(-10,120*(i+1)+120*sin(asssrd1+pi/12),2,pi,true);
+		}
+		if(assetime>120)
+		{
+			avacurbrk+=hge->Timer_GetDelta();
+			if(avacurbrk>2)
+				CreateBullet6(re.NextDouble(0,800),re.NextDouble(0,600),2,0,1,12,true),
+				avacurbrk=0;
+		}
+	}
+}
