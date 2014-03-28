@@ -88,7 +88,7 @@ public:
 	int whirem,whiskp,yelbrk;
 	int exp1,exp2;
 	double lifetime,rot;
-	bool scollable,collable;
+	bool scollable,collable,extborder;
 	double scale;int effbrk;
 	TColors alterColor,alterColor2;
 	void redir(vector2d targ)

@@ -12,8 +12,10 @@ Pre-Released versions:
 First two assessment levels.
 Two more assessment levels...
 Tow _more_ assessment levels......
+Another assessment level...
 Modify player attribute.
 Allow bullet to kill itself at a certain point.
+Add extborder attribute.
 Finish assessment system framework.
 Add circ2pnt.
 

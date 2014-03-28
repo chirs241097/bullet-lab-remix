@@ -67,6 +67,7 @@ int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool inv
 	}
 	bullet[i].exist=true;
 	bullet[i].addblend=false;
+	bullet[i].extborder=false;
 	bullet[i].inv=invi;
 	bullet[i].bullettype=2;
 	bullet[i].bulletpos.x=x;
@@ -413,7 +414,8 @@ void ProcessBullet2(int i)
 	else
 	{
 		double dis=GetDist(bullet[i].bulletpos,playerpos);
-		if (bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625)
+		if ((!bullet[i].extborder&&(bullet[i].bulletpos.x<=-25||bullet[i].bulletpos.x>=825||bullet[i].bulletpos.y<=-25||bullet[i].bulletpos.y>=625))||
+			(bullet[i].extborder&&(bullet[i].bulletpos.x<=-225||bullet[i].bulletpos.x>=1025||bullet[i].bulletpos.y<=-225||bullet[i].bulletpos.y>=825)))
 		{
 			bullet[i].exist=false;
 			bullet[i].bulletpos.x=bullet[i].bulletpos.y=-999;

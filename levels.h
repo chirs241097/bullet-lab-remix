@@ -3799,12 +3799,11 @@ void Levelm2Part12()
 	{
 		for(int i=0;i<6;++i)
 		{
-			int pnt=CreateBullet2(400+305*cos(assrad+i*pi/3),305+280*sin(assrad+i*pi/3),1.5,0);
-			double r2=275.0f*(assetime/120.0f);
-			r2=305-r2;double r3=r2;
-			if(r2<1)r2=1;
+			int pnt=CreateBullet2(400+500*cos(assrad+i*pi/3),300+500*sin(assrad+i*pi/3),1.5,0,true);
+			double r2=495.0f*(assetime/120.0f);r2=500-r2;
 			bullet[pnt].redir(vector2d(400+r2*cos(assrad+i*pi/3),300+r2*sin(assrad+i*pi/3)));
-			bullet[pnt].limpos=vector2d(400+r3*cos(assrad+i*pi/3),300+r3*sin(assrad+i*pi/3));
+			bullet[pnt].limpos=vector2d(400+r2*cos(assrad+i*pi/3),300+r2*sin(assrad+i*pi/3));
+			bullet[pnt].extborder=true;
 		}
 		tbrk=0;assrad+=pi/60;
 	}
