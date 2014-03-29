@@ -3513,7 +3513,7 @@ void Levelm1Part21()
 }
 void Levelm2Part0()
 {
-	frameleft=50;All2pnt();towcnt=0;
+	frameleft=10;All2pnt();towcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -3527,12 +3527,11 @@ You won't step to the next level until\n\
 you have a collision.\n\
 Good luck and go for the highest score!\
 ");
-		IfCallLevel=false;
 	}
 	if (Current_Position==1)
 	{
-		frameleft=0;bulcnt=0;
-		return;
+		if((DBGColor=ColorTransfer(DBGColor,0xFF1B2065))!=0xFF1B2065)frameleft=10;
+		else{++part;bulcnt=0;return;}
 	}
 }
 Tower* dbtows[200];
@@ -3902,4 +3901,43 @@ void Levelm2Part16()
 		else if(resvpos==49)resvpos+=re.NextInt(-1,0);
         else resvpos+=re.NextInt(-1,1);
 	}
+}
+CPinBall pinballs[200];
+void Levelm2Part17()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 9 - Pinball");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		++part;tbrk=0;memset(pinballs,0,sizeof(pinballs));
+	}
+}
+void Levelm2Part18()
+{
+	tbrk-=hge->Timer_GetDelta();
+	if(tbrk<0)
+	{
+		tbrk=1-0.5*assetime/120.0f;if(tbrk<0.5)tbrk=0.5;
+		for(int i=0;i<200;++i)
+		if(pinballs[i].Getlifetime()==0||pinballs[i].Getlifetime()>=10)
+		{
+			int lay=3+7*assetime/120.0f;if(lay>10)lay=10;
+			vector2d pos=vector2d(re.NextDouble(100,600),re.NextDouble(100,500));
+			while(GetDist(pos,playerpos)<100)pos=vector2d(re.NextDouble(100,600),re.NextDouble(100,500));
+			pinballs[i].Init(pos,lay);
+			break;
+		}
+	}
+	for(int i=0;i<200;++i)
+	if(pinballs[i].Getlifetime()>0&&pinballs[i].Getlifetime()<10)pinballs[i].Update();
 }

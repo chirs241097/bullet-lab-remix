@@ -2789,3 +2789,42 @@ public:
 		}
 	}
 };
+class CPinBall
+{
+private:
+	Bullet* center;
+	Bullet* circles[10][30];
+	int layer;double rot,lifetime,drt;
+public:
+	void Init(vector2d pos,int _lay)
+	{
+		center=0;memset(circles,0,sizeof(circles));
+		center=&bullet[CreateBullet2(pos.x,pos.y,3,re.NextInt(-pi,pi),true)];
+		layer=_lay;rot=0;lifetime=0.01;drt=re.NextDouble(-0.5*pi,0.5*pi);
+		for(int i=0;i<layer;++i)
+		{
+			for(int j=0;j<(i+1)*3;++j)
+			{
+				circles[i][j]=&bullet[CreateBullet2(pos.x,pos.y,3,0,true)];
+				circles[i][j]->bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
+			}
+		}
+	}
+	double Getlifetime(){return lifetime;}
+	void Update()
+	{
+		lifetime+=hge->Timer_GetDelta();
+		vector2d pos=center->bulletpos;
+		if(pos.x<10*layer-5||pos.x>790-10*layer)center->bulletdir.x=-center->bulletdir.x;
+		if(pos.y<10*layer-5||pos.y>590-10*layer)center->bulletdir.y=-center->bulletdir.y;
+		rot+=hge->Timer_GetDelta()*drt;
+		for(int i=0;i<layer;++i)
+		{
+			for(int j=0;j<(i+1)*3;++j)
+			{
+				circles[i][j]->bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
+				circles[i][j]->bulletdir=center->bulletdir;
+			}
+		}
+	}
+};

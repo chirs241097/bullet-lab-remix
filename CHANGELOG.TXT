@@ -10,7 +10,8 @@ can not reproduce now...)
 Pre-Released versions:
 0.9.0-1_PR (b79)
 Bump version!
-New assessment level...
+New assessment level "density test"...
+New assessment level "pinball"...
 
 0.9.0-0_PR (b78)
 First two assessment levels.
