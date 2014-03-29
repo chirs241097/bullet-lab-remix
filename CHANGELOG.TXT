@@ -8,6 +8,10 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.0-1_PR (b79)
+Bump version!
+New assessment level...
+
 0.9.0-0_PR (b78)
 First two assessment levels.
 Two more assessment levels...

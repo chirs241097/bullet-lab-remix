@@ -3825,10 +3825,6 @@ void Levelm2Part13()
 	if (towcnt!=0)return ClearAll(false);
 	if(Current_Position==1)
 	{
-		for(int i=0;i<200;++i)
-		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
-		asscircles[i].circ2pnt();
-		memset(asscircles,0,sizeof(asscircles));
 		++part;tbrk=asssrd1=avacurbrk=0;
 	}
 }
@@ -3864,9 +3860,46 @@ void Levelm2Part14()
 		if(assetime>120)
 		{
 			avacurbrk+=hge->Timer_GetDelta();
-			if(avacurbrk>2)
+			if(avacurbrk>1)
 				CreateBullet6(re.NextDouble(0,800),re.NextDouble(0,600),2,0,1,12,true),
 				avacurbrk=0;
 		}
+	}
+}
+int resvpos;
+void Levelm2Part15()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 8 - Density test");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		++part;tbrk=asssrd1=avacurbrk=0;resvpos=re.NextInt(0,49);
+	}
+}
+void Levelm2Part16()
+{
+	frameleft=Infinity;
+	tbrk-=hge->Timer_GetDelta();
+    if(tbrk<0)
+	{
+		tbrk=0.1-0.05*(assetime/120.0f);if(tbrk<0.05)tbrk=0.05;
+		for(int i=0;i<50;++i)
+		{
+			if(abs(i-resvpos)>2)
+			CreateBullet2(810,12*i,1+3*assetime/180.0f,0,true);
+		}
+		if(resvpos==0)resvpos+=re.NextInt(0,1);
+		else if(resvpos==49)resvpos+=re.NextInt(-1,0);
+        else resvpos+=re.NextInt(-1,1);
 	}
 }
