@@ -3865,7 +3865,8 @@ void Levelm2Part14()
 		}
 	}
 }
-int resvpos;
+int resvpos,rpbcnt;
+double delx;
 void Levelm2Part15()
 {
 	frameleft=Infinity;
@@ -3882,7 +3883,7 @@ void Levelm2Part15()
 	if (towcnt!=0)return ClearAll(false);
 	if(Current_Position==1)
 	{
-		++part;tbrk=asssrd1=avacurbrk=0;resvpos=re.NextInt(0,49);
+		++part;tbrk=asssrd1=avacurbrk=0;resvpos=re.NextInt(0,49);rpbcnt=0;
 	}
 }
 void Levelm2Part16()
@@ -3892,11 +3893,21 @@ void Levelm2Part16()
     if(tbrk<0)
 	{
 		tbrk=0.1-0.05*(assetime/120.0f);if(tbrk<0.05)tbrk=0.05;
+		if(re.NextInt(0,100)==37&&!rpbcnt)
+		{
+			rpbcnt=6;int oldrp=resvpos;
+			for(resvpos=re.NextInt(0,49);abs(resvpos-oldrp)>20||abs(resvpos-oldrp)<5;resvpos=re.NextInt(0,49));
+			delx=re.NextDouble(300,650);
+		}
 		for(int i=0;i<50;++i)
 		{
 			if(abs(i-resvpos)>2)
-			CreateBullet2(810,12*i,1+3*assetime/180.0f,0,true);
+			{
+				int pnt=CreateBullet2(810,12*i,1+3*assetime/180.0f,0,true);
+				if(rpbcnt>0)bullet[pnt].limpos=vector2d(delx,12*i);
+			}
 		}
+		if(rpbcnt)--rpbcnt;
 		if(resvpos==0)resvpos+=re.NextInt(0,1);
 		else if(resvpos==49)resvpos+=re.NextInt(-1,0);
         else resvpos+=re.NextInt(-1,1);

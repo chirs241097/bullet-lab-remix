@@ -636,7 +636,9 @@ bool CALL HGE_Impl::System_Launch(const char *url)
 	CFRelease(cfurl);
 	return (err == noErr);
 #else
-	STUBBED("launch URL");
+	//STUBBED("launch URL");
+	char command[1024];sprintf(command,"xdg-open %s",url);
+	system(command);
 	return false;
 #endif
 }

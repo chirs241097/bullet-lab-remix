@@ -12,8 +12,10 @@ Pre-Released versions:
 Bump version!
 New assessment level "density test"...
 New assessment level "pinball"...
+Improve density test.
 Add screen shot. Press S for a screen shot.
 Fix the upside down screen shot output.
+Fix stubbed HGE::System_Launch.
 
 0.9.0-0_PR (b78)
 First two assessment levels.
@@ -49,7 +51,7 @@ Add command line argument support. Use "--help" for usage.
 Add freetype support to hge. It's still pretty buggy. (and make
 the executable extremely big!)
 Add experimental support for cross compiling with mingw-w64.
-(Mingw-w64 build might be the official build in the future.)
+(Mingw-w64 build *will* be the official build in the future.)
 Fix blinking HangUpText.
 Fix crashes in mingw-64 build.
 Change numeric characters to monospace.
