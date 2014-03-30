@@ -339,6 +339,7 @@ public:
 	//int					_format_id(D3DFORMAT fmt);
 	void				_SetBlendMode(int blend);
 	void				_SetProjectionMatrix(int width, int height);
+	int					_flipSDLSurface(int pitch, int height, void* image_pixels);
 
 
 	// Audio

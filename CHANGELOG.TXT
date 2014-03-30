@@ -12,6 +12,8 @@ Pre-Released versions:
 Bump version!
 New assessment level "density test"...
 New assessment level "pinball"...
+Add screen shot. Press S for a screen shot.
+Fix the upside down screen shot output.
 
 0.9.0-0_PR (b78)
 First two assessment levels.

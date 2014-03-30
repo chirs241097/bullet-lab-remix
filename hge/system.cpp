@@ -675,7 +675,8 @@ void CALL HGE_Impl::System_Snapshot(const char *filename)
 		SDL_Surface *screen = SDL_GetVideoSurface();
 		SDL_Surface *surface = SDL_CreateRGBSurface(SDL_SWSURFACE, screen->w, screen->h, 24, rmask, gmask, bmask, 0);
 		pOpenGLDevice->glReadPixels(0, 0, screen->w, screen->h, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
-		STUBBED("image is probably upside down");
+		//flip the image so that it won't be upside down...
+		_flipSDLSurface(surface->pitch,surface->h,surface->pixels);
 		SDL_SaveBMP(surface, filename);
 		SDL_FreeSurface(surface);
 	}
@@ -897,5 +898,22 @@ bool HGE_Impl::_ProcessSDLEvent(const SDL_Event &e)
 
 	return true;
 }
+int HGE_Impl::_flipSDLSurface(int pitch, int height, void* image_pixels)
+{
+	int index;
+	void* temp_row;
+	int height_div_2;
 
+	temp_row=(void *)malloc(pitch);
+	assert(temp_row);
+	height_div_2 = (int) (height * .5);
+	for(index = 0; index < height_div_2; index++)
+	{
+		memcpy((Uint8 *)temp_row,(Uint8 *)(image_pixels)+pitch*index,pitch);
+		memcpy((Uint8 *)(image_pixels)+pitch*index,(Uint8 *)(image_pixels)+pitch*(height-index-1),pitch);
+		memcpy((Uint8 *)(image_pixels)+pitch*(height-index-1),temp_row,pitch);
+	}
+	free(temp_row);
+	return 0;
+}
 // end of system_unix.cpp ...

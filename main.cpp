@@ -810,6 +810,7 @@ bool FrameFunc()
 			fnt->printf(5, 150, HGETEXT_LEFT, "Multiplier: %.2lf",mult);
 		}
 	}
+	if(hge->Input_GetKeyStateEx(HGEK_S)==HGEKST_HIT)hge->System_Snapshot();
 	hge->Gfx_EndScene();
 	return false;
 }
