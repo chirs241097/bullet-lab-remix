@@ -272,7 +272,7 @@ int multbrk,multbat;
 int frms;double averfps;
 int plrspd,plrslospd;
 int TenSeconds=10000,TwentySeconds=20000,ThirtySeconds=30000,AMinute=60000;
-int Infinity=999999999;
+int Infinity=1000000000;
 int effskp=0;
 hgeSprite *Credits,*CreditsRail;
 int creditsp;double creditfly,creditacc,credbrk;

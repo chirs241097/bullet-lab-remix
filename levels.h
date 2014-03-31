@@ -3531,7 +3531,7 @@ Good luck and go for the highest score!\
 	if (Current_Position==1)
 	{
 		if((DBGColor=ColorTransfer(DBGColor,0xFF1B2065))!=0xFF1B2065)frameleft=10;
-		else{++part;bulcnt=0;return;}
+		else{++part;IfShowTip=true;bulcnt=0;return;}
 	}
 }
 Tower* dbtows[200];
@@ -3935,6 +3935,7 @@ void Levelm2Part17()
 }
 void Levelm2Part18()
 {
+	frameleft=Infinity;
 	tbrk-=hge->Timer_GetDelta();
 	if(tbrk<0)
 	{
@@ -3951,4 +3952,39 @@ void Levelm2Part18()
 	}
 	for(int i=0;i<200;++i)
 	if(pinballs[i].Getlifetime()>0&&pinballs[i].Getlifetime()<10)pinballs[i].Update();
+}
+void Levelm2Part19()
+{
+	frameleft=Infinity;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 10 - Road blocks");
+		All2pnt();
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	if(Current_Position==1)
+	{
+		++part;tbrk=0;memset(pinballs,0,sizeof(pinballs));
+	}
+}
+void Levelm2Part20()
+{
+	frameleft=Infinity;
+	tbrk-=hge->Timer_GetDelta();
+    if(tbrk<0)
+	{
+		tbrk=1-0.25*(assetime/120.0f);if(tbrk<0.05)tbrk=0.05;
+		delx=re.NextDouble(300,600);
+		resvpos=re.NextInt(0,49);
+		for(int i=0;i<50;++i)
+		{
+			int pnt=CreateBullet2(810,12*i,1+2*assetime/180.0f,0,true);
+			if(abs(i-resvpos)<=3)bullet[pnt].limpos=vector2d(delx,12*i);
+		}
+	}
 }
