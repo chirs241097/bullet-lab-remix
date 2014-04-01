@@ -3789,7 +3789,7 @@ void Levelm2Part12()
 	tbrk+=hge->Timer_GetDelta();
 	if(avacurbrk>avabrk)
 	{
-		CreateBullet2(400,300,re.NextInt(1.5,3),re.NextDouble(-pi,pi));
+		CreateBullet2(400,300,re.NextInt(1,2.5),re.NextDouble(-pi,pi));
 		avacurbrk=0;
 		avabrk=0.05-0.03*assetime/120;
 		if(avabrk<0.01)avabrk=0.01;
@@ -3978,13 +3978,51 @@ void Levelm2Part20()
 	tbrk-=hge->Timer_GetDelta();
     if(tbrk<0)
 	{
-		tbrk=1-0.25*(assetime/120.0f);if(tbrk<0.05)tbrk=0.05;
-		delx=re.NextDouble(300,600);
+		tbrk=2-1*(assetime/120.0f);if(tbrk<0.75)tbrk=0.75;
+		delx=re.NextDouble(350,700);
 		resvpos=re.NextInt(0,49);
 		for(int i=0;i<50;++i)
 		{
 			int pnt=CreateBullet2(810,12*i,1+2*assetime/180.0f,0,true);
 			if(abs(i-resvpos)<=3)bullet[pnt].limpos=vector2d(delx,12*i);
 		}
+	}
+}
+void Levelm2Part21()
+{
+	frameleft=Infinity;Dis8ref=true;tbrk=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 11 - Extreme speeds");
+		All2pnt();
+		return;
+	}
+	++frameskips;
+	if (frameskips<10&&!LOWFPS)return;
+	frameskips=0;
+	for (int i=1;i<=33;++i)CreateTower8(i*24-12,12,500,10,20,30);
+	for (int i=1;i<=towcnt;++i)
+		if (tower[i].RendColor==0x80FFFFFF)
+			tower[i].RendColor=0x00FFFFFF;
+	for (int i=1;i<=towcnt;++i)
+		if ((tower[i].RendColor>>24)<=0x80)
+			tower[i].RendColor=tower[i].RendColor+0x01FFFFFF;
+		else{++part;return;}
+}
+void Levelm2Part22()
+{
+	frameleft=Infinity;
+	tbrk-=hge->Timer_GetDelta();
+	if (tbrk>0)return;
+	tbrk=3-2*(assetime/120.0f);
+	if(tbrk<0.5)tbrk=0.5;
+	for (int i=0;i<6;++i)
+	{
+		int p=CreateBullet2(playerpos.x+cos(i*pi/3.0f)*6,12+sin(i*pi/3.0f)*6,2,-pi/2);
+		bullet[p].alterColor=orange;
 	}
 }
