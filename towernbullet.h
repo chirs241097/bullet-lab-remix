@@ -1559,16 +1559,16 @@ private:
 	vector2d data1[MaxRes],data2[MaxRes];
 	double GetDist()
 	{
-		double res=99999.9999f;
-		double tres=99999.9999f;
+		double res=99999.9999f,tres;
+		static vector2d correction=vector2d(8.4,8.4);
 		for (int i=0;i<Res-1;++i)
 		{
 			vector2d sa,sb;
 			sa=data1[i]+RenCtr;sb=data1[i+1]+RenCtr;
-			tres=GetDistSeg(sa,sb,playerpos);
+			tres=GetDistSeg(sa,sb,playerpos+correction);
 			sa=data2[i]+RenCtr;sb=data2[i+1]+RenCtr;
-			if(GetDistSeg(sa,sb,playerpos)<tres)
-			tres=GetDistSeg(sa,sb,playerpos);
+			if(GetDistSeg(sa,sb,playerpos+correction)<tres)
+			tres=GetDistSeg(sa,sb,playerpos+correction);
 			if (tres<res)res=tres;
 		}
 		return res;
@@ -1631,7 +1631,7 @@ public:
 		Render();
 		if (EnableColl)
 		{
-			if (GetDist()<4.0f&&clrrange<1e-5&&clrrad-pi/2<1e-7)
+			if (GetDist()<3.0f&&clrrange<1e-5&&clrrad-pi/2<1e-7)
 			{
 				if (!LOWFPS)++collbrk;else collbrk+=17;
 				if (collbrk>200)
@@ -2827,4 +2827,36 @@ public:
 			}
 		}
 	}
+};
+class LineLaser:public Laser
+{
+protected:
+	double width;
+	vector2d a,b;
+	DWORD color;
+public:
+	void SetColl(bool col){EnableColl=col;}
+	void InitLine(vector2d _a,vector2d _b,double _w,DWORD _c)
+	{
+		a=_a;b=_b;color=_c;Init(2);
+		SetTexture(SprSheet,151,264,2,8);
+		SetWidth(_w);RenCtr=vector2d(0,0);
+	}
+	void SetWidth(double _w)
+	{
+		width=_w;
+		vector2d dir(a-b);dir.ToUnitCircle();
+		vector2d pd=dir;pd.Rotate(pi/2);
+		Setdata(0,a-width*pd,a+width*pd,color);
+		for(int i=1;i<MaxRes;++i)Setdata(i,b-width*pd,b+width*pd,color);
+	}
+	double GetWidth(){return width;}
+	//use Laser::Process...
+};
+class SimpLL:public LineLaser
+{
+public:
+	bool active;
+	int stp;
+	double brk;
 };

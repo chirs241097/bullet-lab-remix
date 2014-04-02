@@ -3858,10 +3858,13 @@ void Levelm2Part14()
 		}
 		if(assetime>120)
 		{
-			avacurbrk+=hge->Timer_GetDelta();
-			if(avacurbrk>1)
-				CreateBullet6(re.NextDouble(0,800),re.NextDouble(0,600),2,0,1,12,true),
-				avacurbrk=0;
+			avacurbrk-=hge->Timer_GetDelta();
+			if(avacurbrk<0)
+			{
+				CreateBullet6(re.NextDouble(10,790),re.NextDouble(10,590),2,0,1,12,true);
+				avacurbrk=1-0.75*(assetime-120.0f)/60.0f;
+				if(avacurbrk<0.2)avacurbrk=0.2;
+			}
 		}
 	}
 }
@@ -3998,13 +4001,13 @@ void Levelm2Part21()
 		FadeTip=false;
 		Current_Position=2;
 		ShowTip("Test 11 - Extreme speeds");
-		All2pnt();
+		All2pnt();towcnt=0;
 		return;
 	}
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
 	frameskips=0;
-	for (int i=1;i<=33;++i)CreateTower8(i*24-12,12,500,10,20,30);
+	for (int i=1;i<=33;++i)CreateTower8(i*24-12,12,500,6,20,30);
 	for (int i=1;i<=towcnt;++i)
 		if (tower[i].RendColor==0x80FFFFFF)
 			tower[i].RendColor=0x00FFFFFF;
@@ -4016,6 +4019,8 @@ void Levelm2Part21()
 void Levelm2Part22()
 {
 	frameleft=Infinity;
+	double nspd=6+4*assetime/120.0f;if(nspd>10)nspd=10;
+	for(int i=1;i<=33;++i)tower[i].bulletspeed=nspd;
 	tbrk-=hge->Timer_GetDelta();
 	if (tbrk>0)return;
 	tbrk=3-2*(assetime/120.0f);
@@ -4024,5 +4029,98 @@ void Levelm2Part22()
 	{
 		int p=CreateBullet2(playerpos.x+cos(i*pi/3.0f)*6,12+sin(i*pi/3.0f)*6,2,-pi/2);
 		bullet[p].alterColor=orange;
+	}
+}
+SimpLL SLL[200];
+void Levelm2Part23()
+{
+	frameleft=Infinity;Dis8ref=true;tbrk=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Test 12 - Messed up");
+		All2pnt();towcnt=0;
+		return;
+	}
+	if (towcnt!=0)return ClearAll(false);
+	++part;tbrk=avacurbrk=avabrk=0;memset(SLL,0,sizeof(SLL));
+}
+void Levelm2Part24()
+{
+	frameleft=Infinity;
+	tbrk-=hge->Timer_GetDelta();
+	if(tbrk<0)
+	{
+		tbrk=3-2.5*(assetime/120.0f);
+		if(tbrk<0.5)tbrk=0.5;
+		int cnt=12+12*assetime/120.0f;
+		if(cnt>24)cnt=24;
+		for(int i=0;i<cnt;++i)
+		{
+			vector2d dir=vector2d(400-playerpos.x,300-playerpos.y);
+			dir.ToUnitCircle();dir=50*dir;dir.Rotate(i*2*pi/cnt);
+			int pnt=CreateBullet2(400+dir.x,300+dir.y,0,0,true);
+			bullet[pnt].limv=-2;bullet[pnt].bulletaccel=-0.001;bullet[pnt].whirem=500;
+			bullet[pnt].redir(vector2d(400,300));
+		}
+	}
+	avacurbrk+=hge->Timer_GetDelta();
+	if(avacurbrk>avabrk)
+	{
+		avacurbrk=0;avabrk=4-3*assetime/120.0f;if(avabrk<0.5)avabrk=0.5;
+		vector2d a,b;int cnt=re.NextInt(5,10);
+		for (int i=0;i<cnt;++i)
+		{
+			if (re.NextInt(1,100)>=50)
+			{
+				if (re.NextInt(1,100)>=50)a=vector2d(re.NextDouble(10,790),610);else a=vector2d(re.NextDouble(10,790),-10);
+			}
+			else
+			{
+				if (re.NextInt(1,100)>=50)a=vector2d(-10,re.NextDouble(10,590));else a=vector2d(810,re.NextDouble(10,590));
+			}
+			if (re.NextInt(1,100)>=50)
+			{
+				if (re.NextInt(1,100)>=50)b=vector2d(re.NextDouble(10,790),610);else b=vector2d(re.NextDouble(10,790),-10);
+			}
+			else
+			{
+				if (re.NextInt(1,100)>=50)b=vector2d(-10,re.NextDouble(10,590));else b=vector2d(810,re.NextDouble(10,590));
+			}
+			for(int i=0;i<200;++i)
+			if(!SLL[i].active)
+			{
+				SLL[i].InitLine(a,b,0.1,SETA(ColorToDWORD(blue),0x80));
+				SLL[i].active=true;SLL[i].stp=0;SLL[i].brk=0;
+				break;
+			}
+		}
+	}
+	for(int i=0;i<200;++i)
+	if(SLL[i].active)
+	{
+		SLL[i].Process();
+		SLL[i].brk+=hge->Timer_GetDelta();
+		if(SLL[i].stp==2)
+		if(SLL[i].brk>0.02)
+		{
+			SLL[i].SetWidth(SLL[i].GetWidth()-0.2);
+			if(SLL[i].GetWidth()<1)SLL[i].EnableColl=false;
+			if(SLL[i].GetWidth()<0.05)SLL[i].active=false;
+			SLL[i].brk=0;
+		}
+		if(SLL[i].stp==0)
+		if(SLL[i].brk>0.02)
+		{
+			SLL[i].SetWidth(SLL[i].GetWidth()+0.2);
+			if(SLL[i].GetWidth()>2)SLL[i].EnableColl=true;
+			if(SLL[i].GetWidth()>4)SLL[i].stp=1;
+			SLL[i].brk=0;
+		}
+		if(SLL[i].stp==1)
+		if(SLL[i].brk>5){SLL[i].brk=0;SLL[i].stp=2;}
 	}
 }

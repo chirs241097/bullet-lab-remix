@@ -14,6 +14,10 @@ New assessment level "density test"...
 New assessment level "pinball"...
 New assessment level "Road blocks"...
 New assessment level "Extreme speeds"...
+New assessment level "Messed up"...
+Laser extentions, add LineLaser for two-point laser inheriting all
+Laser interfaces.
+Modify laser collision parameters.
 Level corrections.
 Improve density test.
 Add screen shot. Press S for a screen shot.
@@ -36,6 +40,7 @@ Add circ2pnt.
 0.8.1-1_PR (b77)
 All parts from level -1 to 7 are completed!
 Fixed the crash in the mingw-w64 build.
+Switch to mingw-w64 for building Windows version now.
 Complete GUI bring back.
 Fix a bug appeared after the cross-plantform port(when forked
 from BLRI).
