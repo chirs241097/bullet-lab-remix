@@ -2851,6 +2851,16 @@ public:
 		for(int i=1;i<MaxRes;++i)Setdata(i,b-width*pd,b+width*pd,color);
 	}
 	double GetWidth(){return width;}
+	void llsrtopnt(double dis)
+	{
+		vector2d dir=a-b;dir.ToUnitCircle();dir=dis*dir;
+		vector2d x=b;
+		while(x.x<=-25||x.x>=825||x.y<=-25||x.y>=625)
+		{
+			CreateBullet255(x.x,x.y,10);
+			x=x+dir;
+		}
+	}
 	//use Laser::Process...
 };
 class SimpLL:public LineLaser

@@ -1,6 +1,6 @@
 ===================================================================
 Next version:
-0.9.x-x_PR (b??)
+0.9.x-x_PR (r??)
 Todo's:
 Complete the game system.
 Menu rewrite...
@@ -8,13 +8,17 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
-0.9.0-1_PR (b79)
+0.9.0-1_PR (b79/r79)
 Bump version!
+BLR will use revision number instead of build number one day...
+==changelog here==
 New assessment level "density test"...
 New assessment level "pinball"...
 New assessment level "Road blocks"...
 New assessment level "Extreme speeds"...
 New assessment level "Messed up"...
+New assessment level "Bonus - Lunatic Lunar!", finishing assessment
+mode!
 Laser extentions, add LineLaser for two-point laser inheriting all
 Laser interfaces.
 Modify laser collision parameters.

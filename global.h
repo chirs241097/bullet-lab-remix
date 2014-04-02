@@ -289,7 +289,7 @@ fFristStartUp,fFast;
 int startLvl,startPrt,fFullScreen;
 char alterLog[64];
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.0-1_PR (b79)";
+static const char* BLRVERSION="0.9.0-1_PR (r79)";
 
 void Throw(char *Filename,char *Info)
 {

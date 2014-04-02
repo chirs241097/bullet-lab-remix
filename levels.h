@@ -4124,3 +4124,44 @@ void Levelm2Part24()
 		if(SLL[i].brk>5){SLL[i].brk=0;SLL[i].stp=2;}
 	}
 }
+void Levelm2Part25()
+{
+	frameleft=Infinity;Dis8ref=true;tbrk=0;
+	DisableAllTower=false;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Bonus test - Lunatic Lunar!");
+		All2pnt();towcnt=0;
+		for(int i=0;i<200;++i)if(SLL[i].active)SLL[i].llsrtopnt(10);
+		return;
+	}
+	++part;tbrk=0;memset(SLL,0,sizeof(SLL));
+}
+void Levelm2Part26()
+{
+	frameleft=Infinity;
+	tbrk-=hge->Timer_GetDelta();
+	if(tbrk<0)
+	{
+		tbrk=re.NextDouble(0.05,0.125);
+		int cnt=re.NextInt(5,15);
+		for(int i=0;i<cnt;++i)
+		{
+			if(re.NextInt(0,2))
+			{
+				CreateBullet2(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50),re.NextDouble(4,7),re.NextDouble(-pi,pi),true);
+			}
+			else
+			{
+                vector2d pos=vector2d(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50));
+                double spd=re.NextDouble(4,7),dir=re.NextDouble(-pi,pi),ran=re.NextDouble(-pi,pi);
+                for(int i=0;i<6;++i)
+					CreateBullet2(pos.x+10*sin(ran+i*(pi/3)),pos.y+10*cos(ran+i*(pi/3)),spd,dir,true);
+				CreateBullet2(pos.x,pos.y,spd,dir,true);
+			}
+		}
+	}
+}
