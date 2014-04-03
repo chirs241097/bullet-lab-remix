@@ -361,6 +361,7 @@ public:
 	virtual float		CALL	Timer_GetTime() = 0;
 	virtual float		CALL	Timer_GetDelta() = 0;
 	virtual int			CALL	Timer_GetFPS() = 0;
+	virtual float		CALL	Timer_GetFPSf() = 0;
 
 	virtual HEFFECT		CALL	Effect_Load(const char *filename, DWORD size=0) = 0;
 	virtual void		CALL	Effect_Free(HEFFECT eff) = 0;

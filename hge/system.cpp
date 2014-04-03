@@ -200,6 +200,9 @@ bool CALL HGE_Impl::System_Initiate()
 	t0=t0fps=SDL_GetTicks();
 	dt=cfps=0;
 	nFPS=0;
+	nFPSf=0.0f;
+	Fcnt=0;
+	fUpdateFPSDelay=0.0f;
 
 	// Show splash
 
@@ -319,6 +322,13 @@ bool CALL HGE_Impl::System_Start()
 				{
 					nFPS=cfps; cfps=0; t0fps=t0;
 					_UpdatePowerStatus();
+				}
+				++Fcnt;fUpdateFPSDelay+=fDeltaTime;
+				if(fUpdateFPSDelay>1)
+				{
+					nFPSf=Fcnt/fUpdateFPSDelay;
+					fUpdateFPSDelay=0.0f;
+					Fcnt=0;
 				}
 
 				// Do user's stuff
@@ -636,7 +646,6 @@ bool CALL HGE_Impl::System_Launch(const char *url)
 	CFRelease(cfurl);
 	return (err == noErr);
 #else
-	//STUBBED("launch URL");
 	char command[1024];sprintf(command,"xdg-open %s",url);
 	system(command);
 	return false;
@@ -722,8 +731,11 @@ HGE_Impl::HGE_Impl()
 
 	nHGEFPS=HGEFPS_UNLIMITED;
 	fTime=0.0f;
+	fUpdateFPSDelay=0.0f;
 	fDeltaTime=0.0f;
 	nFPS=0;
+	nFPSf=0.0f;
+	Fcnt=0;
 
 	procFrameFunc=0;
 	procRenderFunc=0;

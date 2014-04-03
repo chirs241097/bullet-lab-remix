@@ -1,6 +1,6 @@
 ===================================================================
 Next version:
-0.9.x-x_PR (r??)
+?
 Todo's:
 Complete the game system.
 Menu rewrite...
@@ -8,6 +8,12 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-0_PR (r80)
+Remove "high FPS mode", it won't reach 500 FPS on my computer any
+more. Replace it with Vsync mode.
+Add float HGE::Timer_GetFPSf(). The return value will be updated
+every 1000ms.
+
 0.9.0-1_PR (b79/r79)
 Bump version!
 BLR will use revision number instead of build number one day...

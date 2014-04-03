@@ -150,6 +150,7 @@ public:
 	virtual float		CALL	Timer_GetTime();
 	virtual float		CALL	Timer_GetDelta();
 	virtual int			CALL	Timer_GetFPS();
+	virtual float		CALL	Timer_GetFPSf();
 
 	virtual HEFFECT		CALL	Effect_Load(const char *filename, DWORD size=0);
 	virtual void		CALL	Effect_Free(HEFFECT eff);
@@ -387,8 +388,11 @@ public:
 	// Timer
 	float				fTime;
 	float				fDeltaTime;
+	float				fUpdateFPSDelay;
+	float				nFPSf;
 	DWORD				nFixedDelta;
 	int					nFPS;
+	int					Fcnt;
 	DWORD				t0, t0fps, dt;
 	int					cfps;
 

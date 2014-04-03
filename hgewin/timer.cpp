@@ -20,9 +20,12 @@ float CALL HGE_Impl::Timer_GetDelta()
 	return fDeltaTime;
 }
 
-
 int CALL HGE_Impl::Timer_GetFPS()
 {
 	return nFPS;
 }
 
+float CALL HGE_Impl::Timer_GetFPSf()
+{
+	return nFPSf;
+}

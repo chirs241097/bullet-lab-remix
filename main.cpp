@@ -73,10 +73,10 @@ void Expand(const char *source,const char *dist)
 void firststartup()
 {
 	if (MessageBoxA(NULL,"It seems that you are running BLR for the First time!\nLet's do some \
-basic settings first!\n\nEnable Low FPS Mode?","First Start Up",0x00000024)==6)
-		fpslvl=1;
-	else
+basic settings first!\n\nUse vsync??","First Start Up",0x00000024)==6)
 		fpslvl=0;
+	else
+		fpslvl=1;
 	if (MessageBoxA(NULL,"Enable Fullscreen?","First Start Up",0x00000024)==6)
 		tfs=1;
 	else
@@ -91,7 +91,7 @@ basic settings first!\n\nEnable Low FPS Mode?","First Start Up",0x00000024)==6)
 #ifndef WIN32
 void firststartup()
 {
-	fpslvl=0;
+	fpslvl=1;
 	tfs=0;
 	diffkey=false;
 	plrspd=3;plrslospd=3;clrbns=clrmode=0;
@@ -360,7 +360,7 @@ void RefreshScore()
 	score-=scminus*mult;
 	score+=2000*dsmc*mult;
 	++frms;
-	averfps=(averfps*(frms-1)+hge->Timer_GetFPS())/(double)frms;
+	averfps=(averfps*(frms-1)+hge->Timer_GetFPSf())/(double)frms;
 }
 void CallLevels()
 {
@@ -774,12 +774,10 @@ bool FrameFunc()
 	if (Current_Position==13)OptionsGUI->Render();
 	if (Current_Position==14)PlayerProfGUI->Render();
 	fnt->SetColor(0xFFFFFFFF);
-	//fnt->printf(680, 575, HGETEXT_LEFT, "FPS: %d", hge->Timer_GetFPS());
-	rbPanelFont.UpdateString(L" FPS: %d",hge->Timer_GetFPS());
+	rbPanelFont.UpdateString(L" FPS: %.2f",hge->Timer_GetFPSf());
 	rbPanelFont.Render(785,595,0xFFFFFFFF,1);
 	if (Current_Position==1||Current_Position==2)
 	{
-		//fnt->printf(670,560, HGETEXT_LEFT, "AF: %.2f", averfps);
 		rbPanelFont.UpdateString(L"AF: %.2f",averfps);
 		rbPanelFont.Render(785,575,0xFFFFFFFF,1);
 		if (playerpos.x<220&&playerpos.y<200)
@@ -953,6 +951,8 @@ int main(int argc,char *argv[])
 	tch=getchar();
 	if (tch!='L'){}
 	fpslvl=0;
+	LOWFPS=true;//always LowFPS, deprecate 1000 FPS mode...
+	hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);//try vsync first
 	tch=getchar();//LOWFPS
 	if (tch==1)
 	{
@@ -971,10 +971,10 @@ int main(int argc,char *argv[])
 	hge->System_SetState(HGE_WINDOWED, false),tfs=true;
 	if(fFullScreen==2)hge->System_SetState(HGE_WINDOWED, false),tfs=true;
 	if(fFullScreen==1)hge->System_SetState(HGE_WINDOWED, true),tfs=false;
-	tch=getchar();//LockFPS
-	if (tch==1&&!LOWFPS)
+	tch=getchar();//vsync
+	if (tch==1)
 	{
-		hge->System_SetState(HGE_FPS,1000);
+		hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);
 		fpslvl=2;
 	}
 	tch=getchar();//Key binding

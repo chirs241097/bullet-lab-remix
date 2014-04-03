@@ -647,9 +647,9 @@ void OptionsGUI_Init()
 	OptionsGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,opt[0]));
 	switch (fpslvl)
 	{
-		case 0:sprintf(opt[1],"FPS Level: Natural");break;
-		case 1:sprintf(opt[1],"FPS Level: Low FPS");break;
-		case 2:sprintf(opt[1],"FPS Level: Highest");break;
+		case 0:sprintf(opt[1],"FPS Level: 60");break;
+		case 1:sprintf(opt[1],"FPS Level: ?");break;
+		case 2:sprintf(opt[1],"FPS Level: Vsync");break;
 	}
 	OptionsGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,opt[1]));
 	if (diffkey)
@@ -781,7 +781,7 @@ void OptionsGUI_FrameFnk()
 				switch (fpslvl)
 				{
 					case 0:
-						fpslvl=1;LOWFPS=true;
+						fpslvl=2;LOWFPS=true;
 						hge->System_SetState(HGE_FPS,61);
 						TenSeconds=600;
 						TwentySeconds=1200;
@@ -790,29 +790,29 @@ void OptionsGUI_FrameFnk()
 						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
 						break;
 					case 1:
-						fpslvl=2;LOWFPS=false;
+						/*fpslvl=2;LOWFPS=false;
 						hge->System_SetState(HGE_FPS,1000);
 						TenSeconds=10000;
 						TwentySeconds=20000;
 						ThirtySeconds=30000;
 						AMinute=60000;
 						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
-						break;
+						break;*/
 					case 2:
-						fpslvl=0;LOWFPS=false;
-						hge->System_SetState(HGE_FPS,0);
-						TenSeconds=10000;
-						TwentySeconds=20000;
-						ThirtySeconds=30000;
-						AMinute=60000;
+						fpslvl=0;LOWFPS=true;
+						hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);
+						TenSeconds=600;
+						TwentySeconds=1200;
+						ThirtySeconds=1800;
+						AMinute=3600;
 						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
 						break;
 				}
 				switch (fpslvl)
 				{
-					case 0:sprintf(opt[1],"FPS Level: Natural");break;
-					case 1:sprintf(opt[1],"FPS Level: Low FPS");break;
-					case 2:sprintf(opt[1],"FPS Level: Highest");break;
+					case 0:sprintf(opt[1],"FPS Level: 60");break;
+					case 1:sprintf(opt[1],"FPS Level: ?");break;
+					case 2:sprintf(opt[1],"FPS Level: Vsync");break;
 				}
 				((hgeGUIMenuItem*)OptionsGUI->GetCtrl(2))->RePos(400,240);
 				break;
