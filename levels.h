@@ -4152,12 +4152,12 @@ void Levelm2Part26()
 		{
 			if(re.NextInt(0,2))
 			{
-				CreateBullet2(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50),re.NextDouble(4,7),re.NextDouble(-pi,pi),true);
+				CreateBullet2(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50),re.NextDouble(4,8),re.NextDouble(-pi,pi),true);
 			}
 			else
 			{
                 vector2d pos=vector2d(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50));
-                double spd=re.NextDouble(4,7),dir=re.NextDouble(-pi,pi),ran=re.NextDouble(-pi,pi);
+                double spd=re.NextDouble(4,8),dir=re.NextDouble(-pi,pi),ran=re.NextDouble(-pi,pi);
                 for(int i=0;i<6;++i)
 					CreateBullet2(pos.x+10*sin(ran+i*(pi/3)),pos.y+10*cos(ran+i*(pi/3)),spd,dir,true);
 				CreateBullet2(pos.x,pos.y,spd,dir,true);

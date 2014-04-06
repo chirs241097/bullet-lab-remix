@@ -8,6 +8,10 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-0_PR (r81)
+Start menu rewrite...
+Add information about the built time.
+
 0.9.1-0_PR (r80)
 Remove "high FPS mode", it won't reach 500 FPS on my computer any
 more. Replace it with Vsync mode.

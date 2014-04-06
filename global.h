@@ -30,7 +30,7 @@ int					Current_Position;//Where we are now
 13: Options scene
 14: Player Profile scene
 */
-HTEXTURE			SprSheet,TexTitle,TexCredits;
+HTEXTURE			SprSheet,TexTitle,TexCredits,MenuTex;
 /*
 Texture Mapping:
 SprSheet:ss.png
@@ -60,6 +60,19 @@ Ribbon Module		151,264,2,8
 Multiplier"+1"		0,272,48,48
 Text:blnsns.png
 "Multiplier bonus!"	0,235,163,21
+Menus and titles: menus.png
+Menu items...
+Classic Mode		0,0,256,128
+Assessment Mode		256,0,256,128
+Free Play Mode		0,128,256,128
+Titles...
+Select a Mode		256,128,256,64
+Options				256,192,256,64
+Player Preference	0,256,256,64
+You Are Dead!		128,256,256,64
+It Ends Here!		0,320,256,64
+Left Arrow          256,320,26,15
+Right Arrow			256,335,26,15
 */
 enum TColors
 {green=0,blue,yellow,purple,red,white,dblue,orange,grey,circle,COLOR_COUNT};
@@ -261,7 +274,7 @@ bool Dis8ref,t8special;
 int frameskips=0,stepskips=0;
 bool IfCallLevel,IfShowTip,FadeTip,PlayerSplit;
 RandomEngine re;
-hgeFont *TipFont;
+hgeFont *TipFont,*MenuFont;
 char lasttip[200];
 int whicnt,whrcnt,shots,clrusg;
 bool yelattrib,Complete;
@@ -288,8 +301,31 @@ noHideConsole,
 fFristStartUp,fFast;
 int startLvl,startPrt,fFullScreen;
 char alterLog[64];
+#ifdef WIN32
+static const int arFilecount=17;
+static const char* archive[]={
+"./Resources/b_diff.png",
+"./Resources/b_inter.png",
+"./Resources/b_null.png",
+"./Resources/e_sflake.png",
+"./Resources/e_skyitem.png",
+"./Resources/blnsns.png",
+"./Resources/charmap.fnt",
+"./Resources/ss.png",
+"./Resources/title.png",
+"./Resources/credits.png",
+"./Resources/b_leaves.png",
+"./Resources/e_leaf.png",
+"./Resources/tap.ogg",
+"./Resources/Music/BLR2_TR01.ogg",
+"./Resources/Music/BLR2_TR07.ogg",
+"./Resources/Music/BLR2_TR09.ogg",
+"./Resources/Music/CanonTechno.ogg"
+};
+#endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-0_PR (r80)";
+static const char* BLRVERSION="0.9.1-0_PR (r81)";
+static const char* BuiltDate=__DATE__;
 
 void Throw(char *Filename,char *Info)
 {

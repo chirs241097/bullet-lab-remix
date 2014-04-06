@@ -74,9 +74,9 @@ void firststartup()
 {
 	if (MessageBoxA(NULL,"It seems that you are running BLR for the First time!\nLet's do some \
 basic settings first!\n\nUse vsync??","First Start Up",0x00000024)==6)
-		fpslvl=0;
+		fpslvl=2;
 	else
-		fpslvl=1;
+		fpslvl=0;
 	if (MessageBoxA(NULL,"Enable Fullscreen?","First Start Up",0x00000024)==6)
 		tfs=1;
 	else
@@ -91,7 +91,7 @@ basic settings first!\n\nUse vsync??","First Start Up",0x00000024)==6)
 #ifndef WIN32
 void firststartup()
 {
-	fpslvl=1;
+	fpslvl=0;
 	tfs=0;
 	diffkey=false;
 	plrspd=3;plrslospd=3;clrbns=clrmode=0;
@@ -626,13 +626,22 @@ bool FrameFunc()
 	float dt=hge->Timer_GetDelta();
 	static float t=0.0f;
 	float tx,ty;
-	int id;
-	static int lastid=0;
-	if (hge->Input_GetKeyState(HGEK_ESCAPE)&&Current_Position==0) { lastid=5; gui->Leave(); }
+	//int id;
+	//static int lastid=0;
+	//if (hge->Input_GetKeyState(HGEK_ESCAPE)&&Current_Position==0) { lastid=5; gui->Leave(); }
 	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))PauseGUI_Init();
+	if (mainMenu.isActive())mainMenu.Update();
 	if (Current_Position==0)
 	{
-		id=gui->Update(dt);
+		if(hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT
+			||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT)
+		{
+            switch(mainMenu.GetSelected())
+            {
+            	case 0:Current_Position=3;StartGUI_Init();mainMenu.Leave();break;
+            }
+		}
+		/*id=gui->Update(dt);
 		if(id == -1)
 		{
 			switch(lastid)
@@ -657,7 +666,7 @@ bool FrameFunc()
 				case 5: return true;
 			}
 		}
-		else if(id) { lastid=id; gui->Leave(); }
+		else if(id) { lastid=id; gui->Leave(); }*/
 	}
 	if (Current_Position==3)StartGUI_FrameFnk();
 	if (Current_Position==5)DeathGUI_FrameFnk();
@@ -689,10 +698,11 @@ bool FrameFunc()
 	if (Current_Position==0||Current_Position==3||Current_Position==8||
 		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
 	{
-		titlespr->Render(160,0);
-		if (Current_Position==0)
-			gui->Render();
+		//titlespr->Render(160,0);
+		//if (Current_Position==0)gui->Render();
+		//mainMenu.Render();
 	}
+	if(mainMenu.isActive())mainMenu.Render();
 	if (Current_Position==3)
 		StartGUI->Render();
 	if (Current_Position==1||Current_Position==2||Current_Position==5||Current_Position==11||Current_Position==12)
@@ -847,6 +857,7 @@ void parseArgs(int argc,char *argv[])
 		if(!strcmp(argv[i],"--version"))
 		{
 			printf("Bullet Lab Remix II %s\n",BLRVERSION);
+			printf("Built Date: %s",BuiltDate);
 			exit(0);
 		}
 		bool valid=false;
@@ -913,6 +924,7 @@ int main(int argc,char *argv[])
 	hge->System_Log("%s: Build: Unix build",MAIN_SRC_FN);
 #endif
 	hge->System_Log("%s: Version: %s",MAIN_SRC_FN,BLRVERSION);
+	hge->System_Log("%s: Built Date: %s",MAIN_SRC_FN,BuiltDate);
 #ifdef WIN32
 	if (_mkdir("./Resources")!=0||_mkdir("./Resources/Music")!=0)
 		Error("Cannot decompress resources!\nDetailed Information: An error occured while creating folder.\n\nTry restarting the game.");
@@ -1007,6 +1019,7 @@ int main(int argc,char *argv[])
 		TSflake=hge->Texture_Load("./Resources/e_sflake.png");
 		TexTitle=hge->Texture_Load("./Resources/title.png");
 		TexCredits=hge->Texture_Load("./Resources/credits.png");
+		MenuTex=hge->Texture_Load("./Resources/menus.png");
 		sky.Init();
 		snd=hge->Effect_Load("./Resources/tap.ogg");
 		titlespr=new hgeSprite(TexTitle,0,0,640,320);
@@ -1035,6 +1048,7 @@ int main(int argc,char *argv[])
 		if(!rbPanelFont.Init("/usr/share/fonts/truetype/freefont/FreeMono.ttf",18))return 1;
 #endif
 		fnt=new hgeFont("./Resources/charmap.fnt");
+		MenuFont=new hgeFont("./Resources/charmap.fnt");
 		TipFont=new hgeFont("./Resources/charmap.fnt");
 		MultFnt=new hgeFont("./Resources/charmap.fnt");
 		spr=new hgeSprite(SprSheet,216,0,24,24);
@@ -1052,6 +1066,7 @@ int main(int argc,char *argv[])
 			towerspr[i]=new hgeSprite(SprSheet,a.x,a.y,a.w,a.h);
 			towerspr[i]->SetHotSpot(22,22);bulletspr[i]->SetColor(0x80FFFFFF);
 		}
+		mainMenu.Init_Once();mainMenu.Init();
 		gui=new hgeGUI();
 		gui->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Start"));
 		gui->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Highscores && Records"));

@@ -1,10 +1,95 @@
 //Chrisoft Bullet Lab Remix HGE
 //Menu Implementations
 //Copyright Chrisoft 2014
-//[Perfect Freeze]: Code for menus won't change... until ...?
+//Now this is being rewritten...
 //                                --Announcement from Chirsno
 //static const char* MENUS_H_FN="menus.h";
-
+//Here's where new code grows...
+void ConfigureQuad(hgeQuad *quad,double x,double y,double w,double h)
+{
+	quad->tex=0;quad->blend=BLEND_ALPHABLEND;
+	quad->v[0].tx=0;quad->v[0].ty=0;
+	quad->v[1].tx=1;quad->v[1].ty=0;
+	quad->v[2].tx=1;quad->v[2].ty=1;
+	quad->v[3].tx=0;quad->v[3].ty=1;
+	quad->v[0].x=x;quad->v[0].y=y;
+	quad->v[1].x=x+w;quad->v[1].y=y;
+	quad->v[2].x=x+w;quad->v[2].y=y+h;
+	quad->v[3].x=x;quad->v[3].y=y+h;
+}
+static const char* MMStr[]={
+"Start",
+"Highscore",
+"Options",
+"About",
+"Exit"
+};
+class MainMenu
+{
+private:
+	bool active,onIn,onOut;
+	int selected;
+	double xoffset,yoffset,dyoffset;
+	hgeSprite *PL,*PR;
+	hgeQuad UpperGradient,LowerGradient;
+public:
+	bool isActive(){return active;}
+	int GetSelected(){return selected;}
+	void Init_Once()
+	{
+		PR=new hgeSprite(MenuTex,256,320,26,15);
+		PL=new hgeSprite(MenuTex,256,335,26,15);
+	}
+	void Init()
+	{
+		xoffset=-200;onIn=true;active=true;
+		selected=0;dyoffset=yoffset=-selected*30;
+		ConfigureQuad(&UpperGradient,xoffset-140,100,320,50);
+		UpperGradient.v[0].col=UpperGradient.v[1].col=0xFF888820;
+		UpperGradient.v[2].col=UpperGradient.v[3].col=0x00888820;
+		ConfigureQuad(&LowerGradient,xoffset-140,300,320,100);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=0x00888820;
+		LowerGradient.v[2].col=LowerGradient.v[3].col=0xFF888820;
+	}
+	void Leave(){onOut=true;}
+	void Update()
+	{
+		if(onIn)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>=650)xoffset=650,onIn=false;
+		}
+		if(onOut)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>=850)active=onOut=false;
+		}
+		ConfigureQuad(&UpperGradient,xoffset-140,250,320,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,400,320,110);
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<5-1)++selected;
+		yoffset=-selected*30;
+		if(fabs(dyoffset-yoffset)<0.2)dyoffset=yoffset;
+		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*200;
+		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*200;
+	}
+	void Render()
+	{
+		for(int i=0;i<5;++i)
+		{
+			double calcy=i*30+dyoffset+360;
+			if(calcy>249.9&&calcy<500.1)
+			MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,MMStr[i]);
+		}
+		PR->Render(110+xoffset,370);
+		PL->Render(-30+xoffset,370);
+		hge->Gfx_RenderQuad(&UpperGradient);
+		hge->Gfx_RenderQuad(&LowerGradient);
+		titlespr->Render(160,0);
+	}
+}mainMenu;
+//==================================================================================
+//Here's where old code dies...
 hgeGUI			*StartGUI,*DeathGUI,*CompleteGUI,*HighScoreGUI;
 hgeGUI			*HSViewGUI,*HSDetailGUI,*PauseGUI,*BkTTitleGUI;
 hgeGUI			*OptionsGUI,*PlayerProfGUI;
