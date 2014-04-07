@@ -284,7 +284,7 @@ double mult,lsc;
 int multbrk,multbat;
 int frms;double averfps;
 int plrspd,plrslospd;
-int TenSeconds=10000,TwentySeconds=20000,ThirtySeconds=30000,AMinute=60000;
+int TenSeconds=600,TwentySeconds=1200,ThirtySeconds=1800,AMinute=3600;
 int Infinity=1000000000;
 int effskp=0;
 hgeSprite *Credits,*CreditsRail;
@@ -302,7 +302,7 @@ fFristStartUp,fFast;
 int startLvl,startPrt,fFullScreen;
 char alterLog[64];
 #ifdef WIN32
-static const int arFilecount=17;
+static const int arFilecount=18;
 static const char* archive[]={
 "./Resources/b_diff.png",
 "./Resources/b_inter.png",
@@ -312,6 +312,7 @@ static const char* archive[]={
 "./Resources/blnsns.png",
 "./Resources/charmap.fnt",
 "./Resources/ss.png",
+"./Resources/menus.png",
 "./Resources/title.png",
 "./Resources/credits.png",
 "./Resources/b_leaves.png",
@@ -324,7 +325,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-0_PR (r81)";
+static const char* BLRVERSION="0.9.1-0_PR (r82)";
 static const char* BuiltDate=__DATE__;
 
 void Throw(char *Filename,char *Info)
@@ -345,23 +346,7 @@ void Error(const char *EC,bool hgecreated=false)
 		hge->Release();
 	}
 #ifdef WIN32
-	remove("./Resources/b_diff.png");
-	remove("./Resources/b_inter.png");
-	remove("./Resources/b_null.png");
-	remove("./Resources/e_sflake.png");
-	remove("./Resources/e_skyitem.png");
-	remove("./Resources/blnsns.png");
-	remove("./Resources/charmap.fnt");
-	remove("./Resources/ss.png");
-	remove("./Resources/title.png");
-	remove("./Resources/credits.png");
-	remove("./Resources/b_leaves.png");
-	remove("./Resources/e_leaf.png");
-	remove("./Resources/tap.ogg");
-	remove("./Resources/Music/BLR2_TR01.ogg");
-	remove("./Resources/Music/BLR2_TR07.ogg");
-	remove("./Resources/Music/BLR2_TR09.ogg");
-	remove("./Resources/Music/CanonTechno.ogg");
+	for(int i=0;i<arFilecount;++i)remove(archive[i]);
 	_rmdir("./Resources/Music");
 	_rmdir("./Resources");
 #endif

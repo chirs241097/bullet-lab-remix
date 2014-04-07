@@ -8,6 +8,12 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-0_PR (r82)
+Add missing file menus.png...
+Finish the start menu rewrite.
+Modify "Lunatic Lunar", however it's not done...
+Modify resource unpacking of Windows version.
+
 0.9.1-0_PR (r81)
 Start menu rewrite...
 Add information about the built time.

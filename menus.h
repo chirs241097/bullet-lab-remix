@@ -40,9 +40,9 @@ public:
 		PR=new hgeSprite(MenuTex,256,320,26,15);
 		PL=new hgeSprite(MenuTex,256,335,26,15);
 	}
-	void Init()
+	void Init(double start)
 	{
-		xoffset=-200;onIn=true;active=true;
+		xoffset=start;onIn=true;active=true;
 		selected=0;dyoffset=yoffset=-selected*30;
 		ConfigureQuad(&UpperGradient,xoffset-140,100,320,50);
 		UpperGradient.v[0].col=UpperGradient.v[1].col=0xFF888820;
@@ -56,8 +56,11 @@ public:
 	{
 		if(onIn)
 		{
+			if(fabs(xoffset-650)<hge->Timer_GetDelta()*1600)return (void)(xoffset=650,onIn=false);
+			if(xoffset<650)
 			xoffset+=hge->Timer_GetDelta()*1600;
-			if(xoffset>=650)xoffset=650,onIn=false;
+			else
+			xoffset-=hge->Timer_GetDelta()*1600;
 		}
 		if(onOut)
 		{
@@ -85,9 +88,94 @@ public:
 		PL->Render(-30+xoffset,370);
 		hge->Gfx_RenderQuad(&UpperGradient);
 		hge->Gfx_RenderQuad(&LowerGradient);
-		titlespr->Render(160,0);
 	}
 }mainMenu;
+class StartMenu
+{
+private:
+	bool active,onIn,onOut;
+	double xoffset,yoffset,moffset;
+	int selected;
+	hgeQuad LeftGradient,RightGradient,LowerGradient;
+	hgeSprite *clzk,*azmt,*fpmd,*msel;
+public:
+	bool isActive(){return active;}
+	int GetSelected(){return selected;}
+	void Init_Once()
+	{
+		clzk=new hgeSprite(MenuTex,0,0,256,128);
+		azmt=new hgeSprite(MenuTex,256,0,256,128);
+		fpmd=new hgeSprite(MenuTex,0,128,256,128);
+		msel=new hgeSprite(MenuTex,256,128,256,64);
+		clzk->SetHotSpot(128,64);
+		azmt->SetHotSpot(128,64);
+		fpmd->SetHotSpot(128,64);
+	}
+	void Init()
+	{
+		active=true;onIn=true;yoffset=275;
+		selected=0;xoffset=-selected*300;moffset=450;
+		ConfigureQuad(&LowerGradient,0,400+yoffset,800,120);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=0x00888820;
+		LowerGradient.v[2].col=LowerGradient.v[3].col=0xFF888820;
+		ConfigureQuad(&LeftGradient,0,320+yoffset,100,200);
+		LeftGradient.v[0].col=LeftGradient.v[3].col=0xFF888820;
+		LeftGradient.v[1].col=LeftGradient.v[2].col=0x00888820;
+		ConfigureQuad(&RightGradient,700,320+yoffset,100,200);
+		RightGradient.v[0].col=RightGradient.v[3].col=0x00888820;
+		RightGradient.v[1].col=RightGradient.v[2].col=0xFF888820;
+	}
+	void Leave(){onOut=true;}
+	void Update()
+	{
+		if(onIn)
+		{
+			bool alldone=true;
+            if(fabs(yoffset-0)<hge->Timer_GetDelta()*800)
+				yoffset=0;
+			else
+				alldone=false,yoffset-=hge->Timer_GetDelta()*800;
+			if(fabs(moffset-0)<hge->Timer_GetDelta()*1200)
+				moffset=0;
+			else alldone=false,moffset-=hge->Timer_GetDelta()*1200;
+			if(alldone)onIn=false;
+		}
+		if(onOut)
+		{
+            bool alldone=true;
+            if(fabs(yoffset-275)<hge->Timer_GetDelta()*800)
+				yoffset=275;
+			else
+				alldone=false,yoffset+=hge->Timer_GetDelta()*800;
+			if(fabs(moffset-450)<hge->Timer_GetDelta()*1200)
+				moffset=450;
+			else alldone=false,moffset+=hge->Timer_GetDelta()*800;
+			if(alldone)onOut=active=false;
+		}
+		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT&&selected>0)--selected;
+		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&selected<3-1)++selected;
+		if(fabs(xoffset-(-selected*300))<hge->Timer_GetDelta()*1000)
+			xoffset=-selected*300;
+		else
+		{
+			if(xoffset<-selected*300)xoffset+=hge->Timer_GetDelta()*1000;
+			if(xoffset>-selected*300)xoffset-=hge->Timer_GetDelta()*1000;
+		}
+		ConfigureQuad(&LowerGradient,0,400+yoffset,800,120);
+		ConfigureQuad(&LeftGradient,0,320+yoffset,100,200);
+		ConfigureQuad(&RightGradient,700,320+yoffset,100,200);
+	}
+	void Render()
+	{
+		clzk->Render(400+xoffset,fabs((xoffset+0))*0.075+400+yoffset);
+		azmt->Render(700+xoffset,fabs((xoffset+300))*0.075+400+yoffset);
+		fpmd->Render(1000+xoffset,fabs((xoffset+600))*0.075+400+yoffset);
+		hge->Gfx_RenderQuad(&LowerGradient);
+		hge->Gfx_RenderQuad(&LeftGradient);
+		hge->Gfx_RenderQuad(&RightGradient);
+		msel->Render(0,moffset+200);
+	}
+}startMenu;
 //==================================================================================
 //Here's where old code dies...
 hgeGUI			*StartGUI,*DeathGUI,*CompleteGUI,*HighScoreGUI;
@@ -145,21 +233,6 @@ void StartGUI_FrameFnk()
 				mode=1;
 				break;
 			case 2:
-				/*playerpos.x=400,playerpos.y=400,playerrot=0;
-				frameleft=TenSeconds;
-				level=1,part=1;frms=0,averfps=0.0;restarts=0;bsscale=1;
-				towcnt=bulcnt=0;
-				mode=1;
-				score=0;
-				coll=semicoll=clrusg=0;
-				clrrad=pi/2;clrrange=0;
-				memset(tower,0,sizeof(tower));
-				memset(bullet,0,sizeof(bullet));
-				Complete=false;
-				Refliction=false;
-				Level1Part1();
-				IfCallLevel=true;
-				break;*/
 			case 3:
 				playerpos.x=400,playerpos.y=400,playerrot=0;
 				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;

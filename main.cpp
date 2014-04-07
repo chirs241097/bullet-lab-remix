@@ -608,12 +608,11 @@ void AboutScene()
 		creditfly=1200,creditacc=0,credstop=creddone=false,++creditsp,
 		Credits=new hgeSprite(TexCredits,0,creditsp*200,600,200),
 		Credits->SetHotSpot(300,100);
-	if(hge->Input_GetKeyState(HGEK_Z)||creditsp>11)
+	if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||creditsp>11)
 	{
 		Current_Position=0;
-		gui->SetFocus(1);
+		mainMenu.Init(-200);
 		Music_Stop();
-		gui->Enter();
 	}
 }
 bool Foclost()
@@ -626,33 +625,19 @@ bool FrameFunc()
 	float dt=hge->Timer_GetDelta();
 	static float t=0.0f;
 	float tx,ty;
-	//int id;
-	//static int lastid=0;
-	//if (hge->Input_GetKeyState(HGEK_ESCAPE)&&Current_Position==0) { lastid=5; gui->Leave(); }
 	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))PauseGUI_Init();
 	if (mainMenu.isActive())mainMenu.Update();
+	if (startMenu.isActive())startMenu.Update();
 	if (Current_Position==0)
 	{
-		if(hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT
-			||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT)
+		if(!mainMenu.isActive())return true;
+		if(hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT)
 		{
             switch(mainMenu.GetSelected())
             {
-            	case 0:Current_Position=3;StartGUI_Init();mainMenu.Leave();break;
-            }
-		}
-		/*id=gui->Update(dt);
-		if(id == -1)
-		{
-			switch(lastid)
-			{
-				case 1:Current_Position=3; StartGUI_Init();gui->Leave();break;
-				case 2:HighScoreGUI_Init();break;
-				case 3:OptionsGUI_Init();break;
-				case 4:
-					Credits=new hgeSprite(TexCredits,0,0,600,200);
+            	case 0:Current_Position=3;startMenu.Init();mainMenu.Leave();break;
+            	case 3:
 					Credits->SetHotSpot(300,100);
-					CreditsRail=new hgeSprite(TexCredits,0,2400,600,200);
 					CreditsRail->SetHotSpot(300,100);
 					creditsp=0;
 					Music_Init("./Resources/Music/BLR2_TR09.ogg");
@@ -660,15 +645,84 @@ bool FrameFunc()
 					Music_Play();
 					creditfly=1200;creditacc=0;credstop=creddone=false;
 					Current_Position=4;
-					AboutScene();
-					lastid=0;
+					mainMenu.Leave();
 					break;
-				case 5: return true;
-			}
+            	case 4:mainMenu.Leave();break;
+            }
+            return false;
 		}
-		else if(id) { lastid=id; gui->Leave(); }*/
 	}
-	if (Current_Position==3)StartGUI_FrameFnk();
+	if (Current_Position==3)
+	{
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)
+		{
+            startMenu.Leave();mainMenu.Init(800);Current_Position=0;
+		}
+		if(hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT)
+		{
+			startMenu.Leave();
+			switch(startMenu.GetSelected())
+			{
+                case 0:
+					playerpos.x=400,playerpos.y=400,playerrot=0;
+					frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
+					level=1,part=1;frms=0,averfps=0.0;bsscale=1;
+					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
+					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
+					lpst=4625568;lped=9234584;//Music_Play();
+					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
+					Lock.Init(2);IfShowTip=true;lsc=0;
+					//Lock.SetTexture(SprSheet,151,264,2,8);
+					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
+					memset(tower,0,sizeof(tower));
+					memset(bullet,0,sizeof(bullet));
+					Complete=false;
+					Current_Position=1;
+					Level1Part1();
+					IfCallLevel=true;
+					mode=1;
+				break;
+				case 1:
+					playerpos.x=400,playerpos.y=400,playerrot=0;
+					frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
+					level=-2,part=0;frms=0,averfps=0.0;bsscale=1;assetime=0;
+					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
+					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
+					lpst=4625568;lped=9234584;//Music_Play();
+					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
+					Lock.Init(2);IfShowTip=true;lsc=0;
+					//Lock.SetTexture(SprSheet,151,264,2,8);
+					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
+					memset(tower,0,sizeof(tower));
+					memset(bullet,0,sizeof(bullet));
+					Complete=false;
+					Current_Position=1;
+					IfCallLevel=true;
+					mode=2;
+				break;
+				case 2:
+					playerpos.x=400,playerpos.y=400,playerrot=0;
+					frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
+					level=1,part=1;frms=0,averfps=0.0;bsscale=1;
+					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
+					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
+					lpst=4625568;lped=9234584;//Music_Play();
+					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
+					Lock.Init(2);IfShowTip=true;lsc=0;
+					//Lock.SetTexture(SprSheet,151,264,2,8);
+					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
+					memset(tower,0,sizeof(tower));
+					memset(bullet,0,sizeof(bullet));
+					Complete=false;
+					Current_Position=1;
+					Level1Part1();
+					IfCallLevel=true;
+					mode=3;
+				break;
+			}
+			return false;
+		}
+	}
 	if (Current_Position==5)DeathGUI_FrameFnk();
 	if (Current_Position==6)CompleteGUI_FrameFnk();
 	if (Current_Position==7)NewHighScoreGUI_FrameFnk();
@@ -695,16 +749,17 @@ bool FrameFunc()
 	hge->Gfx_Clear(SETA(DBGColor,0xFF));
 	if (skyactive)sky.Update(),sky.Render();
 	hge->Gfx_RenderQuad(&quad);
+	if(mainMenu.isActive())mainMenu.Render();
+	//if (Current_Position==3)StartGUI->Render();
+	if(startMenu.isActive())startMenu.Render();
 	if (Current_Position==0||Current_Position==3||Current_Position==8||
 		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
 	{
 		//titlespr->Render(160,0);
 		//if (Current_Position==0)gui->Render();
 		//mainMenu.Render();
+		titlespr->Render(160,0);
 	}
-	if(mainMenu.isActive())mainMenu.Render();
-	if (Current_Position==3)
-		StartGUI->Render();
 	if (Current_Position==1||Current_Position==2||Current_Position==5||Current_Position==11||Current_Position==12)
 	{
 	//If we are at the main scene or tip scene(which towers and bullets should still appear..)
@@ -1052,6 +1107,8 @@ int main(int argc,char *argv[])
 		TipFont=new hgeFont("./Resources/charmap.fnt");
 		MultFnt=new hgeFont("./Resources/charmap.fnt");
 		spr=new hgeSprite(SprSheet,216,0,24,24);
+		Credits=new hgeSprite(TexCredits,0,0,600,200);
+		CreditsRail=new hgeSprite(TexCredits,0,2400,600,200);
 		for (int ii=0;ii<COLOR_COUNT;++ii)
 		{
 			TColors i=(TColors)ii;
@@ -1066,7 +1123,8 @@ int main(int argc,char *argv[])
 			towerspr[i]=new hgeSprite(SprSheet,a.x,a.y,a.w,a.h);
 			towerspr[i]->SetHotSpot(22,22);bulletspr[i]->SetColor(0x80FFFFFF);
 		}
-		mainMenu.Init_Once();mainMenu.Init();
+		mainMenu.Init_Once();mainMenu.Init(-200);
+		startMenu.Init_Once();
 		gui=new hgeGUI();
 		gui->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Start"));
 		gui->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Highscores && Records"));
@@ -1115,23 +1173,7 @@ int main(int argc,char *argv[])
 	hge->System_Shutdown();
 	hge->Release();
 #ifdef WIN32
-	remove("./Resources/b_diff.png");
-	remove("./Resources/b_inter.png");
-	remove("./Resources/b_null.png");
-	remove("./Resources/e_sflake.png");
-	remove("./Resources/e_skyitem.png");
-	remove("./Resources/blnsns.png");
-	remove("./Resources/charmap.fnt");
-	remove("./Resources/ss.png");
-	remove("./Resources/title.png");
-	remove("./Resources/credits.png");
-	remove("./Resources/b_leaves.png");
-	remove("./Resources/e_leaf.png");
-	remove("./Resources/tap.ogg");
-	remove("./Resources/Music/BLR2_TR01.ogg");
-	remove("./Resources/Music/BLR2_TR07.ogg");
-	remove("./Resources/Music/BLR2_TR09.ogg");
-	remove("./Resources/Music/CanonTechno.ogg");
+	for(int i=0;i<arFilecount;++i)remove(archive[i]);
 	_rmdir("./Resources/Music");
 	_rmdir("./Resources");
 #endif

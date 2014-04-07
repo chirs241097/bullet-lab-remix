@@ -4150,17 +4150,26 @@ void Levelm2Part26()
 		int cnt=re.NextInt(5,15);
 		for(int i=0;i<cnt;++i)
 		{
-			if(re.NextInt(0,2))
+			if(re.NextInt(0,100))
 			{
-				CreateBullet2(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50),re.NextDouble(4,8),re.NextDouble(-pi,pi),true);
+				int cc=assetime/120.0f*12+12;
+				double rnd=re.NextDouble(-pi,pi),spd=re.NextDouble(4,7);
+				for(int i=0;i<cc;++i)
+				CreateBullet2(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50),spd,i*2*pi/cc+rnd,true);
 			}
 			else
 			{
                 vector2d pos=vector2d(400+re.NextDouble(-50,50),300+re.NextDouble(-50,50));
-                double spd=re.NextDouble(4,8),dir=re.NextDouble(-pi,pi),ran=re.NextDouble(-pi,pi);
-                for(int i=0;i<6;++i)
-					CreateBullet2(pos.x+10*sin(ran+i*(pi/3)),pos.y+10*cos(ran+i*(pi/3)),spd,dir,true);
-				CreateBullet2(pos.x,pos.y,spd,dir,true);
+                double spd=re.NextDouble(4,7);
+                int cc=assetime/120.0f*24+24;
+				double rnd=re.NextDouble(-pi,pi);
+				for(int i=0;i<cc;++i)
+				{
+					double dir=i*2*pi/cc+rnd,ran=re.NextDouble(-pi,pi);
+					for(int i=0;i<6;++i)
+						CreateBullet2(pos.x+10*sin(ran+i*(pi/3)),pos.y+10*cos(ran+i*(pi/3)),spd,dir,true);
+					CreateBullet2(pos.x,pos.y,spd,dir,true);
+				}
 			}
 		}
 	}
