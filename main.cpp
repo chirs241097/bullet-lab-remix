@@ -91,9 +91,7 @@ basic settings first!\n\nUse vsync??","First Start Up",0x00000024)==6)
 #ifndef WIN32
 void firststartup()
 {
-	fpslvl=0;
-	tfs=0;
-	diffkey=false;
+	fpslvl=2;tfs=0;VidMode=0;diffkey=false;
 	plrspd=3;plrslospd=3;clrbns=clrmode=0;
 	hge->System_Log("%s: Finishing first start up configuraion...",MAIN_SRC_FN);
 	Options_Writeback();
@@ -608,10 +606,10 @@ void AboutScene()
 		creditfly=1200,creditacc=0,credstop=creddone=false,++creditsp,
 		Credits=new hgeSprite(TexCredits,0,creditsp*200,600,200),
 		Credits->SetHotSpot(300,100);
-	if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||creditsp>11)
+	if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT||creditsp>11)
 	{
 		Current_Position=0;
-		mainMenu.Init(-200);
+		mainMenu.Init(850);
 		Music_Stop();
 	}
 }
@@ -626,31 +624,35 @@ bool FrameFunc()
 	static float t=0.0f;
 	float tx,ty;
 	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))PauseGUI_Init();
-	if (mainMenu.isActive())mainMenu.Update();
-	if (startMenu.isActive())startMenu.Update();
+	int MMR=-1,SMR=-1,OMR=-1;
+	if (mainMenu.isActive())MMR=mainMenu.Update();
+	if (startMenu.isActive())SMR=startMenu.Update();
+	if (optionMenu.isActive())OMR=optionMenu.Update();
 	if (Current_Position==0)
 	{
 		if(!mainMenu.isActive())return true;
-		if(hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT)
+		switch(MMR)
 		{
-            switch(mainMenu.GetSelected())
-            {
-            	case 0:Current_Position=3;startMenu.Init();mainMenu.Leave();break;
-            	case 3:
-					Credits->SetHotSpot(300,100);
-					CreditsRail->SetHotSpot(300,100);
-					creditsp=0;
-					Music_Init("./Resources/Music/BLR2_TR09.ogg");
-					lpst=lped=0;
-					Music_Play();
-					creditfly=1200;creditacc=0;credstop=creddone=false;
-					Current_Position=4;
-					mainMenu.Leave();
-					break;
-            	case 4:mainMenu.Leave();break;
-            }
-            return false;
+			case 0:Current_Position=3;startMenu.Init();mainMenu.Leave();break;
+			case 2:
+				Current_Position=13;
+				optionMenu.Init(-200);
+				mainMenu.Leave();
+				break;
+			case 3:
+				Credits->SetHotSpot(300,100);
+				CreditsRail->SetHotSpot(300,100);
+				creditsp=0;
+				Music_Init("./Resources/Music/BLR2_TR09.ogg");
+				lpst=lped=0;
+				Music_Play();
+				creditfly=1200;creditacc=0;credstop=creddone=false;
+				Current_Position=4;
+				mainMenu.Leave();
+				break;
+			case 4:mainMenu.Leave();break;
 		}
+		if(~MMR)return false;
 	}
 	if (Current_Position==3)
 	{
@@ -658,10 +660,10 @@ bool FrameFunc()
 		{
             startMenu.Leave();mainMenu.Init(800);Current_Position=0;
 		}
-		if(hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT)
+		if(~SMR)
 		{
 			startMenu.Leave();
-			switch(startMenu.GetSelected())
+			switch(SMR)
 			{
                 case 0:
 					playerpos.x=400,playerpos.y=400,playerrot=0;
@@ -731,7 +733,20 @@ bool FrameFunc()
 	if (Current_Position==10)HSDetGUI_FrameFnk();
 	if (Current_Position==11)PauseGUI_FrameFnk();
 	if (Current_Position==12)BkTTitleGUI_FrameFnk();
-	if (Current_Position==13)OptionsGUI_FrameFnk();
+	if (Current_Position==13)
+	{
+		if(~OMR)
+		{
+			if(OMR==4||OMR==5)optionMenu.Leave();
+			if(OMR==5)
+			{
+				Options_Writeback();
+				mainMenu.Init(-200);
+				Current_Position=0;
+			}
+			return false;
+		}
+	}
 	if (Current_Position==14)PlayerProfGUI_FrameFnk();
 	// Here we update our background animation
 	t+=dt;
@@ -745,13 +760,18 @@ bool FrameFunc()
 	//Super Spliter!*****Super Spliter!*****Super Spliter!*****Super Spliter!*****Super Spliter!**
 	//******Super Spliter!*****Super Spliter!*****Super Spliter!*****Super Spliter!***************
 	hge->Gfx_BeginScene();
+#ifndef WIN32
+	hge->Gfx_SetTransform(0,0,0,yos,0,scale,scale);
+#else
+	hge->Gfx_SetTransform(0,0,0,0,0,scale,scale);
+#endif
 	for(int i=0;i<4;i++)quad.v[i].col=DBGColor;
 	hge->Gfx_Clear(SETA(DBGColor,0xFF));
 	if (skyactive)sky.Update(),sky.Render();
 	hge->Gfx_RenderQuad(&quad);
 	if(mainMenu.isActive())mainMenu.Render();
-	//if (Current_Position==3)StartGUI->Render();
 	if(startMenu.isActive())startMenu.Render();
+	if(optionMenu.isActive())optionMenu.Render();
 	if (Current_Position==0||Current_Position==3||Current_Position==8||
 		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
 	{
@@ -836,7 +856,7 @@ bool FrameFunc()
 	if (Current_Position==10)HSDetailGUI->Render();
 	if (Current_Position==11)PauseGUI->Render();
 	if (Current_Position==12)BkTTitleGUI->Render();
-	if (Current_Position==13)OptionsGUI->Render();
+	//if (Current_Position==13)OptionsGUI->Render();
 	if (Current_Position==14)PlayerProfGUI->Render();
 	fnt->SetColor(0xFFFFFFFF);
 	rbPanelFont.UpdateString(L" FPS: %.2f",hge->Timer_GetFPSf());
@@ -888,16 +908,22 @@ bool FrameFunc()
 void printHelp(char *exec,const char* str="")
 {
 	printf("Usage: %s [options]...\n",exec);
-	printf("To run the game normally, just start without arguments.\n");
-	printf("Options:\n");
-	printf("--help            Print this help and exit.\n");
-	printf("--version         Print version and exit.\n");
-	printf("--start=x,y       Start free play mode directly from level x part y. The part must be valid.\n");
-	printf("--nosound         Forcibly use no sound.\n");
-	printf("--fullscreen=1/0  Forcibly use fullscreen/windowed. This will override your configuration.\n");
-	printf("--firststartup    Forcibly run first start up. This will reset the score file.\n");
-	printf("--fast            Fast mode. All levels are two times shorter.\n");
-	printf("--logfile=...     Use an alternate log file name instead of the default \"BLRLOG.txt\".\n");
+	puts("To run the game normally, just start without arguments.");
+	puts("Options:");
+	puts("--help            Print this help and exit.");
+	puts("--version         Print version and exit.");
+	puts("--start=x,y       Start free play mode directly from level x part y. The part must be valid.");
+	puts("--nosound         Forcibly use no sound.");
+	puts("--fullscreen=1/0  Forcibly use fullscreen/windowed. This will override your configuration.");
+	puts("--vidmode=0~4     Forcibly use specific video mode instead the one in the configuration.");
+	puts("          0       800x600 (native resolution)");
+	puts("          1       640x480");
+	puts("          2       960x720");
+	puts("          3       1024x768");
+	puts("          4       1280x960");
+	puts("--firststartup    Forcibly run first start up. This will reset the score file.");
+	puts("--fast            Fast mode. All levels are two times shorter.");
+	puts("--logfile=...     Use an alternate log file name instead of the default \"BLRLOG.txt\".");
 #ifdef WIN32
 	printf("--nohideconsole   Do not hide console (Windows version only).\n");
 #endif
@@ -927,6 +953,16 @@ void parseArgs(int argc,char *argv[])
 			int para=strtol(ptr,&ptr,10);
 			if(*ptr||(para!=1&&para!=0))printHelp(argv[0],"Invalid parameter for --fullscreen!\n");
 			if(para)fFullScreen=2;else fFullScreen=1;
+			valid=true;
+		}
+		if(!strncmp(argv[i],"--vidmode",9))
+		{
+			char *ptr=argv[i];while(*ptr!='='&&*ptr)++ptr;
+			if(!*ptr)printHelp(argv[0],"--vidmode need a parameter!\n");
+			++ptr;
+			int para=strtol(ptr,&ptr,10);
+			if(*ptr||(para<0||para>4))printHelp(argv[0],"Invalid parameter for --vidmode!\n");
+			if(para)VidMode=para;
 			valid=true;
 		}
 		if(!strncmp(argv[i],"--start",7))
@@ -1000,7 +1036,6 @@ int main(int argc,char *argv[])
 #ifdef WIN32
 	hge->System_SetState(HGE_ICON, MAKEINTRESOURCE(1));
 #endif
-	hge->System_SetState(HGE_FPS,0);
 	if((access("blr.cfg",0))==-1)
 	{
 		hge->System_Log("%s: Config file not found. Calling first startup.",MAIN_SRC_FN);
@@ -1019,17 +1054,12 @@ int main(int argc,char *argv[])
 	if (tch!='L'){}
 	fpslvl=0;
 	LOWFPS=true;//always LowFPS, deprecate 1000 FPS mode...
-	hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);//try vsync first
-	tch=getchar();//LOWFPS
+	hge->System_SetState(HGE_FPS,61);
+	tch=getchar();//VSync
 	if (tch==1)
 	{
-		LOWFPS=true;
-		TenSeconds=600;
-		TwentySeconds=1200;
-		ThirtySeconds=1800;
-		AMinute=3600;
-		hge->System_SetState(HGE_FPS,61);
-		fpslvl=1;
+		hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);
+		fpslvl=2;
 	}
 	if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
 	tch=getchar();//FULLSCRREEN
@@ -1038,12 +1068,32 @@ int main(int argc,char *argv[])
 	hge->System_SetState(HGE_WINDOWED, false),tfs=true;
 	if(fFullScreen==2)hge->System_SetState(HGE_WINDOWED, false),tfs=true;
 	if(fFullScreen==1)hge->System_SetState(HGE_WINDOWED, true),tfs=false;
-	tch=getchar();//vsync
-	if (tch==1)
+	tch=getchar();//resolution
+	if(VidMode==-1)VidMode=tch;
+	switch(VidMode)
 	{
-		hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);
-		fpslvl=2;
+		case 0:break;
+		case 1:
+			hge->System_SetState(HGE_SCREENWIDTH, 640);
+			hge->System_SetState(HGE_SCREENHEIGHT, 480);
+			break;
+		case 2:
+			hge->System_SetState(HGE_SCREENWIDTH, 960);
+			hge->System_SetState(HGE_SCREENHEIGHT, 720);
+			break;
+		case 3:
+			hge->System_SetState(HGE_SCREENWIDTH, 1024);
+			hge->System_SetState(HGE_SCREENHEIGHT, 768);
+			break;
+		case 4:
+			hge->System_SetState(HGE_SCREENWIDTH, 1280);
+			hge->System_SetState(HGE_SCREENHEIGHT, 960);
+			break;
 	}
+	scale=VidMode?VidMode==1?0.8:VidMode==2?1.2:VidMode==3?1.28:VidMode==4?1.6:0:1;
+#ifndef WIN32
+	yos=VidMode?VidMode==1?120:VidMode==2?-120:VidMode==3?-168:VidMode==4?-360:0:0;
+#endif
 	tch=getchar();//Key binding
 	if (tch==1)diffkey=true;
 	plrspd=tch=getchar();
@@ -1106,6 +1156,10 @@ int main(int argc,char *argv[])
 		MenuFont=new hgeFont("./Resources/charmap.fnt");
 		TipFont=new hgeFont("./Resources/charmap.fnt");
 		MultFnt=new hgeFont("./Resources/charmap.fnt");
+		fnt->SetScale(0.8);
+		MenuFont->SetScale(0.8);
+		TipFont->SetScale(0.8);
+		MultFnt->SetScale(0.8);
 		spr=new hgeSprite(SprSheet,216,0,24,24);
 		Credits=new hgeSprite(TexCredits,0,0,600,200);
 		CreditsRail=new hgeSprite(TexCredits,0,2400,600,200);
@@ -1123,8 +1177,8 @@ int main(int argc,char *argv[])
 			towerspr[i]=new hgeSprite(SprSheet,a.x,a.y,a.w,a.h);
 			towerspr[i]->SetHotSpot(22,22);bulletspr[i]->SetColor(0x80FFFFFF);
 		}
-		mainMenu.Init_Once();mainMenu.Init(-200);
-		startMenu.Init_Once();
+		mainMenu.Init_Once();if(!startLvl)mainMenu.Init(-200);
+		startMenu.Init_Once();optionMenu.Init_Once();
 		gui=new hgeGUI();
 		gui->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Start"));
 		gui->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Highscores && Records"));

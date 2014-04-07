@@ -8,6 +8,13 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-0_PR (r83)
+Now you can change the game resolution.
+Some resources are not re-made so they may look blurred...
+Make font bigger for higher resolution.
+Add command line option for changing the resolution.
+Complete the option menu rewrite.
+
 0.9.1-0_PR (r82)
 Add missing file menus.png...
 Finish the start menu rewrite.

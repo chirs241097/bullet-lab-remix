@@ -73,6 +73,7 @@ You Are Dead!		128,256,256,64
 It Ends Here!		0,320,256,64
 Left Arrow          256,320,26,15
 Right Arrow			256,335,26,15
+Ribbon				256,350,64,16
 */
 enum TColors
 {green=0,blue,yellow,purple,red,white,dblue,orange,grey,circle,COLOR_COUNT};
@@ -83,6 +84,7 @@ bool playerLockX,playerLockY;
 bool DisableAllTower=false;
 bool DisablePlayer=false;
 bool LOWFPS=false,diffkey=false;
+int VidMode=-1;
 inline double GetDist(vector2d,vector2d);
 class Bullet
 {
@@ -291,6 +293,10 @@ hgeSprite *Credits,*CreditsRail;
 int creditsp;double creditfly,creditacc,credbrk;
 bool credstop,creddone;
 bool tfs;
+double scale;
+#ifndef WIN32
+double yos;
+#endif
 int fpslvl,clrmode;
 const vector2d splitData[4]={vector2d(0,0),vector2d(400,0),vector2d(0,300),vector2d(400,300)};
 //options from command line arguments
@@ -325,7 +331,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-0_PR (r82)";
+static const char* BLRVERSION="0.9.1-0_PR (r83)";
 static const char* BuiltDate=__DATE__;
 
 void Throw(char *Filename,char *Info)

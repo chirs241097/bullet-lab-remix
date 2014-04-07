@@ -206,8 +206,8 @@ int CALL HGE_Impl::Input_GetKeyStateEx(int key)//New function
 {
 	if (!Input_GetKeyState(key)&&keylast[key])return HGEKST_RELEASE;
 	if (!Input_GetKeyState(key))return HGEKST_NONE;
-	if (keylast[key])return HGEKST_KEEP;
-	return HGEKST_HIT;
+	if (Input_GetKeyState(key)&&!keylast[key])return HGEKST_HIT;
+	return HGEKST_KEEP;
 }
 
 bool CALL HGE_Impl::Input_KeyDown(int key)

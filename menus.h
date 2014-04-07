@@ -24,21 +24,38 @@ static const char* MMStr[]={
 "About",
 "Exit"
 };
+static const char* OMStr[]={
+"Fullscreen",
+"VSync",
+"Clear Range Key",
+"Resolution",
+"Player Preference",
+"Save and Exit",
+"On",
+"Off",
+"X",
+"Z",
+"800x600",
+"640x480",
+"960x720",
+"1024x768",
+"1280x960",
+"?"
+};
 class MainMenu
 {
 private:
 	bool active,onIn,onOut;
 	int selected;
 	double xoffset,yoffset,dyoffset;
-	hgeSprite *PL,*PR;
+	hgeSprite *Ribb;
 	hgeQuad UpperGradient,LowerGradient;
 public:
 	bool isActive(){return active;}
-	int GetSelected(){return selected;}
 	void Init_Once()
 	{
-		PR=new hgeSprite(MenuTex,256,320,26,15);
-		PL=new hgeSprite(MenuTex,256,335,26,15);
+		Ribb=new hgeSprite(MenuTex,256,350,64,16);
+		Ribb->SetColor(0xCCFFFFFF);
 	}
 	void Init(double start)
 	{
@@ -52,11 +69,11 @@ public:
 		LowerGradient.v[2].col=LowerGradient.v[3].col=0xFF888820;
 	}
 	void Leave(){onOut=true;}
-	void Update()
+	int Update()
 	{
 		if(onIn)
 		{
-			if(fabs(xoffset-650)<hge->Timer_GetDelta()*1600)return (void)(xoffset=650,onIn=false);
+			if(fabs(xoffset-650)<hge->Timer_GetDelta()*1600)return xoffset=650,onIn=false,-1;
 			if(xoffset<650)
 			xoffset+=hge->Timer_GetDelta()*1600;
 			else
@@ -75,6 +92,9 @@ public:
 		if(fabs(dyoffset-yoffset)<0.2)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*200;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*200;
+		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+			return selected;
+		return -1;
 	}
 	void Render()
 	{
@@ -84,8 +104,8 @@ public:
 			if(calcy>249.9&&calcy<500.1)
 			MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,MMStr[i]);
 		}
-		PR->Render(110+xoffset,370);
-		PL->Render(-30+xoffset,370);
+		Ribb->RenderEx(xoffset-50,355,0,3,1);
+		Ribb->RenderEx(xoffset-50,382,0,3,1);
 		hge->Gfx_RenderQuad(&UpperGradient);
 		hge->Gfx_RenderQuad(&LowerGradient);
 	}
@@ -100,7 +120,6 @@ private:
 	hgeSprite *clzk,*azmt,*fpmd,*msel;
 public:
 	bool isActive(){return active;}
-	int GetSelected(){return selected;}
 	void Init_Once()
 	{
 		clzk=new hgeSprite(MenuTex,0,0,256,128);
@@ -116,17 +135,17 @@ public:
 		active=true;onIn=true;yoffset=275;
 		selected=0;xoffset=-selected*300;moffset=450;
 		ConfigureQuad(&LowerGradient,0,400+yoffset,800,120);
-		LowerGradient.v[0].col=LowerGradient.v[1].col=0x00888820;
+		LowerGradient.v[0].col=LowerGradient.v[1].col=0x01888820;
 		LowerGradient.v[2].col=LowerGradient.v[3].col=0xFF888820;
 		ConfigureQuad(&LeftGradient,0,320+yoffset,100,200);
 		LeftGradient.v[0].col=LeftGradient.v[3].col=0xFF888820;
-		LeftGradient.v[1].col=LeftGradient.v[2].col=0x00888820;
+		LeftGradient.v[1].col=LeftGradient.v[2].col=0x01888820;
 		ConfigureQuad(&RightGradient,700,320+yoffset,100,200);
-		RightGradient.v[0].col=RightGradient.v[3].col=0x00888820;
+		RightGradient.v[0].col=RightGradient.v[3].col=0x01888820;
 		RightGradient.v[1].col=RightGradient.v[2].col=0xFF888820;
 	}
 	void Leave(){onOut=true;}
-	void Update()
+	int Update()
 	{
 		if(onIn)
 		{
@@ -164,6 +183,9 @@ public:
 		ConfigureQuad(&LowerGradient,0,400+yoffset,800,120);
 		ConfigureQuad(&LeftGradient,0,320+yoffset,100,200);
 		ConfigureQuad(&RightGradient,700,320+yoffset,100,200);
+		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+			return selected;
+		return -1;
 	}
 	void Render()
 	{
@@ -176,6 +198,204 @@ public:
 		msel->Render(0,moffset+200);
 	}
 }startMenu;
+class OptionsMenu
+{
+private:
+	bool active,onIn,onOut,onSwitch,onSwitchi;
+	int selected;
+	double xoffset,yoffset,dyoffset,swoffset,moffset;
+	hgeSprite *Ribb,*msel;
+	hgeQuad UpperGradient,LowerGradient;
+public:
+	bool isActive(){return active;}
+	void Init_Once()
+	{
+		Ribb=new hgeSprite(MenuTex,256,350,64,16);
+		msel=new hgeSprite(MenuTex,256,192,256,64);
+		Ribb->SetColor(0xCCFFFFFF);
+	}
+	void Init(double start)
+	{
+		xoffset=start;onIn=active=true;onSwitch=onSwitchi=false;
+		selected=0;dyoffset=yoffset=-selected*30;moffset=350;
+		ConfigureQuad(&UpperGradient,xoffset-140,250,500,50);
+		UpperGradient.v[0].col=UpperGradient.v[1].col=0xFF888820;
+		UpperGradient.v[2].col=UpperGradient.v[3].col=0x00888820;
+		ConfigureQuad(&LowerGradient,xoffset-140,430,500,100);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=0x00888820;
+		LowerGradient.v[2].col=LowerGradient.v[3].col=0xFF888820;
+	}
+	void Leave(){onOut=true;}
+	int Update()
+	{
+		if(onIn)
+		{
+			bool alldone=true;
+			if(fabs(xoffset-450)<hge->Timer_GetDelta()*1600)xoffset=450;else
+			{
+				alldone=false;
+				if(xoffset<450)
+				xoffset+=hge->Timer_GetDelta()*1600;
+				else
+				xoffset-=hge->Timer_GetDelta()*1600;
+			}
+			if(fabs(moffset-0)<hge->Timer_GetDelta()*1200)
+				moffset=0;
+			else alldone=false,moffset-=hge->Timer_GetDelta()*1200;
+			if(alldone)return onIn=false,-1;
+		}
+		if(onOut)
+		{
+			bool alldone=true;
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset<850)alldone=false;
+			if(fabs(moffset-450)<hge->Timer_GetDelta()*1200)
+				moffset=450;
+			else alldone=false,moffset+=hge->Timer_GetDelta()*800;
+			if(alldone)active=onOut=false;
+		}
+		ConfigureQuad(&UpperGradient,xoffset-140,250,500,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,430,500,100);
+		if(!onSwitch)
+		{
+			if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
+			if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<6-1)++selected;
+		}
+		yoffset=-selected*30;
+		if(fabs(dyoffset-yoffset)<0.2)dyoffset=yoffset;
+		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*200;
+		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*200;
+		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)return -1;
+		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+		{
+			if(onSwitch||onSwitchi)return -1;
+			if(selected<=3)
+			{
+				onSwitch=true;
+				swoffset=100;
+			}
+			if(selected==0)tfs=!tfs;
+			if(selected==1)
+			{
+				fpslvl=fpslvl==2?0:2;
+				if(fpslvl==2)hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);
+				if(fpslvl==0)hge->System_SetState(HGE_FPS,61);
+			}
+			if(selected==2)diffkey=!diffkey;
+			if(selected==3)
+			{
+				++VidMode;
+				if(VidMode>4)VidMode=0;
+			}
+			return selected;
+		}
+		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)
+		{
+			if(onSwitch||onSwitchi)return -1;
+			if(selected<=2){onSwitch=true;swoffset=100;}
+			if(selected==0)tfs=!tfs;
+			if(selected==1)
+			{
+				fpslvl=fpslvl==2?0:2;
+				if(fpslvl==2)hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);
+				if(fpslvl==0)hge->System_SetState(HGE_FPS,61);
+			}
+			if(selected==2)diffkey=!diffkey;
+			if(selected==3)
+			{
+				--VidMode;onSwitchi=true;swoffset=0;
+				if(VidMode<0)VidMode=4;
+			}
+			return selected;
+		}
+		return -1;
+	}
+	void Render()
+	{
+		for(int i=0;i<6;++i)
+		{
+			double calcy=i*30+dyoffset+360;
+			if(calcy>249.9&&calcy<500.1)
+			{
+				MenuFont->SetColor(0xFFFFFFFF);
+				MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,OMStr[i]);
+				if(i==0)
+				{
+					if(!onSwitch||selected!=0)
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[tfs?6:7]);
+					else
+					{
+						MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+						MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?7:6]);
+						MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+						MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?6:7]);
+						swoffset-=hge->Timer_GetDelta()*400;
+						if(swoffset<0)swoffset=0,onSwitch=false;
+					}
+				}
+				if(i==1)
+				{
+					if(!onSwitch||selected!=1)
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?6:7]);
+					else
+					{
+						MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+						MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?7:6]);
+						MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+						MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?6:7]);
+						swoffset-=hge->Timer_GetDelta()*400;
+						if(swoffset<0)swoffset=0,onSwitch=false;
+					}
+				}
+				if(i==2)
+				{
+					if(!onSwitch||selected!=2)
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[diffkey?8:9]);
+					else
+					{
+						MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+						MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?9:8]);
+						MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+						MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?8:9]);
+						swoffset-=hge->Timer_GetDelta()*400;
+						if(swoffset<0)swoffset=0,onSwitch=false;
+					}
+				}
+				if(i==3)
+				{
+					if(!(onSwitch||onSwitchi)||selected!=3)
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+10]:OMStr[15]);
+					else
+					{
+						if(onSwitch)
+						{
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode==0?14:VidMode+9]:OMStr[15]);
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+10]:OMStr[15]);
+							swoffset-=hge->Timer_GetDelta()*400;
+							if(swoffset<0)swoffset=0,onSwitch=false;
+						}
+						if(onSwitchi)
+						{
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+10]:OMStr[15]);
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode==4?10:VidMode+11]:OMStr[15]);
+							swoffset+=hge->Timer_GetDelta()*400;
+							if(swoffset>100)swoffset=0,onSwitchi=false;
+						}
+					}
+				}
+			}
+		}
+		Ribb->RenderEx(xoffset-50,355,0,6,1);
+		Ribb->RenderEx(xoffset-50,382,0,6,1);
+		hge->Gfx_RenderQuad(&UpperGradient);
+		hge->Gfx_RenderQuad(&LowerGradient);
+		msel->Render(300,moffset+300);
+	}
+}optionMenu;
 //==================================================================================
 //Here's where old code dies...
 hgeGUI			*StartGUI,*DeathGUI,*CompleteGUI,*HighScoreGUI;
@@ -787,9 +1007,9 @@ void Options_Writeback()
 {
 	freopen("blr.cfg","w",stdout);
 	printf(";CBL");
-	printf("%c",fpslvl==1?1:0);
-	printf("%c",tfs?1:0);
 	printf("%c",fpslvl==2?1:0);
+	printf("%c",tfs?1:0);
+	printf("%c",VidMode);
 	printf("%c",diffkey?1:0);
 	printf("%c%c%c%c",plrspd,plrslospd,clrbns,clrmode);
 	fclose(stdout);
