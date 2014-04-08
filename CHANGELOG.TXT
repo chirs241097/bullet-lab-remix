@@ -8,6 +8,16 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-0_PR (r84)
+Port player preference menu, pause menu and return to title menu
+to the new menu code base.
+Add shake effect to player preference menu.
+Make effects faster...
+Press esc in a menu will select back/exit now.
+Add several background transfers.
+Fix possible memory leaks in HangUpText.
+Remove some commented statements.
+
 0.9.1-0_PR (r83)
 Now you can change the game resolution.
 Some resources are not re-made so they may look blurred...

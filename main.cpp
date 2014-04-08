@@ -623,11 +623,14 @@ bool FrameFunc()
 	float dt=hge->Timer_GetDelta();
 	static float t=0.0f;
 	float tx,ty;
-	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))PauseGUI_Init();
-	int MMR=-1,SMR=-1,OMR=-1;
+	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))pauseMenu.Init(-200);//PauseGUI_Init();
+	int MMR=-1,SMR=-1,OMR=-1,PPMR=-1,PMR=-1,RTTMR=-1;
 	if (mainMenu.isActive())MMR=mainMenu.Update();
 	if (startMenu.isActive())SMR=startMenu.Update();
 	if (optionMenu.isActive())OMR=optionMenu.Update();
+	if (playerPreferenceMenu.isActive())PPMR=playerPreferenceMenu.Update();
+	if (pauseMenu.isActive())PMR=pauseMenu.Update();
+	if (returnToTitleMenu.isActive())RTTMR=returnToTitleMenu.Update();
 	if (Current_Position==0)
 	{
 		if(!mainMenu.isActive())return true;
@@ -731,13 +734,34 @@ bool FrameFunc()
 	if (Current_Position==8)HighScoreGUI_FrameFnk();
 	if (Current_Position==9)HSViewGUI_FrameFnk();
 	if (Current_Position==10)HSDetGUI_FrameFnk();
-	if (Current_Position==11)PauseGUI_FrameFnk();
-	if (Current_Position==12)BkTTitleGUI_FrameFnk();
+	if (Current_Position==11)
+	{
+        if(~PMR)
+		{
+			pauseMenu.Leave();
+			if(PMR==2)returnToTitleMenu.Init(-200),Current_Position=12;
+			return false;
+		}
+	}
+	if (Current_Position==12)
+	{
+		if(~RTTMR)
+		{
+			returnToTitleMenu.Leave();
+			if(RTTMR==1)pauseMenu.Init(-200);
+			if(RTTMR==2)mainMenu.Init(-200),Current_Position=0;
+		}
+	}
 	if (Current_Position==13)
 	{
 		if(~OMR)
 		{
 			if(OMR==4||OMR==5)optionMenu.Leave();
+			if(OMR==4)
+			{
+				playerPreferenceMenu.Init(-200);
+				Current_Position=14;
+			}
 			if(OMR==5)
 			{
 				Options_Writeback();
@@ -747,8 +771,21 @@ bool FrameFunc()
 			return false;
 		}
 	}
-	if (Current_Position==14)PlayerProfGUI_FrameFnk();
-	// Here we update our background animation
+	if (Current_Position==14)
+	{
+		if(~PPMR)
+		{
+			if(PPMR==5)
+			{
+				if(AP_Update(plrspd,plrslospd,clrbns)<=10000)
+					optionMenu.Init(850),
+					Current_Position=13,
+					playerPreferenceMenu.Leave();
+				else playerPreferenceMenu.Shake();
+			}
+			return false;
+		}
+	}
 	t+=dt;
 	tx=50*cosf(t/60);
 	ty=50*sinf(t/60);
@@ -772,12 +809,12 @@ bool FrameFunc()
 	if(mainMenu.isActive())mainMenu.Render();
 	if(startMenu.isActive())startMenu.Render();
 	if(optionMenu.isActive())optionMenu.Render();
+	if(playerPreferenceMenu.isActive())playerPreferenceMenu.Render();
+	if(pauseMenu.isActive())pauseMenu.Render();
+	if(returnToTitleMenu.isActive())returnToTitleMenu.Render();
 	if (Current_Position==0||Current_Position==3||Current_Position==8||
 		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
 	{
-		//titlespr->Render(160,0);
-		//if (Current_Position==0)gui->Render();
-		//mainMenu.Render();
 		titlespr->Render(160,0);
 	}
 	if (Current_Position==1||Current_Position==2||Current_Position==5||Current_Position==11||Current_Position==12)
@@ -854,10 +891,6 @@ bool FrameFunc()
 	if (Current_Position==8)HighScoreGUI->Render();
 	if (Current_Position==9)HSViewGUI->Render();
 	if (Current_Position==10)HSDetailGUI->Render();
-	if (Current_Position==11)PauseGUI->Render();
-	if (Current_Position==12)BkTTitleGUI->Render();
-	//if (Current_Position==13)OptionsGUI->Render();
-	if (Current_Position==14)PlayerProfGUI->Render();
 	fnt->SetColor(0xFFFFFFFF);
 	rbPanelFont.UpdateString(L" FPS: %.2f",hge->Timer_GetFPSf());
 	rbPanelFont.Render(785,595,0xFFFFFFFF,1);
@@ -1137,7 +1170,7 @@ int main(int argc,char *argv[])
 		if(!quad.tex||!SprSheet||!TexTitle||!TexCredits)
 		Error("Error Loading Resources!",true);
 		quad.blend=BLEND_ALPHABLEND | BLEND_COLORMUL | BLEND_NOZWRITE;
-		DBGColor=0xFF888820;
+		DBGColor=0xFFFFFFFF;
 		for(int i=0;i<4;i++)
 		{
 			quad.v[i].z=0.5f;
@@ -1179,6 +1212,8 @@ int main(int argc,char *argv[])
 		}
 		mainMenu.Init_Once();if(!startLvl)mainMenu.Init(-200);
 		startMenu.Init_Once();optionMenu.Init_Once();
+		pauseMenu.Init_Once();returnToTitleMenu.Init_Once();
+		playerPreferenceMenu.Init_Once();
 		gui=new hgeGUI();
 		gui->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Start"));
 		gui->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Highscores && Records"));
@@ -1188,7 +1223,7 @@ int main(int argc,char *argv[])
 		gui->SetNavMode(HGEGUI_UPDOWN | HGEGUI_CYCLED);
 		gui->SetCursor(spr);
 		gui->SetFocus(1);
-		gui->Enter();
+		//gui->Enter();
 		if(LOWFPS)hge->System_Log("%s: Low FPS Mode Enabled.",MAIN_SRC_FN);
 		if(fNoSound)hge->System_Log("%s: Sound is disabled.",MAIN_SRC_FN);
 		if(startLvl)

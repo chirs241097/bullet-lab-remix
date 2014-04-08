@@ -80,6 +80,7 @@ bool HangUpText::Active(){return TFont&&!done;}
 void HangUpText::Init(const char *Font,const char *_Text,double _tlim,double _alim,double _dlim,DWORD _color)
 {
 	TFont=new hgeFont(Font);
+	TFont->SetScale(0.8);
 	strcpy(Text,_Text);
 	Limit=_tlim;alim=_alim;dlim=_dlim;TFont->SetColor(_color);
 	Progresser.Init(0,dlim,Limit);Progalpha.Init(0,255,Limit/2);
@@ -99,8 +100,13 @@ void HangUpText::Process(double DT)
 		Progalpha.Init(255,0,Limit/2);
 		Progalpha.Launch();
 	}
-	if (Progalpha.GetA()>Progalpha.GetB()&&Progresser.GetElapsed()>=Limit)return (void)(done=true);
+	if (Progalpha.GetA()>Progalpha.GetB()&&Progresser.GetElapsed()>=Limit)
+	{
+		delete TFont;TFont=0;
+		return (void)(done=true);
+	}
 	Progalpha.Update(DT);
+	if(!TFont)return;
 	TFont->SetColor(SETA(TFont->GetColor(),Progalpha.GetValue()));
 	TFont->printf(Position.x,Position.y,HGETEXT_CENTER,Text);
 }

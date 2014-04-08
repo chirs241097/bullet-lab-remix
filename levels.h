@@ -48,6 +48,12 @@ bool sout,tendone;bool dmt[16];
 void Level1Part0(){++part;}
 void Level1Part1()
 {
+	if(DBGColor!=0xFF888820)
+	{
+		for(int i=0;i<3;++i)
+			DBGColor=ColorTransfer(DBGColor,0xFF888820);
+		return;
+	}
 	CreateTower1(400,300,857,2);
 	frameleft=AMinute*2;
 	tcnt=1;sout=false;dscroll=-0.025f;memset(dmt,true,sizeof(dmt));
@@ -3530,7 +3536,8 @@ Good luck and go for the highest score!\
 	}
 	if (Current_Position==1)
 	{
-		if((DBGColor=ColorTransfer(DBGColor,0xFF1B2065))!=0xFF1B2065)frameleft=10;
+		if((DBGColor=ColorTransfer(DBGColor,0xFF1B2065))!=0xFF1B2065)
+			DBGColor=ColorTransfer(DBGColor,0xFF1B2065),frameleft=10;
 		else{++part;IfShowTip=true;bulcnt=0;return;}
 	}
 }

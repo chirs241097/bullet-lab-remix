@@ -331,7 +331,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-0_PR (r83)";
+static const char* BLRVERSION="0.9.1-0_PR (r84)";
 static const char* BuiltDate=__DATE__;
 
 void Throw(char *Filename,char *Info)
