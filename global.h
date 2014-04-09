@@ -9,7 +9,6 @@
 HGE *hge=0;
 HEFFECT				snd;
 hgeQuad				quad;
-hgeGUI				*gui;
 hgeFont				*fnt;
 hgeSprite			*spr,*titlespr;
 int					Current_Position;//Where we are now
@@ -69,8 +68,10 @@ Titles...
 Select a Mode		256,128,256,64
 Options				256,192,256,64
 Player Preference	0,256,256,64
-You Are Dead!		128,256,256,64
+You Are Dead!		256,256,256,64
 It Ends Here!		0,320,256,64
+View Highscore for..0,376,256,64
+Highscore details	0,448,256,64
 Left Arrow          256,320,26,15
 Right Arrow			256,335,26,15
 Ribbon				256,350,64,16
@@ -331,7 +332,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-0_PR (r84)";
+static const char* BLRVERSION="0.9.1-0_PR (r85)";
 static const char* BuiltDate=__DATE__;
 
 void Throw(char *Filename,char *Info)

@@ -363,7 +363,7 @@ void RefreshScore()
 void CallLevels()
 {
 	//Use this to call level procedures.
-	if ((mode==1)&&coll!=0){DeathGUI_Init();return;}
+	if ((mode==1)&&coll!=0){deathMenu.Init(-200);return;}
 	if ((mode==2)&&coll!=0){assetime=0;++part;coll=0;IfCallLevel=IfShowTip=true;return;}
 	if (!IfCallLevel) return;
 	if (mode==2)assetime+=hge->Timer_GetDelta();
@@ -551,41 +551,42 @@ void CallLevels()
 	if (level==1&&part==5)level=2,part=0;
 	if (level==2&&part==10)
 	{
-		if(mode==3&&coll>10){CompleteGUI_Init();return;}
-		if(mode==1&&restarts>1){CompleteGUI_Init();return;}
+		if(mode==3&&coll>10){completeMenu.Init(-200);return;}
+		if(mode==1&&restarts>1){completeMenu.Init(-200);return;}
 		level=3,part=0;
 	}
 	if (level==3&&part==7)
 	{
-		if(mode==3&&coll>40){CompleteGUI_Init();return;}
-		if(mode==1&&restarts>2){CompleteGUI_Init();return;}
+		if(mode==3&&coll>40){completeMenu.Init(-200);return;}
+		if(mode==1&&restarts>2){completeMenu.Init(-200);return;}
 		level=4,part=0;
 	}
 	if (level==4&&part==26)
 	{
-		if(mode==3&&coll>75){CompleteGUI_Init();return;}
-		if(mode==1&&restarts>3){CompleteGUI_Init();return;}
+		if(mode==3&&coll>75){completeMenu.Init(-200);return;}
+		if(mode==1&&restarts>3){completeMenu.Init(-200);return;}
 		level=5,part=0;
 	}
 	if (level==5&&part==23)
 	{
-		if(mode==3&&coll>125){CompleteGUI_Init();return;}
-		if(mode==1&&restarts>5){CompleteGUI_Init();return;}
+		if(mode==3&&coll>125){completeMenu.Init(-200);return;}
+		if(mode==1&&restarts>5){completeMenu.Init(-200);return;}
 		level=6,part=0;
 	}
 	if (level==6&&part==32)
 	{
-		if(mode==3&&coll>200){CompleteGUI_Init();return;}
-		if(mode==1&&restarts>8){CompleteGUI_Init();return;}
+		if(mode==3&&coll>200){completeMenu.Init(-200);return;}
+		if(mode==1&&restarts>8){completeMenu.Init(-200);return;}
 		level=7,part=0;
 	}
 	if (level==7&&part==27)
 	{
-		if(mode==3&&coll>50){CompleteGUI_Init();return;}
-		if(mode==1&&restarts>2){CompleteGUI_Init();return;}
+		if(mode==3&&coll>50){completeMenu.Init(-200);return;}
+		if(mode==1&&restarts>2){completeMenu.Init(-200);return;}
 		level=-1,part=0;
 	}
-	if (level==-1&&part==22){CompleteGUI_Init();return;}
+	if (level==-1&&part==22){completeMenu.Init(-200);return;}
+	if (level==-2&&part>26){completeMenu.Init(-200);return;}
 }
 bool ProcessCurCred()
 {
@@ -615,7 +616,7 @@ void AboutScene()
 }
 bool Foclost()
 {
-	if (Current_Position==1)PauseGUI_Init();
+	if (Current_Position==1)pauseMenu.Init(-200);
 	return false;
 }
 bool FrameFunc()
@@ -623,14 +624,17 @@ bool FrameFunc()
 	float dt=hge->Timer_GetDelta();
 	static float t=0.0f;
 	float tx,ty;
-	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))pauseMenu.Init(-200);//PauseGUI_Init();
-	int MMR=-1,SMR=-1,OMR=-1,PPMR=-1,PMR=-1,RTTMR=-1;
+	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))pauseMenu.Init(-200);
+	int MMR=-1,SMR=-1,OMR=-1,PPMR=-1,PMR=-1,RTTMR=-1,DMR=-1,CMR=-1;
 	if (mainMenu.isActive())MMR=mainMenu.Update();
 	if (startMenu.isActive())SMR=startMenu.Update();
 	if (optionMenu.isActive())OMR=optionMenu.Update();
 	if (playerPreferenceMenu.isActive())PPMR=playerPreferenceMenu.Update();
 	if (pauseMenu.isActive())PMR=pauseMenu.Update();
 	if (returnToTitleMenu.isActive())RTTMR=returnToTitleMenu.Update();
+	if (deathMenu.isActive())DMR=deathMenu.Update();
+	if (completeMenu.isActive())CMR=completeMenu.Update();
+	if (newHighScoreGUI.isActive())newHighScoreGUI.Update();
 	if (Current_Position==0)
 	{
 		if(!mainMenu.isActive())return true;
@@ -728,9 +732,41 @@ bool FrameFunc()
 			return false;
 		}
 	}
-	if (Current_Position==5)DeathGUI_FrameFnk();
-	if (Current_Position==6)CompleteGUI_FrameFnk();
-	if (Current_Position==7)NewHighScoreGUI_FrameFnk();
+	if (Current_Position==5)
+	{
+		if(~DMR)
+		{
+			if(DMR==1)
+			{
+				IfCallLevel=true;
+				IfShowTip=true;
+				Current_Position=1;
+				score=-abs(score);
+				mult=1;multbat=1;multbrk=TenSeconds;
+				++restarts;part=0;
+				clockrot=deltarot=0;
+				coll=towcnt=bulcnt=0;
+				DisableAllTower=DisablePlayer=false;
+			}
+			if(DMR==2)
+			{Current_Position=0;mainMenu.Init(-200);}
+			deathMenu.Leave();
+			return false;
+		}
+	}
+	if (Current_Position==6)
+	{
+		if(~CMR)
+		{
+			if(CMR==1)
+			{Current_Position=7;newHighScoreGUI.Init();}
+			if(CMR==2)
+			{Current_Position=0;mainMenu.Init(-200);}
+			completeMenu.Leave();
+			return false;
+		}
+	}
+	//if (Current_Position==7)newHighScoreGUI.Update(); where to do it?
 	if (Current_Position==8)HighScoreGUI_FrameFnk();
 	if (Current_Position==9)HSViewGUI_FrameFnk();
 	if (Current_Position==10)HSDetGUI_FrameFnk();
@@ -806,17 +842,6 @@ bool FrameFunc()
 	hge->Gfx_Clear(SETA(DBGColor,0xFF));
 	if (skyactive)sky.Update(),sky.Render();
 	hge->Gfx_RenderQuad(&quad);
-	if(mainMenu.isActive())mainMenu.Render();
-	if(startMenu.isActive())startMenu.Render();
-	if(optionMenu.isActive())optionMenu.Render();
-	if(playerPreferenceMenu.isActive())playerPreferenceMenu.Render();
-	if(pauseMenu.isActive())pauseMenu.Render();
-	if(returnToTitleMenu.isActive())returnToTitleMenu.Render();
-	if (Current_Position==0||Current_Position==3||Current_Position==8||
-		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
-	{
-		titlespr->Render(160,0);
-	}
 	if (Current_Position==1||Current_Position==2||Current_Position==5||Current_Position==11||Current_Position==12)
 	{
 	//If we are at the main scene or tip scene(which towers and bullets should still appear..)
@@ -883,11 +908,22 @@ bool FrameFunc()
 		IfShowTip=true;
 	}
 	if (shots)hge->Effect_Play(snd);
+	if(mainMenu.isActive())mainMenu.Render();
+	if(startMenu.isActive())startMenu.Render();
+	if(optionMenu.isActive())optionMenu.Render();
+	if(playerPreferenceMenu.isActive())playerPreferenceMenu.Render();
+	if(pauseMenu.isActive())pauseMenu.Render();
+	if(returnToTitleMenu.isActive())returnToTitleMenu.Render();
+	if(deathMenu.isActive())deathMenu.Render();
+	if(completeMenu.isActive())completeMenu.Render();
+	if(newHighScoreGUI.isActive())newHighScoreGUI.Render();
+	if (Current_Position==0||Current_Position==3||Current_Position==8||
+		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
+	{
+		titlespr->Render(160,0);
+	}
 	if (Current_Position==2)ShowTip(lasttip);
 	if (Current_Position==4)AboutScene();
-	if (Current_Position==5)DeathGUI->Render();
-	if (Current_Position==6)CompleteGUI->Render();
-	if (Current_Position==7)NewHighScoreGUI_Render();
 	if (Current_Position==8)HighScoreGUI->Render();
 	if (Current_Position==9)HSViewGUI->Render();
 	if (Current_Position==10)HSDetailGUI->Render();
@@ -1213,23 +1249,13 @@ int main(int argc,char *argv[])
 		mainMenu.Init_Once();if(!startLvl)mainMenu.Init(-200);
 		startMenu.Init_Once();optionMenu.Init_Once();
 		pauseMenu.Init_Once();returnToTitleMenu.Init_Once();
+		deathMenu.Init_Once();completeMenu.Init_Once();
 		playerPreferenceMenu.Init_Once();
-		gui=new hgeGUI();
-		gui->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Start"));
-		gui->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Highscores && Records"));
-		gui->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Options"));
-		gui->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"About"));
-		gui->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,360,0.4f,"Exit"));
-		gui->SetNavMode(HGEGUI_UPDOWN | HGEGUI_CYCLED);
-		gui->SetCursor(spr);
-		gui->SetFocus(1);
-		//gui->Enter();
 		if(LOWFPS)hge->System_Log("%s: Low FPS Mode Enabled.",MAIN_SRC_FN);
 		if(fNoSound)hge->System_Log("%s: Sound is disabled.",MAIN_SRC_FN);
 		if(startLvl)
 		{
 			hge->System_Log("%s: Starting from Level%dPart%d",MAIN_SRC_FN,startLvl,startPrt);
-			gui->Leave();
 			playerpos.x=400,playerpos.y=400,playerrot=0;
 			frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
 			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;
@@ -1246,9 +1272,8 @@ int main(int argc,char *argv[])
 			mode=3;
 		}
 		hge->System_Start();
-		delete gui;delete titlespr;
-		delete fnt;delete playerspr;
-		delete spr;
+		delete titlespr;delete fnt;
+		delete playerspr;delete spr;
 		for (int ii=0;ii<COLOR_COUNT;++ii)
 		{
 			TColors i=(TColors)ii;

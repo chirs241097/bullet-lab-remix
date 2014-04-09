@@ -50,6 +50,20 @@ void Options_Writeback()
 	printf("%c%c%c%c",plrspd,plrslospd,clrbns,clrmode);
 	fclose(stdout);
 }
+char *getRank()
+{
+	static char retval[256];
+	//stub!
+	//sprintf something to retval
+	if(mode!=2)
+	{
+		if(level<=3)sprintf(retval,"Try more...");
+		if(level<=6)sprintf(retval,"Still need more effort!");
+		if(level==7)sprintf(retval,"You've done it!");
+		if(level==-1)sprintf(retval,"Why do you come to Earth?");
+	}
+	return retval;
+}
 static const char* MMStr[]={
 	"Start",
 	"Highscore",
@@ -94,6 +108,16 @@ static const char *RTTMStr[]={
 	"Really?",
 	"I've pressed the wrong key...",
 	"Do return to title!"
+};
+static const char *DMStr[]={
+	"Continue? You score will be set to minus!",
+	"Continue!",
+	"No thanks..."
+};
+static const char *CMStr[]={
+	"Keep this in your highscore record?",
+	"Yes",
+	"No thanks..."
 };
 class MainMenu
 {
@@ -209,6 +233,12 @@ public:
 	void Leave(){onOut=true;}
 	int Update()
 	{
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+		LeftGradient.v[0].col=LeftGradient.v[3].col=SETA(DBGColor,0xFF);
+		LeftGradient.v[1].col=LeftGradient.v[2].col=SETA(DBGColor,0x00);
+		RightGradient.v[0].col=RightGradient.v[3].col=SETA(DBGColor,0x00);
+		RightGradient.v[1].col=RightGradient.v[2].col=SETA(DBGColor,0xFF);
 		if(onIn)
 		{
 			bool alldone=true;
@@ -880,285 +910,281 @@ public:
 		hge->Gfx_RenderQuad(&LowerGradient);
 	}
 }returnToTitleMenu;
+class DeathMenu
+{
+private:
+	bool active,onIn,onOut;
+	int selected;
+	double xoffset,yoffset,dyoffset;
+	hgeSprite *Ribb,*DeathTitle;
+	hgeQuad UpperGradient,LowerGradient;
+public:
+	bool isActive(){return active;}
+	void Init_Once()
+	{
+		Ribb=new hgeSprite(MenuTex,256,350,64,16);
+		DeathTitle=new hgeSprite(MenuTex,256,256,256,64);
+		Ribb->SetColor(0xCCFFFFFF);
+	}
+	void Init(double start)
+	{
+		//Magical things, again...
+		Current_Position=5;Music_Stop();
+		DisableAllTower=true;DisablePlayer=true;
+		xoffset=start;onIn=true;active=true;
+		selected=1;dyoffset=yoffset=-selected*30;
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,50);
+		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
+		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,100);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+	}
+	void Leave(){onOut=true;}
+	int Update()
+	{
+		//The background color is likely on a change here...
+		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
+		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+		if(onIn)
+		{
+			if(fabs(xoffset-300)<hge->Timer_GetDelta()*1600)return xoffset=300,onIn=false,-1;
+			if(xoffset<300)
+			xoffset+=hge->Timer_GetDelta()*1600;
+			else
+			xoffset-=hge->Timer_GetDelta()*1600;
+		}
+		if(onOut)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>=850)active=onOut=false;
+		}
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,110);
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected;
+		yoffset=-selected*30;
+		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
+		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
+		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+			return selected;
+		return -1;
+	}
+	void Render()
+	{
+		for(int i=0;i<3;++i)
+		{
+			double calcy=i*30+dyoffset+400;
+			if(calcy>289.9&&calcy<540.1)
+			MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,DMStr[i]);
+		}
+		Ribb->RenderEx(xoffset-50,395,0,3.75,1);
+		Ribb->RenderEx(xoffset-50,422,0,3.75,1);
+		hge->Gfx_RenderQuad(&UpperGradient);
+		hge->Gfx_RenderQuad(&LowerGradient);
+		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
+#ifdef WIN32
+	"You scored %I64d at level %d"
+#else
+	"You scored %lld at level %d"
+#endif
+	,score,level);
+		MenuFont->printf(xoffset-100,280,HGETEXT_LEFT,"Average FPS: %lf\n",averfps);
+		DeathTitle->Render(xoffset-200,200);
+	}
+}deathMenu;
+class CompleteMenu
+{
+private:
+	bool active,onIn,onOut;
+	int selected;
+	double xoffset,yoffset,dyoffset;
+	hgeSprite *Ribb,*CompleteTitle;
+	hgeQuad UpperGradient,LowerGradient;
+public:
+	bool isActive(){return active;}
+	void Init_Once()
+	{
+		Ribb=new hgeSprite(MenuTex,256,350,64,16);
+		CompleteTitle=new hgeSprite(MenuTex,0,320,256,64);
+		Ribb->SetColor(0xCCFFFFFF);
+	}
+	void Init(double start)
+	{
+		//Magical things, again...
+		Current_Position=6;Music_Stop();
+		DisableAllTower=true;DisablePlayer=true;
+		xoffset=start;onIn=true;active=true;
+		selected=1;dyoffset=yoffset=-selected*30;
+		ConfigureQuad(&UpperGradient,xoffset-140,390,600,50);
+		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
+		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
+		ConfigureQuad(&LowerGradient,xoffset-140,540,600,100);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+	}
+	void Leave(){onOut=true;}
+	int Update()
+	{
+		//The background color is likely on a change here...
+		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
+		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+		if(onIn)
+		{
+			if(fabs(xoffset-300)<hge->Timer_GetDelta()*1600)return xoffset=300,onIn=false,-1;
+			if(xoffset<300)
+			xoffset+=hge->Timer_GetDelta()*1600;
+			else
+			xoffset-=hge->Timer_GetDelta()*1600;
+		}
+		if(onOut)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>=850)active=onOut=false;
+		}
+		ConfigureQuad(&UpperGradient,xoffset-140,390,600,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,540,600,110);
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected;
+		yoffset=-selected*30;
+		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
+		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
+		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+			return selected;
+		return -1;
+	}
+	void Render()
+	{
+		for(int i=0;i<3;++i)
+		{
+			double calcy=i*30+dyoffset+500;
+			if(calcy>389.9&&calcy<640.1)
+			MenuFont->printf(xoffset-100,calcy,HGETEXT_LEFT,CMStr[i]);
+		}
+		Ribb->RenderEx(xoffset-150,495,0,3.75,1);
+		Ribb->RenderEx(xoffset-150,522,0,3.75,1);
+		hge->Gfx_RenderQuad(&UpperGradient);
+		hge->Gfx_RenderQuad(&LowerGradient);
+		if(~CheckHighScore())
+		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
+#ifdef WIN32
+	"New Highscore %I64d!"
+#else
+	"New Highscore %lld!"
+#endif
+	,score);
+		else
+		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
+#ifdef WIN32
+	"Score %I64d"
+#else
+	"Score %lld"
+#endif
+	,score);
+		MenuFont->printf(xoffset-100,280,HGETEXT_LEFT,"Your Ranking: %s",getRank());
+		if(mode==2)
+		{
+			MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Semi-collisions %d",semicoll);
+			MenuFont->printf(xoffset-100,340,HGETEXT_LEFT,"Average FPS: %.02f",averfps);
+		}
+		else
+		{
+			if(mode==1)
+				MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Restarts %d",restarts);
+			else
+				MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Restarts %d",coll);
+			MenuFont->printf(xoffset-100,340,HGETEXT_LEFT,"Semi-collisions %d",semicoll);
+			MenuFont->printf(xoffset-100,370,HGETEXT_LEFT,"CLR Usage %d",clrusg);
+			MenuFont->printf(xoffset-100,400,HGETEXT_LEFT,"Average FPS: %.02f",averfps);
+		}
+		CompleteTitle->Render(xoffset-200,200);
+	}
+}completeMenu;
+class NewHighScoreGUI
+{
+private:
+	bool active,onIn,onOut,toogleundl;
+	double xoffset;
+	void nameins(char a)
+	{
+		if (newlen<=14)
+			newname[newlen++]=a;
+	}
+	void namedel()
+	{
+		if (newlen>0)newname[--newlen]=0;
+	}
+public:
+	bool isActive(){return active;}
+	void Init()
+	{
+		Current_Position=7;active=true;
+		memset(newname,0,sizeof(newname));newlen=0;tbframebrk=0;toogleundl=false;
+		TipFont->SetColor(0xFFFFFFFF);xoffset=-500;onIn=true;onOut=false;
+	}
+	void Leave(){onOut=true;}
+	void Update()
+	{
+		if(onIn)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>0)xoffset=0,onIn=false;
+		}
+		if(onOut)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>650)onOut=active=false;
+		}
+		int key=hge->Input_GetKey();
+		if (key>=0x30&&key<=0x39)nameins('0'+key-0x30);
+	#ifdef WIN32
+		if (key>=0x41&&key<=0x5A)
+			if (GetKeyState(VK_CAPITAL)&1)nameins('A'+key-0x41);else nameins('a'+key-0x41);
+	#else
+		if (key>=0x41&&key<=0x5A)
+			nameins('A'+key-0x41);
+	#endif
+		if (key==HGEK_SPACE)nameins('_');
+		if (key==HGEK_BACKSPACE)namedel();
+		if (key==HGEK_ENTER)
+		{
+			InsertHighScore();Leave();
+			Current_Position=0;mainMenu.Init(-200);
+			/*switch (mode)
+			{
+				case 4:view=1;HSViewGUI_Init();break;
+				case 1:view=2;HSViewGUI_Init();break;
+				case 2:view=3;HSViewGUI_Init();break;
+				case 3:view=4;HSViewGUI_Init();break;
+			}*/
+		}
+	}
+	void Render()
+	{
+		if (LOWFPS)tbframebrk+=17;else ++tbframebrk;
+		if (tbframebrk>=500)toogleundl=!toogleundl,tbframebrk=0;
+		TipFont->printf(200+xoffset,200,HGETEXT_LEFT,"Please Enter Your Honorable Name...");
+		if (!toogleundl)
+			TipFont->printf(200+xoffset,240,HGETEXT_LEFT,"%s",newname);
+		else
+			TipFont->printf(200+xoffset,240,HGETEXT_LEFT,"%s_",newname);
+	}
+}newHighScoreGUI;
 //==================================================================================
 //Here's where old code dies...
-hgeGUI			*StartGUI,*DeathGUI,*CompleteGUI,*HighScoreGUI;
-hgeGUI			*HSViewGUI,*HSDetailGUI,*PauseGUI,*BkTTitleGUI;
-hgeGUI			*OptionsGUI,*PlayerProfGUI;
-char			ds1[255],ds2[255],ds3[255],ds4[255];
-char			hs1[255],hs2[255],hs3[255],hs4[255],hs5[255],hs6[255],hs7[255];
+hgeGUI			*HighScoreGUI;
+hgeGUI			*HSViewGUI,*HSDetailGUI;
 char			HSVstr[7][255];
 char			HSDetstr[10][255];
-char			opt[10][255];
-bool			toogleundl;
 int				view,detv;
-int				lastkeypressed;
 void HSViewGUI_Init();
 void HighScoreGUI_Init();
-void PauseGUI_Init();
-void StartGUI_Init()
-{
-	StartGUI=new hgeGUI();
-	StartGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Classic"));
-	StartGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,""));
-	StartGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Assessment Mode"));
-	StartGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"Free Play Mode"));
-	StartGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,360,0.4f,"Back"));
-	StartGUI->SetCursor(spr);
-	StartGUI->SetNavMode(HGEGUI_UPDOWN);
-	StartGUI->SetFocus(1);
-	StartGUI->Enter();
-}
-void StartGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=StartGUI->Update(dt);
-	if (id)
-	{
-		switch (id)
-		{
-			case 1:
-				playerpos.x=400,playerpos.y=400,playerrot=0;
-				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
-				level=1,part=1;frms=0,averfps=0.0;bsscale=1;
-				towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
-				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
-				lpst=4625568;lped=9234584;//Music_Play();
-				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
-				Lock.Init(2);IfShowTip=true;lsc=0;
-				//Lock.SetTexture(SprSheet,151,264,2,8);
-				clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
-				memset(tower,0,sizeof(tower));
-				memset(bullet,0,sizeof(bullet));
-				Complete=false;
-				Current_Position=1;
-				Level1Part1();
-				IfCallLevel=true;
-				mode=1;
-				break;
-			case 2:
-			case 3:
-				playerpos.x=400,playerpos.y=400,playerrot=0;
-				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
-				level=-2,part=0;frms=0,averfps=0.0;bsscale=1;assetime=0;
-				towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
-				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
-				lpst=4625568;lped=9234584;//Music_Play();
-				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
-				Lock.Init(2);IfShowTip=true;lsc=0;
-				//Lock.SetTexture(SprSheet,151,264,2,8);
-				clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
-				memset(tower,0,sizeof(tower));
-				memset(bullet,0,sizeof(bullet));
-				Complete=false;
-				Current_Position=1;
-				IfCallLevel=true;
-				mode=2;
-				break;
-			case 4:
-				playerpos.x=400,playerpos.y=400,playerrot=0;
-				frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
-				level=1,part=1;frms=0,averfps=0.0;bsscale=1;
-				towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
-				score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
-				lpst=4625568;lped=9234584;//Music_Play();
-				coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
-				Lock.Init(2);IfShowTip=true;lsc=0;
-				//Lock.SetTexture(SprSheet,151,264,2,8);
-				clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
-				memset(tower,0,sizeof(tower));
-				memset(bullet,0,sizeof(bullet));
-				Complete=false;
-				Current_Position=1;
-				Level1Part1();
-				IfCallLevel=true;
-				mode=3;
-				break;
-			case 5:
-				Current_Position=0;
-				StartGUI->Leave();
-				gui->Enter();
-		}
-	}
-}
-void DeathGUI_Init()
-{
-	DeathGUI=new hgeGUI();
-	Current_Position=5;Music_Stop();
-	DisableAllTower=true;DisablePlayer=true;
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,160,0.0f,"You Are Dead!"));
-#ifdef WIN32
-	sprintf(ds1,"You scored %I64d at level %d",score,level);
-#else
-	sprintf(ds1,"You scored %lld at level %d",score,level);
-#endif
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,200,0.1f,ds1));
-	switch (mode)
-	{
-		case 1:sprintf(ds2,"Mode: Classic");break;
-		case 3:sprintf(ds2,"What Happened?! You died in Free Play Mode?!");break;
-	}
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,240,0.2f,ds2));
-	sprintf(ds3,"Average FPS: %.2f",averfps);
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,280,0.3f,ds3));
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,320,0.3f,""));
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(6,fnt,snd,400,360,0.4f,"Continue from beginning of level? Your score will be set to minus!"));
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,400,0.5f,"Continue!"));
-	DeathGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,440,0.6f,"No thanks..."));
-	for (int i=1;i<=6;++i)DeathGUI->EnableCtrl(i,false);
-	DeathGUI->SetCursor(spr);
-	DeathGUI->SetNavMode(HGEGUI_UPDOWN|HGEGUI_CYCLED);
-	DeathGUI->SetFocus(7);
-	DeathGUI->Enter();
-}
-void DeathGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=DeathGUI->Update(dt);
-	if (id)
-	{
-		switch (id)
-		{
-			case 7:
-				IfCallLevel=true;
-				IfShowTip=true;
-				Current_Position=1;
-				DeathGUI->Leave();
-				score=-abs(score);
-				++restarts;
-				part=0;
-				clockrot=deltarot=0;
-				coll=towcnt=bulcnt=0;
-				DisableAllTower=DisablePlayer=false;
-				break;
-			case 8:Current_Position=0;gui->Enter();DeathGUI->Leave();break;
-		}
-	}
-}
-void NewHighScoreGUI_Init()
-{
-	Current_Position=7;
-	memset(newname,0,sizeof(newname));newlen=0;tbframebrk=0;toogleundl=false;
-	TipFont->SetColor(0xFFFFFFFF);
-}
-void nameins(char a)
-{
-	if (newlen<=14)
-		newname[newlen++]=a;
-}
-void namedel()
-{
-	if (newlen>0)newname[--newlen]=0;
-}
-void NewHighScoreGUI_FrameFnk()
-{
-	int key=hge->Input_GetKey();
-	if (key>=0x30&&key<=0x39)nameins('0'+key-0x30);
-#ifdef WIN32
-	if (key>=0x41&&key<=0x5A)
-		if (GetKeyState(VK_CAPITAL)&1)nameins('A'+key-0x41);else nameins('a'+key-0x41);
-#else
-	if (key>=0x41&&key<=0x5A)
-		nameins('A'+key-0x41);
-#endif
-	if (key==HGEK_SPACE)nameins('_');
-	if (key==HGEK_BACKSPACE)namedel();
-	if (key==HGEK_ENTER)
-	{
-		InsertHighScore();
-		switch (mode)
-		{
-			case 4:view=1;HSViewGUI_Init();break;
-			case 1:view=2;HSViewGUI_Init();break;
-			case 2:view=3;HSViewGUI_Init();break;
-			case 3:view=4;HSViewGUI_Init();break;
-		}
-	}
-}
-void NewHighScoreGUI_Render()
-{
-	if (LOWFPS)tbframebrk+=17;else ++tbframebrk;
-	if (tbframebrk>=500)toogleundl=!toogleundl,tbframebrk=0;
-	TipFont->printf(200,200,HGETEXT_LEFT,"Please Enter Your Honorable Name...");
-	if (!toogleundl)
-		TipFont->printf(200,240,HGETEXT_LEFT,"%s",newname);
-	else
-		TipFont->printf(200,240,HGETEXT_LEFT,"%s_",newname);
-}
-char *getRank()
-{
-	static char retval[256];
-	//stub!
-	//sprintf something to retval
-	if(level<=3)sprintf(retval,"Try more...");
-	if(level<=6)sprintf(retval,"Still need more effort!");
-	if(level==7)sprintf(retval,"You've done it!");
-	if(level==-1)sprintf(retval,"Why do you come to Earth?");
-	return retval;
-}
-void CompleteGUI_Init()
-{
-	CompleteGUI=new hgeGUI();
-	Current_Position=6;
-	DisableAllTower=true;DisablePlayer=true;
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,120,0.0f,"It Ends Here!"));
-#ifdef WIN32
-	if (CheckHighScore()!=-1)
-		sprintf(hs1,"New Highscore %I64d!",score);
-	else
-		sprintf(hs1,"Score %I64d",score);
-#else
-	if (~CheckHighScore())
-		sprintf(hs1,"New Highscore %lld!",score);
-	else
-		sprintf(hs1,"Score %lld",score);
-#endif
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,160,0.1f,hs1));
-	sprintf(hs7,"Your Ranking: %s",getRank());
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,200,0.1f,hs7));
-	switch (mode)
-	{
-		case 1:sprintf(hs2,"Restarts %d",restarts);break;
-		case 3:sprintf(hs2,"Collisions %d",coll);break;
-	}
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,240,0.2f,hs2));
-	sprintf(hs3,"Semi-Collisions %d",semicoll);
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,280,0.3f,hs3));
-	sprintf(hs4,"CLR usage %d",clrusg);
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(6,fnt,snd,400,320,0.3f,hs4));
-	sprintf(hs5,"Average FPS %.2f",averfps);
-	CompleteGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,360,0.4f,hs5));
-	if (CheckHighScore()!=-1)
-	{
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,400,0.5f,"Keep this in your record?"));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(9,fnt,snd,400,440,0.6f,"Yes"));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(10,fnt,snd,400,480,0.7f,"No thanks..."));
-	}
-	else
-	{
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,400,0.5f,""));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(9,fnt,snd,400,440,0.6f,""));
-		CompleteGUI->AddCtrl(new hgeGUIMenuItem(10,fnt,snd,400,480,0.7f,"Back to menu"));
-	}
-	for (int i=1;i<=7;++i)CompleteGUI->EnableCtrl(i,false);
-	CompleteGUI->SetCursor(spr);
-	CompleteGUI->SetNavMode(HGEGUI_UPDOWN|HGEGUI_CYCLED);
-	CompleteGUI->SetFocus(8);
-	CompleteGUI->Enter();
-}
-void CompleteGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=CompleteGUI->Update(dt);
-	if (id)
-	{
-		switch (id)
-		{
-			case 9:NewHighScoreGUI_Init();CompleteGUI->Leave();break;
-			case 10:Current_Position=0;gui->Enter();CompleteGUI->Leave();break;
-		}
-	}
-}
 void HSDetGUI_Init()
 {
 	HSDetailGUI=new hgeGUI();
@@ -1395,273 +1421,8 @@ void HighScoreGUI_FrameFnk()
 			case 3:view=2;HSViewGUI_Init();break;
 			case 4:view=3;HSViewGUI_Init();break;
 			case 5:view=4;HSViewGUI_Init();break;
-			case 6:Current_Position=0;HighScoreGUI->Leave();gui->Enter();break;
+			case 6:Current_Position=0;HighScoreGUI->Leave();break;
 		}
 	}
 
-}
-void BkTTitleGUI_Init()
-{
-	BkTTitleGUI=new hgeGUI();
-	Current_Position=12;
-	BkTTitleGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Really?"));
-	BkTTitleGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,200,250,0.1f,"I've pressed the wrong key"));
-	BkTTitleGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,600,250,0.2f,"Do return to menu!"));
-	BkTTitleGUI->EnableCtrl(1,false);
-	BkTTitleGUI->SetCursor(spr);
-	BkTTitleGUI->SetNavMode(HGEGUI_LEFTRIGHT|HGEGUI_CYCLED);
-	BkTTitleGUI->SetFocus(2);
-	BkTTitleGUI->Enter();
-}
-void BkTTitleGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=BkTTitleGUI->Update(dt);
-	if (id)
-	{
-		switch (id)
-		{
-			case 2:
-				BkTTitleGUI->Leave();
-				Current_Position=11;
-				PauseGUI_Init();
-				break;
-			case 3:
-				Current_Position=0;BkTTitleGUI->Leave();gui->Enter();Music_Stop();
-				break;
-		}
-	}
-}
-void PauseGUI_Init()
-{
-	PauseGUI=new hgeGUI();Music_Pause();
-	Current_Position=11;
-	DisableAllTower=DisablePlayer=true;
-	PauseGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Paused..."));
-	PauseGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Return to Game"));
-	PauseGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Return to Title"));
-	PauseGUI->EnableCtrl(1,false);
-	PauseGUI->SetCursor(spr);
-	PauseGUI->SetNavMode(HGEGUI_UPDOWN|HGEGUI_CYCLED);
-	PauseGUI->SetFocus(2);
-	PauseGUI->Enter();
-}
-void PauseGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=PauseGUI->Update(dt);
-	if (id)
-	{
-		switch (id)
-		{
-			case 2:
-				PauseGUI->Leave();
-				Current_Position=1;Music_Resume();
-				DisableAllTower=DisablePlayer=false;
-				break;
-			case 3:
-				BkTTitleGUI_Init();
-				break;
-		}
-	}
-}
-void OptionsGUI_Init()
-{
-	OptionsGUI=new hgeGUI();
-	Current_Position=13;
-	if (!tfs)
-		sprintf(opt[0],"Fullscreen: Off");
-	else
-		sprintf(opt[0],"Fullscreen: On");
-	OptionsGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,opt[0]));
-	switch (fpslvl)
-	{
-		case 0:sprintf(opt[1],"FPS Level: 60");break;
-		case 1:sprintf(opt[1],"FPS Level: ?");break;
-		case 2:sprintf(opt[1],"FPS Level: Vsync");break;
-	}
-	OptionsGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,opt[1]));
-	if (diffkey)
-		sprintf(opt[2],"Use Key X for Clear Range");
-	else
-		sprintf(opt[2],"Use Key Z for Clear Range");
-	OptionsGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,opt[2]));
-	OptionsGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"Player Profile"));
-	OptionsGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,360,0.4f,"Save and Exit"));
-	OptionsGUI->SetNavMode(HGEGUI_UPDOWN);
-	OptionsGUI->SetCursor(spr);
-	OptionsGUI->SetFocus(1);
-	OptionsGUI->Enter();
-}
-void PlayerProfGUI_Init()
-{
-	PlayerProfGUI=new hgeGUI();
-	Current_Position=14;
-	sprintf(opt[3],"Moving Speed: -%d+",plrspd);
-	sprintf(opt[4],"Precise Moving Speed: -%d+",plrslospd);
-	sprintf(opt[5],"Clear Range Bonus: -%d+",clrbns);
-	sprintf(opt[6],"Clear Range Mode: %s",clrmode?"Rotate":"Expand");
-	sprintf(opt[7],"Ability Point %d/10000",AP_Update(plrspd,plrslospd,clrbns));
-	PlayerProfGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,opt[3]));
-	PlayerProfGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,opt[4]));
-	PlayerProfGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,opt[5]));
-	PlayerProfGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,opt[6]));
-	PlayerProfGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,360,0.4f,opt[7]));
-	PlayerProfGUI->AddCtrl(new hgeGUIMenuItem(6,fnt,snd,400,400,0.5f,"Back"));
-	PlayerProfGUI->SetNavMode(HGEGUI_UPDOWN);
-	PlayerProfGUI->SetCursor(spr);
-	PlayerProfGUI->SetFocus(1);
-	PlayerProfGUI->Enter();
-}
-void PlayerProfGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=PlayerProfGUI->Update(dt);
-	if (id==6&&AP_Update(plrspd,plrslospd,clrbns)<=10000)
-	{PlayerProfGUI->Leave();OptionsGUI_Init();}
-	if (id==4)
-	{
-		clrmode=!clrmode;
-		sprintf(opt[6],"Clear Range Mode: %s",clrmode?"Rotate":"Expand");
-		((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(4))->RePos(400,320);
-	}
-	if (hge->Input_GetKeyState(HGEK_LEFT))
-	{
-		if (!LOWFPS)++lastkeypressed;else lastkeypressed+=17;
-		if (lastkeypressed>=100)
-		{
-			switch (PlayerProfGUI->GetFocus())
-			{
-				case 1:
-					if (plrspd>1)--plrspd;
-					sprintf(opt[3],"Moving Speed: -%d+",plrspd);
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(1))->RePos(400,200);
-					sprintf(opt[7],"Ability Point %d/10000",AP_Update(plrspd,plrslospd,clrbns));
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(5))->RePos(400,360);
-					break;
-				case 2:
-					if (plrslospd>1)--plrslospd;
-					sprintf(opt[4],"Precise Moving Speed: -%d+",plrslospd);
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(2))->RePos(400,240);
-					sprintf(opt[7],"Ability Point %d/10000",AP_Update(plrspd,plrslospd,clrbns));
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(5))->RePos(400,360);
-					break;
-				case 3:
-					if (clrbns>0)--clrbns;
-					sprintf(opt[5],"Clear Range Bonus: -%d+",clrbns);
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(3))->RePos(400,280);
-					sprintf(opt[7],"Ability Point %d/10000",AP_Update(plrspd,plrslospd,clrbns));
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(5))->RePos(400,360);
-					break;
-			}
-			lastkeypressed=0;
-		}
-	}
-	if (hge->Input_GetKeyState(HGEK_RIGHT))
-	{
-		if (!LOWFPS)++lastkeypressed;else lastkeypressed+=17;
-		if (lastkeypressed>=100)
-		{
-			switch (PlayerProfGUI->GetFocus())
-			{
-				case 1:
-					if (plrspd<5)++plrspd;
-					sprintf(opt[3],"Moving Speed: -%d+",plrspd);
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(1))->RePos(400,200);
-					sprintf(opt[7],"Ability Point %d/10000",AP_Update(plrspd,plrslospd,clrbns));
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(4))->RePos(400,320);
-					break;
-				case 2:
-					if (plrslospd<5)++plrslospd;
-					sprintf(opt[4],"Precise Moving Speed: -%d+",plrslospd);
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(2))->RePos(400,240);
-					sprintf(opt[7],"Ability Point %d/10000",AP_Update(plrspd,plrslospd,clrbns));
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(4))->RePos(400,320);
-					break;
-				case 3:
-					if (clrbns<4)++clrbns;
-					sprintf(opt[5],"Clear Range Bonus: -%d+",clrbns);
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(3))->RePos(400,280);
-					sprintf(opt[7],"Ability Point %d/10000",AP_Update(plrspd,plrslospd,clrbns));
-					((hgeGUIMenuItem*)PlayerProfGUI->GetCtrl(4))->RePos(400,320);
-					break;
-			}
-			lastkeypressed=0;
-		}
-	}
-}
-void OptionsGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=OptionsGUI->Update(dt);
-	if (id)
-	{
-		switch (id)
-		{
-			case 1:
-				tfs=!tfs;
-				if (!tfs)
-					sprintf(opt[0],"Fullscreen: Off");
-				else
-					sprintf(opt[0],"Fullscreen: On");
-				((hgeGUIMenuItem*)OptionsGUI->GetCtrl(1))->RePos(400,200);
-				break;
-			case 2:
-				switch (fpslvl)
-				{
-					case 0:
-						fpslvl=2;LOWFPS=true;
-						hge->System_SetState(HGE_FPS,61);
-						TenSeconds=600;
-						TwentySeconds=1200;
-						ThirtySeconds=1800;
-						AMinute=3600;
-						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
-						break;
-					case 1:
-						/*fpslvl=2;LOWFPS=false;
-						hge->System_SetState(HGE_FPS,1000);
-						TenSeconds=10000;
-						TwentySeconds=20000;
-						ThirtySeconds=30000;
-						AMinute=60000;
-						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
-						break;*/
-					case 2:
-						fpslvl=0;LOWFPS=true;
-						hge->System_SetState(HGE_FPS,HGEFPS_VSYNC);
-						TenSeconds=600;
-						TwentySeconds=1200;
-						ThirtySeconds=1800;
-						AMinute=3600;
-						if(fFast)TenSeconds/=2,TwentySeconds/=2,ThirtySeconds/=2,AMinute/=2;
-						break;
-				}
-				switch (fpslvl)
-				{
-					case 0:sprintf(opt[1],"FPS Level: 60");break;
-					case 1:sprintf(opt[1],"FPS Level: ?");break;
-					case 2:sprintf(opt[1],"FPS Level: Vsync");break;
-				}
-				((hgeGUIMenuItem*)OptionsGUI->GetCtrl(2))->RePos(400,240);
-				break;
-			case 3:
-				diffkey=!diffkey;
-				if (diffkey)
-					sprintf(opt[2],"Use Key X for Clear Range");
-				else
-					sprintf(opt[2],"Use Key Z for Clear Range");
-				((hgeGUIMenuItem*)OptionsGUI->GetCtrl(3))->RePos(400,280);
-				break;
-			case 4:
-				PlayerProfGUI_Init();
-				break;
-			case 5:
-				Options_Writeback();
-				OptionsGUI->Leave();
-				gui->Enter();
-				Current_Position=0;
-				break;
-		}
-	}
 }
