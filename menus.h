@@ -119,6 +119,12 @@ static const char *CMStr[]={
 	"Yes",
 	"No thanks..."
 };
+static const char *HSMStr[]={
+	"Classic Mode",
+	"Assessment Mode",
+	"Free Play Mode",
+	"Back"
+};
 class MainMenu
 {
 private:
@@ -178,6 +184,7 @@ public:
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 			return selected;
 		return -1;
@@ -275,6 +282,7 @@ public:
 		ConfigureQuad(&LowerGradient,0,400+yoffset,800,120);
 		ConfigureQuad(&LeftGradient,0,320+yoffset,100,200);
 		ConfigureQuad(&RightGradient,700,320+yoffset,100,200);
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 			return selected;
 		return -1;
@@ -358,6 +366,7 @@ public:
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 		{
@@ -597,6 +606,7 @@ public:
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT)
 		{
@@ -818,6 +828,7 @@ public:
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 			return selected;
 		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT&&!onIn)return 1;
@@ -892,6 +903,7 @@ public:
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 			return selected;
 		return -1;
@@ -969,6 +981,7 @@ public:
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 			return selected;
 		return -1;
@@ -1055,6 +1068,7 @@ public:
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 			return selected;
 		return -1;
@@ -1176,253 +1190,281 @@ public:
 			TipFont->printf(200+xoffset,240,HGETEXT_LEFT,"%s_",newname);
 	}
 }newHighScoreGUI;
-//==================================================================================
-//Here's where old code dies...
-hgeGUI			*HighScoreGUI;
-hgeGUI			*HSViewGUI,*HSDetailGUI;
-char			HSVstr[7][255];
-char			HSDetstr[10][255];
-int				view,detv;
-void HSViewGUI_Init();
-void HighScoreGUI_Init();
-void HSDetGUI_Init()
+class HighScoreMenu
 {
-	HSDetailGUI=new hgeGUI();
-	Current_Position=10;
-	switch (view)
+private:
+	bool active,onIn,onOut;
+	int selected;
+	double xoffset,yoffset,dyoffset;
+	hgeSprite *Ribb,*HSTitle;
+	hgeQuad UpperGradient,LowerGradient;
+public:
+	bool isActive(){return active;}
+	void Init_Once()
 	{
-		case 1:
-			memset(HSDetstr,0,sizeof(HSDetstr));
-			if (!ERec[detv].score)sprintf(HSDetstr[1],"Nothing here...");
-			else
-			{
-				sprintf(HSDetstr[1],"No. %d of Easy Mode",detv);
-#ifdef WIN32
-				sprintf(HSDetstr[2],"Scored %I64d by %s",ERec[detv].score,ERec[detv].name);
-#else
-				sprintf(HSDetstr[2],"Scored %lld by %s",ERec[detv].score,ERec[detv].name);
-#endif
-				sprintf(HSDetstr[3],"Restarts %d",ERec[detv].rescol);
-				sprintf(HSDetstr[4],"Semi-Collisions %d",ERec[detv].scoll);
-				sprintf(HSDetstr[5],"CLR Usage %d",ERec[detv].clrusg);
-				sprintf(HSDetstr[6],"Average FPS %d.%d",ERec[detv].af_int,ERec[detv].af_fric);
-			}
-			for (int i=1;i<=6;++i)
-				HSDetailGUI->AddCtrl(new hgeGUIMenuItem(i,fnt,snd,400,170+30*i,0.1f*i-0.1f,HSDetstr[i])),
-				HSDetailGUI->EnableCtrl(i,false);
-			HSDetailGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,380,0.6f,"Back"));
-			break;
-		case 2:
-			memset(HSDetstr,0,sizeof(HSDetstr));
-			if (!NRec[detv].score)sprintf(HSDetstr[1],"Nothing here...");
-			else
-			{
-				sprintf(HSDetstr[1],"No. %d of Normal Mode",detv);
-#ifdef WIN32
-				sprintf(HSDetstr[2],"Scored %I64d by %s",NRec[detv].score,NRec[detv].name);
-#else
-				sprintf(HSDetstr[2],"Scored %lld by %s",NRec[detv].score,NRec[detv].name);
-#endif
-				sprintf(HSDetstr[3],"Restarts %d",NRec[detv].rescol);
-				sprintf(HSDetstr[4],"Semi-Collisions %d",NRec[detv].scoll);
-				sprintf(HSDetstr[5],"CLR Usage %d",NRec[detv].clrusg);
-				sprintf(HSDetstr[6],"Average FPS %d.%d",NRec[detv].af_int,NRec[detv].af_fric);
-			}
-			for (int i=1;i<=6;++i)
-				HSDetailGUI->AddCtrl(new hgeGUIMenuItem(i,fnt,snd,400,170+30*i,0.1f*i-0.1f,HSDetstr[i])),
-				HSDetailGUI->EnableCtrl(i,false);
-			HSDetailGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,380,0.6f,"Back"));
-			break;
-		case 3:
-			memset(HSDetstr,0,sizeof(HSDetstr));
-			if (!ExRec[detv].score)sprintf(HSDetstr[1],"Nothing here...");
-			else
-			{
-				sprintf(HSDetstr[1],"No. %d of Extreme Mode",detv);
-#ifdef WIN32
-				sprintf(HSDetstr[2],"Scored %I64d by %s",ExRec[detv].score,ExRec[detv].name);
-#else
-				sprintf(HSDetstr[2],"Scored %lld by %s",ExRec[detv].score,ExRec[detv].name);
-#endif
-				sprintf(HSDetstr[3],"Restarts %d",ExRec[detv].rescol);
-				sprintf(HSDetstr[4],"Semi-Collisions %d",ExRec[detv].scoll);
-				sprintf(HSDetstr[5],"CLR Usage %d",ExRec[detv].clrusg);
-				sprintf(HSDetstr[6],"Average FPS %d.%d",ExRec[detv].af_int,ExRec[detv].af_fric);
-			}
-			for (int i=1;i<=6;++i)
-				HSDetailGUI->AddCtrl(new hgeGUIMenuItem(i,fnt,snd,400,170+30*i,0.1f*i-0.1f,HSDetstr[i])),
-				HSDetailGUI->EnableCtrl(i,false);
-			HSDetailGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,380,0.6f,"Back"));
-			break;
-		case 4:
-			memset(HSDetstr,0,sizeof(HSDetstr));
-			if (!FPMRec[detv].score)sprintf(HSDetstr[1],"Nothing here...");
-			else
-			{
-				sprintf(HSDetstr[1],"No. %d of Free Play Mode",detv);
-#ifdef WIN32
-				sprintf(HSDetstr[2],"Scored %I64d by %s",FPMRec[detv].score,FPMRec[detv].name);
-#else
-				sprintf(HSDetstr[2],"Scored %lld by %s",FPMRec[detv].score,FPMRec[detv].name);
-#endif
-				sprintf(HSDetstr[3],"Collisions %d",FPMRec[detv].rescol);
-				sprintf(HSDetstr[4],"Semi-Collisions %d",FPMRec[detv].scoll);
-				sprintf(HSDetstr[5],"CLR Usage %d",FPMRec[detv].clrusg);
-				sprintf(HSDetstr[6],"Average FPS %d.%d",FPMRec[detv].af_int,FPMRec[detv].af_fric);
-			}
-			for (int i=1;i<=6;++i)
-				HSDetailGUI->AddCtrl(new hgeGUIMenuItem(i,fnt,snd,400,170+30*i,0.1f*i-0.1f,HSDetstr[i])),
-				HSDetailGUI->EnableCtrl(i,false);
-			HSDetailGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,380,0.6f,"Back"));
-			break;
+		Ribb=new hgeSprite(MenuTex,256,350,64,16);
+		HSTitle=new hgeSprite(MenuTex,0,376,256,64);
+		Ribb->SetColor(0xCCFFFFFF);
 	}
-	HSDetailGUI->SetCursor(spr);
-	HSDetailGUI->SetNavMode(HGEGUI_UPDOWN);
-	HSDetailGUI->SetFocus(7);
-	HSDetailGUI->Enter();
-}
-void HSDetGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=HSDetailGUI->Update(dt);
-	if (id)
+	void Init(double start)
 	{
-		switch (id)
+		xoffset=start;onIn=true;active=true;
+		selected=0;dyoffset=yoffset=-selected*30;
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,50);
+		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
+		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,100);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+	}
+	void Leave(){onOut=true;}
+	int Update()
+	{
+		if(onIn)
 		{
-			case 7:Current_Position=9;HSDetailGUI->Leave();HSViewGUI->Enter();break;
+			if(fabs(xoffset-500)<hge->Timer_GetDelta()*1600)return xoffset=500,onIn=false,-1;
+			if(xoffset<500)
+			xoffset+=hge->Timer_GetDelta()*1600;
+			else
+			xoffset-=hge->Timer_GetDelta()*1600;
 		}
-	}
-}
-void HSViewGUI_Init()
-{
-	Current_Position=9;
-	HSViewGUI=new hgeGUI();
-	switch (view)
-	{
-		case 1:
-			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Easy"));
-			for (unsigned i=1;i<=Ecnt;++i)
-			{
-#ifdef WIN32
-				sprintf(HSVstr[i],"%u. %s - %I64d",i,ERec[i].name,ERec[i].score);
-#else
-				sprintf(HSVstr[i],"%u. %s - %lld",i,ERec[i].name,ERec[i].score);
-#endif
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			for (unsigned i=Ecnt+1;i<=5;++i)
-			{
-				sprintf(HSVstr[i],"%u. ----------",i);
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			break;
-		case 2:
-			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Normal"));
-			for (unsigned i=1;i<=Ncnt;++i)
-			{
-#ifdef WIN32
-				sprintf(HSVstr[i],"%u. %s - %I64d",i,NRec[i].name,NRec[i].score);
-#else
-				sprintf(HSVstr[i],"%u. %s - %lld",i,NRec[i].name,NRec[i].score);
-#endif
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			for (unsigned i=Ncnt+1;i<=5;++i)
-			{
-				sprintf(HSVstr[i],"%u. ----------",i);
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			break;
-		case 3:
-			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Extreme"));
-			for (unsigned i=1;i<=Excnt;++i)
-			{
-#ifdef WIN32
-				sprintf(HSVstr[i],"%u. %s - %I64d",i,ExRec[i].name,ExRec[i].score);
-#else
-				sprintf(HSVstr[i],"%u. %s - %lld",i,ExRec[i].name,ExRec[i].score);
-#endif
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			for (unsigned i=Excnt+1;i<=5;++i)
-			{
-				sprintf(HSVstr[i],"%u. ----------",i);
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			break;
-		case 4:
-			HSViewGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,400,200,0.0f,"Highscore - Free Play Mode"));
-			for (unsigned i=1;i<=FPMcnt;++i)
-			{
-#ifdef WIN32
-				sprintf(HSVstr[i],"%u. %s - %I64d",i,FPMRec[i].name,FPMRec[i].score);
-#else
-				sprintf(HSVstr[i],"%u. %s - %lld",i,FPMRec[i].name,FPMRec[i].score);
-#endif
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			for (unsigned i=FPMcnt+1;i<=5;++i)
-			{
-				sprintf(HSVstr[i],"%u. ----------",i);
-				HSViewGUI->AddCtrl(new hgeGUIMenuItem(i+1,fnt,snd,400,200+30*i,0.1f*i,HSVstr[i]));
-			}
-			break;
-	}
-	HSViewGUI->AddCtrl(new hgeGUIMenuItem(7,fnt,snd,400,380,0.6f,"Select one record to view details."));
-	HSViewGUI->AddCtrl(new hgeGUIMenuItem(8,fnt,snd,400,410,0.7f,"Back"));
-	HSViewGUI->EnableCtrl(1,false);HSViewGUI->EnableCtrl(7,false);
-	HSViewGUI->SetCursor(spr);
-	HSViewGUI->SetNavMode(HGEGUI_UPDOWN|HGEGUI_CYCLED);
-	HSViewGUI->SetFocus(2);
-	HSViewGUI->Enter();
-}
-void HSViewGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=HSViewGUI->Update(dt);
-	if (id)
-	{
-		switch (id)
+		if(onOut)
 		{
-			case 2:detv=1;HSDetGUI_Init();break;
-			case 3:detv=2;HSDetGUI_Init();break;
-			case 4:detv=3;HSDetGUI_Init();break;
-			case 5:detv=4;HSDetGUI_Init();break;
-			case 6:detv=5;HSDetGUI_Init();break;
-			case 8:Current_Position=8;HSViewGUI->Leave();if (!HighScoreGUI)HighScoreGUI_Init();HighScoreGUI->Enter();break;
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>=850)active=onOut=false;
 		}
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,110);
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<4-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=4-1;
+		yoffset=-selected*30;
+		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
+		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
+		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
+		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+			return selected;
+		return -1;
 	}
-}
-void HighScoreGUI_Init()
-{
-	HighScoreGUI=new hgeGUI();
-	Current_Position=8;
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(1,fnt,snd,350,200,0.0f,"View Highscores && Records for..."));
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(2,fnt,snd,400,240,0.1f,"Classic"));
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(3,fnt,snd,400,280,0.2f,"Normal"));
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(4,fnt,snd,400,320,0.3f,"Assessment Mode"));
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(5,fnt,snd,400,360,0.4f,"Free Play Mode"));
-	HighScoreGUI->AddCtrl(new hgeGUIMenuItem(6,fnt,snd,400,400,0.5f,"Back"));
-	HighScoreGUI->EnableCtrl(1,false);
-	HighScoreGUI->SetCursor(spr);
-	HighScoreGUI->SetNavMode(HGEGUI_UPDOWN|HGEGUI_CYCLED);
-	HighScoreGUI->SetFocus(7);
-	HighScoreGUI->Enter();
-}
-void HighScoreGUI_FrameFnk()
-{
-	float dt=hge->Timer_GetDelta();
-	int id=HighScoreGUI->Update(dt);
-	if (id)
+	void Render()
 	{
-		switch (id)
+		for(int i=0;i<4;++i)
 		{
-			case 2:view=1;HSViewGUI_Init();break;
-			case 3:view=2;HSViewGUI_Init();break;
-			case 4:view=3;HSViewGUI_Init();break;
-			case 5:view=4;HSViewGUI_Init();break;
-			case 6:Current_Position=0;HighScoreGUI->Leave();break;
+			double calcy=i*30+dyoffset+400;
+			if(calcy>289.9&&calcy<540.1)
+			MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,HSMStr[i]);
 		}
+		Ribb->RenderEx(xoffset-50,395,0,4.5,1);
+		Ribb->RenderEx(xoffset-50,422,0,4.5,1);
+		hge->Gfx_RenderQuad(&UpperGradient);
+		hge->Gfx_RenderQuad(&LowerGradient);
+		HSTitle->Render(xoffset-250,300);
 	}
-
-}
+}highScoreMenu;
+class HighScoreViewMenu
+{
+private:
+	bool active,onIn,onOut;
+	int selected,view;
+	double xoffset,yoffset,dyoffset;
+	hgeSprite *Ribb;
+	hgeQuad UpperGradient,LowerGradient;
+public:
+	int View(){return view;}
+	int GetViewCount(){return view==0?Ncnt:view==1?Excnt:view==2?FPMcnt:0;}
+	bool isActive(){return active;}
+	void Init_Once()
+	{
+		Ribb=new hgeSprite(MenuTex,256,350,64,16);
+		Ribb->SetColor(0xCCFFFFFF);
+	}
+	void Init(double start,int _v)
+	{
+		xoffset=start;onIn=true;active=true;
+		selected=1;dyoffset=yoffset=-selected*30;view=_v;
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,50);
+		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
+		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,120);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+	}
+	void Leave(){onOut=true;}
+	int Update()
+	{
+		if(onIn)
+		{
+			if(fabs(xoffset-400)<hge->Timer_GetDelta()*1600)return xoffset=400,onIn=false,-1;
+			if(xoffset<400)
+			xoffset+=hge->Timer_GetDelta()*1600;
+			else
+			xoffset-=hge->Timer_GetDelta()*1600;
+		}
+		if(onOut)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>=850)active=onOut=false;
+		}
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,120);
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<7-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=7-1;
+		yoffset=-selected*30;
+		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
+		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
+		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
+		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+			return selected;
+		return -1;
+	}
+	void Render()
+	{
+		if(dyoffset+400>289.9)
+		MenuFont->printf(xoffset,dyoffset+400,HGETEXT_LEFT,"Highscore - %s",HSMStr[view]);
+#define WrapCnt \
+		(view==0?Ncnt:view==1?Excnt:view==2?FPMcnt:0)
+#define WrapRec\
+		(view==0?NRec:view==1?ExRec:view==2?FPMRec:FPMRec)
+		for(unsigned i=1;i<=5;++i)
+		{
+			double calcy=i*30+dyoffset+400;
+			if(calcy>289.9&&calcy<540.1)
+			{
+				if(i<=WrapCnt)
+				MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"%u. %s - "
+#ifdef WIN32
+				"%I64d"
+#else
+				"%lld"
+#endif
+				,i,WrapRec[i].name,WrapRec[i].score);
+				else MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"%u. ----------",i);
+			}
+		}
+		double calcy=6*30+dyoffset+400;
+		if(calcy>289.9&&calcy<540.1)
+			MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"back");
+		Ribb->RenderEx(xoffset-50,395,0,7,1);
+		Ribb->RenderEx(xoffset-50,422,0,7,1);
+		hge->Gfx_RenderQuad(&UpperGradient);
+		hge->Gfx_RenderQuad(&LowerGradient);
+	}
+}highScoreViewMenu;
+class HighScoreDetailsMenu
+{
+private:
+	bool active,onIn,onOut;
+	int selected,view,no;
+	double xoffset,yoffset,dyoffset;
+	hgeSprite *Ribb,*HSTitle;
+	hgeQuad UpperGradient,LowerGradient;
+public:
+	int View(){return view;}
+	bool isActive(){return active;}
+	void Init_Once()
+	{
+		Ribb=new hgeSprite(MenuTex,256,350,64,16);
+		HSTitle=new hgeSprite(MenuTex,0,448,256,64);
+		Ribb->SetColor(0xCCFFFFFF);
+	}
+	void Init(double start,int _v,int _n)
+	{
+		xoffset=start;onIn=true;active=true;no=_n;
+		selected=0;dyoffset=yoffset=-selected*30;view=_v;
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,50);
+		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
+		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,130);
+		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
+		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
+	}
+	void Leave(){onOut=true;}
+	int Update()
+	{
+		if(onIn)
+		{
+			if(fabs(xoffset-400)<hge->Timer_GetDelta()*1600)return xoffset=400,onIn=false,-1;
+			if(xoffset<400)
+			xoffset+=hge->Timer_GetDelta()*1600;
+			else
+			xoffset-=hge->Timer_GetDelta()*1600;
+		}
+		if(onOut)
+		{
+			xoffset+=hge->Timer_GetDelta()*1600;
+			if(xoffset>=850)active=onOut=false;
+		}
+		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,440,600,130);
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<(view==1?5:7)-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=(view==1?5:7)-1;
+		yoffset=-selected*30;
+		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
+		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
+		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
+		if(onIn||onOut)return -1;
+		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
+			return selected;
+		return -1;
+	}
+	void Render()
+	{
+#define WrapCnt \
+		(view==0?Ncnt:view==1?Excnt:view==2?FPMcnt:0)
+#define WrapRec\
+		(view==0?NRec:view==1?ExRec:view==2?FPMRec:FPMRec)
+		if(dyoffset+400>289.9)
+		MenuFont->printf(xoffset,dyoffset+400,HGETEXT_LEFT,"No. %d of %s",no,HSMStr[view]);
+		if(view==1)
+		{
+			if(dyoffset+430>289.9&&dyoffset+430<540.1)
+				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored "
+#ifdef WIN32
+				"%I64d"
+#else
+				"%lld"
+#endif
+				" by %s",WrapRec[no].score,WrapRec[no].name);
+			if(dyoffset+460>289.9&&dyoffset+460<540.1)
+				MenuFont->printf(xoffset,dyoffset+460,HGETEXT_LEFT,"Semi-Collisions %d",WrapRec[no].scoll);
+			if(dyoffset+490>289.9&&dyoffset+490<540.1)
+				MenuFont->printf(xoffset,dyoffset+490,HGETEXT_LEFT,"Average FPS %d.%d",WrapRec[no].af_int,WrapRec[no].af_fric);
+		}
+		else
+		{
+			if(dyoffset+430>289.9&&dyoffset+430<540.1)
+				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored "
+#ifdef WIN32
+				"%I64d"
+#else
+				"%lld"
+#endif
+				" by %s",WrapRec[no].score,WrapRec[no].name);
+			if(dyoffset+460>289.9&&dyoffset+460<540.1)
+			{
+				if(view==0)
+				MenuFont->printf(xoffset,dyoffset+460,HGETEXT_LEFT,"Restarts %d",WrapRec[no].rescol);
+				else
+				MenuFont->printf(xoffset,dyoffset+460,HGETEXT_LEFT,"Collisions %d",WrapRec[no].rescol);
+			}
+			if(dyoffset+490>289.9&&dyoffset+490<540.1)
+				MenuFont->printf(xoffset,dyoffset+490,HGETEXT_LEFT,"Semi-Collisions %d",WrapRec[no].scoll);
+			if(dyoffset+520>289.9&&dyoffset+520<540.1)
+				MenuFont->printf(xoffset,dyoffset+520,HGETEXT_LEFT,"CLR Usage %d",WrapRec[no].clrusg);
+			if(dyoffset+550>289.9&&dyoffset+550<540.1)
+				MenuFont->printf(xoffset,dyoffset+550,HGETEXT_LEFT,"Average FPS %d.%d",WrapRec[no].af_int,WrapRec[no].af_fric);
+		}
+		double calcy=(view==1?4:6)*30+dyoffset+400;
+		if(calcy>289.9&&calcy<540.1)
+			MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"back");
+		Ribb->RenderEx(xoffset-50,395,0,6,1);
+		Ribb->RenderEx(xoffset-50,422,0,6,1);
+		hge->Gfx_RenderQuad(&UpperGradient);
+		hge->Gfx_RenderQuad(&LowerGradient);
+		HSTitle->Render(xoffset-250,300);
+	}
+}highScoreDetailsMenu;

@@ -1,0 +1,247 @@
+This text is encoded in UTF-8.
+NOTE: This is a pre-release version. That means:
+-The program may crash. It may even cause data loss.
+-The levels may be too hard.
+-There may be strange behavior.
+-Now menus are partly broken...
+-The in-game music is included but won't be played. (See FAQ.txt)
+-The code may not even compile!
+
+BulletLabRemix II readme
+
+Story
+------------------------------------------------------------------------------------
+THE STORY OF THE COLOURS
+Once upon a time the colors of the world started to quarrel, all claimed that they
+were the best the most important the most useful the favorite.
+GREEN said:
+「Clearly I am the most important. I am the sign of life and of hope. I was chosen
+for grass and trees leaves. Without me all animals would die. Look over the
+countryside and you will see that I am in the majority.」
+BLUE interrupted...
+「You only think about the earth but consider the sky and the sea. It is the water
+that is the basis of life and drawn up by the clouds from the deep sea. The sky
+gives space and peace and serenity. Without my peace you would all be nothing.」
+YELLOW chuckled:
+「You are all so serious. I bring laughter gaiety and warmth into the world. The
+sun is yellow, the moon is yellow and the stars are yellow. Every time you look at
+a sunflower, the whole world starts to smile. Without me there would be no fun.」
+ORANGE started next to blow her trumpet.
+「I am the color of health and strength. I may be scarce but I am precious, for I
+serve the needs of human life. I carry the most important vitamins. Think of
+carrots, pumpkins, oranges, mangoes and pawpaws. I don't hang around all the time
+but when I fill the sky at sunrise or sunset, my beauty is so striking that no one
+gives another thought to any of you.」
+RED could stand it no longer. He shouted out:
+「I am the ruler of all of you - I am
+blood - lifes blood I am the color of danger and of bravery. I am willing to fight
+for a cause. I bring fire into the blood. Without me the earth would be as empty as
+the moon. I am the color of passion and of love, the red rose, the poinsettia and
+the poppy.」
+PURPLE rose up to his full height. He was very tall and spoke with great pomp:
+「I am the color of royalty and power. Kings chiefs and bishops have always chosen
+me for I am the sign of authority and wisdom. People do not question me - they
+listen and obey.」
+Finally INDIGO spoke much more quietly than all the others but with just as much
+determination:
+「Think of me. I am the color of silence. You hardly notice me but without me you
+all become superficial. I represent thought and reflection twilight and deep water.
+You need me for balance and contrast for prayer and inner peace.」
+And so the colors went on boasting each convinced of his or her own superiority.
+Their quarreling became louder and louder. Suddenly there was a startling flash of
+bright lightening - thunder rolled and boomed. Rain started to pour down
+relentlessly. The colors crouched down in fear drawing close to one another for
+comfort.
+In the midst of the clamor rain began to speak:
+「You foolish colors fighting amongst yourselves, each trying to dominate the rest.
+Don't you know that you were each made for a special purpose, unique and different?
+Join hands with one another and come to me!」
+Doing as they were told, the colors united and joined hands. The rain continued:
+「From now on when it rains each of you will stretch across the sky in a great bow
+of color as a reminder that you can all live in peace. The rainbow is a sign of
+hope for tomorrow. And so whenever a good rain washes the world and a rainbow
+appears in the sky let us remember to appreciate one another.」
+------------------------------------------------------------------------------------
+Well, that was about hundreds of thousand years ago.
+After a catastrophic disaster, they found some of them were missing...
+------------------------------------------------------------------------------------
+
+Generic Information
+------------------------------------------------------------------------------------
+My own comment on this game...
+A "game" filled with the smell of mysterious science and imagination(3:2 approximately).
+(I worked on it for almost 9 months, after all.)
+Others comments...
+-PIECE OF SHIT!!!
+-The author must be suffering from serious mental problems.(I agree...)
+-(literally translated from Chinese) Revenge on society...
+
+Requirements & Recommends
+Basic environment:
+CPU: Atom 1.6GHz will even work.
+RAM: 1GiB
+GPU&VRAM: Not worse than Intel HD Graphics.
+OS: Windows XP+ & DirectX9+ / Linux kernel 2.6+ & OpenGL 1.2+
+Recommended environment:
+GPU&VRAM: Very fast graphic rendering.
+Sound: Ability to run OpenAL software version.
+
+MORE Recommends...
+-SERIOUSLY, NO Trypophobia!
+-CheatEngine(skip levels, obtain more Clear Range's, and more...)
+-Some editors or compilers(If you find this impossible and want to make it easier)
+-(Additionally for the last one)Ability to read non human-readable code.
+-Achromatopsia(<-strikethrough)
+
+If, suddenly, you can't run it one day...
+Remove blr.cfg (remember to backup your score.cfg first!) then restart the game.
+It will ask you for initial settings.
+If this can't solve your problem, read FAQ.TXT for more.
+
+If you think something went wrong...
+Go to FAQ.txt.
+
+To Dear Windows Users
+This game is developed and tested mostly under Linux. The official Windows version is also
+built under Linux(awesome, isn't it?). It's only briefly tested.
+
+Menus
+------------------------------------------------------------------------------------
+Main menu
+-----------------------------------------------------------------------
+Start                  Select a mode and start the game.
+Highscores             View highscores(Currently out of maintenance)
+Options                Settings and Options
+About                  A dull credits list.
+Exit                   Parents are coming!!
+
+Game Modes
+-----------------------------------------------------------------------
+Classic
+The game ends instantly if you get a collision. However you can choose
+to continue...
+
+This mode kills your time silently.
+
+Assessment Mode
+You are the frog being boiled.
+Every levels get harder as time goes.
+You'll be brought to the next part if you had a collision.
+
+Go for the highest score!
+
+Free Play Mode
+You'll never die! Enjoy!...
+
+Command line options
+------------------------------------------------------------------------------------
+Yes, it accept command line options! (And some of them may be very useful...)
+You can override your settings with them if you can't start it after changing the settings.
+However they may cause strange behavior or crashes. So use with caution.
+Invalid parameters may cause unexpected behavior, (e.g. --start with inappropriate parameters)
+they should be used for debug purpose. But if you use it for cheating, I'm not against it.
+If it's run without arguments, the game will start normally.
+Otherwise... see below.
+--help			Print command line usage and exit.
+--version		Print version and exit.
+--start=x,y		Start free play mode directly from level x part y. The part must be valid.
+--nosound		Forcibly use no sound.
+--fullscreen=1/0	Forcibly use fullscreen/windowed. This will override your configuration.
+--vidmode=0~4		Forcibly use specific video mode instead the one in the configuration.
+	0		800x600 (native resolution)
+	1		640x480
+	2		960x720
+	3		1024x768
+	4		1280x960
+--firststartup		Forcibly run first start up. This will reset the score file.
+--fast			Fast mode. All levels are two times shorter.
+--logfile=...		Use an alternate log file name instead of the default "BLRLOG.txt".
+--nohideconsole		Do not hide console (Windows version only).
+
+About the author
+------------------------------------------------------------------------------------
+-Senseless(this word has multiple means...)
+-Often know nothing to do next. If I accidently got it, I would do it at once.
+(slowly, though)
+-「The perfect balance of code length and efficiency 」
+-One of those "who (like to) live on the edge". --according to Debian maintainers.
+-Strange (as many people say)
+
+This is my first(or second?) time making so big a project. So, this game is written
+for a "framework" rather than the game itself. However, the "framework" seems to be
+very incomplete till now. Everything is still code...(Maybe this is just the
+"framework"?)
+
+Well, one day textures may also become code... That is, all textures will be drawn
+to the memory during the initialization...
+
+"Black History"
+------------------------------------------------------------------------------------
+This game first started as an simple hge&c++ rewrite of the original game "BulletLab".
+For an unknown reason, it became bigger and bigger, the core of hge is even altered.
+Several months or so after the creation of the project, BLRI(aka "The Creature of
+Colour") released.
+
+As BLRI was being finished, BLRII was forked from the code base of BLRI.
+Several "testbed" version was created over the code base of BLRI.
+Then the pre-release version created. Almost all original code from BLRI is removed.
+Now it has reached a position that I've never expected...
+
+Brief History
+------------------------------------------------------------------------------------
+The file ChangeLog contains the full history of this project.
+Here's a list of milestones.
+
+0.9.1-0_PR (r85)
+Menu rewrite(still in progress).
+
+0.9.0-1_PR (b79/r79)
+Finish assessment mode.
+Extend laser class.
+Several modify and fix to HGE.
+
+0.8.1-1_PR (b77)
+Completing all levels for Classic Mode and Free Play Mode.
+Switch to mingw-w64 for building Windows version.
+Prepare for assessment mode.
+
+0.7.3-0_PR (b73)
+Completing level 7.
+Lots and lots of fixes.
+Laser revesion is now r5 and work perfectly.
+
+0.6.2-2_PR (b52)
+Level 6 is complete.
+Supporting new music interfaces and added in-game music.
+
+0.5.3-2_PR (b43)
+Finishing level 5.
+New clear range trigger method and fixes to clear range.
+
+0.4.4-0_PRG (b37a)
+Regression version from 0.5.2-0_PR (b37).
+Released to public. Including the complete level 4, and some levels of Level 5.
+Fixed two minor problems.
+
+0.3.2-0_PR (b27)
+Completing level 3.
+Avoid hidden bullets.
+
+0.2.9-2_PR (b22)
+Completing level 2.
+0.2.9-1_PR (b21) is released to public.
+
+0.1.7-2_PR (b16)
+Level 1 is finished.
+
+TB130907 (b10)
+Laser implementation rev 2.
+
+TB130827 (b8)
+Initial laser implementation.
+
+TB130620~TB130818 (b1~b7)
+New towers and new levels.
+
+TB130610 (b0)
+Creation of the Testbed version.

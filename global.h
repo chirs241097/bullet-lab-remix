@@ -3,7 +3,6 @@
 //Copyright Chrisoft 2014
 #include <hge.h>
 #include <hgefont.h>
-#include <hgegui.h>
 #define MaxRes 80
 #define Resd 20.0f
 HGE *hge=0;

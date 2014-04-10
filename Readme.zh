@@ -1,0 +1,242 @@
+This text is encoded in UTF-8.
+这是一个提前发布的版本，这意味着：
+-它可能会崩溃，甚至导致数据丢失。
+-关卡太难。
+-奇怪的行为。
+-现在菜单处于部分报废状态…
+-无视背景音乐（见FAQ.txt）
+-代码都可能编译不了！
+
+BulletLabRemix II Readme - 一个类似机翻的中文版
+
+背景
+------------------------------------------------------------------------------------
+//听说已经是高中英语完型填空了，就偷懒不翻译了…
+THE STORY OF THE COLOURS
+Once upon a time the colors of the world started to quarrel, all claimed that they
+were the best the most important the most useful the favorite.
+GREEN said:
+「Clearly I am the most important. I am the sign of life and of hope. I was chosen
+for grass and trees leaves. Without me all animals would die. Look over the
+countryside and you will see that I am in the majority.」
+BLUE interrupted...
+「You only think about the earth but consider the sky and the sea. It is the water
+that is the basis of life and drawn up by the clouds from the deep sea. The sky
+gives space and peace and serenity. Without my peace you would all be nothing.」
+YELLOW chuckled:
+「You are all so serious. I bring laughter gaiety and warmth into the world. The
+sun is yellow, the moon is yellow and the stars are yellow. Every time you look at
+a sunflower, the whole world starts to smile. Without me there would be no fun.」
+ORANGE started next to blow her trumpet.
+「I am the color of health and strength. I may be scarce but I am precious, for I
+serve the needs of human life. I carry the most important vitamins. Think of
+carrots, pumpkins, oranges, mangoes and pawpaws. I don't hang around all the time
+but when I fill the sky at sunrise or sunset, my beauty is so striking that no one
+gives another thought to any of you.」
+RED could stand it no longer. He shouted out:
+「I am the ruler of all of you - I am
+blood - lifes blood I am the color of danger and of bravery. I am willing to fight
+for a cause. I bring fire into the blood. Without me the earth would be as empty as
+the moon. I am the color of passion and of love, the red rose, the poinsettia and
+the poppy.」
+PURPLE rose up to his full height. He was very tall and spoke with great pomp:
+「I am the color of royalty and power. Kings chiefs and bishops have always chosen
+me for I am the sign of authority and wisdom. People do not question me - they
+listen and obey.」
+Finally INDIGO spoke much more quietly than all the others but with just as much
+determination:
+「Think of me. I am the color of silence. You hardly notice me but without me you
+all become superficial. I represent thought and reflection twilight and deep water.
+You need me for balance and contrast for prayer and inner peace.」
+And so the colors went on boasting each convinced of his or her own superiority.
+Their quarreling became louder and louder. Suddenly there was a startling flash of
+bright lightening - thunder rolled and boomed. Rain started to pour down
+relentlessly. The colors crouched down in fear drawing close to one another for
+comfort.
+In the midst of the clamor rain began to speak:
+「You foolish colors fighting amongst yourselves, each trying to dominate the rest.
+Don't you know that you were each made for a special purpose, unique and different?
+Join hands with one another and come to me!」
+Doing as they were told, the colors united and joined hands. The rain continued:
+「From now on when it rains each of you will stretch across the sky in a great bow
+of color as a reminder that you can all live in peace. The rainbow is a sign of
+hope for tomorrow. And so whenever a good rain washes the world and a rainbow
+appears in the sky let us remember to appreciate one another.」
+------------------------------------------------------------------------------------
+Well, that was about hundreds of thousand years ago.
+After a catastrophic disaster, they found some of them were missing...
+------------------------------------------------------------------------------------
+
+概要
+------------------------------------------------------------------------------------
+本人对该游戏的看法
+一个充斥着神秘的科学和想象气息的「游戏」（大约有3:2？）
+(毕竟是9个月的工作啊)
+别人的看法…
+-「一坨屎！！！」
+-「作者有精神疾病？」（我同意…）
+-「报复社会？」
+
+运行环境要求&推荐项目
+必需环境：
+CPU: Atom 1.6GHz也能运行。
+RAM: 1GiB
+GPU&VRAM: 不能比Intel HD Graphics更差的吧？
+操作系统: Windows XP+ & DirectX9+ / Linux kernel 2.6+ & OpenGL 1.2+
+推荐环境：
+GPU&VRAM: 非常快的渲染速度。
+声音: 能够运行OpenAL软件版。
+
+×更多×推荐项目…：
+-严肃的一项：不能有密集恐惧症！
+-CheatEngine(跳关，获取更多CLR…)
+-编辑器和编译器(如果你发现它太难，想要让它变简单些)
+-(附加在上一条之上)能读懂及其丑陋的代码。
+-全色盲(<-删除线)
+
+如果有一天你突然无法运行它了…
+删掉blr.cfg（记得备份score.cfg！）然后重新运行。
+它会重新进行初始化设定。
+如果这样无法解决你的问题，去看看FAQ.TXT。。。
+
+如果你认为什么东西出错了…
+->FAQ.TXT
+
+致亲爱的Windows用户
+开发和测试基本是在Linux下进行的。发布的Windows版也是从Linux下编译的（听起来很厉害？），它仅被简单地测试过。
+
+菜单
+------------------------------------------------------------------------------------
+主菜单
+-----------------------------------------------------------------------
+Start                  选择一个模式并开始游戏。
+Highscores             浏览高分记录。（当前没有维护该功能:(）
+Options                设置和选项。
+About                  一个无聊的制作人员名单。
+Exit                   ××来了！
+
+模式
+-----------------------------------------------------------------------
+Classic 经典模式
+一旦你碰到了任何有判定的东西就立刻结束游戏。不过你可以选择继续…
+
+这种模式会默默地浪费时间…
+
+Assessment Mode 评分/检测模式
+温水煮青蛙实验。
+所有的关卡都会随着时间流逝而变难。
+如果你撞到了有判定的东西，就会进入下一关…
+
+试着撑过最长的时间吧！
+
+Free Play Mode 自由模式
+永远不会死的模式～
+
+命令行选项
+------------------------------------------------------------------------------------
+是的，它还接受命令行选项！（而且它们中有些还可能比较有用…）
+如果你调整了设置后无法运行了，你可以用它们来覆盖你的设置。
+但是它们中一些可能导致奇怪的行为或者崩溃。所以要小心使用。
+不合法的参数可能会导致不希望得到的结果（例如--start+不合适的参数）
+它们本来只应该用于调试目的。但是如果你要用它们来作弊，我也不反对…
+如果不带任何参数运行，游戏会以正常模式启动。
+其他情况的话。。。：
+--help			输出命令行用法并退出。
+--version		输出版本信息并退出。
+--start=x,y		直接从x关y部分开始自由模式的游戏。这个部分必须合法。
+--nosound		强制无声。
+--fullscreen=1/0	强制使用全屏/窗口模式。指定该选项后，直接无视blr.cfg中的全屏选项。
+--vidmode=0~4		强制使用指定的窗口尺寸。
+	0		800x600 (原生大小)
+	1		640x480
+	2		960x720
+	3		1024x768
+	4		1280x960
+--firststartup		假定是第一次运行。这样会清空分数记录文件。
+--fast			「快速」模式。所有关卡都会变短两倍。
+--logfile=...		使用指定的日志文件名。
+--nohideconsole		不隐藏命令行输出窗口。（仅限Windows版本。）
+
+关于作者
+------------------------------------------------------------------------------------
+-Senseless(this word has multiple means...)
+-Often know nothing to do next. If I accidently got it, I would do it at once.
+(slowly, though)
+-「The perfect balance of code length and efficiency 」
+-One of those "who (like to) live on the edge". --according to Debian maintainers.
+-Strange (as many people say)
+
+这是我第一次（或者是第二次？）搞这么大的一个工程。所以这次与其说是写一个游戏，还不如说只是写了一个
+“框架”。但是，这个“框架”到现在看起来还非常不完整。所有东西都还是代码…（或许这样也算是一种「框架」？）
+
+好吧，有一天贴图甚至都会变成代码了…到那时贴图会在初始化时被现画到内存里…
+
+历史
+------------------------------------------------------------------------------------
+这个工程本来只是作为一个BulletLab的hge&C++重写开始的。
+由于不明的原因，它越来越大，甚至都改变了hge的核心。
+工程开始几个月后，BLRI（The Creature of Colour）发布了。
+
+当BLRI快要完成的时候，BLRII从BLRI中fork了出来。
+当时在BLRI代码的基础上建立了几个测试版本。
+后来预发布版建立了，几乎所有来自BLRI的代码都被删掉了。
+现在它达到了一个我从未期望它能达到的阶段…
+
+简短的版本历史
+------------------------------------------------------------------------------------
+ChangeLog包含了该工程的全部历史。
+这里是一个「里程碑」的列表。
+
+0.9.1-0_PR (r85)
+Menu rewrite(still in progress).
+
+0.9.0-1_PR (b79/r79)
+Finish assessment mode.
+Extend laser class.
+Several modify and fix to HGE.
+
+0.8.1-1_PR (b77)
+Completing all levels for Classic Mode and Free Play Mode.
+Switch to mingw-w64 for building Windows version.
+Prepare for assessment mode.
+
+0.7.3-0_PR (b73)
+Completing level 7.
+Lots and lots of fixes.
+Laser revesion is now r5 and work perfectly.
+
+0.6.2-2_PR (b52)
+Level 6 is complete.
+Supporting new music interfaces and added in-game music.
+
+0.5.3-2_PR (b43)
+Finishing level 5.
+New clear range trigger method and fixes to clear range.
+
+0.4.4-0_PRG (b37a)
+Regression version from 0.5.2-0_PR (b37).
+Released to public. Including the complete level 4, and some levels of Level 5.
+Fixed two minor problems.
+
+0.3.2-0_PR (b27)
+Completing level 3.
+Avoid hidden bullets.
+
+0.2.9-2_PR (b22)
+Completing level 2.
+0.2.9-1_PR (b21) is released to public.
+
+0.1.7-2_PR (b16)
+Level 1 is finished.
+
+TB130907 (b10)
+Laser implementation rev 2.
+
+TB130827 (b8)
+Initial laser implementation.
+
+TB130620~TB130818 (b1~b7)
+New towers and new levels.
+
+TB130610 (b0)
+Creation of the Testbed version.

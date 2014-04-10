@@ -186,11 +186,12 @@ void Score_Write()
 void Score_Initailize()
 {
 	freopen("score.cfg","w",stdout);
-	printf(";BLS");
-	printf("%c%c%c%c",0xd1,0xff,0xa0,0xc0);printf("%c%c%c%c",0,0,0,0);
-	printf("%c%c%c%c",0xd1,0xff,0xa0,0xc1);printf("%c%c%c%c",0,0,0,0);
-	printf("%c%c%c%c",0xd1,0xff,0xa0,0xc2);printf("%c%c%c%c",0,0,0,0);
-	printf("%c%c%c%c",0xd1,0xff,0xa0,0xc3);printf("%c%c%c%c",0,0,0,0);
+	puts(";BLS");
+	static const char *fourchar="%c%c%c%c";
+	printf(fourchar,0xd1,0xff,0xa0,0xc0);printf(fourchar,0,0,0,0);
+	printf(fourchar,0xd1,0xff,0xa0,0xc1);printf(fourchar,0,0,0,0);
+	printf(fourchar,0xd1,0xff,0xa0,0xc2);printf(fourchar,0,0,0,0);
+	printf(fourchar,0xd1,0xff,0xa0,0xc3);printf(fourchar,0,0,0,0);
 	fclose(stdout);
 }
 void InsertHighScore()
@@ -199,6 +200,7 @@ void InsertHighScore()
 	switch (mode)
 	{
 		case 4:
+			//deprecated...
 			if (pos<=Ecnt)
 			for (unsigned i=5;i>pos;--i)
 				ERec[i]=ERec[i-1];

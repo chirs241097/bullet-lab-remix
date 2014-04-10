@@ -52,7 +52,6 @@
 #endif
 #include "libcgh.h"
 #include "hgeft.h"
-#include "menuitem.h"
 #include "global.h"
 #include "music.h"
 #include "scoresystem.h"
@@ -625,7 +624,7 @@ bool FrameFunc()
 	static float t=0.0f;
 	float tx,ty;
 	if (Current_Position==1&&hge->Input_GetKeyState(HGEK_ESCAPE))pauseMenu.Init(-200);
-	int MMR=-1,SMR=-1,OMR=-1,PPMR=-1,PMR=-1,RTTMR=-1,DMR=-1,CMR=-1;
+	int MMR=-1,SMR=-1,OMR=-1,PPMR=-1,PMR=-1,RTTMR=-1,DMR=-1,CMR=-1,HSMR=-1,HSVMR=-1,HSDMR=-1;
 	if (mainMenu.isActive())MMR=mainMenu.Update();
 	if (startMenu.isActive())SMR=startMenu.Update();
 	if (optionMenu.isActive())OMR=optionMenu.Update();
@@ -635,31 +634,38 @@ bool FrameFunc()
 	if (deathMenu.isActive())DMR=deathMenu.Update();
 	if (completeMenu.isActive())CMR=completeMenu.Update();
 	if (newHighScoreGUI.isActive())newHighScoreGUI.Update();
+	if (highScoreMenu.isActive())HSMR=highScoreMenu.Update();
+	if (highScoreViewMenu.isActive())HSVMR=highScoreViewMenu.Update();
+	if (highScoreDetailsMenu.isActive())HSDMR=highScoreDetailsMenu.Update();
 	if (Current_Position==0)
 	{
 		if(!mainMenu.isActive())return true;
-		switch(MMR)
+		if(~MMR)
 		{
-			case 0:Current_Position=3;startMenu.Init();mainMenu.Leave();break;
-			case 2:
-				Current_Position=13;
-				optionMenu.Init(-200);
-				mainMenu.Leave();
-				break;
-			case 3:
-				Credits->SetHotSpot(300,100);
-				CreditsRail->SetHotSpot(300,100);
-				creditsp=0;
-				Music_Init("./Resources/Music/BLR2_TR09.ogg");
-				lpst=lped=0;
-				Music_Play();
-				creditfly=1200;creditacc=0;credstop=creddone=false;
-				Current_Position=4;
-				mainMenu.Leave();
-				break;
-			case 4:mainMenu.Leave();break;
+			switch(MMR)
+			{
+				case 0:Current_Position=3;startMenu.Init();mainMenu.Leave();break;
+				case 1:Current_Position=8;highScoreMenu.Init(-200);mainMenu.Leave();break;
+				case 2:
+					Current_Position=13;
+					optionMenu.Init(-200);
+					break;
+				case 3:
+					Credits->SetHotSpot(300,100);
+					CreditsRail->SetHotSpot(300,100);
+					creditsp=0;
+					Music_Init("./Resources/Music/BLR2_TR09.ogg");
+					lpst=lped=0;
+					Music_Play();
+					creditfly=1200;creditacc=0;credstop=creddone=false;
+					Current_Position=4;
+					mainMenu.Leave();
+					break;
+				case 4:break;
+			}
+			mainMenu.Leave();
+			return false;
 		}
-		if(~MMR)return false;
 	}
 	if (Current_Position==3)
 	{
@@ -766,10 +772,40 @@ bool FrameFunc()
 			return false;
 		}
 	}
-	//if (Current_Position==7)newHighScoreGUI.Update(); where to do it?
-	if (Current_Position==8)HighScoreGUI_FrameFnk();
-	if (Current_Position==9)HSViewGUI_FrameFnk();
-	if (Current_Position==10)HSDetGUI_FrameFnk();
+	if (Current_Position==8)
+	{
+		if(~HSMR)
+		{
+			if(HSMR<=2)
+			{Current_Position=9;highScoreViewMenu.Init(-200,HSMR);}
+			if(HSMR==3)
+			{Current_Position=0;mainMenu.Init(-200);}
+			highScoreMenu.Leave();
+			return false;
+		}
+	}
+	if (Current_Position==9)
+	{
+		if(~HSVMR)
+		{
+			if(HSVMR<=highScoreViewMenu.GetViewCount()&&HSVMR)
+			{Current_Position=10;highScoreDetailsMenu.Init(-200,highScoreViewMenu.View(),HSVMR);}
+			if(HSVMR==6)
+			{Current_Position=8;highScoreMenu.Init(-200);}
+			if(HSVMR&&(HSVMR<=highScoreViewMenu.GetViewCount()||HSVMR==6))
+			highScoreViewMenu.Leave();
+			return false;
+		}
+	}
+	if (Current_Position==10)
+	{
+		if(~HSDMR)
+		{
+			highScoreViewMenu.Init(-200,highScoreDetailsMenu.View());
+			highScoreDetailsMenu.Leave();Current_Position=9;
+			return false;
+		}
+	}
 	if (Current_Position==11)
 	{
         if(~PMR)
@@ -917,6 +953,9 @@ bool FrameFunc()
 	if(deathMenu.isActive())deathMenu.Render();
 	if(completeMenu.isActive())completeMenu.Render();
 	if(newHighScoreGUI.isActive())newHighScoreGUI.Render();
+	if(highScoreMenu.isActive())highScoreMenu.Render();
+	if(highScoreViewMenu.isActive())highScoreViewMenu.Render();
+	if(highScoreDetailsMenu.isActive())highScoreDetailsMenu.Render();
 	if (Current_Position==0||Current_Position==3||Current_Position==8||
 		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
 	{
@@ -924,9 +963,6 @@ bool FrameFunc()
 	}
 	if (Current_Position==2)ShowTip(lasttip);
 	if (Current_Position==4)AboutScene();
-	if (Current_Position==8)HighScoreGUI->Render();
-	if (Current_Position==9)HSViewGUI->Render();
-	if (Current_Position==10)HSDetailGUI->Render();
 	fnt->SetColor(0xFFFFFFFF);
 	rbPanelFont.UpdateString(L" FPS: %.2f",hge->Timer_GetFPSf());
 	rbPanelFont.Render(785,595,0xFFFFFFFF,1);
@@ -1007,7 +1043,7 @@ void parseArgs(int argc,char *argv[])
 		if(!strcmp(argv[i],"--version"))
 		{
 			printf("Bullet Lab Remix II %s\n",BLRVERSION);
-			printf("Built Date: %s",BuiltDate);
+			printf("Built Date: %s\n",BuiltDate);
 			exit(0);
 		}
 		bool valid=false;
@@ -1250,8 +1286,8 @@ int main(int argc,char *argv[])
 		startMenu.Init_Once();optionMenu.Init_Once();
 		pauseMenu.Init_Once();returnToTitleMenu.Init_Once();
 		deathMenu.Init_Once();completeMenu.Init_Once();
-		playerPreferenceMenu.Init_Once();
-		if(LOWFPS)hge->System_Log("%s: Low FPS Mode Enabled.",MAIN_SRC_FN);
+		playerPreferenceMenu.Init_Once();highScoreMenu.Init_Once();
+		highScoreViewMenu.Init_Once();highScoreDetailsMenu.Init_Once();
 		if(fNoSound)hge->System_Log("%s: Sound is disabled.",MAIN_SRC_FN);
 		if(startLvl)
 		{

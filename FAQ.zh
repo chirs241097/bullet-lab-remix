@@ -1,0 +1,89 @@
+===建设中===
+In fact, these Q&A's are not asked frequently at all.
+They all came from the messed up mind of the author!
+
+Q: 我就是不能启动它！(我连个窗口都看不见！)
+A: 一定有什么东西出错了。大约是以下两个原因中的一个：
+   1. 无法加载某个共享库。
+   2. 初始化失败。
+如果发生的情况是第一种，那么BLRLOG.txt甚至都不会被创建。
+解决方法是安装所需的运行库。
+如果第二种发生了，你可以从BLRLOG.txt中看到到底是什么出了问题。
+
+不过，第一种情况发生的可能性非常小。发布的Windows版没有那么多外部依赖。
+
+Q: 它崩溃了！
+A: 这个程序还处于「非常不稳定的阶段」并且*随时*都可能崩溃。
+   如果它崩溃了，你可以将你的问题附上BLRLOG.txt一起发到google code的问题
+   跟踪（大致就是一个类似bugzilla的东西？）上。如果我能重新制造出这个问题，我将会在以后
+   试着去修正它。
+
+Q: "Cannot decompress resources!" (仅限Windows)
+A: 我将Windows版的游戏资源压缩了。当游戏启动时，它会建立两个文件夹并将数据
+   解压在其中。如果这失败了，将会弹出这个错误框。
+   重启游戏大概就能解决了。
+
+Q: 你的代码没法编译！
+A: 我非常肯定它（在我的机器上）*能*编译。
+   检查你是不是已经获取了所有需要的SDK。
+   另外，如果你使用的是一个从svn获取的较老的版本，我就不能保证它能编译了…
+
+Q: 你的包中有一些音乐，但是他们根本没有被播放？
+A: 播放的代码被注释掉了。你可以自己发现的。
+
+Q: BLRData.dtp和BLRMusic.dtp是什么？
+A: 正如名字说的，他们包含了游戏的数据。
+   你可以用expand.exe解压这两个文件，expand.exe可以从神秘的system32文件夹
+   下找到。
+
+Q: 看起来很模糊？
+A: 这个游戏是为800x600分辨率设计的。如果你在用其他的分辨率或者以全屏运行它，
+   可能会出现这个问题。
+
+Q: 我认为图形绘制的有问题。
+A: 对于DirectX，我了解的不太多，因为我没有修改hge的DirectX版。
+   但是它不应该和OpenGL版有太大的不同。
+   四边形都是使用顶点缓冲用三角形绘制的。（好像现在所有显卡都支持顶点缓冲？）
+   或许还有些跟显卡驱动有关的问题，我将会在以后修正它们。
+
+Q: 请告诉我历史。。。
+A: Changelog里面记录了这个项目的整个历史（虽然不是很完整）。
+   顺带一说，这个工程起初只是BLR I的一个fork()，而BLR I现在已经完工了。
+
+Q: 有命令行选项吗？
+A: 有，在README.txt中有其说明。
+   顺便，--start和--fast选项一开始是为调试而设置的。
+   但是它们也是作弊者的一个隐藏福利…
+   所以，我在最终版中不会移除它。我保证不会（？）。
+   （错误地使用--start可能会导致严重问题！）
+
+Q: 等级？
+A: 如果你能到Level 1~3...
+   --你不适合玩这种游戏。
+   如果你能到Level 4~6...
+   --一般的水平。
+   如果你能通过Level 6或者玩到Level 7...
+   --你不太一般啊…
+   如果你能通过Level 7...
+   --你是“没有人”吗？
+   如果你能通过Level -1...
+   --告诉我你来地球的目的…
+
+Q: 有其他奖励吗？
+A: 对不起，没有… 
+   即使你一个没有吃到一个子弹地通了Level -1你也不会得到任何东西。
+   所以…自娱自乐吧。
+
+Q: What hardwares/softwares do you use?
+A: I'm using a Lenovo Ideapad Y570 with Intel Core i7-2670QM CPU.
+   It has 8GiB of RAM and HD3000+Nvidia GT 555M. However I've disabled
+   GT 555M in BIOS so that it won't heat too much. Additionally,
+   I've got a 256GiB Crucial M4 SSD (That's useless, uh?).
+   This game is mainly developed under GNU/Linux.
+   I use Debian sid as my main system. (Yes, that's one of the reasons why
+   I like to "live on the edge".) KDE is my current desktop environent.
+   Usually, I use Code::Blocks IDE. Sometimes I use vim/geany+gdb.
+   For windows version compile, I use Visual Studio 2013 express.
+   The game graphic resources are made with GIMP.
+   Musics are made with Rosegarden, synthed with fluidsynth(qsynth frontend),
+   recorded with jack.record.

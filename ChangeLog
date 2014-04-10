@@ -8,6 +8,14 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-1_PR (r86)
+Port highscore view and details menu. Menu rewrite is almost done!
+Disable select key while transferring.
+Fix "typo" caused bugs.
+Hopefully fix small bugs in the new menu system.
+Rename several files. Add some additional files.
+Remove legacy menu components.
+
 0.9.1-0_PR (r85)
 Port death menu, complete menu and new highscore menu to the new
 menu code base.

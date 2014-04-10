@@ -1,0 +1,97 @@
+===Under Construction===
+In fact, these Q&A's are not asked frequently at all.
+They all came from the messed up mind of the author!
+
+Q: I JUST CAN'T start it! (I can't see even a window!)
+A: Something must went wrong. There are two general causes.
+   1. Failed to load a shared library.
+   2. Initialization Failure.
+If the first one happened, BLRLOG.TXT will not even be created.
+To solve it, install the required runtime libs.
+If the second one happened, you can find out what really happened in
+BLRLOG.txt.
+
+However, the first one is not likely to happen. The official Windows
+build doesn't have too much external dependencies.
+
+Q: It crashed!
+A: This program is *pretty unstable* and may crash at any time.
+   If it crashed, you can post your problem with BLRLOG.txt attatched
+   to google code issue tracker. I'll try to fix the problem if I can
+   reproduce it.
+
+Q: "Cannot decompress resources!" (Windows only)
+A: I've compressed the resources of the game for Windows. As the game
+   starts, it will create two folders and decompress the resources
+   into them. If that failed, this problem will be reported.
+   Restarting the game may solve the problem.
+
+Q: Your code cannot compile!
+A: I'm pretty sure that it CAN compile(on my machine).
+   Check if you have all required sdks.
+   Additionally, if you checked out an older revision from svn, I
+   cannot guarantee that it can compile!
+
+Q: You included in-game music in your package, but they are not played!
+A: The playing code is commented. You can figure it out yourself.
+
+Q: What are BLRData.dtp and BLRMusic.dtp?
+A: As the name tells, these are archives containing the game data.
+   You can decompress them with expand.exe (which may be found in
+   the mystery folder "system32").
+
+Q: It's blurred?
+A: The game was designed for 800x600, and if you are using a resolution
+   other than 800x600 or running in fullscreen, this problem may occur.
+
+Q: I don't think the graphics are being rendered correctly.
+A: I don't know much about DirectX, for I left hge DirectX untouched.
+   However it shouldn't differ too much from the OpenGL version.
+   All quads are rendered as triangles, and uses vertex buffer.
+   Maybe there are "graphics driver dependent" contents, I'll correct them
+   later.
+
+Q: Tell me the history.
+A: Changelog tracked a full history of this project (Although it's not
+   detailed).
+   By the way, this project started as a fork of BLR I, which is already
+   closed by me now.
+
+Q: Are there command line options?
+A: Yes. It's documented in README.txt.
+   BTW, --start and --fast came up for debug purpose only.
+   However they are a hidden bonus for cheaters.
+   So, I won't remove that in the final version. I promise.
+   (P.S.: misusage of --start may cause severe problems!)
+
+Q: Rankings of this game?
+A: If you can reach level 1~3...
+   --You are not suitable playing this sort of game.
+   If you can reach level 4~6...
+   --You are a normal human-being.
+   If you can pass level 6 or reach level 7...
+   --You are unusual.
+   If you can pass level 7...
+   --Are you "nobody"?
+   If you can pass level -1...
+   --Tell me the reason why you come to Earth...
+
+Q: Are there other awards?
+A: Sorry, no... 
+   You won't get anything but the ranking even you've passed level -1 without
+   collisions.
+   So... enjoy it yourself.
+ 
+Q: What hardwares/softwares do you use?
+A: I'm using a Lenovo Ideapad Y570 with Intel Core i7-2670QM CPU.
+   It has 8GiB of RAM and HD3000+Nvidia GT 555M. However I've disabled
+   GT 555M in BIOS so that it won't heat too much. Additionally,
+   I've got a 256GiB Crucial M4 SSD (That's useless, uh?).
+   This game is mainly developed under GNU/Linux.
+   I use Debian sid as my main system. (Yes, that's one of the reasons why
+   I like to "live on the edge".) KDE is my current desktop environent.
+   Usually, I use Code::Blocks IDE. Sometimes I use vim/geany+gdb.
+   For windows version compile, I use Visual Studio 2013 express.
+   The game graphic resources are made with GIMP.
+   Musics are made with Rosegarden, synthed with fluidsynth(qsynth frontend),
+   recorded with jack.record.
