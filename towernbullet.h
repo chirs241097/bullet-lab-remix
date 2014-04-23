@@ -2855,7 +2855,7 @@ public:
 	{
 		vector2d dir=a-b;dir.ToUnitCircle();dir=dis*dir;
 		vector2d x=b;
-		while(x.x<=-25||x.x>=825||x.y<=-25||x.y>=625)
+		while(!(x.x<=-25||x.x>=825||x.y<=-25||x.y>=625))
 		{
 			CreateBullet255(x.x,x.y,10);
 			x=x+dir;
@@ -2869,4 +2869,70 @@ public:
 	bool active;
 	int stp;
 	double brk;
+};
+class SELineLaser
+{
+private:
+	LineLaser lsr;
+	bool active,h;
+	double brk,x;
+public:
+	bool isActive(){return active;}
+	void Init(int _x,bool _h)
+	{
+		x=_x;h=_h;
+		if(h)
+			lsr.InitLine(vector2d(0,x),vector2d(800,x),0,SETA(ColorToDWORD(blue),0x80));
+		else
+			lsr.InitLine(vector2d(x,0),vector2d(x,600),0,SETA(ColorToDWORD(blue),0x80));
+		active=true;brk=0.05;
+	}
+	void Update()
+	{
+		lsr.Process();
+		brk-=hge->Timer_GetDelta();
+		if(brk<0)
+		{
+			brk=0.05;
+			lsr.SetWidth(lsr.GetWidth()+0.2);
+			if(lsr.GetWidth()>1)lsr.SetColl(true);
+			if(lsr.GetWidth()>6)
+			{
+				int t=0;
+				if(!re.NextInt(0,2))
+				{
+					if(h?playerpos.y>x:playerpos.x>x)t=1;
+					vector2d px;
+					vector2d dir=h?vector2d(-1,0):vector2d(0,-1);dir=18*dir;
+					for(int c=0,tt=t;c<2;++c,dir=-1*dir,tt=t^1)
+					{
+						px=h?vector2d(playerpos.x,x):vector2d(x,playerpos.y);
+						if(c)px=px+dir;
+						while(!(px.x<=-25||px.x>=825||px.y<=-25||px.y>=625))
+						{
+							tt^=1;
+							int pnt=CreateBullet2(px.x,px.y,0,0);
+							bullet[pnt].bulletdir=(tt?1:-1)*(h?vector2d(0,1):vector2d(1,0));
+							bullet[pnt].limv=3;bullet[pnt].bulletaccel=0.001;
+							px=px+dir;
+						}
+					}
+				}
+				else
+				{
+					vector2d dir=h?vector2d(-1,0):vector2d(0,-1);dir=18*dir;
+					vector2d px=h?vector2d(800+re.NextInt(-18,0),x):vector2d(x,600+re.NextInt(-18,0));
+					while(!(px.x<=-25||px.x>=825||px.y<=-25||px.y>=625))
+					{
+						t^=1;
+						int pnt=CreateBullet2(px.x,px.y,0,0);
+						bullet[pnt].bulletdir=(t?1:-1)*(h?vector2d(0,1):vector2d(1,0));
+						bullet[pnt].limv=3;bullet[pnt].bulletaccel=0.001;
+						px=px+dir;
+					}
+				}
+				active=false;
+			}
+		}
+	}
 };

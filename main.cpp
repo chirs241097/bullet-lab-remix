@@ -1006,7 +1006,7 @@ bool FrameFunc()
 			fnt->printf(5, 150, HGETEXT_LEFT, "Multiplier: %.2lf",mult);
 		}
 	}
-	if(hge->Input_GetKeyStateEx(HGEK_S)==HGEKST_HIT)hge->System_Snapshot();
+	if(hge->Input_GetKeyStateEx(HGEK_S)==HGEKST_HIT&&Current_Position!=7)hge->System_Snapshot();
 	hge->Gfx_EndScene();
 	return false;
 }
@@ -1232,6 +1232,8 @@ int main(int argc,char *argv[])
 		MenuTex=hge->Texture_Load("./Resources/menus.png");
 		sky.Init();
 		snd=hge->Effect_Load("./Resources/tap.ogg");
+		menuin=hge->Effect_Load("./Resources/menuin.ogg");
+		menuout=hge->Effect_Load("./Resources/menuout.ogg");
 		titlespr=new hgeSprite(TexTitle,0,0,640,320);
 		playerspr=new hgeSprite(SprSheet,0,24,24,24);
 		playerspr->SetHotSpot(12,12);
@@ -1316,6 +1318,8 @@ int main(int argc,char *argv[])
 			delete bulletspr[i];
 			if(i<grey)delete towerspr[i];
 		}
+		hge->Effect_Free(snd);hge->Effect_Free(menuin);
+		hge->Effect_Free(menuout);
 		hge->Texture_Free(SprSheet);hge->Texture_Free(TLeaf);
 		hge->Texture_Free(quad.tex);hge->Texture_Free(TSflake);
 		hge->Texture_Free(TexTitle);hge->Texture_Free(TexCredits);

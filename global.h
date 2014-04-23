@@ -6,7 +6,7 @@
 #define MaxRes 80
 #define Resd 20.0f
 HGE *hge=0;
-HEFFECT				snd;
+HEFFECT				snd,menuin,menuout;
 hgeQuad				quad;
 hgeFont				*fnt;
 hgeSprite			*spr,*titlespr;
@@ -308,7 +308,7 @@ fFristStartUp,fFast;
 int startLvl,startPrt,fFullScreen;
 char alterLog[64];
 #ifdef WIN32
-static const int arFilecount=18;
+static const int arFilecount=20;
 static const char* archive[]={
 "./Resources/b_diff.png",
 "./Resources/b_inter.png",
@@ -324,6 +324,8 @@ static const char* archive[]={
 "./Resources/b_leaves.png",
 "./Resources/e_leaf.png",
 "./Resources/tap.ogg",
+"./Resources/menuin.ogg",
+"./Resources/menuout.ogg",
 "./Resources/Music/BLR2_TR01.ogg",
 "./Resources/Music/BLR2_TR07.ogg",
 "./Resources/Music/BLR2_TR09.ogg",
@@ -331,7 +333,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-0_PR (r85)";
+static const char* BLRVERSION="0.9.1-1_PR (r87)";
 static const char* BuiltDate=__DATE__;
 
 void Throw(char *Filename,char *Info)

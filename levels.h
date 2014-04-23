@@ -3690,6 +3690,7 @@ void Levelm2Part8()
 	avacurbrk+=hge->Timer_GetDelta();
 	if(avacurbrk>avabrk)
 	{
+		shots=1;
 		for(int i=0;i<200;++i)
 		if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
 		{
@@ -3723,15 +3724,13 @@ void Levelm2Part9()
 		FadeTip=false;
 		Current_Position=2;
 		ShowTip("Test 5 - Crossing 2");
-		All2pnt();
-		return;
-	}
-	if (towcnt!=0)return ClearAll(false);
-	if(Current_Position==1)
-	{
 		for(int i=0;i<200;++i)
 		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
 		asscircles[i].circ2pnt();
+		return;
+	}
+	if(Current_Position==1)
+	{
 		memset(asscircles,0,sizeof(asscircles));
 		++part;avabrk=0;avacurbrk=0;
 	}
@@ -3742,6 +3741,7 @@ void Levelm2Part10()
 	avacurbrk+=hge->Timer_GetDelta();
 	if(avacurbrk>avabrk)
 	{
+		shots=1;
 		for(int i=0;i<200;++i)
 		if (asscircles[i].GetRange()>800||asscircles[i].GetRange()<1e-7)
 		{
@@ -3766,6 +3766,7 @@ void Levelm2Part10()
 	}
 }
 double assrad;
+SELineLaser trap[100];
 void Levelm2Part11()
 {
 	frameleft=Infinity;
@@ -3775,43 +3776,38 @@ void Levelm2Part11()
 		IfShowTip=false;
 		FadeTip=false;
 		Current_Position=2;
-		ShowTip("Test 6 - Fake sink");
-		All2pnt();
-		return;
-	}
-	if (towcnt!=0)return ClearAll(false);
-	if(Current_Position==1)
-	{
+		ShowTip("Test 6 - Trappy");
 		for(int i=0;i<200;++i)
 		if (asscircles[i].GetRange()>1e-7&&asscircles[i].GetRange()<800)
 		asscircles[i].circ2pnt();
+		return;
+	}
+	if(Current_Position==1)
+	{
 		memset(asscircles,0,sizeof(asscircles));
-		++part;avabrk=0;avacurbrk=0;assrad=0;tbrk=0;
+		++part;avabrk=0;avacurbrk=0;tbrk=0;memset(trap,0,sizeof(trap));
 	}
 }
 void Levelm2Part12()
 {
 	frameleft=Infinity;
 	avacurbrk+=hge->Timer_GetDelta();
-	tbrk+=hge->Timer_GetDelta();
+	for(int i=0;i<100;++i)
+	if(trap[i].isActive())trap[i].Update();
 	if(avacurbrk>avabrk)
 	{
-		CreateBullet2(400,300,re.NextInt(1,2.5),re.NextDouble(-pi,pi));
-		avacurbrk=0;
-		avabrk=0.05-0.03*assetime/120;
-		if(avabrk<0.01)avabrk=0.01;
-	}
-	if(tbrk>0.05)
-	{
-		for(int i=0;i<6;++i)
+		bool sh=re.NextInt(0,1);
+		for(int c=0;c<(assetime>30?(assetime-30)/30:1);++c,sh^=1)
+		for(int i=0;i<100;++i)
+		if(!trap[i].isActive())
 		{
-			int pnt=CreateBullet2(400+500*cos(assrad+i*pi/3),300+500*sin(assrad+i*pi/3),1.5,0,true);
-			double r2=495.0f*(assetime/120.0f);r2=500-r2;
-			bullet[pnt].redir(vector2d(400+r2*cos(assrad+i*pi/3),300+r2*sin(assrad+i*pi/3)));
-			bullet[pnt].limpos=vector2d(400+r2*cos(assrad+i*pi/3),300+r2*sin(assrad+i*pi/3));
-			bullet[pnt].extborder=true;
+			if(sh)trap[i].Init(re.NextInt(10,590),1);
+			else trap[i].Init(re.NextInt(10,790),0);
+			break;
 		}
-		tbrk=0;assrad+=pi/60;
+		avacurbrk=0;
+		if(assetime<60)avabrk=3-2*assetime/60.0f;
+		else avabrk=2.5-(assetime-60)/120.0f;
 	}
 }
 double asssrd1;

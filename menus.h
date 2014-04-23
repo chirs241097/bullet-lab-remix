@@ -1,10 +1,17 @@
 //Chrisoft Bullet Lab Remix HGE
 //Menu Implementations
 //Copyright Chrisoft 2014
-//Now this is being rewritten...
-//                                --Announcement from Chirsno
 //static const char* MENUS_H_FN="menus.h";
-//Here's where new code grows...
+//The menu rewrite is almost complete...
+void TriggerSound(int type)
+{
+	switch(type)
+	{
+		case 0:hge->Effect_Play(snd);break;
+		//case 1:hge->Effect_Play(menuin);break;
+		//case 2:hge->Effect_Play(menuout);break;
+	}
+}
 void ConfigureQuad(hgeQuad *quad,double x,double y,double w,double h)
 {
 	quad->tex=0;quad->blend=BLEND_ALPHABLEND;
@@ -177,16 +184,16 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,250,320,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,400,320,110);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<5-1)++selected;
-		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=4;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<5-1)++selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=4,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(selected==4?2:1),selected;
 		return -1;
 	}
 	void Render()
@@ -270,8 +277,8 @@ public:
 			else alldone=false,moffset+=hge->Timer_GetDelta()*800;
 			if(alldone)onOut=active=false;
 		}
-		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT&&selected>0)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&selected<3-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&selected<3-1)++selected,TriggerSound(0);
 		if(fabs(xoffset-(-selected*300))<hge->Timer_GetDelta()*1000)
 			xoffset=-selected*300;
 		else
@@ -283,8 +290,9 @@ public:
 		ConfigureQuad(&LeftGradient,0,320+yoffset,100,200);
 		ConfigureQuad(&RightGradient,700,320+yoffset,100,200);
 		if(onIn||onOut)return -1;
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)TriggerSound(2);
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(1),selected;
 		return -1;
 	}
 	void Render()
@@ -358,9 +366,9 @@ public:
 		ConfigureQuad(&LowerGradient,xoffset-140,430,500,100);
 		if(!onSwitch)
 		{
-			if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
-			if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<6-1)++selected;
-			if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=5;
+			if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
+			if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<6-1)++selected,TriggerSound(0);
+			if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=5,TriggerSound(0);
 		}
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
@@ -370,6 +378,9 @@ public:
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 		{
+			if(selected==5&&!(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT))
+				return -1;
+			TriggerSound(selected==5?2:1);
 			if(onSwitch||onSwitchi)return -1;
 			if(selected<=3)
 			{
@@ -394,6 +405,7 @@ public:
 		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)
 		{
 			if(onSwitch||onSwitchi)return -1;
+			TriggerSound(1);
 			if(selected<=3){onSwitchi=true;swoffset=0;}
 			if(selected==0)tfs=!tfs;
 			if(selected==1)
@@ -597,10 +609,10 @@ public:
 		if(!onSwitch)
 		{
 			if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)
-			--selected==4?--selected:0;
+			TriggerSound(0),--selected==4?--selected:0;
 			if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<6-1)
-			++selected==4?++selected:0;
-			if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=5;
+			TriggerSound(0),++selected==4?++selected:0;
+			if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)TriggerSound(0),selected=5;
 		}
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
@@ -610,6 +622,7 @@ public:
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT)
 		{
+			TriggerSound(1);
 			if(onSwitch||onSwitchi)return -1;
 			if(selected<=3)
 			{
@@ -624,6 +637,7 @@ public:
 		}
 		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)
 		{
+			TriggerSound(1);
 			if(onSwitch||onSwitchi)return -1;
 			if(selected<=3){onSwitchi=true;swoffset=0;}
 			if(selected==0)--plrspd<1?plrspd=5:0;
@@ -633,7 +647,7 @@ public:
 			if(selected<=3)return selected;
 		}
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(selected==5?2:1),selected;
 		return -1;
 	}
 	void Render()
@@ -822,16 +836,16 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,190,320,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,340,320,110);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
-		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT&&!onIn)return 1;
+			return TriggerSound(1),selected;
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT&&!onIn)return TriggerSound(1),1;
 		return -1;
 	}
 	void Render()
@@ -897,15 +911,15 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,190,320,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,340,320,110);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(1),selected;
 		return -1;
 	}
 	void Render()
@@ -975,15 +989,15 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,440,600,110);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(1),selected;
 		return -1;
 	}
 	void Render()
@@ -1062,15 +1076,15 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,390,600,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,540,600,110);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<3-1)++selected,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(1),selected;
 		return -1;
 	}
 	void Render()
@@ -1168,6 +1182,7 @@ public:
 		if (key==HGEK_BACKSPACE)namedel();
 		if (key==HGEK_ENTER)
 		{
+			TriggerSound(1);
 			InsertHighScore();Leave();
 			Current_Position=0;mainMenu.Init(-200);
 			/*switch (mode)
@@ -1235,16 +1250,16 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,440,600,110);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<4-1)++selected;
-		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=4-1;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<4-1)++selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=4-1,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(selected==4-1?2:1),selected;
 		return -1;
 	}
 	void Render()
@@ -1308,16 +1323,16 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,440,600,120);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<7-1)++selected;
-		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=7-1;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>1)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<7-1)++selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=7-1,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(selected==7-1?2:1),selected;
 		return -1;
 	}
 	void Render()
@@ -1399,16 +1414,16 @@ public:
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,440,600,130);
-		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected;
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<(view==1?5:7)-1)++selected;
-		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=(view==1?5:7)-1;
+		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<(view==1?5:7)-1)++selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)TriggerSound(0),selected=(view==1?5:7)-1;
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
 		if(dyoffset>yoffset)dyoffset-=hge->Timer_GetDelta()*400;
 		if(onIn||onOut)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
-			return selected;
+			return TriggerSound(selected==(view==1?5:7)-1?2:1),selected;
 		return -1;
 	}
 	void Render()

@@ -8,6 +8,16 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-1_PR (r87)
+Disable screenshot when you're entering your honourable name. It's
+not tested so we could only hope that will work...
+Add crappy sounds to (part of) the menus.
+
+Replace a level in assessment mode. The original one was meanless..
+The menu sounds are too crappy... remove them temporarily. However,
+let's complete the code base so that we won't waste time writing
+it...
+
 0.9.1-1_PR (r86)
 Port highscore view and details menu. Menu rewrite is almost done!
 Disable select key while transferring.
