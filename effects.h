@@ -1,6 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Effects Implementations
-//Copyright Chrisoft 2014
+// Chrisoft Bullet Lab Remix HGE  -*- C++ -*-
+// Effects Implementations
+// Copyright Chrisoft 2014
 //static const char* EFFECTS_H_FN="effects.h";
 
 void SCEffect_Attatch(vector2d Target=vector2d(-100,-100))

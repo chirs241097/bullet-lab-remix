@@ -1,6 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Background drawing Implementations
-//Copyright Chrisoft 2014
+// Chrisoft Bullet Lab Remix HGE  -*- C++ -*-
+// Background drawing Implementations
+// Copyright Chrisoft 2014
 #include <list>
 const char* BACKGROUND_H_FN="background.h";
 

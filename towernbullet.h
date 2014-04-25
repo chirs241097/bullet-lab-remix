@@ -1,10 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Towers and Bullets Implementations
-//Copyright Chrisoft 2014
-//[Perfect Freeze]: code here for BLR2 won't change a lot since 30/08/2013
-//Sorry that I would break that...
-//I found the rendering code stupid so I MUST rewrite it RIGHT NOW.
-//                                             --Announcement from Chirsno
+// Chrisoft Bullet Lab Remix HGE -*- C++ -*-
+// Towers and Bullets Implementations
+// Copyright Chrisoft 2014
 #include "effects.h"
 //static const char* TOWERNBULLET_H_FN="towernbullet.h";
 
@@ -293,6 +289,7 @@ void CreateBullet255(double x,double y,double bs,int spno=0)
 	bullet[i].dist=bullet[i].bulletdir.x*bullet[i].bulletdir.x+bullet[i].bulletdir.y*bullet[i].bulletdir.y;
 	bullet[i].dist=sqrt(bullet[i].dist);
 	bullet[i].bulletspeed=bs;
+	bullet[i].exp1=re.NextInt(0,9)?0:1;
 }
 void All2pnt()
 {
@@ -979,7 +976,7 @@ void ProcessBullet255(int i)
 	double dis=GetDist(bullet[i].bulletpos,playerpos+splitData[bullet[i].redattrib]);
 	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
-		score+=mult*100;mult+=0.0002f;
+		if(bullet[i].exp1)score+=mult*100;else mult+=0.01;
 		bullet[i].exist=false;
 		bullet[i].bulletpos.x=bullet[i].bulletpos.y=0;
 		bullet[i].bulletdir.x=bullet[i].bulletdir.y=0;
@@ -988,10 +985,21 @@ void ProcessBullet255(int i)
 	}
 	else
 	{
-		bulletspr[grey]->SetColor(0x20FFFFFF);
-		bulletspr[grey]->SetBlendMode(BLEND_ALPHAADD);
-		bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+6,bullet[i].bulletpos.y+6,0,0.5,0);
-		bulletspr[grey]->SetBlendMode(BLEND_ALPHABLEND);
+		if(bullet[i].exp1)
+		{
+			bulletspr[green]->SetColor(0x40FFFFFF);
+			bulletspr[green]->SetBlendMode(BLEND_ALPHAADD);
+			bulletspr[green]->RenderEx(bullet[i].bulletpos.x+6,bullet[i].bulletpos.y+6,0,0.5,0);
+			bulletspr[green]->SetBlendMode(BLEND_ALPHABLEND);
+			bulletspr[green]->SetColor(0x80FFFFFF);
+		}
+		else
+		{
+			bulletspr[grey]->SetColor(0x20FFFFFF);
+			bulletspr[grey]->SetBlendMode(BLEND_ALPHAADD);
+			bulletspr[grey]->RenderEx(bullet[i].bulletpos.x+6,bullet[i].bulletpos.y+6,0,0.5,0);
+			bulletspr[grey]->SetBlendMode(BLEND_ALPHABLEND);
+		}
 	}
 }
 int CreateTower1(double x,double y,int timer,double bs,double offset=0,bool eff=false)

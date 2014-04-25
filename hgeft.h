@@ -1,3 +1,4 @@
+// Freetype2 ext4hge header  -*- C++ -*-
 /*
  * Freetype2 extention for hge
  * by Chris Xiong

@@ -1,6 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Multiplier implementations
-//Copyright Chrisoft 2014
+// Chrisoft Bullet Lab Remix HGE -*- C++ -*-
+// Multiplier implementations
+// Copyright Chrisoft 2014
 CircleIndicator MultTimer;
 hgeFont *MultFnt;
 hgeSprite *MB;

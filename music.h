@@ -1,4 +1,4 @@
-//Chrisoft Bullet Lab Remix HGE
+//Chrisoft Bullet Lab Remix HGE -*- C++ -*-
 //In Game Music Implementations
 //Copyright Chrisoft 2014
 HEFFECT Mus;

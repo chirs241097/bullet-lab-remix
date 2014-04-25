@@ -8,6 +8,15 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-1_PR (r88)
+%lld seems to work with mingw-w64(also VS2005+)...
+So let's remove all %I64d.
+Change point bullet behaviour.
+Fix a minor multiplier problem.
+Mark the source code as C++.
+Re-document levels(not done).
+Update wiki.
+
 0.9.1-1_PR (r87)
 Disable screenshot when you're entering your honourable name. It's
 not tested so we could only hope that will work...

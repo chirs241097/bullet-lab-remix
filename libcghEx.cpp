@@ -1,6 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Chrisoft Game Helper Extras implementations
-//Copyright Chrisoft 2014
+// Chrisoft Bullet Lab Remix HGE -*- C++ -*-
+// Chrisoft Game Helper Extras implementations
+// Copyright Chrisoft 2014
 #include "libcgh.h"
 #include <cmath>
 #include <cstring>

@@ -1,9 +1,27 @@
-BulletLabRemixII Level index
+BulletLabRemixII
+Level index/specifications/hints
 
+This document is probably NOT suitable for:
+Anybody who isn't insterested in this topic
+Liberal arts students(?...)
+
+This document is suitable for:
+Nobody(?)
+Coders who want to modify this game
+Casual persons who won't care anything
+Someone who is stuck at a part
+
+
+
+
+
+
+======================WARNING, LOTS OF WORDS BELOW!======================
 Level 1			2/180
 River levels			120
 -It's confusing... so much bullets for Level1?
  However it's fairly easy. Do not seek for death.
+
 Double-directed labyrinth	60
 -Still very easy.
 
@@ -11,10 +29,13 @@ Level 2			4/215
 Polygon-red			60
 -This is not hard...
  Fake bullets aren't always annoying.
+
 Polygon-white			60
--Make good use of precise mode!
-Polygon-white locked		65
--Find a good position, e.g. near by a line.
+-Make good use of precise mode
+
+Polygon-white locked		6
+-Find a good position, e.g. near by a line
+
 Polygon-both			30
 -This part doesn't make sense.
 
@@ -22,10 +43,13 @@ Level 3			4/150
 Reflective			30
 -Just meet them, do not make big movements.
  They are pretty friendly aren't they?
+
 *4				30
 -It's a little difficult... Keep away from the edges!
+
 Rotate ????			60
 -Stay away from the rotating bullets and you'll pass this level.
+
 Wall of blues?			30
 -Rather easy. Do not try to earn too may semi-collisions unless
  you are really skilled.
@@ -35,15 +59,16 @@ Level 4			5/243
 Orange				30
 -Don't make big movements and stay away from the edges. (why?)
  Those fast bullets are really annoying.
- Answer to the question asked in the tip: TH06 Cirno?
- In fact many level started as a copy of some spellcards in
- TH...
+
 Orange trap			5+5+4+4+3+3+2+2+5
 -Do NOT press shift!
+
 Double spinner			60
 -An easy part for level 4.
+
 Squash-2			60
 -Enjoy it yourself.
+
 Circle-drawing			60
 -Just draw the circle.
  If you have any problem, try BLR 1.
@@ -51,161 +76,213 @@ Circle-drawing			60
 Level 5			8/338
 CChase				30+30
 -Don't set player move speed to 1!
+ Remark: They are not really faster than you...
+
 Vortex of leaves		60
 -This is another annoying level, looks awesome and hard.
  Keep away from those 'laser''s!
+ Remark: The lasers may have strange collision detection...
+ Be careful!
+
 Upstream flow			60
 -Rather easy.
  Looks like something in level 3.
+
 High speed threaten		30
 -It's JUST threaten!
  Precision is important.
  Practice makes perfect.
+
 Crossing threaten		30
 -Appears very hard.
  Choose the correct time to cross those bullets.
+
 Orange trap2			2+2+2+2
 -Just another level from level 4.
+
 Fish in the barrel		60
 -Where have I seen this...
+ Remark: Those bullets are comming directly towards you.
+
 the Unbreakable jail		30
 -This is fairly hard. Use CLR if you need it.
+ Remark: When the 'target' got red, it's about to update its
+ position.
 
 Level 6			7/390
 Snow WHITE			30
 -Incredible fast. Do not treat your CLR as a
  £100,000,000 cheque.
+ Remark: They are accelerated!
+
 Photokeratitis			10+10+10+10+10
 -This is sickly hard...
  Treat fast bullets and slow bullets separately.
+ Remark: It looks like Wriggle Nightbug's spellcard...
+
 Squash-4(?)			60
 -Do not be trapped! You only need ONE CLR!...
+
 Avalanche			60
 -Do not stay at the screen bottom, it's very dangerous...
+
 Dangerous target		60
 -Keep moving!
  It's a nightmare if you've choose a slow player...
+ Remark: The target follows you as a yellow bullet does.
+
 Hexagon loops			10+20+7+7+7+19
 -Step well back and watch the show.
+ Remark: This level will misbehave if FPS dropped...
+
 Hyperfluid			60
 -Also known as Superfluid.
  Designed to be a spellcard(?) of someone who has the ability
  to manipulate ice...
  In fact, liquid helium is not cold enough. It's still several
  Kelvin's degrees. I can make it even colder.
+ Remark: The white bullets are not accelerated, which are different
+ from the blue ones. The blue bullets share the same direction: 45 deg.
+ This part was designed as 「my」 「spellcard」 at first...
 
 Level 7			12/930+			Mapped levels
 Spring thunder storm - panic?		60	Thunder storm...
 -Although it's based on something from level 6, they are completely
  different!
  And this one is really easy.
-<Color Transform>
+ Remark: Try to get to the top of the screen...
+
 Rainbow tower - color theory		90	rainbow tower
--Basic level. Is it from BLR 1?
+-Basic level.
+ Remark: It's taken from the testbed version of BLRII.
 Rainbow bullets - nauty photon		60	Lazy level;)
 -Similar to one part in level1, but a lot harder.
  Luck is really required.
+ Remark: The generation of bullets is really strange... If the last position
+ on the y axis is taken up... sorry that I started to talk about coding again.
+
 Rainbow effect - appearance		60	draw a rainbow (of bullet)
 -Random bullets. You will remember this part at once when you see the part.
  If you feel it hard, go to assessment mode.
+ Remark: The bullets forming the rainbow are invincible.
+
 Rainbow effect - interference		120	as the name tells
 -This part is REALLY easy... but why?
+
 Rainbow effect - diffraction		120	as the name tells
 -Pretty hard. Those piles of shit may crash straight into you.
  The code is pretty ugly too.
+
 Rainbow effect - photon school		60	"particalization"!
 -Pretty hard. Use CLR if necessary.
- It may be easier if you stay near the edges.
-<Color Transform>
+ It may be easier if you stay near the edges. (I don't really know.)
+
 Over the Rainbow - timeless challenge	-	great circles
 -Your goal is to reach the red block...
  And, this one is also pretty hard...
  If you're not well-skilled and you are working on FPM, try --suicide--!
+ Remark: This level will never end if you don't reach the red block...
+
 Trypophobia				120	another two classes: Tail & Pile
 -Very hard. You'll never know where they will go next.
  However, they won't step on the same place twice.
  Will this cause trypophobia?
+ Remark: I seem to forget an important thing: Bullets with effects won't collide
+ for a short time after they are created...
+
 Photon fusion				90	Use a slightly modified tower8...
 -Directed bullets+random bullets.
  Find a formula for it.
+
 Wave of Photon				60	class WOP+Lazy of particalization
 -Not very hard at the beginning...
+
 Return to void				90	return (void)(...);
 -VERY HARD!!!
  I don't know where this came from.
  CLR is useless but it will give you a short period during which you are invincible.
+ Remark: There are "no solution" cases...
 Level -1(Extreme)	7/1020
 unknown circles*2			60*2
 -Pretty easy as they are only the beginning of nightmare...
+
 Spiky					120
 -Hard. Their behavior is not predictable.
+ Remark: Again, never try to approach lasers! They are harmful to your eyes...
+
 Achromatopsia				120(90+30)
 -Or we should call this "deuteranopia vs protanopia"?
+ Remark: Color change may suddenly happen!!
+
 Quad thread				120
 -Do you humans really support it?
+ Remark: I don't...
+
 Supernova(additive blending)		120
 -Awesome supernova!
  I enjoy coding(easy parts)...
+
 yellow explosive			90
 -Yellow explosive are poisonous? IDK.
+
 Sink over the horizon			90
 -Strange. You might be trapped without noticing it.
+
 Gravity vortex				120
 -It has nothing to do with gravity at all.
+
 Incomplete Reflective			120
 -Start in peace, end in mess.
+ Remark: one in four bullets will explode when it hits the wall.
 
 Level -2(Assess)	10/?
--No CLR
--Collision and step to next level
 Directed bullet
 -A copy of a spellcard from someone...
  Towers don't collide you, however they should do so.
+
 Random bullet
 -Pure random.
  Are they getting faster?
+
 Constant patterns
 -Pretty awesome.
  Doesn't look like anything.
+
 Crossing 1(L+R)
 -They started spinning!!!
+
 Crossing 2(C)
 -Used by Moriya Suwako...
  Round bullets made me dizzy.
-Fake sink
--Aren't those things from the centre annoying...
+
+Trappy
+-The name is strange...
+ Remark: The lasers created just over you are not created there on purpose...
+ However, one third of the bullets could be directed.
+
 Sine wave
 -Oscilloscope?
  Find a good place to vibrate with the graph...
+ Remark: Some positions will cause death instantly!
+
 Density test
 -Really high density.
- And they may block you way!
+ WTF? There's no way?!
  Pleaz.. don't be hopeless...
+
 "Pinballs"
 -Why these pinballs don't collide each other?
+ --Because I don't know about the physics...
+
 Road Blocks
 -You'll understand this one day.
+ --Flappy square?...
+
 Extreme High speed
 -Copy of one part in level 5.
+
 Laser crosses
 -Only a show off of the Laser class.
+
 Bonus test: Lunatic Lunar!
 -May be the legacy of a vintage game...
-
-
-
-Level Enter Limits: 
-Classic:
-Level 3: 1 restart(all)
-Level 4: 2 restarts
-Level 5: 3 restarts
-Level 6: 5 restarts
-Level 7: 8 restarts
-Level -1: 2 restarts
-FPM:
-Level 3: 10 collisions
-Level 4: 40 collisions
-Level 5: 75 collisions
-Level 6: 125 collisions
-Level 7: 200 collisions
-Level 8: 50 collisions

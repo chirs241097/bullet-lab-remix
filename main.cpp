@@ -1,6 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Main Code
-//Copyright Chrisoft 2014
+// Chrisoft Bullet Lab Remix HGE -*- C++ -*-
+// Main Code
+// Copyright Chrisoft 2014
 //Now that we use BSD license, so let's paste it here.
 //(although it may be awful)
 /*
@@ -352,7 +352,7 @@ void RefreshScore()
 		score+=16*mult;
 	else
 		score+=mult;
-	if(scminus){if(mult/2>0.1)mult/=2;else mult=0.5;}
+	if(scminus){if(mult/2>0.1)mult/=2;else mult=0.1;}
 	score+=100*shots*mult;
 	score-=scminus*mult;
 	score+=2000*dsmc*mult;
@@ -982,10 +982,9 @@ bool FrameFunc()
 		}
 		fnt->SetColor(SETA(0xFFFFFF,infofade));
 		fnt->printf(5, 0, HGETEXT_LEFT, "Frames to go: %d",frameleft);
-#ifdef WIN32
+#if 0
 		fnt->printf(5, 25, HGETEXT_LEFT, "Score: %I64d",score);
-#endif
-#ifndef WIN32
+#else
 		fnt->printf(5, 25, HGETEXT_LEFT, "Score: %lld",score);
 #endif
 		fnt->printf(5, 50, HGETEXT_LEFT, "Level %d",level);

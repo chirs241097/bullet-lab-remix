@@ -1,8 +1,8 @@
-//Chrisoft Bullet Lab Remix HGE
-//Menu Implementations
-//Copyright Chrisoft 2014
+// Chrisoft Bullet Lab Remix HGE -*- C++ -*-
+// Menu Implementations
+// Copyright Chrisoft 2014
+// The menu rewrite is almost complete...
 //static const char* MENUS_H_FN="menus.h";
-//The menu rewrite is almost complete...
 void TriggerSound(int type)
 {
 	switch(type)
@@ -1013,7 +1013,7 @@ public:
 		hge->Gfx_RenderQuad(&UpperGradient);
 		hge->Gfx_RenderQuad(&LowerGradient);
 		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
-#ifdef WIN32
+#if 0
 	"You scored %I64d at level %d"
 #else
 	"You scored %lld at level %d"
@@ -1101,7 +1101,7 @@ public:
 		hge->Gfx_RenderQuad(&LowerGradient);
 		if(~CheckHighScore())
 		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
-#ifdef WIN32
+#if 0
 	"New Highscore %I64d!"
 #else
 	"New Highscore %lld!"
@@ -1109,7 +1109,7 @@ public:
 	,score);
 		else
 		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
-#ifdef WIN32
+#if 0
 	"Score %I64d"
 #else
 	"Score %lld"
@@ -1350,7 +1350,7 @@ public:
 			{
 				if(i<=WrapCnt)
 				MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"%u. %s - "
-#ifdef WIN32
+#if 0
 				"%I64d"
 #else
 				"%lld"
@@ -1438,7 +1438,7 @@ public:
 		{
 			if(dyoffset+430>289.9&&dyoffset+430<540.1)
 				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored "
-#ifdef WIN32
+#if 0
 				"%I64d"
 #else
 				"%lld"
@@ -1453,7 +1453,7 @@ public:
 		{
 			if(dyoffset+430>289.9&&dyoffset+430<540.1)
 				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored "
-#ifdef WIN32
+#if 0
 				"%I64d"
 #else
 				"%lld"

@@ -1,7 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Level Implementations
-//Copyright Chrisoft 2014
-//Now this is being fully rewritten..
+// Chrisoft Bullet Lab Remix HGE  -*- C++ -*-
+// Level Implementations
+// Copyright Chrisoft 2014
 /*
 How to write a classic level/part...
 Classic parts need only one procedure, like this.

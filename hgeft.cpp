@@ -1,3 +1,4 @@
+// Freetype2 ext4hge implementations  -*- C++ -*-
 #include "hgeft.h"
 static const char* HGEFT_SRC_FN="hgeft.cpp";
 void hgeTTChar::Free(){if(quad.tex)hge->Texture_Free(quad.tex),quad.tex=0;}

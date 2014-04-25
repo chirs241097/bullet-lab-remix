@@ -1,9 +1,9 @@
-//Chrisoft Bullet Lab Remix HGE
-//Chrisoft Game Helper header
-//Copyright Chrisoft 2014
-//libcgh version 0007
-//Last full compatible version 0007
-//^Modify that when big change is made^
+// Chrisoft Bullet Lab Remix HGE  -*- C++ -*-
+// Chrisoft Game Helper header
+// Copyright Chrisoft 2014
+// libcgh version 0007
+// Last full compatible version 0007
+// ^Modify that when big change is made^
 #include <hge.h>
 #include <hgefont.h>
 #include <hgedistort.h>

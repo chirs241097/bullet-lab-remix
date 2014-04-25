@@ -1,6 +1,6 @@
-//Chrisoft Bullet Lab Remix HGE
-//Global varibles and implementations
-//Copyright Chrisoft 2014
+// Chrisoft Bullet Lab Remix HGE  -*- C++ -*-
+// Global varibles and implementations
+// Copyright Chrisoft 2014
 #include <hge.h>
 #include <hgefont.h>
 #define MaxRes 80
@@ -333,7 +333,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-1_PR (r87)";
+static const char* BLRVERSION="0.9.1-1_PR (r88)";
 static const char* BuiltDate=__DATE__;
 
 void Throw(char *Filename,char *Info)
