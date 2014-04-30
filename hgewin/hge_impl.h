@@ -1,3 +1,4 @@
+// -*- C++ -*-
 /*
 ** Haaf's Game Engine 1.8
 ** Copyright (C) 2003-2007, Relish Games
@@ -199,7 +200,7 @@ public:
 
 	static HGE_Impl*	_Interface_Get();
 	void				_FocusChange(bool bAct);
-	void				_PostError(char *error);
+	void				_PostError(const char *error);
 
 
 	HINSTANCE			hInstance;

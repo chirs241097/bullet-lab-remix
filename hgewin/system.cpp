@@ -77,7 +77,7 @@ bool CALL HGE_Impl::System_Initiate()
 
 	System_Log("%s: HGE Started...",SYSTEM_SRC_FN);
 
-	System_Log("%s: hge-unix version: %X.%X", SYSTEM_SRC_FN, HGE_VERSION>>8, HGE_VERSION & 0xFF);
+	System_Log("%s: hge version: %X.%X", SYSTEM_SRC_FN, HGE_VERSION>>8, HGE_VERSION & 0xFF);
 	GetLocalTime(&tm);
 	System_Log("%s: Date: %02d.%02d.%d, %02d:%02d:%02d\n", SYSTEM_SRC_FN, tm.wDay, tm.wMonth, tm.wYear, tm.wHour, tm.wMinute, tm.wSecond);
 
@@ -741,7 +741,7 @@ HGE_Impl::HGE_Impl()
 	szAppPath[i+1]=0;
 }
 
-void HGE_Impl::_PostError(char *error)
+void HGE_Impl::_PostError(const char *error)
 {
 	System_Log(error);
 	strcpy(szError,error);

@@ -3944,11 +3944,11 @@ void Levelm2Part18()
 	tbrk-=hge->Timer_GetDelta();
 	if(tbrk<0)
 	{
-		tbrk=1-0.5*assetime/120.0f;if(tbrk<0.5)tbrk=0.5;
+		tbrk=1.25-0.5*assetime/120.0f;if(tbrk<0.5)tbrk=0.5;
 		for(int i=0;i<200;++i)
 		if(pinballs[i].Getlifetime()==0||pinballs[i].Getlifetime()>=10)
 		{
-			int lay=3+7*assetime/120.0f;if(lay>10)lay=10;
+			int lay=3+5*assetime/120.0f;if(lay>8)lay=re.NextInt(3,10);
 			vector2d pos=vector2d(re.NextDouble(100,600),re.NextDouble(100,500));
 			while(GetDist(pos,playerpos)<100)pos=vector2d(re.NextDouble(100,600),re.NextDouble(100,500));
 			pinballs[i].Init(pos,lay);

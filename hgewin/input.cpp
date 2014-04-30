@@ -10,7 +10,7 @@
 #include "hge_impl.h"
 
 
-char *KeyNames[] =
+const char *KeyNames[] =
 {
  "?",
  "Left Mouse Button", "Right Mouse Button", "?", "Middle Mouse Button",

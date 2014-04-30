@@ -8,7 +8,7 @@
 HGE *hge=0;
 HEFFECT				snd,menuin,menuout;
 hgeQuad				quad;
-hgeFont				*fnt;
+hgeFont				*fnt,*vdig,*bdig;
 hgeSprite			*spr,*titlespr;
 int					Current_Position;//Where we are now
 /*Scenes:
@@ -308,7 +308,7 @@ fFristStartUp,fFast;
 int startLvl,startPrt,fFullScreen;
 char alterLog[64];
 #ifdef WIN32
-static const int arFilecount=20;
+static const int arFilecount=22;
 static const char* archive[]={
 "./Resources/b_diff.png",
 "./Resources/b_inter.png",
@@ -317,6 +317,8 @@ static const char* archive[]={
 "./Resources/e_skyitem.png",
 "./Resources/blnsns.png",
 "./Resources/charmap.fnt",
+"./Resources/vdig.fnt",
+"./Resources/bdig.fnt",
 "./Resources/ss.png",
 "./Resources/menus.png",
 "./Resources/title.png",
@@ -333,8 +335,18 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-1_PR (r88)";
-static const char* BuiltDate=__DATE__;
+static const char* BLRVERSION="0.9.1-1 (r89)";
+static const char *months="JanFebMarAprMayJunJulAugSepOctNovDec";
+char *parseDate(const char *date)
+{
+	char ms[8];
+	int y,d,m;sscanf(date,"%s %d %d",ms,&d,&y);
+	m=(strstr(months,ms)-months)/3+1;
+	char *r=new char[16];
+	sprintf(r,"%04d-%02d-%02d",y,m,d);
+	return r;
+}
+static char* BuiltDate=parseDate(__DATE__);
 
 void Throw(char *Filename,char *Info)
 {

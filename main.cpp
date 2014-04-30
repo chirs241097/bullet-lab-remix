@@ -590,7 +590,17 @@ void CallLevels()
 bool ProcessCurCred()
 {
 	CreditsRail->RenderEx(400,300,0,4,1);
+	if(creditsp!=1)
 	Credits->Render(creditfly,300);
+	else
+	{
+		Credits->SetTextureRect(4,209,230,76);
+		Credits->Render(creditfly,330);
+		Credits->SetTextureRect(9,290,140,47);
+		Credits->Render(creditfly,400);
+		vdig->printf(creditfly,240,HGETEXT_LEFT,"%s",BLRVERSION);
+		bdig->printf(creditfly,310,HGETEXT_LEFT,"%s",BuiltDate);
+	}
 	int times=1;if (LOWFPS)times=17;
 	if (credstop)credbrk+=hge->Timer_GetDelta();
 	if (credbrk>=4.5&&!creddone)creddone=true,credstop=false,creditacc=0,credbrk=0;
@@ -604,7 +614,7 @@ void AboutScene()
 {
 	if (ProcessCurCred())
 		creditfly=1200,creditacc=0,credstop=creddone=false,++creditsp,
-		Credits=new hgeSprite(TexCredits,0,creditsp*200,600,200),
+		Credits->SetTextureRect(0,creditsp*200,600,200),
 		Credits->SetHotSpot(300,100);
 	if(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT||creditsp>11)
 	{
@@ -1262,6 +1272,8 @@ int main(int argc,char *argv[])
 		MenuFont=new hgeFont("./Resources/charmap.fnt");
 		TipFont=new hgeFont("./Resources/charmap.fnt");
 		MultFnt=new hgeFont("./Resources/charmap.fnt");
+		vdig=new hgeFont("./Resources/vdig.fnt");
+		bdig=new hgeFont("./Resources/bdig.fnt");
 		fnt->SetScale(0.8);
 		MenuFont->SetScale(0.8);
 		TipFont->SetScale(0.8);

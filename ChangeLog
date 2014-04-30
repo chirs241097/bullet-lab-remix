@@ -8,6 +8,24 @@ Random segmentation fault in "Hyper-threading".(seen only once,
 can not reproduce now...)
 
 Pre-Released versions:
+0.9.1-1 (r89)
+Fix a critical bug in Score_Initailize.
+Modify level pinball.
+Drop "_PR" in version string.
+Partly rewrite the credit scene, displaying accurate version
+details.
+Remove some warnings from hgewin.
+A set of basic tests are done on a Intel+Nvidia desktop computer.
+Add a simple build script(instead of makefile).
+Reduce the Windows version executable size...(local work, recompile
+freetype using reduced features enabled.)
+Current tested (by me) and worked plantforms:
+Debian sid x86_64 @Intel core i7-2670QM, 8GiB RAM, Intel HD3000 &
+@Intel Core2 Quad Q8300, 8GiB RAM, nvidia GT320.
+Windows XP x64 @VirutalBox, Dualcore Virtual CPU, 1.5GiB RAM, VBox
+Addons installed.
+Windows XP @Intel core i3-3240, 4GiB RAM, Intel HD3000.
+
 0.9.1-1_PR (r88)
 %lld seems to work with mingw-w64(also VS2005+)...
 So let's remove all %I64d.

@@ -123,9 +123,11 @@ to continue...
 This mode kills your time silently.
 
 Assessment Mode
-You are the frog being boiled.
-Every levels get harder as time goes.
+You are the frog being boiled: all levels get harder as time goes.
 You'll be brought to the next part if you had a collision.
+
+Most levels are designed to be IMPOSSIBLE after the elapsed time have
+exceeded a certain value.
 
 Go for the highest score!
 

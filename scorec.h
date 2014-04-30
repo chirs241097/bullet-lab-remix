@@ -186,12 +186,11 @@ void Score_Write()
 void Score_Initailize()
 {
 	freopen("score.cfg","w",stdout);
-	puts(";BLS");
-	static const char *fourchar="%c%c%c%c";
-	printf(fourchar,0xd1,0xff,0xa0,0xc0);printf(fourchar,0,0,0,0);
-	printf(fourchar,0xd1,0xff,0xa0,0xc1);printf(fourchar,0,0,0,0);
-	printf(fourchar,0xd1,0xff,0xa0,0xc2);printf(fourchar,0,0,0,0);
-	printf(fourchar,0xd1,0xff,0xa0,0xc3);printf(fourchar,0,0,0,0);
+	Putuint(0x3b424c53);
+	Putuint(0xd1ffa0c0);Putuint(0);
+	Putuint(0xd1ffa0c1);Putuint(0);
+	Putuint(0xd1ffa0c2);Putuint(0);
+	Putuint(0xd1ffa0c3);Putuint(0);
 	fclose(stdout);
 }
 void InsertHighScore()
