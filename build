@@ -1,5 +1,6 @@
 #!/bin/bash
 cd hge
+#############################################################################
 cd CxImage
 echo Compiling CxImage...
 g++ -c *.cpp -D_LINUX
@@ -7,6 +8,7 @@ ar rcs libCxImage.a *.o
 rm *.o
 cd ..
 mv ./CxImage/libCxImage.a libCxImage.a
+#############################################################################
 cd ZLIB
 echo Compiling zlib...
 gcc -c *.c
@@ -14,12 +16,14 @@ ar rcs libz.a *.o
 rm *.o
 cd ..
 mv ./ZLIB/libz.a libz.a
+#############################################################################
 echo Compiling libhge...
 g++ -c *.cpp -I/usr/include/SDL/ -I../include
 ar rcs libhge.a *.o
 rm *.o
 cd ..
 mv ./hge/*.a ./
+#############################################################################
 cd hgehelp
 echo Compiling libhgehelp...
 g++ -c *.cpp -I../include
@@ -27,10 +31,12 @@ ar rcs libhgehelp.a *.o
 rm *.o
 cd ..
 mv ./hgehelp/libhgehelp.a libhgehelp.a
+#############################################################################
 echo Compiling the main executable...
 g++ *.cpp -I/usr/include/freetype2 -I./include \
 -lSDL -lvorbis -lvorbisfile -lopenal -ljpeg -lpng -lfreetype \
 -Wl,libhgehelp.a,libhge.a,libCxImage.a,libz.a -o BulletLabRemixII
+#############################################################################
 rm *.a
 strip BulletLabRemixII
 cd ..

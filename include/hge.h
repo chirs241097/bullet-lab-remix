@@ -10,11 +10,11 @@
 #ifndef HGE_H
 #define HGE_H
 
-#include "unix_compat.h"
-
 #ifdef WIN32
 #include <windows.h>
 #include <cstddef>
+#else
+#include "unix_compat.h"
 #endif
 
 #define HGE_VERSION 0x181

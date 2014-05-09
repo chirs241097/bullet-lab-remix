@@ -42,6 +42,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
+#include <csignal>
 #ifdef WIN32
 #include <io.h>
 #include <direct.h>
@@ -49,6 +50,9 @@
 #include <shellapi.h>
 #include <windows.h>
 #include <mmsystem.h>
+#endif
+#if defined(__GNUC__) && !defined(MINGW_BUILD)
+#include <execinfo.h>
 #endif
 #include "libcgh.h"
 #include "hgeft.h"
@@ -72,7 +76,7 @@ void Expand(const char *source,const char *dist)
 void firststartup()
 {
 	if (MessageBoxA(NULL,"It seems that you are running BLR for the First time!\nLet's do some \
-basic settings first!\n\nUse vsync??","First Start Up",0x00000024)==6)
+basic settings first!\n\nUse vsync?","First Start Up",0x00000024)==6)
 		fpslvl=2;
 	else
 		fpslvl=0;
@@ -86,13 +90,12 @@ basic settings first!\n\nUse vsync??","First Start Up",0x00000024)==6)
 	Options_Writeback();
 	Score_Initailize();
 }
-#endif
-#ifndef WIN32
+#else
 void firststartup()
 {
 	fpslvl=2;tfs=0;VidMode=0;diffkey=false;
 	plrspd=3;plrslospd=3;clrbns=clrmode=0;
-	hge->System_Log("%s: Finishing first start up configuraion...",MAIN_SRC_FN);
+	hge->System_Log("%s: Finishing (stubbed) first start up configuraion...",MAIN_SRC_FN);
 	Options_Writeback();
 	Score_Initailize();
 }
@@ -135,7 +138,7 @@ void Player_Clear_Rotate()
 		double dis=GetDist(bullet[i].bulletpos,playerpos);
 		double rad=atan2l(bullet[i].bulletpos.y-playerpos.y,bullet[i].bulletpos.x-playerpos.x);
 		hge->Gfx_RenderLine(playerpos.x+8,playerpos.y+8,playerpos.x+cos(clrrad)*clrmaxrange,playerpos.y+sin(clrrad)*clrmaxrange);
-		while (rad<0)rad+=2*pi;
+		rad=normalizerad(rad);
 		if (bullet[i].bullettype!=255&&dis<=clrmaxrange&&bullet[i].exist&&!bullet[i].inv&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
 		{
 			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
@@ -173,7 +176,7 @@ void ProcessPlayer()
 		clrcircle->SetHotSpot(96.5f,96.5f);
 		clrcircle->SetBlendMode(BLEND_ALPHAADD);
 	}
-	if(clrmode)clrcircle->SetColor(0x30008080);else clrcircle->SetColor(0x30800000);;
+	if(clrmode)clrcircle->SetColor(0x30008080);else clrcircle->SetColor(0x30800000);
 	if (playerLockX)
 	{
 		Lock.Setdata(0,vector2d(playerpos.x-1,0),vector2d(playerpos.x-1,600),0xC0FFFFFF);
@@ -196,90 +199,42 @@ void ProcessPlayer()
 		playerspr->RenderEx(playerpos.x+splitData[i].x+8.4,playerpos.y+splitData[i].y+8.4,playerrot,0.7,0);
 	}
 	if (DisablePlayer)return;
-	if (!LOWFPS)
-		playerrot+=0.00174533;
-	else
-		playerrot+=0.00174533*17;
+	playerrot+=0.00174533*17;
 	double realspd;
 	if (hge->Input_GetKeyState(HGEK_SHIFT))
 		realspd=playerslospeed*(1000.0f/hge->Timer_GetFPS());
 	else
 		realspd=playerspeed*(1000.0f/hge->Timer_GetFPS());
 	if (hge->Input_GetKeyState(HGEK_LEFT)&&!playerLockX)
-	{
-		if (playerpos.x>10)
-			playerpos.x-=realspd;
-	}
+		if (playerpos.x>10)playerpos.x-=realspd;
 	if (hge->Input_GetKeyState(HGEK_RIGHT)&&!playerLockX)
-	{
-		if ((playerpos.x<770&&!PlayerSplit)||(playerpos.x<370&&PlayerSplit))
-			playerpos.x+=realspd;
-	}
+		if ((playerpos.x<770&&!PlayerSplit)||(playerpos.x<370&&PlayerSplit))playerpos.x+=realspd;
 	if (hge->Input_GetKeyState(HGEK_UP)&&!playerLockY)
-	{
-		if (playerpos.y>10)
-			playerpos.y-=realspd;
-	}
+		if (playerpos.y>10)playerpos.y-=realspd;
 	if (hge->Input_GetKeyState(HGEK_DOWN)&&!playerLockY)
-	{
-		if ((playerpos.y<570&&!PlayerSplit)||(playerpos.y<270&&PlayerSplit))
-			playerpos.y+=realspd;
-	}
+		if ((playerpos.y<570&&!PlayerSplit)||(playerpos.y<270&&PlayerSplit))playerpos.y+=realspd;
 	if(mode!=2)
 	{
 		if (!clrmode)
 		{
-			if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT&&clrrange==0&&!diffkey)
-			{
-				clrmaxrange=0;clrind=0;
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_HIT&&clrrange==0&&diffkey)
-			{
-				clrmaxrange=0;clrind=0;
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_KEEP&&clrrange==0&&!diffkey)
+			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_HIT&&clrmaxrange==0)
+			{clrind=0;charge=1;}
+			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_KEEP&&charge)
 			{
 				if (clrmaxrange<=400)
-				{
-					if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
-				}
+				{if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;}
 				if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
 				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
 				if(PlayerSplit)for(int i=1;i<4;++i)
 				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
 			}
-			if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_KEEP&&clrrange==0&&diffkey)
+			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_RELEASE&&charge)
 			{
-				if (clrmaxrange<=400)
-				{
-					if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
-				}
-				if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
-				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
-				if(PlayerSplit)for(int i=1;i<4;++i)
-				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_RELEASE&&clrrange==0&&!diffkey)
-			{
+				charge=0;
 				if (clrmaxrange<=50)
-				{
-					if (clrtime+clrbns){--clrtime;clrmaxrange=350;Player_Clear_Expand();++clrusg;}
-				}
+				{if (clrtime+clrbns>0){--clrtime;clrmaxrange=350;Player_Clear_Expand();++clrusg;}}
 				else
-				{
-					Player_Clear_Expand();++clrusg;
-				}
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_RELEASE&&clrrange==0&&diffkey)
-			{
-				if (clrmaxrange<=50)
-				{
-					if (clrtime+clrbns){--clrtime;clrmaxrange=350;Player_Clear_Expand();++clrusg;}
-				}
-				else
-				{
-					Player_Clear_Expand();++clrusg;
-				}
+				{Player_Clear_Expand();++clrusg;}
 			}
 			if (clrrange!=0)
 			{
@@ -289,47 +244,31 @@ void ProcessPlayer()
 				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f);
 				clrind+=(LOWFPS?0.016*pi:0.001*pi);
 			}
-			if (clrrange>=clrmaxrange)clrrange=0;
+			if (clrrange>=clrmaxrange)clrrange=clrmaxrange=0;
 		}
 		else
 		{
-			if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT&&clrrad-pi/2<1e-7&&!diffkey)
-			{
-				clrmaxrange=0;clrind=0;
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_HIT&&clrrad-pi/2<1e-7&&diffkey)
-			{
-				clrmaxrange=0;clrind=0;
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_KEEP&&clrrange==0&&!diffkey)
+			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_HIT&&clrmaxrange==0)
+			{clrind=0;charge=1;}
+			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_KEEP&&charge)
 			{
 				if (clrmaxrange<=400)
-				{
-					if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
-				}
+				{if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;}
 				if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
 				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
 				if(PlayerSplit)for(int i=1;i<4;++i)
 				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
 			}
-			if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_KEEP&&clrrange==0&&diffkey)
+			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_RELEASE&&charge)
 			{
-				if (clrmaxrange<=400)
+				charge=0;
+				if (clrmaxrange<=50)
 				{
-					if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;
-				}
-				if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
-				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
-				if(PlayerSplit)for(int i=1;i<4;++i)
-				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_RELEASE&&clrrad-pi/2<1e-7&&clrtime+clrbns&&!diffkey)
-			{
-				Player_Clear_Rotate();if(clrmaxrange<50)--clrtime,clrmaxrange=350;++clrusg;
-			}
-			if (hge->Input_GetKeyStateEx(HGEK_X)==HGEKST_RELEASE&&clrrad-pi/2<1e-7&&clrtime+clrbns&&diffkey)
-			{
-				Player_Clear_Rotate();if(clrmaxrange<50)--clrtime,clrmaxrange=350;++clrusg;
+					if(clrtime+clrbns>0)
+					{
+						Player_Clear_Rotate();if(clrmaxrange<50)--clrtime,clrmaxrange=350;++clrusg;
+					}
+				}else{Player_Clear_Rotate();++clrusg;}
 			}
 			if (clrrad-pi/2>1e-7)
 			{
@@ -339,19 +278,16 @@ void ProcessPlayer()
 				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f*(5*pi/2.0f-clrrad)/(2*pi));
 				clrind+=(LOWFPS?0.016*pi:0.001*pi);
 			}
-			if (5*pi/2-clrrad<1e-7)clrrad=pi/2;
+			if (5*pi/2-clrrad<1e-7)clrrad=pi/2,clrmaxrange=0;
 		}
 	}
 }
 void RefreshScore()
 {
 	Mult_FrameFunc();
-	if (DisablePlayer)return;
+	if(DisablePlayer)return;
 	mult+=0.01f*dsmc;
-	if (LOWFPS)
-		score+=16*mult;
-	else
-		score+=mult;
+	score+=16*mult;
 	if(scminus){if(mult/2>0.1)mult/=2;else mult=0.1;}
 	score+=100*shots*mult;
 	score-=scminus*mult;
@@ -362,230 +298,230 @@ void RefreshScore()
 void CallLevels()
 {
 	//Use this to call level procedures.
-	if ((mode==1)&&coll!=0){deathMenu.Init(-200);return;}
-	if ((mode==2)&&coll!=0){assetime=0;++part;coll=0;IfCallLevel=IfShowTip=true;return;}
-	if (!IfCallLevel) return;
-	if (mode==2)assetime+=hge->Timer_GetDelta();
+	if((mode==1)&&coll!=0){deathMenu.Init(-200);return;}
+	if((mode==2)&&coll!=0){assetime=0;++part;coll=0;IfCallLevel=IfShowTip=true;return;}
+	if(!IfCallLevel) return;
+	if(mode==2)assetime+=hge->Timer_GetDelta();
 	//Check Complete here
-	if (level==1&&part==0)Level1Part0();
-	if (level==1&&part==1)Level1Part1();
-	if (level==1&&part==2)Level1Part2();
-	if (level==1&&part==3)Level1Part3();
-	if (level==1&&part==4)Level1Part4();
-	if (level==2&&part==0)Level2Part0();
-	if (level==2&&part==1)Level2Part1();
-	if (level==2&&part==2)Level2Part2();
-	if (level==2&&part==3)Level2Part3();
-	if (level==2&&part==4)Level2Part4();
-	if (level==2&&part==5)Level2Part5();
-	if (level==2&&part==6)Level2Part6();
-	if (level==2&&part==7)Level2Part7();
-	if (level==2&&part==8)Level2Part8();
-	if (level==2&&part==9)Level2Part9();
-	if (level==3&&part==0)Level3Part0();
-	if (level==3&&part==1)Level3Part1();
-	if (level==3&&part==2)Level3Part2();
-	if (level==3&&part==3)Level3Part3();
-	if (level==3&&part==4)Level3Part4();
-	if (level==3&&part==5)Level3Part5();
-	if (level==3&&part==6)Level3Part6();
-	if (level==4&&part==0)Level4Part0();
-	if (level==4&&part==1)Level4Part1();
-	if (level==4&&part==2)Level4Part2();
-	if (level==4&&part==3)Level4Part3();
-	if (level==4&&part==4)Level4Part4();
-	if (level==4&&part==5)Level4Part5();
-	if (level==4&&part==6)Level4Part6();
-	if (level==4&&part==7)Level4Part7();
-	if (level==4&&part==8)Level4Part8();
-	if (level==4&&part==9)Level4Part9();
-	if (level==4&&part==10)Level4Part10();
-	if (level==4&&part==11)Level4Part11();
-	if (level==4&&part==12)Level4Part12();
-	if (level==4&&part==13)Level4Part13();
-	if (level==4&&part==14)Level4Part14();
-	if (level==4&&part==15)Level4Part15();
-	if (level==4&&part==16)Level4Part16();
-	if (level==4&&part==17)Level4Part17();
-	if (level==4&&part==18)Level4Part18();
-	if (level==4&&part==19)Level4Part19();
-	if (level==4&&part==20)Level4Part20();
-	if (level==4&&part==21)Level4Part21();
-	if (level==4&&part==22)Level4Part22();
-	if (level==4&&part==23)Level4Part23();
-	if (level==4&&part==24)Level4Part24();
-	if (level==4&&part==25)Level4Part25();
-	if (level==5&&part==0)Level5Part0();
-	if (level==5&&part==1)Level5Part1();
-	if (level==5&&part==2)Level5Part2();
-	if (level==5&&part==3)Level5Part3();
-	if (level==5&&part==4)Level5Part4();
-	if (level==5&&part==5)Level5Part5();
-	if (level==5&&part==6)Level5Part6();
-	if (level==5&&part==7)Level5Part7();
-	if (level==5&&part==8)Level5Part8();
-	if (level==5&&part==9)Level5Part9();
-	if (level==5&&part==10)Level5Part10();
-	if (level==5&&part==11)Level5Part11();
-	if (level==5&&part==12)Level5Part12();
-	if (level==5&&part==13)Level5Part13();
-	if (level==5&&part==14)Level5Part14();
-	if (level==5&&part==15)Level5Part15();
-	if (level==5&&part==16)Level5Part16();
-	if (level==5&&part==17)Level5Part17();
-	if (level==5&&part==18)Level5Part18();
-	if (level==5&&part==19)Level5Part19();
-	if (level==5&&part==20)Level5Part20();
-	if (level==5&&part==21)Level5Part21();
-	if (level==5&&part==22)Level5Part22();
-	if (level==6&&part==0)Level6Part0();
-	if (level==6&&part==1)Level6Part1();
-	if (level==6&&part==2)Level6Part2();
-	if (level==6&&part==3)Level6Part3();
-	if (level==6&&part==4)Level6Part4();
-	if (level==6&&part==5)Level6Part5();
-	if (level==6&&part==6)Level6Part6();
-	if (level==6&&part==7)Level6Part7();
-	if (level==6&&part==8)Level6Part8();
-	if (level==6&&part==9)Level6Part9();
-	if (level==6&&part==10)Level6Part10();
-	if (level==6&&part==11)Level6Part11();
-	if (level==6&&part==12)Level6Part12();
-	if (level==6&&part==13)Level6Part13();
-	if (level==6&&part==14)Level6Part14();
-	if (level==6&&part==15)Level6Part15();
-	if (level==6&&part==16)Level6Part16();
-	if (level==6&&part==17)Level6Part17();
-	if (level==6&&part==18)Level6Part18();
-	if (level==6&&part==19)Level6Part19();
-	if (level==6&&part==20)Level6Part20();
-	if (level==6&&part==21)Level6Part21();
-	if (level==6&&part==22)Level6Part22();
-	if (level==6&&part==23)Level6Part23();
-	if (level==6&&part==24)Level6Part24();
-	if (level==6&&part==25)Level6Part25();
-	if (level==6&&part==26)Level6Part26();
-	if (level==6&&part==27)Level6Part27();
-	if (level==6&&part==28)Level6Part28();
-	if (level==6&&part==29)Level6Part29();
-	if (level==6&&part==30)Level6Part30();
-	if (level==6&&part==31)Level6Part999999999();
-	if (level==7&&part==0)Level7Part0();
-	if (level==7&&part==1)Level7Part1();
-	if (level==7&&part==2)Level7Part2();
-	if (level==7&&part==3)Level7Part3();
-	if (level==7&&part==4)Level7Part4();
-	if (level==7&&part==5)Level7Part5();
-	if (level==7&&part==6)Level7Part6();
-	if (level==7&&part==7)Level7Part7();
-	if (level==7&&part==8)Level7Part8();
-	if (level==7&&part==9)Level7Part9();
-	if (level==7&&part==10)Level7Part10();
-	if (level==7&&part==11)Level7Part11();
-	if (level==7&&part==12)Level7Part12();
-	if (level==7&&part==13)Level7Part13();
-	if (level==7&&part==14)Level7Part14();
-	if (level==7&&part==15)Level7Part15();
-	if (level==7&&part==16)Level7Part16();
-	if (level==7&&part==17)Level7Part17();
-	if (level==7&&part==18)Level7Part18();
-	if (level==7&&part==19)Level7Part19();
-	if (level==7&&part==20)Level7Part20();
-	if (level==7&&part==21)Level7Part21();
-	if (level==7&&part==22)Level7Part22();
-	if (level==7&&part==23)Level7Part23();
-	if (level==7&&part==24)Level7Part24();
-	if (level==7&&part==25)Level7Part25();
-	if (level==7&&part==26)Level7Part26();
-	if (level==-1&&part==0)Levelm1Part0();
-	if (level==-1&&part==1)Levelm1Part1();
-	if (level==-1&&part==2)Levelm1Part2();
-	if (level==-1&&part==3)Levelm1Part3();
-	if (level==-1&&part==4)Levelm1Part4();
-	if (level==-1&&part==5)Levelm1Part5();
-	if (level==-1&&part==6)Levelm1Part6();
-	if (level==-1&&part==7)Levelm1Part7();
-	if (level==-1&&part==8)Levelm1Part8();
-	if (level==-1&&part==9)Levelm1Part9();
-	if (level==-1&&part==10)Levelm1Part10();
-	if (level==-1&&part==11)Levelm1Part11();
-	if (level==-1&&part==12)Levelm1Part12();
-	if (level==-1&&part==13)Levelm1Part13();
-	if (level==-1&&part==14)Levelm1Part14();
-	if (level==-1&&part==15)Levelm1Part15();
-	if (level==-1&&part==16)Levelm1Part16();
-	if (level==-1&&part==17)Levelm1Part17();
-	if (level==-1&&part==18)Levelm1Part18();
-	if (level==-1&&part==19)Levelm1Part19();
-	if (level==-1&&part==20)Levelm1Part20();
-	if (level==-1&&part==21)Levelm1Part21();
-	if (level==-2&&part==0)Levelm2Part0();
-	if (level==-2&&part==1)Levelm2Part1();
-	if (level==-2&&part==2)Levelm2Part2();
-	if (level==-2&&part==3)Levelm2Part3();
-	if (level==-2&&part==4)Levelm2Part4();
-	if (level==-2&&part==5)Levelm2Part5();
-	if (level==-2&&part==6)Levelm2Part6();
-	if (level==-2&&part==7)Levelm2Part7();
-	if (level==-2&&part==8)Levelm2Part8();
-	if (level==-2&&part==9)Levelm2Part9();
-	if (level==-2&&part==10)Levelm2Part10();
-	if (level==-2&&part==11)Levelm2Part11();
-	if (level==-2&&part==12)Levelm2Part12();
-	if (level==-2&&part==13)Levelm2Part13();
-	if (level==-2&&part==14)Levelm2Part14();
-	if (level==-2&&part==15)Levelm2Part15();
-	if (level==-2&&part==16)Levelm2Part16();
-	if (level==-2&&part==17)Levelm2Part17();
-	if (level==-2&&part==18)Levelm2Part18();
-	if (level==-2&&part==19)Levelm2Part19();
-	if (level==-2&&part==20)Levelm2Part20();
-	if (level==-2&&part==21)Levelm2Part21();
-	if (level==-2&&part==22)Levelm2Part22();
-	if (level==-2&&part==23)Levelm2Part23();
-	if (level==-2&&part==24)Levelm2Part24();
-	if (level==-2&&part==25)Levelm2Part25();
-	if (level==-2&&part==26)Levelm2Part26();
+	if(level==1&&part==0)Level1Part0();
+	if(level==1&&part==1)Level1Part1();
+	if(level==1&&part==2)Level1Part2();
+	if(level==1&&part==3)Level1Part3();
+	if(level==1&&part==4)Level1Part4();
+	if(level==2&&part==0)Level2Part0();
+	if(level==2&&part==1)Level2Part1();
+	if(level==2&&part==2)Level2Part2();
+	if(level==2&&part==3)Level2Part3();
+	if(level==2&&part==4)Level2Part4();
+	if(level==2&&part==5)Level2Part5();
+	if(level==2&&part==6)Level2Part6();
+	if(level==2&&part==7)Level2Part7();
+	if(level==2&&part==8)Level2Part8();
+	if(level==2&&part==9)Level2Part9();
+	if(level==3&&part==0)Level3Part0();
+	if(level==3&&part==1)Level3Part1();
+	if(level==3&&part==2)Level3Part2();
+	if(level==3&&part==3)Level3Part3();
+	if(level==3&&part==4)Level3Part4();
+	if(level==3&&part==5)Level3Part5();
+	if(level==3&&part==6)Level3Part6();
+	if(level==4&&part==0)Level4Part0();
+	if(level==4&&part==1)Level4Part1();
+	if(level==4&&part==2)Level4Part2();
+	if(level==4&&part==3)Level4Part3();
+	if(level==4&&part==4)Level4Part4();
+	if(level==4&&part==5)Level4Part5();
+	if(level==4&&part==6)Level4Part6();
+	if(level==4&&part==7)Level4Part7();
+	if(level==4&&part==8)Level4Part8();
+	if(level==4&&part==9)Level4Part9();
+	if(level==4&&part==10)Level4Part10();
+	if(level==4&&part==11)Level4Part11();
+	if(level==4&&part==12)Level4Part12();
+	if(level==4&&part==13)Level4Part13();
+	if(level==4&&part==14)Level4Part14();
+	if(level==4&&part==15)Level4Part15();
+	if(level==4&&part==16)Level4Part16();
+	if(level==4&&part==17)Level4Part17();
+	if(level==4&&part==18)Level4Part18();
+	if(level==4&&part==19)Level4Part19();
+	if(level==4&&part==20)Level4Part20();
+	if(level==4&&part==21)Level4Part21();
+	if(level==4&&part==22)Level4Part22();
+	if(level==4&&part==23)Level4Part23();
+	if(level==4&&part==24)Level4Part24();
+	if(level==4&&part==25)Level4Part25();
+	if(level==5&&part==0)Level5Part0();
+	if(level==5&&part==1)Level5Part1();
+	if(level==5&&part==2)Level5Part2();
+	if(level==5&&part==3)Level5Part3();
+	if(level==5&&part==4)Level5Part4();
+	if(level==5&&part==5)Level5Part5();
+	if(level==5&&part==6)Level5Part6();
+	if(level==5&&part==7)Level5Part7();
+	if(level==5&&part==8)Level5Part8();
+	if(level==5&&part==9)Level5Part9();
+	if(level==5&&part==10)Level5Part10();
+	if(level==5&&part==11)Level5Part11();
+	if(level==5&&part==12)Level5Part12();
+	if(level==5&&part==13)Level5Part13();
+	if(level==5&&part==14)Level5Part14();
+	if(level==5&&part==15)Level5Part15();
+	if(level==5&&part==16)Level5Part16();
+	if(level==5&&part==17)Level5Part17();
+	if(level==5&&part==18)Level5Part18();
+	if(level==5&&part==19)Level5Part19();
+	if(level==5&&part==20)Level5Part20();
+	if(level==5&&part==21)Level5Part21();
+	if(level==5&&part==22)Level5Part22();
+	if(level==6&&part==0)Level6Part0();
+	if(level==6&&part==1)Level6Part1();
+	if(level==6&&part==2)Level6Part2();
+	if(level==6&&part==3)Level6Part3();
+	if(level==6&&part==4)Level6Part4();
+	if(level==6&&part==5)Level6Part5();
+	if(level==6&&part==6)Level6Part6();
+	if(level==6&&part==7)Level6Part7();
+	if(level==6&&part==8)Level6Part8();
+	if(level==6&&part==9)Level6Part9();
+	if(level==6&&part==10)Level6Part10();
+	if(level==6&&part==11)Level6Part11();
+	if(level==6&&part==12)Level6Part12();
+	if(level==6&&part==13)Level6Part13();
+	if(level==6&&part==14)Level6Part14();
+	if(level==6&&part==15)Level6Part15();
+	if(level==6&&part==16)Level6Part16();
+	if(level==6&&part==17)Level6Part17();
+	if(level==6&&part==18)Level6Part18();
+	if(level==6&&part==19)Level6Part19();
+	if(level==6&&part==20)Level6Part20();
+	if(level==6&&part==21)Level6Part21();
+	if(level==6&&part==22)Level6Part22();
+	if(level==6&&part==23)Level6Part23();
+	if(level==6&&part==24)Level6Part24();
+	if(level==6&&part==25)Level6Part25();
+	if(level==6&&part==26)Level6Part26();
+	if(level==6&&part==27)Level6Part27();
+	if(level==6&&part==28)Level6Part28();
+	if(level==6&&part==29)Level6Part29();
+	if(level==6&&part==30)Level6Part30();
+	if(level==6&&part==31)Level6Part999999999();
+	if(level==7&&part==0)Level7Part0();
+	if(level==7&&part==1)Level7Part1();
+	if(level==7&&part==2)Level7Part2();
+	if(level==7&&part==3)Level7Part3();
+	if(level==7&&part==4)Level7Part4();
+	if(level==7&&part==5)Level7Part5();
+	if(level==7&&part==6)Level7Part6();
+	if(level==7&&part==7)Level7Part7();
+	if(level==7&&part==8)Level7Part8();
+	if(level==7&&part==9)Level7Part9();
+	if(level==7&&part==10)Level7Part10();
+	if(level==7&&part==11)Level7Part11();
+	if(level==7&&part==12)Level7Part12();
+	if(level==7&&part==13)Level7Part13();
+	if(level==7&&part==14)Level7Part14();
+	if(level==7&&part==15)Level7Part15();
+	if(level==7&&part==16)Level7Part16();
+	if(level==7&&part==17)Level7Part17();
+	if(level==7&&part==18)Level7Part18();
+	if(level==7&&part==19)Level7Part19();
+	if(level==7&&part==20)Level7Part20();
+	if(level==7&&part==21)Level7Part21();
+	if(level==7&&part==22)Level7Part22();
+	if(level==7&&part==23)Level7Part23();
+	if(level==7&&part==24)Level7Part24();
+	if(level==7&&part==25)Level7Part25();
+	if(level==7&&part==26)Level7Part26();
+	if(level==-1&&part==0)Levelm1Part0();
+	if(level==-1&&part==1)Levelm1Part1();
+	if(level==-1&&part==2)Levelm1Part2();
+	if(level==-1&&part==3)Levelm1Part3();
+	if(level==-1&&part==4)Levelm1Part4();
+	if(level==-1&&part==5)Levelm1Part5();
+	if(level==-1&&part==6)Levelm1Part6();
+	if(level==-1&&part==7)Levelm1Part7();
+	if(level==-1&&part==8)Levelm1Part8();
+	if(level==-1&&part==9)Levelm1Part9();
+	if(level==-1&&part==10)Levelm1Part10();
+	if(level==-1&&part==11)Levelm1Part11();
+	if(level==-1&&part==12)Levelm1Part12();
+	if(level==-1&&part==13)Levelm1Part13();
+	if(level==-1&&part==14)Levelm1Part14();
+	if(level==-1&&part==15)Levelm1Part15();
+	if(level==-1&&part==16)Levelm1Part16();
+	if(level==-1&&part==17)Levelm1Part17();
+	if(level==-1&&part==18)Levelm1Part18();
+	if(level==-1&&part==19)Levelm1Part19();
+	if(level==-1&&part==20)Levelm1Part20();
+	if(level==-1&&part==21)Levelm1Part21();
+	if(level==-2&&part==0)Levelm2Part0();
+	if(level==-2&&part==1)Levelm2Part1();
+	if(level==-2&&part==2)Levelm2Part2();
+	if(level==-2&&part==3)Levelm2Part3();
+	if(level==-2&&part==4)Levelm2Part4();
+	if(level==-2&&part==5)Levelm2Part5();
+	if(level==-2&&part==6)Levelm2Part6();
+	if(level==-2&&part==7)Levelm2Part7();
+	if(level==-2&&part==8)Levelm2Part8();
+	if(level==-2&&part==9)Levelm2Part9();
+	if(level==-2&&part==10)Levelm2Part10();
+	if(level==-2&&part==11)Levelm2Part11();
+	if(level==-2&&part==12)Levelm2Part12();
+	if(level==-2&&part==13)Levelm2Part13();
+	if(level==-2&&part==14)Levelm2Part14();
+	if(level==-2&&part==15)Levelm2Part15();
+	if(level==-2&&part==16)Levelm2Part16();
+	if(level==-2&&part==17)Levelm2Part17();
+	if(level==-2&&part==18)Levelm2Part18();
+	if(level==-2&&part==19)Levelm2Part19();
+	if(level==-2&&part==20)Levelm2Part20();
+	if(level==-2&&part==21)Levelm2Part21();
+	if(level==-2&&part==22)Levelm2Part22();
+	if(level==-2&&part==23)Levelm2Part23();
+	if(level==-2&&part==24)Levelm2Part24();
+	if(level==-2&&part==25)Levelm2Part25();
+	if(level==-2&&part==26)Levelm2Part26();
 
-	if (level==1&&part==5)level=2,part=0;
-	if (level==2&&part==10)
+	if(level==1&&part==5)level=2,part=0;
+	if(level==2&&part==10)
 	{
 		if(mode==3&&coll>10){completeMenu.Init(-200);return;}
 		if(mode==1&&restarts>1){completeMenu.Init(-200);return;}
 		level=3,part=0;
 	}
-	if (level==3&&part==7)
+	if(level==3&&part==7)
 	{
 		if(mode==3&&coll>40){completeMenu.Init(-200);return;}
 		if(mode==1&&restarts>2){completeMenu.Init(-200);return;}
 		level=4,part=0;
 	}
-	if (level==4&&part==26)
+	if(level==4&&part==26)
 	{
 		if(mode==3&&coll>75){completeMenu.Init(-200);return;}
 		if(mode==1&&restarts>3){completeMenu.Init(-200);return;}
 		level=5,part=0;
 	}
-	if (level==5&&part==23)
+	if(level==5&&part==23)
 	{
 		if(mode==3&&coll>125){completeMenu.Init(-200);return;}
 		if(mode==1&&restarts>5){completeMenu.Init(-200);return;}
 		level=6,part=0;
 	}
-	if (level==6&&part==32)
+	if(level==6&&part==32)
 	{
 		if(mode==3&&coll>200){completeMenu.Init(-200);return;}
 		if(mode==1&&restarts>8){completeMenu.Init(-200);return;}
 		level=7,part=0;
 	}
-	if (level==7&&part==27)
+	if(level==7&&part==27)
 	{
 		if(mode==3&&coll>50){completeMenu.Init(-200);return;}
 		if(mode==1&&restarts>2){completeMenu.Init(-200);return;}
 		level=-1,part=0;
 	}
-	if (level==-1&&part==22){completeMenu.Init(-200);return;}
-	if (level==-2&&part>26){completeMenu.Init(-200);return;}
+	if(level==-1&&part==22){completeMenu.Init(-200);return;}
+	if(level==-2&&part>26){completeMenu.Init(-200);return;}
 }
 bool ProcessCurCred()
 {
@@ -601,12 +537,11 @@ bool ProcessCurCred()
 		vdig->printf(creditfly,240,HGETEXT_LEFT,"%s",BLRVERSION);
 		bdig->printf(creditfly,310,HGETEXT_LEFT,"%s",BuiltDate);
 	}
-	int times=1;if (LOWFPS)times=17;
 	if (credstop)credbrk+=hge->Timer_GetDelta();
 	if (credbrk>=4.5&&!creddone)creddone=true,credstop=false,creditacc=0,credbrk=0;
-	if (!credstop)for (int i=1;i<=times;++i)creditfly-=creditacc;
+	if (!credstop)for (int i=1;i<=17;++i)creditfly-=creditacc;
 	if (creditfly<-300)return true;
-	for (int i=1;i<=times;++i)if (creditacc<2)creditacc+=0.015;
+	for (int i=1;i<=17;++i)if (creditacc<2)creditacc+=0.015;
 	if (abs(creditfly-400)<5&&!creddone&&!credstop)credstop=true;
 	return false;
 }
@@ -625,7 +560,7 @@ void AboutScene()
 }
 bool Foclost()
 {
-	if (Current_Position==1)pauseMenu.Init(-200);
+	if(Current_Position==1)pauseMenu.Init(-200);
 	return false;
 }
 bool FrameFunc()
@@ -665,9 +600,9 @@ bool FrameFunc()
 					CreditsRail->SetHotSpot(300,100);
 					creditsp=0;
 					Music_Init("./Resources/Music/BLR2_TR09.ogg");
-					lpst=lped=0;
-					Music_Play();
+					lpst=lped=0;Music_Play();
 					creditfly=1200;creditacc=0;credstop=creddone=false;
+					Credits->SetTextureRect(0,0,600,200);
 					Current_Position=4;
 					mainMenu.Leave();
 					break;
@@ -692,15 +627,14 @@ bool FrameFunc()
 					playerpos.x=400,playerpos.y=400,playerrot=0;
 					frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
 					level=1,part=1;frms=0,averfps=0.0;bsscale=1;
+					if(bullet){free(bullet);bullet=NULL;}
 					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
 					lpst=4625568;lped=9234584;//Music_Play();
 					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 					Lock.Init(2);IfShowTip=true;lsc=0;
-					//Lock.SetTexture(SprSheet,151,264,2,8);
 					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
 					memset(tower,0,sizeof(tower));
-					memset(bullet,0,sizeof(bullet));
 					Complete=false;
 					Current_Position=1;
 					Level1Part1();
@@ -711,15 +645,14 @@ bool FrameFunc()
 					playerpos.x=400,playerpos.y=400,playerrot=0;
 					frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
 					level=-2,part=0;frms=0,averfps=0.0;bsscale=1;assetime=0;
+					if(bullet){free(bullet);bullet=NULL;}
 					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
 					lpst=4625568;lped=9234584;//Music_Play();
 					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 					Lock.Init(2);IfShowTip=true;lsc=0;
-					//Lock.SetTexture(SprSheet,151,264,2,8);
 					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
 					memset(tower,0,sizeof(tower));
-					memset(bullet,0,sizeof(bullet));
 					Complete=false;
 					Current_Position=1;
 					IfCallLevel=true;
@@ -729,15 +662,14 @@ bool FrameFunc()
 					playerpos.x=400,playerpos.y=400,playerrot=0;
 					frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
 					level=1,part=1;frms=0,averfps=0.0;bsscale=1;
+					if(bullet){free(bullet);bullet=NULL;}
 					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
 					lpst=4625568;lped=9234584;//Music_Play();
 					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 					Lock.Init(2);IfShowTip=true;lsc=0;
-					//Lock.SetTexture(SprSheet,151,264,2,8);
 					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
 					memset(tower,0,sizeof(tower));
-					memset(bullet,0,sizeof(bullet));
 					Complete=false;
 					Current_Position=1;
 					Level1Part1();
@@ -888,6 +820,7 @@ bool FrameFunc()
 	hge->Gfx_Clear(SETA(DBGColor,0xFF));
 	if (skyactive)sky.Update(),sky.Render();
 	hge->Gfx_RenderQuad(&quad);
+	int bulinuse=0;
 	if (Current_Position==1||Current_Position==2||Current_Position==5||Current_Position==11||Current_Position==12)
 	{
 	//If we are at the main scene or tip scene(which towers and bullets should still appear..)
@@ -911,6 +844,7 @@ bool FrameFunc()
 		ProcessLaser();
 		for (int i=1;i<=bulcnt;++i)
 		{
+			if(bullet[i].exist)++bulinuse;
 			switch (bullet[i].bullettype)
 			{
 				case 1:ProcessBullet1(i);break;
@@ -990,13 +924,16 @@ bool FrameFunc()
 			if (!LOWFPS&&infofade<0xFF)++infofade;
 			if (LOWFPS&&infofade<=0xEF)infofade+=16;
 		}
+		if(hge->Input_GetKeyStateEx(HGEK_A)==HGEKST_HIT)showalloc^=1;
+		if(showalloc)
+		{
+			fnt->SetColor(0xFFFFFFFF);
+			fnt->printf(795, 0, HGETEXT_RIGHT, "Allocated bullets %d",bulcnt);
+			fnt->printf(795, 25, HGETEXT_RIGHT, "%d in use",bulinuse);
+		}
 		fnt->SetColor(SETA(0xFFFFFF,infofade));
 		fnt->printf(5, 0, HGETEXT_LEFT, "Frames to go: %d",frameleft);
-#if 0
-		fnt->printf(5, 25, HGETEXT_LEFT, "Score: %I64d",score);
-#else
 		fnt->printf(5, 25, HGETEXT_LEFT, "Score: %lld",score);
-#endif
 		fnt->printf(5, 50, HGETEXT_LEFT, "Level %d",level);
 		if (mode==3)
 			fnt->printf(5, 75, HGETEXT_LEFT, "Collisions: %d",coll);
@@ -1006,9 +943,7 @@ bool FrameFunc()
 			fnt->printf(5, 75, HGETEXT_LEFT, "Restarts: %d",restarts);
 		fnt->printf(5, 100, HGETEXT_LEFT, "Semi-Collisions: %d",semicoll);
 		if(mode==2)
-		{
 			fnt->printf(5, 125, HGETEXT_LEFT, "Multiplier: %.2lf",mult);
-		}
 		else
 		{
 			fnt->printf(5, 125, HGETEXT_LEFT, "Clear Range Left: %d",clrtime+clrbns);
@@ -1039,7 +974,7 @@ void printHelp(char *exec,const char* str="")
 	puts("--fast            Fast mode. All levels are two times shorter.");
 	puts("--logfile=...     Use an alternate log file name instead of the default \"BLRLOG.txt\".");
 #ifdef WIN32
-	printf("--nohideconsole   Do not hide console (Windows version only).\n");
+	printf("--nohideconsole   Do not hide console.\n");
 #endif
 	if(strcmp(str,""))printf("%s\n",str);
 	exit(0);
@@ -1108,6 +1043,7 @@ void parseArgs(int argc,char *argv[])
 }
 int main(int argc,char *argv[])
 {
+	signal(SIGSEGV,SigHandler);
 	parseArgs(argc,argv);
 #ifdef WIN32
 	if(!noHideConsole)FreeConsole();
@@ -1308,6 +1244,7 @@ int main(int argc,char *argv[])
 			playerpos.x=400,playerpos.y=400,playerrot=0;
 			frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
 			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;
+			if(bullet){free(bullet);bullet=NULL;}
 			towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 			score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
 			lpst=4625568;lped=9234584;//Music_Play();
@@ -1315,7 +1252,6 @@ int main(int argc,char *argv[])
 			Lock.Init(2);IfShowTip=true;lsc=0;
 			clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
 			memset(tower,0,sizeof(tower));
-			memset(bullet,0,sizeof(bullet));
 			Complete=false;Current_Position=1;
 			IfCallLevel=true;
 			mode=3;

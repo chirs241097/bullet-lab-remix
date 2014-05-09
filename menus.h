@@ -814,7 +814,7 @@ public:
 		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
 		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
 	}
-	void Leave(){onOut=true;}
+	void Leave(){if(!onIn)onOut=true;}
 	int Update()
 	{
 		if(onIn)
@@ -832,6 +832,7 @@ public:
 			{
 				active=onOut=false;
 				if(selected==1)Current_Position=1,DisableAllTower=DisablePlayer=false;
+				return -1;
 			}
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,190,320,100);
@@ -1012,13 +1013,7 @@ public:
 		Ribb->RenderEx(xoffset-50,422,0,3.75,1);
 		hge->Gfx_RenderQuad(&UpperGradient);
 		hge->Gfx_RenderQuad(&LowerGradient);
-		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
-#if 0
-	"You scored %I64d at level %d"
-#else
-	"You scored %lld at level %d"
-#endif
-	,score,level);
+		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,"You scored %lld at level %d",score,level);
 		MenuFont->printf(xoffset-100,280,HGETEXT_LEFT,"Average FPS: %lf\n",averfps);
 		DeathTitle->Render(xoffset-200,200);
 	}
@@ -1100,21 +1095,9 @@ public:
 		hge->Gfx_RenderQuad(&UpperGradient);
 		hge->Gfx_RenderQuad(&LowerGradient);
 		if(~CheckHighScore())
-		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
-#if 0
-	"New Highscore %I64d!"
-#else
-	"New Highscore %lld!"
-#endif
-	,score);
+		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,"New Highscore %lld!",score);
 		else
-		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,
-#if 0
-	"Score %I64d"
-#else
-	"Score %lld"
-#endif
-	,score);
+		MenuFont->printf(xoffset-100,250,HGETEXT_LEFT,"Score %lld",score);
 		MenuFont->printf(xoffset-100,280,HGETEXT_LEFT,"Your Ranking: %s",getRank());
 		if(mode==2)
 		{
@@ -1349,13 +1332,7 @@ public:
 			if(calcy>289.9&&calcy<540.1)
 			{
 				if(i<=WrapCnt)
-				MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"%u. %s - "
-#if 0
-				"%I64d"
-#else
-				"%lld"
-#endif
-				,i,WrapRec[i].name,WrapRec[i].score);
+				MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"%u. %s - %lld",i,WrapRec[i].name,WrapRec[i].score);
 				else MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"%u. ----------",i);
 			}
 		}
@@ -1437,13 +1414,7 @@ public:
 		if(view==1)
 		{
 			if(dyoffset+430>289.9&&dyoffset+430<540.1)
-				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored "
-#if 0
-				"%I64d"
-#else
-				"%lld"
-#endif
-				" by %s",WrapRec[no].score,WrapRec[no].name);
+				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored %lld by %s",WrapRec[no].score,WrapRec[no].name);
 			if(dyoffset+460>289.9&&dyoffset+460<540.1)
 				MenuFont->printf(xoffset,dyoffset+460,HGETEXT_LEFT,"Semi-Collisions %d",WrapRec[no].scoll);
 			if(dyoffset+490>289.9&&dyoffset+490<540.1)
@@ -1452,13 +1423,7 @@ public:
 		else
 		{
 			if(dyoffset+430>289.9&&dyoffset+430<540.1)
-				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored "
-#if 0
-				"%I64d"
-#else
-				"%lld"
-#endif
-				" by %s",WrapRec[no].score,WrapRec[no].name);
+				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored %lld by %s",WrapRec[no].score,WrapRec[no].name);
 			if(dyoffset+460>289.9&&dyoffset+460<540.1)
 			{
 				if(view==0)

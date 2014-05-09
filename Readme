@@ -70,7 +70,7 @@ Generic Information
 My own comment on this game...
 A "game" filled with the smell of mysterious science and imagination(3:2 approximately).
 (I worked on it for almost 9 months, after all.)
-Others comments...
+Others' comments...
 -PIECE OF SHIT!!!
 -The author must be suffering from serious mental problems.(I agree...)
 -(literally translated from Chinese) Revenge on society...
@@ -91,6 +91,10 @@ MORE Recommends...
 -Some editors or compilers(If you find this impossible and want to make it easier)
 -(Additionally for the last one)Ability to read non human-readable code.
 -Achromatopsia(<-strikethrough)
+
+How to install&run it...
+Just extract all files in the archive somewhere, then start the only executable
+file in it.
 
 If, suddenly, you can't run it one day...
 Remove blr.cfg (remember to backup your score.cfg first!) then restart the game.
@@ -191,58 +195,23 @@ Now it has reached a position that I've never expected...
 Brief History
 ------------------------------------------------------------------------------------
 The file ChangeLog contains the full history of this project.
-Here's a list of milestones.
+Here's a list of released-to-public versions.
 
-0.9.1-0_PR (r85)
-Menu rewrite(still in progress).
-
-0.9.0-1_PR (b79/r79)
-Finish assessment mode.
-Extend laser class.
-Several modify and fix to HGE.
-
-0.8.1-1_PR (b77)
-Completing all levels for Classic Mode and Free Play Mode.
-Switch to mingw-w64 for building Windows version.
-Prepare for assessment mode.
+0.9.1-1_PR (r86)
+Current public release. Comes with all levels that will appear in the final release.
+Done menu rewrite.
+Make multiplier system functional.
 
 0.7.3-0_PR (b73)
-Completing level 7.
-Lots and lots of fixes.
-Laser revesion is now r5 and work perfectly.
-
-0.6.2-2_PR (b52)
-Level 6 is complete.
-Supporting new music interfaces and added in-game music.
-
-0.5.3-2_PR (b43)
-Finishing level 5.
-New clear range trigger method and fixes to clear range.
+Comes with all seven "normal" levels.
+Many bug fixes, making the Windows port (almost) stable.
+Huge code changes happened here.
 
 0.4.4-0_PRG (b37a)
-Regression version from 0.5.2-0_PR (b37).
-Released to public. Including the complete level 4, and some levels of Level 5.
-Fixed two minor problems.
+Comes with four levels and some parts of the fifth level.
+Contains several bug fixes.
 
-0.3.2-0_PR (b27)
-Completing level 3.
-Avoid hidden bullets.
-
-0.2.9-2_PR (b22)
-Completing level 2.
-0.2.9-1_PR (b21) is released to public.
-
-0.1.7-2_PR (b16)
-Level 1 is finished.
-
-TB130907 (b10)
-Laser implementation rev 2.
-
-TB130827 (b8)
-Initial laser implementation.
-
-TB130620~TB130818 (b1~b7)
-New towers and new levels.
-
-TB130610 (b0)
-Creation of the Testbed version.
+0.2.9-1_PR (b21)
+First public prerelease version.
+Comes with two levels.
+Introduced multiplier system, not functional yet.

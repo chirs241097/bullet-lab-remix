@@ -24,15 +24,7 @@ void RenderAlter(vector2d p,TColors ca,TColors cb,double rot=0,double scl=1)
 int CreateBullet1(double x,double y,double bs,bool eff=false)
 {
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].inv=false;
 	bullet[i].bullettype=1;
@@ -52,15 +44,7 @@ int CreateBullet1(double x,double y,double bs,bool eff=false)
 int CreateBullet2(double x,double y,double bs,double rad,bool eff=false,bool invi=false)
 {
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].addblend=false;
 	bullet[i].extborder=false;
@@ -89,15 +73,7 @@ void CreateBullet3(double x,double y,double bs,int dir,bool eff=false)
 void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 {
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].inv=false;
 	bullet[i].bullettype=4;
@@ -117,15 +93,7 @@ void CreateBullet4(double x,double y,double bs,int yelbrk=0,bool eff=false)
 void CreateBullet5(double x,double y,double bs,bool eff=false)
 {
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].inv=false;
 	bullet[i].bullettype=5;
@@ -144,15 +112,7 @@ void CreateBullet5(double x,double y,double bs,bool eff=false)
 int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,bool eff=false)
 {
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].inv=false;
 	bullet[i].bullettype=6;
@@ -176,15 +136,7 @@ int CreateBullet6(double x,double y,double bs,int explo,int exp1=8,int exp2=12,b
 int CreateBullet7(double x,double y,double bs,int explo,bool eff=false)
 {
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].inv=false;
 	bullet[i].bullettype=7;
@@ -208,15 +160,7 @@ int CreateBullet7(double x,double y,double bs,int explo,bool eff=false)
 int CreateBullet8(double x,double y,double bs,bool eff=false)
 {
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].inv=false;
 	bullet[i].bullettype=8;
@@ -238,15 +182,7 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 	//This creates bullet9 in random direction and as attrib 0
 	//change them if necessary.
 	++shots;
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].inv=false;
 	bullet[i].bullettype=9;
@@ -269,15 +205,7 @@ int CreateBullet9(double x,double y,double bs,int explo,int cnt,int brk,bool eff
 }
 void CreateBullet255(double x,double y,double bs,int spno=0)
 {
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].bullettype=255;
 	bullet[i].bulletpos.x=x;

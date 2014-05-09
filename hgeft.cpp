@@ -1,7 +1,7 @@
 // Freetype2 ext4hge implementations  -*- C++ -*-
 #include "hgeft.h"
 static const char* HGEFT_SRC_FN="hgeft.cpp";
-void hgeTTChar::Free(){if(quad.tex)hge->Texture_Free(quad.tex),quad.tex=0;}
+void hgeTTChar::Free(){if(quad.tex)hge->Texture_Free(quad.tex),quad.tex=NULL;}
 bool hgeTTChar::SetChar(wchar_t ch,FT_Face ttfface)
 {
 	FT_GlyphSlot slot=ttfface->glyph;

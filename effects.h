@@ -9,15 +9,7 @@ void SCEffect_Attatch(vector2d Target=vector2d(-100,-100))
 	if(Target.x<-50&&Target.y<-50)Target=playerpos;
 	for (int ii=1;ii<=cnt;++ii)
 	{
-		int i;
-		if (bulcnt==0)
-			bulcnt=i=1;
-		else
-		{
-			for (i=1;i<=bulcnt;++i)
-				if (!bullet[i].exist)break;
-			if (i>bulcnt)bulcnt=i;
-		}
+		int i=AllocBullet();
 		bullet[i].exist=true;
 		bullet[i].bullettype=254;
 		bullet[i].bulletpos.x=Target.x+3;
@@ -83,15 +75,7 @@ void BulletEffect_Process(int n)
 }
 int BulletEffect_Death(Bullet a,DWORD color)
 {
-	int i;
-	if (bulcnt==0)
-		bulcnt=i=1;
-	else
-	{
-		for (i=1;i<=bulcnt;++i)
-			if (!bullet[i].exist)break;
-		if (i>bulcnt)bulcnt=i;
-	}
+	int i=AllocBullet();
 	bullet[i].exist=true;
 	bullet[i].bullettype=253;
 	bullet[i].bulletpos.x=a.bulletpos.x;

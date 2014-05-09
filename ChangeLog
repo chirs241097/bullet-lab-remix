@@ -2,12 +2,39 @@
 Next version:
 ?
 Todo's:
-Complete the game system.
-Menu rewrite...
-Random segmentation fault in "Hyper-threading".(seen only once,
-can not reproduce now...)
+Add multpo's.
+Bug fixes.
+Tests.
+Wishlist?
+
+Known bugs:
+Return to game in pause menu are sometimes broken. (It seldom happens, and is 
+very hard to catch!)
+One part of Level 3 fails randomly (really randomly?).
+~~infinity CLR~~(debug purpose. I can't pass those levels with out
+this)
+
+Wishlist:
+Make more data stored in score.cfg.
+Replace some boring levels.
+Built-in help pages.
+In-game music bring back.
+~~Now Playing(Music Room)~~
+~~BLR script virtual machine~~(long long-term! probably the core
+of next BLR.)
 
 Pre-Released versions:
+0.9.1-1 (r90)
+Fix a bug in the credit scene.
+Now the pause menu shouldn't be broken now...(It's so hard to reproduce
+that I have to assume it *has* been fixed.(IT STILL HAPPENS!!!)
+Close the "infinity CLR" "bug".
+(Huge) Code cleanup, mainly removing duplicate code.
+Allocate bullets dynamically. The array is freed every time a new game
+is started.
+Add a signal handler, print back trace on error(currently only available
+for linux...).
+
 0.9.1-1 (r89)
 Fix a critical bug in Score_Initailize.
 Modify level pinball.

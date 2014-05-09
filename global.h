@@ -5,6 +5,7 @@
 #include <hgefont.h>
 #define MaxRes 80
 #define Resd 20.0f
+#define MaxBulCnt 20000
 HGE *hge=0;
 HEFFECT				snd,menuin,menuout;
 hgeQuad				quad;
@@ -81,9 +82,9 @@ hgeSprite *bulletspr[COLOR_COUNT],*towerspr[COLOR_COUNT];
 const double zero=1e-5;
 vector2d playerpos;
 bool playerLockX,playerLockY;
-bool DisableAllTower=false;
-bool DisablePlayer=false;
-bool LOWFPS=false,diffkey=false;
+bool DisableAllTower;
+bool DisablePlayer;
+bool LOWFPS,diffkey,showalloc;
 int VidMode=-1;
 inline double GetDist(vector2d,vector2d);
 class Bullet
@@ -120,7 +121,7 @@ public:
 		bulletdir.y=sin(rad);
 		dist=1;
 	}
-}bullet[20000];
+}*bullet=NULL;
 /*Something about bullets:
 //bullettype:
 //1: player dir-based green bullet
@@ -274,7 +275,7 @@ double clrrange,clrrad,clrmaxrange,clrind,assetime;
 hgeSprite *clrcircle;
 bool Dis8ref,t8special;
 int frameskips=0,stepskips=0;
-bool IfCallLevel,IfShowTip,FadeTip,PlayerSplit;
+bool IfCallLevel,IfShowTip,FadeTip,PlayerSplit,charge;
 RandomEngine re;
 hgeFont *TipFont,*MenuFont;
 char lasttip[200];
@@ -335,7 +336,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-1 (r89)";
+static const char* BLRVERSION="0.9.1-1 (r90)";
 static const char *months="JanFebMarAprMayJunJulAugSepOctNovDec";
 char *parseDate(const char *date)
 {
@@ -355,9 +356,8 @@ void Throw(char *Filename,char *Info)
 }
 void Error(const char *EC,bool hgecreated=false)
 {
-#ifndef WIN32
-	fprintf(stderr,"%s\n",EC);
-#else
+	hge->System_Log("%s\n",EC);
+#ifdef WIN32
 	MessageBox(NULL,EC,"Error!",MB_ICONERROR);
 #endif
 	if (hgecreated)
@@ -423,6 +423,42 @@ void ShowTip(const char *tip)
 	}
 }
 void All2pnt();//forward that...
+
+int AllocBullet()
+{
+	int i;
+	if (bulcnt==0)
+	{
+		bulcnt=i=1;
+		bullet=(Bullet*)malloc(sizeof(Bullet)*(bulcnt+1));
+	}
+	else
+	{
+		for (i=1;i<=bulcnt;++i)
+			if (!bullet[i].exist)break;
+		if (i>bulcnt)
+		{
+			bulcnt=i;
+			Bullet *nblt=(Bullet*)realloc(bullet,sizeof(Bullet)*(bulcnt+1));
+			if(!nblt)Error("Error allocating bullets!",1);
+			bullet=nblt;
+		}
+	}
+	return i;
+}
+void SigHandler(int pm)
+{
+	hge->System_Log("Oops, the application ate a piece of DE AD BE EF!");
+#if defined(__GNUC__) && !defined(MINGW_BUILD)
+	void *strs[64];unsigned cnt;
+	char **str;cnt=backtrace(strs,64);
+	str=backtrace_symbols(strs,cnt);
+	for(unsigned i=0;i<cnt;++i)
+		hge->System_Log("%s",str[i]);
+#endif
+	hge->System_Shutdown();
+	exit(1);
+}
 void ClearAll(bool cbullet=true)
 {
 	DisableAllTower=true;
