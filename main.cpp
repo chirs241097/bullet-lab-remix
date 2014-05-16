@@ -558,6 +558,45 @@ void AboutScene()
 		Music_Stop();
 	}
 }
+void HelpScene(bool fake=false)
+{
+	if(!fake)if(Hlpyofst>0)Hlpyofst-=40;else Hlpyofst=0;
+	else if(Hlpyofst<400)Hlpyofst+=40;else Hlpyofst=400,hshl=0;
+	if(Helpslide>1)MenuFont->Render(30,80+Hlpyofst,HGETEXT_LEFT,"Last"),
+		HlpL->Render(0,85+Hlpyofst);
+	if(Helpslide<6)MenuFont->Render(770,80+Hlpyofst,HGETEXT_RIGHT,"Next"),
+		HlpR->Render(775,85+Hlpyofst);
+	if(Helpscroll==0)Helpspr->Render(0,100+Hlpyofst);
+	else
+	{
+		Helpspr->Render(Helpscroll,100+Hlpyofst);
+		if(Helpscroll>0)NHelpspr->Render(Helpscroll-800,100+Hlpyofst);
+		else NHelpspr->Render(Helpscroll+800,100+Hlpyofst);
+		if(Helpscroll>0)Helpscroll+=30;else Helpscroll-=30;
+		if(fabs(Helpscroll)>=800)
+		{
+			Helpscroll=0;Helpspr->SetTextureRect(0,400*(Helpslide-1),800,400);
+		}
+	}
+	if(fake)return;
+	if(Helpscroll==0)
+	{
+		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT&&Helpslide>1)
+		{
+			--Helpslide;NHelpspr->SetTextureRect(0,400*(Helpslide-1),800,400);
+			Helpscroll=1;
+		}
+		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&Helpslide<6)
+		{
+			++Helpslide;NHelpspr->SetTextureRect(0,400*(Helpslide-1),800,400);
+			Helpscroll=-1;
+		}
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)
+		{
+			Current_Position=0;mainMenu.Init(1000);hshl=1;
+		}
+	}
+}
 bool Foclost()
 {
 	if(Current_Position==1)pauseMenu.Init(-200);
@@ -596,6 +635,12 @@ bool FrameFunc()
 					optionMenu.Init(-200);
 					break;
 				case 3:
+					Current_Position=15;
+					Helpspr->SetTextureRect(0,0,800,400);
+					NHelpspr->SetTextureRect(0,400,800,400);
+					Helpslide=1;Hlpyofst=400;Helpscroll=0;
+					break;
+				case 4:
 					Credits->SetHotSpot(300,100);
 					CreditsRail->SetHotSpot(300,100);
 					creditsp=0;
@@ -606,7 +651,7 @@ bool FrameFunc()
 					Current_Position=4;
 					mainMenu.Leave();
 					break;
-				case 4:break;
+				case 5:break;
 			}
 			mainMenu.Leave();
 			return false;
@@ -750,6 +795,8 @@ bool FrameFunc()
 	}
 	if (Current_Position==11)
 	{
+		//I am cornered!!
+		if(!pauseMenu.isActive())Current_Position=1,DisableAllTower=DisablePlayer=0;
         if(~PMR)
 		{
 			pauseMenu.Leave();
@@ -900,6 +947,7 @@ bool FrameFunc()
 	if(highScoreMenu.isActive())highScoreMenu.Render();
 	if(highScoreViewMenu.isActive())highScoreViewMenu.Render();
 	if(highScoreDetailsMenu.isActive())highScoreDetailsMenu.Render();
+	if(Current_Position==15)HelpScene();if(hshl)HelpScene(1);
 	if (Current_Position==0||Current_Position==3||Current_Position==8||
 		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
 	{
@@ -1175,6 +1223,7 @@ int main(int argc,char *argv[])
 		TexTitle=hge->Texture_Load("./Resources/title.png");
 		TexCredits=hge->Texture_Load("./Resources/credits.png");
 		MenuTex=hge->Texture_Load("./Resources/menus.png");
+		HelpTex=hge->Texture_Load("./Resources/help.png");
 		sky.Init();
 		snd=hge->Effect_Load("./Resources/tap.ogg");
 		menuin=hge->Effect_Load("./Resources/menuin.ogg");
@@ -1217,6 +1266,10 @@ int main(int argc,char *argv[])
 		spr=new hgeSprite(SprSheet,216,0,24,24);
 		Credits=new hgeSprite(TexCredits,0,0,600,200);
 		CreditsRail=new hgeSprite(TexCredits,0,2400,600,200);
+		Helpspr=new hgeSprite(HelpTex,0,0,800,400);
+		NHelpspr=new hgeSprite(HelpTex,0,0,800,400);
+		HlpL=new hgeSprite(MenuTex,256,320,26,15);
+		HlpR=new hgeSprite(MenuTex,256,335,26,15);
 		for (int ii=0;ii<COLOR_COUNT;++ii)
 		{
 			TColors i=(TColors)ii;

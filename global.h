@@ -28,8 +28,9 @@ int					Current_Position;//Where we are now
 12: BackToTitle Confirmation
 13: Options scene
 14: Player Profile scene
+15: Help scene
 */
-HTEXTURE			SprSheet,TexTitle,TexCredits,MenuTex;
+HTEXTURE			SprSheet,TexTitle,TexCredits,MenuTex,HelpTex;
 /*
 Texture Mapping:
 SprSheet:ss.png
@@ -86,6 +87,7 @@ bool DisableAllTower;
 bool DisablePlayer;
 bool LOWFPS,diffkey,showalloc;
 int VidMode=-1;
+hgeTTFont rbPanelFont;
 inline double GetDist(vector2d,vector2d);
 class Bullet
 {
@@ -267,7 +269,6 @@ double clockrot,deltarot,deltadelta;
 double whirot,dwhirot;
 hgeSprite *playerspr;
 DWORD DBGColor;
-hgeTTFont rbPanelFont;
 int frameleft,infofade;
 int level,part,clrtime,clrbns;
 int coll,semicoll,mode,dsmc,restarts;
@@ -293,6 +294,9 @@ int effskp=0;
 hgeSprite *Credits,*CreditsRail;
 int creditsp;double creditfly,creditacc,credbrk;
 bool credstop,creddone;
+hgeSprite *Helpspr,*NHelpspr,*HlpL,*HlpR;
+double Helpscroll,Hlpyofst;int Helpslide;
+bool hshl;
 bool tfs;
 double scale;
 #ifndef WIN32
@@ -336,7 +340,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-1 (r90)";
+static const char* BLRVERSION="0.9.1-2 (r91)";
 static const char *months="JanFebMarAprMayJunJulAugSepOctNovDec";
 char *parseDate(const char *date)
 {

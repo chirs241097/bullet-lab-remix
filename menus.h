@@ -75,6 +75,7 @@ static const char* MMStr[]={
 	"Start",
 	"Highscore",
 	"Options",
+	"Help",
 	"About",
 	"Exit"
 };
@@ -151,10 +152,10 @@ public:
 	{
 		xoffset=start;onIn=true;active=true;
 		selected=0;dyoffset=yoffset=-selected*30;
-		ConfigureQuad(&UpperGradient,xoffset-140,100,320,50);
+		ConfigureQuad(&UpperGradient,xoffset-140,250,320,100);
 		UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
 		UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
-		ConfigureQuad(&LowerGradient,xoffset-140,300,320,100);
+		ConfigureQuad(&LowerGradient,xoffset-140,420,320,110);
 		LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);
 		LowerGradient.v[2].col=LowerGradient.v[3].col=SETA(DBGColor,0xFF);
 	}
@@ -183,10 +184,10 @@ public:
 			if(xoffset>=850)active=onOut=false;
 		}
 		ConfigureQuad(&UpperGradient,xoffset-140,250,320,100);
-		ConfigureQuad(&LowerGradient,xoffset-140,400,320,110);
+		ConfigureQuad(&LowerGradient,xoffset-140,420,320,110);
 		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<5-1)++selected,TriggerSound(0);
-		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=4,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<6-1)++selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=5,TriggerSound(0);
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
@@ -198,7 +199,7 @@ public:
 	}
 	void Render()
 	{
-		for(int i=0;i<5;++i)
+		for(int i=0;i<6;++i)
 		{
 			double calcy=i*30+dyoffset+360;
 			if(calcy>249.9&&calcy<500.1)

@@ -111,7 +111,7 @@ void Level1Part3()
 {
 	frameleft=AMinute;
 	if (towcnt!=50&&towcnt!=0)return ClearAll();
-	DisableAllTower=false;bulcnt=0;memset(bullet,0,sizeof(bullet));
+	DisableAllTower=false;bulcnt=0;free(bullet);
 	if (IfShowTip)
 	{
 		IfShowTip=false;
@@ -160,7 +160,7 @@ void Level2Part0()
 		ClearAll();
 		return;
 	}
-	bulcnt=0;memset(bullet,0,sizeof(bullet));
+	bulcnt=0;free(bullet);
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -339,7 +339,7 @@ void Level3Part0()
 		ClearAll();
 		return;
 	}
-	bulcnt=0;memset(bullet,0,sizeof(bullet));
+	bulcnt=0;free(bullet);
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
