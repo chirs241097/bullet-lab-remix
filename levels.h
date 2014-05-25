@@ -111,7 +111,7 @@ void Level1Part3()
 {
 	frameleft=AMinute;
 	if (towcnt!=50&&towcnt!=0)return ClearAll();
-	DisableAllTower=false;bulcnt=0;free(bullet);
+	DisableAllTower=false;bulcnt=0;free(bullet);bullet=NULL;
 	if (IfShowTip)
 	{
 		IfShowTip=false;
@@ -150,7 +150,7 @@ void Level1Part4()
 		for (int i=1;i<=towcnt;++i)tower[i].towertimer=857;
 }
 BCircle Level2Circle,Level2Circle2;
-Bullet* fakes[12];
+int fakes[12];
 double L2D;
 void Level2Part0()
 {
@@ -160,7 +160,7 @@ void Level2Part0()
 		ClearAll();
 		return;
 	}
-	bulcnt=0;free(bullet);
+	bulcnt=0;free(bullet);bullet=NULL;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -201,7 +201,7 @@ void Level2Part1()
 	//=======
 	CreateTower3_fixeddir(183.49,425,300,3,-pi);
 	CreateTower3_fixeddir(183.49,424,300,3,2.0f/3.0f*pi);
-	for (int i=0;i<6;++i)fakes[i]=&bullet[CreateBullet6(400,300,0,999999999,1,1,false)],fakes[i]->inv=true;
+	for (int i=0;i<6;++i)fakes[i]=CreateBullet6(400,300,0,999999999,1,1,false),bullet[fakes[i]].inv=true;
 	++part;
 }
 void Level2Part2()
@@ -212,7 +212,7 @@ void Level2Part2()
 	double base=Level2Circle.GetRad();
 	double r=(Level2Circle.GetRange()+Level2Circle2.GetRange())/2.0f;
 	for (int i=0;i<6;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
+	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
 	if (L2D>=1.5)
 	{
 		L2D=0;
@@ -224,8 +224,8 @@ void Level2Part2()
 void Level2Part3()
 {
 	frameleft=AMinute;
-	for (int i=0;i<6;++i)fakes[i]->exist=false;
-	for (int i=0;i<6;++i)fakes[i]=&bullet[CreateBullet7(400,300,0,999999999,false)],fakes[i]->inv=true;
+	for (int i=0;i<6;++i)bullet[fakes[i]].exist=false;
+	for (int i=0;i<6;++i)fakes[i]=CreateBullet7(400,300,0,999999999,false),bullet[fakes[i]].inv=true;
 	whicnt=3;clockrot=deltarot=0;++part;
 }
 void Level2Part4()
@@ -236,7 +236,7 @@ void Level2Part4()
 	double base=Level2Circle.GetRad();
 	double r=(Level2Circle.GetRange()+Level2Circle2.GetRange())/2.0f;
 	for (int i=0;i<6;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
+	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
 	if (L2D>=5)
 	{
 		L2D=0;
@@ -267,7 +267,7 @@ void Level2Part6()
 	double base=Level2Circle.GetRad();
 	double r=(Level2Circle.GetRange()+Level2Circle2.GetRange())/2.0f;
 	for (int i=0;i<6;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),fakes[i]->inv=true;
+	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),bullet[fakes[i]].inv=true;
 	if (L2D>=5)
 	{
 		L2D=0;
@@ -286,7 +286,7 @@ void Level2Part7()
 	double base=Level2Circle.GetRad();
 	double r=(Level2Circle.GetRange()+Level2Circle2.GetRange())/2.0f;
 	for (int i=0;i<6;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),fakes[i]->inv=true;
+	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),bullet[fakes[i]].inv=true;
 	if (L2D>=5)
 	{
 		L2D=0;
@@ -300,7 +300,7 @@ void Level2Part8()
 {
 	frameleft=ThirtySeconds;L2D1=0;
 	playerLockY=false;
-	for (int i=6;i<12;++i)fakes[i]=&bullet[CreateBullet6(400,300,0,999999999,1,1,false)],fakes[i]->inv=true;
+	for (int i=6;i<12;++i)fakes[i]=CreateBullet6(400,300,0,999999999,1,1,false),bullet[fakes[i]].inv=true;
 	++part;
 }
 void Level2Part9()
@@ -313,9 +313,9 @@ void Level2Part9()
 	double base2=Level2Circle2.GetRad();
 	double r=(Level2Circle.GetRange()+Level2Circle2.GetRange())/2.0f;
 	for (int i=0;i<6;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
+	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
 	for (int i=6;i<12;++i)
-	fakes[i]->bulletpos=vector2d(400+r*cos(base2+i*pi/3.0f),300+r*sin(base2+i*pi/3.0f));
+	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base2+i*pi/3.0f),300+r*sin(base2+i*pi/3.0f));
 	if (L2D1>=2)
 	{
 		L2D1=0;
@@ -339,7 +339,7 @@ void Level3Part0()
 		ClearAll();
 		return;
 	}
-	bulcnt=0;free(bullet);
+	bulcnt=0;free(bullet);bullet=NULL;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -565,7 +565,7 @@ void Level4Part1()
 			return;
 		}
 }
-Bullet* redirs[400];int cred;
+int redirs[400];int cred;
 void Level4Part2()
 {
 	frameleft=TenSeconds/2;clrtime=0;
@@ -598,19 +598,19 @@ void Level4Part3()
 		if (posx<766)
 		{
 			posx+=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy<566)
 			{
 				posy+=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -633,19 +633,19 @@ void Level4Part5()
 		if (posx2>10)
 		{
 			posx2-=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy2>10)
 			{
 				posy2-=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -669,19 +669,19 @@ void Level4Part7()
 		if (posx<766)
 		{
 			posx+=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy<566)
 			{
 				posy+=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -704,19 +704,19 @@ void Level4Part9()
 		if (posx2>10)
 		{
 			posx2-=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy2>10)
 			{
 				posy2-=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -740,19 +740,19 @@ void Level4Part11()
 		if (posx<766)
 		{
 			posx+=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy<566)
 			{
 				posy+=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -775,19 +775,19 @@ void Level4Part13()
 		if (posx2>10)
 		{
 			posx2-=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy2>10)
 			{
 				posy2-=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -811,19 +811,19 @@ void Level4Part15()
 		if (posx<766)
 		{
 			posx+=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy<566)
 			{
 				posy+=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -846,19 +846,19 @@ void Level4Part17()
 		if (posx2>10)
 		{
 			posx2-=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy2>10)
 			{
 				posy2-=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -881,31 +881,31 @@ void Level4Part19()
 		if (posx2>10)
 		{
 			posx2-=24;
-			redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy2>10)
 			{
 				posy2-=24;
-				redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=2,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=2,doneredir=true;
 		}
 		if (posx<766)
 		{
 			posx+=24;
-			redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy<566)
 			{
 				posy+=24;
-				redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
 			}
 		}
 
@@ -1158,7 +1158,7 @@ void Level5Part4()
 			laser[i].EnableColl=false;
 	}
 }
-Bullet* tbuls[1000];double lv5brk;
+int tbuls[1000];double lv5brk;
 void Level5Part5()
 {
 	frameleft=AMinute;All2pnt();towcnt=0;Lasercnt=0;
@@ -1173,22 +1173,22 @@ void Level5Part6()
 	for (int j=0;j<1000;++j)
 	if (!tbuls[j])
 	{
-		tbuls[j]=&bullet[CreateBullet2(i*80,570,3,0.5*pi)];
+		tbuls[j]=CreateBullet2(i*80,570,3,0.5*pi);
 		break;
 	}
 	for (int j=0;j<1000;++j)
-	if (tbuls[j]&&tbuls[j]->bulletpos.y<150)
+	if (tbuls[j]&&bullet[tbuls[j]].bulletpos.y<150)
 	{
 		if (re.NextInt(1,1000)>=800)
 		{
 			if (re.NextInt(1,1000)>=500)
-				CreateBullet6(tbuls[j]->bulletpos.x,tbuls[j]->bulletpos.y,3,200,1,18);
+				CreateBullet6(bullet[tbuls[j]].bulletpos.x,bullet[tbuls[j]].bulletpos.y,3,200,1,18);
 			else
 				if (re.NextInt(1,1000)>=850)
-					CreateBullet9(tbuls[j]->bulletpos.x,tbuls[j]->bulletpos.y,3,500,18,300);
+					CreateBullet9(bullet[tbuls[j]].bulletpos.x,bullet[tbuls[j]].bulletpos.y,3,500,18,300);
 		}
-		tbuls[j]->exist=false;
-		tbuls[j]=NULL;
+		bullet[tbuls[j]].exist=false;
+		tbuls[j]=0;
 	}
 }
 double tbrk;
@@ -1302,21 +1302,21 @@ void Level5Part12()
 		if (posx<766)
 		{
 			posx+=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
-			redirs[++cred]=&bullet[CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
+			redirs[++cred]=CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy<566)
 			{
 				posy+=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
-				redirs[++cred]=&bullet[CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
+				redirs[++cred]=CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<=cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -1339,21 +1339,21 @@ void Level5Part14()
 		if (posx2>10)
 		{
 			posx2-=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
-			redirs[++cred]=&bullet[CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
+			redirs[++cred]=CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy2>10)
 			{
 				posy2-=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
-				redirs[++cred]=&bullet[CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
+				redirs[++cred]=CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<=cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -1372,23 +1372,23 @@ void Level5Part16()
 		if (posx<766)
 		{
 			posx+=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
-			redirs[++cred]=&bullet[CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999)];
-			redirs[++cred]=&bullet[CreateBullet9((posx-400)*0.9+400,(posy-300)*0.9+300,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
+			redirs[++cred]=CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999);
+			redirs[++cred]=CreateBullet9((posx-400)*0.9+400,(posy-300)*0.9+300,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy<566)
 			{
 				posy+=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx,posy,0,999999,1,999999)];
-				redirs[++cred]=&bullet[CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999)];
-				redirs[++cred]=&bullet[CreateBullet9((posx-400)*0.9+400,(posy-300)*0.9+300,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx,posy,0,999999,1,999999);
+				redirs[++cred]=CreateBullet9((posx-400)*0.95+400,(posy-300)*0.95+300,0,999999,1,999999);
+				redirs[++cred]=CreateBullet9((posx-400)*0.9+400,(posy-300)*0.9+300,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<=cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -1411,23 +1411,23 @@ void Level5Part18()
 		if (posx2>10)
 		{
 			posx2-=12;
-			redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
-			redirs[++cred]=&bullet[CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999)];
-			redirs[++cred]=&bullet[CreateBullet9((posx2-400)*0.9+400,(posy2-300)*0.9+300,0,999999,1,999999)];
+			redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
+			redirs[++cred]=CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999);
+			redirs[++cred]=CreateBullet9((posx2-400)*0.9+400,(posy2-300)*0.9+300,0,999999,1,999999);
 		}
 		else
 		{
 			if (posy2>10)
 			{
 				posy2-=12;
-				redirs[++cred]=&bullet[CreateBullet9(posx2,posy2,0,999999,1,999999)];
-				redirs[++cred]=&bullet[CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999)];
-				redirs[++cred]=&bullet[CreateBullet9((posx2-400)*0.9+400,(posy2-300)*0.9+300,0,999999,1,999999)];
+				redirs[++cred]=CreateBullet9(posx2,posy2,0,999999,1,999999);
+				redirs[++cred]=CreateBullet9((posx2-400)*0.95+400,(posy2-300)*0.95+300,0,999999,1,999999);
+				redirs[++cred]=CreateBullet9((posx2-400)*0.9+400,(posy2-300)*0.9+300,0,999999,1,999999);
 			}
 			else
 				if (!doneredir)
 					for (int i=0;i<=cred;++i)
-						redirs[i]->redir(ATarg.targpos),redirs[i]->bulletspeed=4,doneredir=true;
+						bullet[redirs[i]].redir(ATarg.targpos),bullet[redirs[i]].bulletspeed=4,doneredir=true;
 		}
 	}
 }
@@ -3321,17 +3321,17 @@ void Levelm1Part16()
 	for(int i=0;i<100;++i)if(fyg[i].isActive())fyg[i].Update();
 	fygs.Update(pi/7200*(0.5+frameleft/(double)(AMinute+ThirtySeconds)));
 }
-Bullet* m17lead[4];
+int m17lead[4];
 void Levelm1Part17()
 {
 	frameleft=AMinute+ThirtySeconds;towcnt=0;
 	All2pnt();memset(m17lead,0,sizeof(m17lead));
 	++part;
-	m17lead[0]=&bullet[CreateBullet2(10,10,4,0)];m17lead[0]->redir(vector2d(780,10));m17lead[0]->alterColor=red;
-	m17lead[1]=&bullet[CreateBullet2(780,10,4,0)];m17lead[1]->redir(vector2d(780,580));m17lead[1]->alterColor=green;
-	m17lead[2]=&bullet[CreateBullet2(780,580,4,0)];m17lead[2]->redir(vector2d(10,580));m17lead[2]->alterColor=dblue;
-	m17lead[3]=&bullet[CreateBullet2(10,580,4,0)];m17lead[3]->redir(vector2d(10,10));m17lead[3]->alterColor=white;
-	for(int i=0;i<4;++i)m17lead[i]->inv=true;snexTarg.Init(0.001,vector2d(400,300));
+	m17lead[0]=CreateBullet2(10,10,4,0);bullet[m17lead[0]].redir(vector2d(780,10));bullet[m17lead[0]].alterColor=red;
+	m17lead[1]=CreateBullet2(780,10,4,0);bullet[m17lead[1]].redir(vector2d(780,580));bullet[m17lead[1]].alterColor=green;
+	m17lead[2]=CreateBullet2(780,580,4,0);bullet[m17lead[2]].redir(vector2d(10,580));bullet[m17lead[2]].alterColor=dblue;
+	m17lead[3]=CreateBullet2(10,580,4,0);bullet[m17lead[3]].redir(vector2d(10,10));bullet[m17lead[3]].alterColor=white;
+	for(int i=0;i<4;++i)bullet[m17lead[i]].inv=true;snexTarg.Init(0.001,vector2d(400,300));
 	snexstep=0;snexTarg.TargShow();avabrk=5.0f;avacurbrk=0;tbrk=0;
 }
 void Levelm1Part18()
@@ -3353,30 +3353,30 @@ void Levelm1Part18()
 		}
 		break;
 	}
-	if(m17lead[0]->bulletpos.x>780.01f)m17lead[0]->bulletpos=vector2d(780,10),m17lead[0]->redir(vector2d(780,580));
-	if(m17lead[0]->bulletpos.y>580.01f)m17lead[0]->bulletpos=vector2d(780,580),m17lead[0]->redir(vector2d(10,580));
-	if(m17lead[0]->bulletpos.x<9.99f)m17lead[0]->bulletpos=vector2d(10,580),m17lead[0]->redir(vector2d(10,10));
-	if(m17lead[0]->bulletpos.y<9.99f)m17lead[0]->bulletpos=vector2d(10,10),m17lead[0]->redir(vector2d(780,10));
+	if(bullet[m17lead[0]].bulletpos.x>780.01f)bullet[m17lead[0]].bulletpos=vector2d(780,10),bullet[m17lead[0]].redir(vector2d(780,580));
+	if(bullet[m17lead[0]].bulletpos.y>580.01f)bullet[m17lead[0]].bulletpos=vector2d(780,580),bullet[m17lead[0]].redir(vector2d(10,580));
+	if(bullet[m17lead[0]].bulletpos.x<9.99f)bullet[m17lead[0]].bulletpos=vector2d(10,580),bullet[m17lead[0]].redir(vector2d(10,10));
+	if(bullet[m17lead[0]].bulletpos.y<9.99f)bullet[m17lead[0]].bulletpos=vector2d(10,10),bullet[m17lead[0]].redir(vector2d(780,10));
 
-	if(m17lead[1]->bulletpos.x>780.01)m17lead[1]->bulletpos=vector2d(780,10),m17lead[1]->redir(vector2d(780,580));
-	if(m17lead[1]->bulletpos.y>580.01f)m17lead[1]->bulletpos=vector2d(780,580),m17lead[1]->redir(vector2d(10,580));
-	if(m17lead[1]->bulletpos.x<9.99f)m17lead[1]->bulletpos=vector2d(10,580),m17lead[1]->redir(vector2d(10,10));
-	if(m17lead[1]->bulletpos.y<9.99f)m17lead[1]->bulletpos=vector2d(10,10),m17lead[1]->redir(vector2d(780,10));
+	if(bullet[m17lead[1]].bulletpos.x>780.01)bullet[m17lead[1]].bulletpos=vector2d(780,10),bullet[m17lead[1]].redir(vector2d(780,580));
+	if(bullet[m17lead[1]].bulletpos.y>580.01f)bullet[m17lead[1]].bulletpos=vector2d(780,580),bullet[m17lead[1]].redir(vector2d(10,580));
+	if(bullet[m17lead[1]].bulletpos.x<9.99f)bullet[m17lead[1]].bulletpos=vector2d(10,580),bullet[m17lead[1]].redir(vector2d(10,10));
+	if(bullet[m17lead[1]].bulletpos.y<9.99f)bullet[m17lead[1]].bulletpos=vector2d(10,10),bullet[m17lead[1]].redir(vector2d(780,10));
 
-	if(m17lead[2]->bulletpos.x>780.01f)m17lead[2]->bulletpos=vector2d(780,10),m17lead[2]->redir(vector2d(780,580));
-	if(m17lead[2]->bulletpos.y>580.01f)m17lead[2]->bulletpos=vector2d(780,580),m17lead[2]->redir(vector2d(10,580));
-	if(m17lead[2]->bulletpos.x<9.99f)m17lead[2]->bulletpos=vector2d(10,580),m17lead[2]->redir(vector2d(10,10));
-	if(m17lead[2]->bulletpos.y<9.99f)m17lead[2]->bulletpos=vector2d(10,10),m17lead[2]->redir(vector2d(780,10));
+	if(bullet[m17lead[2]].bulletpos.x>780.01f)bullet[m17lead[2]].bulletpos=vector2d(780,10),bullet[m17lead[2]].redir(vector2d(780,580));
+	if(bullet[m17lead[2]].bulletpos.y>580.01f)bullet[m17lead[2]].bulletpos=vector2d(780,580),bullet[m17lead[2]].redir(vector2d(10,580));
+	if(bullet[m17lead[2]].bulletpos.x<9.99f)bullet[m17lead[2]].bulletpos=vector2d(10,580),bullet[m17lead[2]].redir(vector2d(10,10));
+	if(bullet[m17lead[2]].bulletpos.y<9.99f)bullet[m17lead[2]].bulletpos=vector2d(10,10),bullet[m17lead[2]].redir(vector2d(780,10));
 
-	if(m17lead[3]->bulletpos.x>780.01f)m17lead[3]->bulletpos=vector2d(780,10),m17lead[3]->redir(vector2d(780,580));
-	if(m17lead[3]->bulletpos.y>580.01f)m17lead[3]->bulletpos=vector2d(780,580),m17lead[3]->redir(vector2d(10,580));
-	if(m17lead[3]->bulletpos.x<9.99f)m17lead[3]->bulletpos=vector2d(10,580),m17lead[3]->redir(vector2d(10,10));
-	if(m17lead[3]->bulletpos.y<9.99f)m17lead[3]->bulletpos=vector2d(10,10),m17lead[3]->redir(vector2d(780,10));
+	if(bullet[m17lead[3]].bulletpos.x>780.01f)bullet[m17lead[3]].bulletpos=vector2d(780,10),bullet[m17lead[3]].redir(vector2d(780,580));
+	if(bullet[m17lead[3]].bulletpos.y>580.01f)bullet[m17lead[3]].bulletpos=vector2d(780,580),bullet[m17lead[3]].redir(vector2d(10,580));
+	if(bullet[m17lead[3]].bulletpos.x<9.99f)bullet[m17lead[3]].bulletpos=vector2d(10,580),bullet[m17lead[3]].redir(vector2d(10,10));
+	if(bullet[m17lead[3]].bulletpos.y<9.99f)bullet[m17lead[3]].bulletpos=vector2d(10,10),bullet[m17lead[3]].redir(vector2d(780,10));
 	if(tbrk>0.02+(frameleft/(double)(AMinute+ThirtySeconds))*0.08)
 	{
 		for(int i=0;i<4;++i)
 		{
-			int pnt=CreateBullet2(m17lead[i]->bulletpos.x,m17lead[i]->bulletpos.y,0,0,true);
+			int pnt=CreateBullet2(bullet[m17lead[i]].bulletpos.x,bullet[m17lead[i]].bulletpos.y,0,0,true);
 			bullet[pnt].redir(snexTarg.targpos);
 			bullet[pnt].bulletaccel=0.002;bullet[pnt].limv=3;
 			bullet[pnt].whirem=1500-(frameleft/(double)(AMinute+ThirtySeconds))*500;
@@ -3385,7 +3385,7 @@ void Levelm1Part18()
 		tbrk=0;
 	}
 }
-Bullet *m19lead[10],*m19gen[700];
+int m19lead[10],m19gen[700];
 double m19rad;
 int m19step,m19cnt;
 bool m19pldir;
@@ -3398,10 +3398,10 @@ void Levelm1Part19()
 	avabrk=0.05;avacurbrk=0;
 	for(int i=0;i<8;++i)
 	{
-		m19lead[i]=&bullet[CreateBullet2(400,300,0,0)];
-		m19lead[i]->bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
-		m19lead[i]->alterColor=(TColors)i;
-		m19lead[i]->inv=true;
+		m19lead[i]=CreateBullet2(400,300,0,0);
+		bullet[m19lead[i]].bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
+		bullet[m19lead[i]].alterColor=(TColors)i;
+		bullet[m19lead[i]].inv=true;
 	}
 	m19pldir=false;BTarg.targpos=playerpos;
 }
@@ -3411,22 +3411,22 @@ void Levelm1Part20update()
 	if(!m19pldir&&GetDist(playerpos,vector2d(400,300))<0.01)m19pldir=true;
 	for(int i=0;i<m19cnt;++i)
 	{
-		if(m19gen[i]->redattrib)
+		if(bullet[m19gen[i]].redattrib)
 		{
-			if(m19gen[i]->redattrib>1)
+			if(bullet[m19gen[i]].redattrib>1)
 			{
 				double r=re.NextDouble(0,75-50*(frameleft/(double)(AMinute*2))),theta=re.NextDouble(-pi,pi);
-				m19gen[i]->bulletpos=vector2d(400+r*cos(theta),300+r*sin(theta));
-				m19gen[i]->bulletspeed=0;
+				bullet[m19gen[i]].bulletpos=vector2d(400+r*cos(theta),300+r*sin(theta));
+				bullet[m19gen[i]].bulletspeed=0;
 			}
 			else
 			{
-				if(GetDist(m19gen[i]->bulletpos,vector2d(400,300))<4)
+				if(GetDist(bullet[m19gen[i]].bulletpos,vector2d(400,300))<4)
 				{
-					m19gen[i]->redattrib=2;
-					m19gen[i]->setdir(re.NextDouble(-pi,pi));
-					m19gen[i]->bulletaccel=0.0015;
-					m19gen[i]->limv=re.NextDouble(1,8-2*(frameleft/(double)(AMinute*2)));
+					bullet[m19gen[i]].redattrib=2;
+					bullet[m19gen[i]].setdir(re.NextDouble(-pi,pi));
+					bullet[m19gen[i]].bulletaccel=0.0015;
+					bullet[m19gen[i]].limv=re.NextDouble(1,8-2*(frameleft/(double)(AMinute*2)));
 				}
 			}
 		}
@@ -3436,7 +3436,7 @@ void Levelm1Part20()
 {
 	avacurbrk+=hge->Timer_GetDelta();
 	m19rad+=pi/(5400.0f+1800.0f*(frameleft/(double)(AMinute*2)))*(1000.0f/hge->Timer_GetFPS());
-	for(int i=0;i<8;++i)m19lead[i]->bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
+	for(int i=0;i<8;++i)bullet[m19lead[i]].bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
 	switch(m19step)
 	{
 		case 0:
@@ -3444,14 +3444,14 @@ void Levelm1Part20()
 			{
 				for(int i=0;i<8;++i)
 				{
-					m19gen[m19cnt]=&bullet[CreateBullet2(m19lead[i]->bulletpos.x,m19lead[i]->bulletpos.y,0,0)];
-					m19gen[m19cnt]->redir(vector2d(400,300));
-					m19gen[m19cnt]->alterColor=(TColors)i;
-					m19gen[m19cnt]->bulletaccel=0.002;
-					m19gen[m19cnt]->limv=3;
-					m19gen[m19cnt]->whirem=1000;
-					m19gen[m19cnt]->addblend=true;
-					m19gen[m19cnt++]->redattrib=re.NextInt(0,3)?0:1;
+					m19gen[m19cnt]=CreateBullet2(bullet[m19lead[i]].bulletpos.x,bullet[m19lead[i]].bulletpos.y,0,0);
+					bullet[m19gen[i]].redir(vector2d(400,300));
+					bullet[m19gen[i]].alterColor=(TColors)i;
+					bullet[m19gen[i]].bulletaccel=0.002;
+					bullet[m19gen[i]].limv=3;
+					bullet[m19gen[i]].whirem=1000;
+					bullet[m19gen[i]].addblend=true;
+					bullet[m19gen[m19cnt++]].redattrib=re.NextInt(0,3)?0:1;
 				}
 				if(m19cnt/8>80-50*(frameleft/(double)(AMinute*2)))m19step=1,avabrk=3,tbrk=0;
 				avacurbrk=0;
@@ -3469,7 +3469,7 @@ void Levelm1Part20()
 				tbrk=0;
 				for(int i=0;i<8;++i)
 				{
-					int pnt=CreateBullet2(m19lead[i]->bulletpos.x,m19lead[i]->bulletpos.y,0,0);
+					int pnt=CreateBullet2(bullet[m19lead[i]].bulletpos.x,bullet[m19lead[i]].bulletpos.y,0,0);
 					bullet[pnt].redir(vector2d(400,300));
 					bullet[pnt].alterColor=(TColors)i;
 					bullet[pnt].bulletdir.x=-bullet[pnt].bulletdir.x;

@@ -12,13 +12,34 @@ One part of Level 3 fails randomly (really randomly?).
 
 Wishlist:
 Make more data stored in score.cfg.
-Replace some boring levels.
 In-game music bring back.
 ~~Now Playing(Music Room)~~
 ~~BLR script virtual machine~~(long long-term! probably the core
 of next BLR.)
 
 Pre-Released versions:
+0.9.1-3 (r92)
+I installed Archlinux alongside Debian recently. Now we officially support
+Archlinux and Debian.
+---------------------------------------------------------------------------------
+Content freeze -- nothing will be added or removed any more (music etc excluded).
+Fix build failure in Archlinux.
+Fix font issue in Archlinux.
+realloc may change the base address... That's the cause of the crashes...
+--now removing all Bullet* based implementations.
+Affected parts:
+Assessment: Constant patterns, pinball
+All parts in level 2.
+L4P2, and more
+L5P5~6
+L-1P17
+L-1P19
+L3P3
+L7P12
+L7P14
+L7P25
+Avoid memory leaks... I don't know if they have been really fixed...
+
 0.9.1-2 (r91)
 Add built-in help.
 Now the pause menu should be fixed...

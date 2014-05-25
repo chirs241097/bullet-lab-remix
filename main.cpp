@@ -37,6 +37,7 @@
 #include <hgegui.h>
 #include <hgedistort.h>
 #include <hgerect.h>
+#include <cassert>
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
@@ -1251,7 +1252,8 @@ int main(int argc,char *argv[])
 #ifdef WIN32
 		if(!rbPanelFont.Init("C:/Windows/Fonts/cour.ttf",18))return 1;
 #else
-		if(!rbPanelFont.Init("/usr/share/fonts/truetype/freefont/FreeMono.ttf",18))return 1;
+		if(!rbPanelFont.Init("/usr/share/fonts/truetype/freefont/FreeMono.ttf",18))
+		if(!rbPanelFont.Init("/usr/share/fonts/TTF/FreeMono.ttf",18))return 1;
 #endif
 		fnt=new hgeFont("./Resources/charmap.fnt");
 		MenuFont=new hgeFont("./Resources/charmap.fnt");
@@ -1296,7 +1298,7 @@ int main(int argc,char *argv[])
 			hge->System_Log("%s: Starting from Level%dPart%d",MAIN_SRC_FN,startLvl,startPrt);
 			playerpos.x=400,playerpos.y=400,playerrot=0;
 			frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
-			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;
+			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;DBGColor=0xFF000000;
 			if(bullet){free(bullet);bullet=NULL;}
 			towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 			score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
@@ -1323,6 +1325,7 @@ int main(int argc,char *argv[])
 		hge->Texture_Free(SprSheet);hge->Texture_Free(TLeaf);
 		hge->Texture_Free(quad.tex);hge->Texture_Free(TSflake);
 		hge->Texture_Free(TexTitle);hge->Texture_Free(TexCredits);
+		if(bullet){free(bullet);bullet=NULL;}
 	}
 	hge->System_Shutdown();
 	hge->Release();

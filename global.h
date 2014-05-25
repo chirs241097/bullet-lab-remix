@@ -313,7 +313,7 @@ fFristStartUp,fFast;
 int startLvl,startPrt,fFullScreen;
 char alterLog[64];
 #ifdef WIN32
-static const int arFilecount=22;
+static const int arFilecount=23;
 static const char* archive[]={
 "./Resources/b_diff.png",
 "./Resources/b_inter.png",
@@ -325,6 +325,7 @@ static const char* archive[]={
 "./Resources/vdig.fnt",
 "./Resources/bdig.fnt",
 "./Resources/ss.png",
+"./Resources/help.png",
 "./Resources/menus.png",
 "./Resources/title.png",
 "./Resources/credits.png",
@@ -340,7 +341,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-2 (r91)";
+static const char* BLRVERSION="0.9.1-3 (r92)";
 static const char *months="JanFebMarAprMayJunJulAugSepOctNovDec";
 char *parseDate(const char *date)
 {

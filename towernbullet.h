@@ -1862,7 +1862,7 @@ TCTarg CTarg;
 class TROF
 {
 public:
-	Bullet *Bul[32];
+	int Bul[64];
 	double rad1,rad2,drad,srad,dtrad,dtrad2;
 	double range,drange,dtrange,cdtrange;
 	int stage,cnt,ccnt,delay,cf;
@@ -1870,8 +1870,8 @@ public:
 	void init()
 	{
 		stage=0;rad1=rad2=srad;elasp=0.0f;ccnt=0;
-		for (int i=0;i<cnt;++i)Bul[i]=&bullet[CreateBullet8(400,300,0,false)],Bul[i]->setdir(srad),Bul[i]->scale=0.01;
-		Bul[0]->bulletspeed=2;Bul[0]->scale=1;
+		for (int i=0;i<cnt;++i)Bul[i]=CreateBullet8(400,300,0,false),bullet[Bul[i]].setdir(srad),bullet[Bul[i]].scale=0.01;
+		bullet[Bul[0]].bulletspeed=2;bullet[Bul[0]].scale=1;
 	}
 	void stage0()
 	{
@@ -1879,16 +1879,16 @@ public:
 		if ((int)(elasp/0.15f)>ccnt&&ccnt<cnt-1)
 		{
 			ccnt=(int)(elasp/0.2f);
-			if (ccnt==1)dtrange=GetDist(Bul[0]->bulletpos,Bul[1]->bulletpos);
-			Bul[ccnt]->bulletspeed=2;Bul[ccnt]->scale=1;
+			if (ccnt==1)dtrange=GetDist(bullet[Bul[0]].bulletpos,bullet[Bul[1]].bulletpos);
+			bullet[Bul[ccnt]].bulletspeed=2;bullet[Bul[ccnt]].scale=1;
 		}
 		if (elasp>2)
 		{
 			stage=1;
-			drange=GetDist(Bul[cnt-1]->bulletpos,vector2d(400,300));
+			drange=GetDist(bullet[Bul[ccnt-1]].bulletpos,vector2d(400,300));
 			dtrad=(drad-srad);while (dtrad>pi/6.0f)dtrad-=pi/6.0f;dtrad/=delay;
 			dtrad2=(2*pi-drad+srad);while (dtrad2>pi/6.0f)dtrad2-=pi/6.0f;dtrad2/=delay;
-			for (int i=0;i<cnt;++i)Bul[i]->bulletspeed=0;
+			for (int i=0;i<cnt;++i)bullet[Bul[i]].bulletspeed=0;
 			cf=0;
 		}
 	}
@@ -1897,26 +1897,26 @@ public:
 		cf+=(LOWFPS?17:1);
 		rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
 		for (int i=0;i<cnt;++i)
-		if (Bul[i]->bullettype==8)
+		if (bullet[Bul[i]].bullettype==8)
 		{
 			if (i&1)
-			Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
+			bullet[Bul[i]].bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
 			else
-			Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
+			bullet[Bul[i]].bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
 		}
 		if (cf>delay)
 		{
 			cf=delay;
 			rad1=srad+dtrad*cf;rad2=srad-dtrad2*cf;
 			for (int i=0;i<cnt;++i)
-			if (Bul[i]->bullettype==8)
+			if (bullet[Bul[i]].bullettype==8)
 			{
 				if (i&1)
-				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
+				bullet[Bul[i]].bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad1-pi),300+(drange+(cnt-i)*dtrange)*sin(rad1-pi));
 				else
-				Bul[i]->bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
-				Bul[i]->bulletspeed=2,Bul[i]->redir(vector2d(400,300)),
-				Bul[i]->bulletdir=vector2d(-Bul[i]->bulletdir.x,-Bul[i]->bulletdir.y);
+				bullet[Bul[i]].bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
+				bullet[Bul[i]].bulletspeed=2,bullet[Bul[i]].redir(vector2d(400,300)),
+				bullet[Bul[i]].bulletdir=vector2d(-bullet[Bul[i]].bulletdir.x,-bullet[Bul[i]].bulletdir.y);
 			}
 			stage=2;
 		}
@@ -1984,7 +1984,7 @@ class BulletSine
 private:
 	Bullet headb;
 	vector2d a,b,lastgenerated;
-	Bullet* generated[400];
+	int generated[400];
 	int gencnt;
 	bool OutOfBound()
 	{
@@ -2007,8 +2007,8 @@ public:
 		{
             ++gencnt;
             double rad=(gencnt&1)?(gencnt+1)/2*pi/18.0f:-gencnt/2*pi/18.0f;
-            generated[gencnt]=&bullet[CreateBullet2(headb.bulletpos.x,headb.bulletpos.y,0,rad,true)];
-            generated[gencnt]->inv=true;
+            generated[gencnt]=CreateBullet2(headb.bulletpos.x,headb.bulletpos.y,0,rad,true);
+            bullet[generated[gencnt]].inv=true;
             lastgenerated=headb.bulletpos;
 		}
 		if (OutOfBound())
@@ -2016,8 +2016,8 @@ public:
             active=false;
 			for (int i=1;i<=gencnt;++i)
 			if (generated[i])
-			generated[i]->bulletaccel=0.005,generated[i]->limv=2,
-			generated[i]->inv=false,generated[i]->collable=true;
+			bullet[generated[i]].bulletaccel=0.005,bullet[generated[i]].limv=2,
+			bullet[generated[i]].inv=false,bullet[generated[i]].collable=true;
 			memset(generated,0,sizeof(generated));
         }
 		ProcessBullet2(headb);
@@ -2080,7 +2080,7 @@ private:
 	class Pile
 	{
 	private:
-		Bullet* pb[200];
+		int pb[200];
 		int matrixx,matrixy,progress,cnt;
 		double brk;TColors color;
 	public:
@@ -2096,9 +2096,9 @@ private:
 			{
 				if(pb[i])
 				{
-					if(pb[i]->bullettype==2)
+					if(bullet[pb[i]].bullettype==2)
 					{
-						pb[i]->exist=false;pb[i]=0;
+						bullet[pb[i]].exist=false;pb[i]=0;
 					}
 				}
 			}
@@ -2115,8 +2115,8 @@ private:
 					for(int i=0;i<10;++i)
 					{
 						vector2d ran=vector2d(re.NextDouble(0,50)+matrixx*50,re.NextDouble(0,50)+matrixy*50);
-						pb[cnt++]=&bullet[CreateBullet2(ran.x,ran.y,0,0,true)];
-						pb[cnt-1]->alterColor=color;
+						pb[cnt++]=CreateBullet2(ran.x,ran.y,0,0,true);
+						bullet[pb[cnt-1]].alterColor=color;
 					}
 				}
 			}
@@ -2130,10 +2130,10 @@ private:
 					{
 						if(pb[i])
 						{
-							if(pb[i]->bullettype==2&&pb[i]->lifetime>1)
+							if(bullet[pb[i]].bullettype==2&&bullet[pb[i]].lifetime>1)
 							{
-								BulletEffect_Death(*pb[i],ColorToDWORD(color));
-								pb[i]->exist=false;pb[i]=0;
+								BulletEffect_Death(bullet[pb[i]],ColorToDWORD(color));
+								bullet[pb[i]].exist=false;pb[i]=0;
 							}
 							else alldone=false;
 						}
@@ -2262,8 +2262,8 @@ protected:
 	double range;
 	int cnt;
 	vector2d center;
-	Bullet* C;
-	Bullet* target[200];
+	int C;
+	int target[200];
 	vector2d created[200];
 private:
 	TColors rbGetColor(int a)
@@ -2291,8 +2291,8 @@ public:
 		active=true;
 		cnt=0;range=0;
 		center=_ctr;
-		C=&bullet[CreateBullet2(center.x,center.y,0,0,true)];
-		C->alterColor=red;
+		C=CreateBullet2(center.x,center.y,0,0,true);
+		bullet[C].alterColor=red;
 	}
 	bool isActive(){return active;}
 	void update()
@@ -2303,86 +2303,86 @@ public:
 		if(GetDist(a,center)<=range)
 		{
 			if(test(a))
-			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,0,true)],
+			target[cnt++]=CreateBullet2(a.x,a.y,0,0,true),
 			created[cnt-1]=vector2d(a.x,a.y),
-			target[cnt-1]->inv=true,
-			target[cnt-1]->alterColor=red;
+			bullet[target[cnt-1]].inv=true,
+			bullet[target[cnt-1]].alterColor=red;
 		}
 		else all=false;
 		for(a=vector2d(center.x+15,center.y);a.x<825;a.x+=15)
 		if(GetDist(a,center)<=range)
 		{
 			if(test(a))
-			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi,true)],
+			target[cnt++]=CreateBullet2(a.x,a.y,0,pi,true),
 			created[cnt-1]=vector2d(a.x,a.y),
-			target[cnt-1]->inv=true,
-			target[cnt-1]->alterColor=red;
+			bullet[target[cnt-1]].inv=true,
+			bullet[target[cnt-1]].alterColor=red;
 		}
 		else all=false;
 		for(a=vector2d(center.x,center.y-15);a.y>-25;a.y-=15)
 		if(GetDist(a,center)<=range)
 		{
 			if(test(a))
-			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,pi/2,true)],
+			target[cnt++]=CreateBullet2(a.x,a.y,0,pi/2,true),
 			created[cnt-1]=vector2d(a.x,a.y),
-			target[cnt-1]->inv=true,
-			target[cnt-1]->alterColor=red;
+			bullet[target[cnt-1]].inv=true,
+			bullet[target[cnt-1]].alterColor=red;
 		}
 		else all=false;
 		for(a=vector2d(center.x,center.y+15);a.y<625;a.y+=15)
 		if(GetDist(a,center)<=range)
 		{
 			if(test(a))
-			target[cnt++]=&bullet[CreateBullet2(a.x,a.y,0,-pi/2,true)],
+			target[cnt++]=CreateBullet2(a.x,a.y,0,-pi/2,true),
 			created[cnt-1]=vector2d(a.x,a.y),
-			target[cnt-1]->inv=true,
-			target[cnt-1]->alterColor=red;
+			bullet[target[cnt-1]].inv=true,
+			bullet[target[cnt-1]].alterColor=red;
 		}
 		else all=false;
 		a=center;
 #define _bat \
-	target[cnt-1]->redir(center),\
-	created[cnt-1]=target[cnt-1]->bulletpos,\
-	target[cnt-1]->bulletdir.x=-target[cnt-1]->bulletdir.x,\
-	target[cnt-1]->bulletdir.y=-target[cnt-1]->bulletdir.y,\
-	target[cnt-1]->inv=true,\
-	target[cnt-1]->alterColor=rbGetColor(i+j);
+	bullet[target[cnt-1]].redir(center),\
+	created[cnt-1]=bullet[target[cnt-1]].bulletpos,\
+	bullet[target[cnt-1]].bulletdir.x=-bullet[target[cnt-1]].bulletdir.x,\
+	bullet[target[cnt-1]].bulletdir.y=-bullet[target[cnt-1]].bulletdir.y,\
+	bullet[target[cnt-1]].inv=true,\
+	bullet[target[cnt-1]].alterColor=rbGetColor(i+j);
 		for(int i=1;i<=6;++i)
 		for(int j=1;j<=7-i;++j)
 		if(GetDist(vector2d(a.x+i*15,a.y+j*15),center)<=range){
 		if(test(vector2d(a.x+i*15,a.y+j*15)))
-		target[cnt++]=&bullet[CreateBullet2(a.x+i*15,a.y+j*15,0,0,true)],_bat;}
+		target[cnt++]=CreateBullet2(a.x+i*15,a.y+j*15,0,0,true),_bat;}
 		else all=false;
 		for(int i=1;i<=6;++i)
 		for(int j=1;j<=7-i;++j)
 		if(GetDist(vector2d(a.x-i*15,a.y+j*15),center)<=range){
 		if(test(vector2d(a.x-i*15,a.y+j*15)))
-		target[cnt++]=&bullet[CreateBullet2(a.x-i*15,a.y+j*15,0,0,true)],_bat;}
+		target[cnt++]=CreateBullet2(a.x-i*15,a.y+j*15,0,0,true),_bat;}
 		else all=false;
 		for(int i=1;i<=6;++i)
 		for(int j=1;j<=7-i;++j)
 		if(GetDist(vector2d(a.x+i*15,a.y-j*15),center)<=range){
 		if(test(vector2d(a.x+i*15,a.y-j*15)))
-		target[cnt++]=&bullet[CreateBullet2(a.x+i*15,a.y-j*15,0,0,true)],_bat;}
+		target[cnt++]=CreateBullet2(a.x+i*15,a.y-j*15,0,0,true),_bat;}
 		else all=false;
 		for(int i=1;i<=6;++i)
 		for(int j=1;j<=7-i;++j)
 		if(GetDist(vector2d(a.x-i*15,a.y-j*15),center)<=range){
 		if(test(vector2d(a.x-i*15,a.y-j*15)))
-		target[cnt++]=&bullet[CreateBullet2(a.x-i*15,a.y-j*15,0,0,true)],_bat;}
+		target[cnt++]=CreateBullet2(a.x-i*15,a.y-j*15,0,0,true),_bat;}
 		else all=false;
 #undef _bat
 		if(all)
 		{
-			BulletEffect_Death(*C,0x80FF3333);
-			C->exist=false;
+			BulletEffect_Death(bullet[C],0x80FF3333);
+			bullet[C].exist=false;
 			for(int i=0;i<cnt;++i)
 			{
-				target[i]->bulletspeed=-0.5;
-				target[i]->bulletaccel=0.0005;
-				target[i]->limv=3;
-				target[i]->inv=false;
-				target[i]->collable=true;
+				bullet[target[i]].bulletspeed=-0.5;
+				bullet[target[i]].bulletaccel=0.0005;
+				bullet[target[i]].limv=3;
+				bullet[target[i]].inv=false;
+				bullet[target[i]].collable=true;
 			}
 			active=false;
 		}
@@ -2394,7 +2394,7 @@ private:
 	int mode,cnt,stage,spnr,dcorr;
 	bool active;TColors col;
 	double drad,rad,brk;
-	Bullet *targ[600];
+	int targ[600];
 public:
 	bool isActive(){return active;}
 	void Init(int _mode,double _drad,int _spnr,TColors _c,int _dcorr)
@@ -2413,22 +2413,22 @@ public:
 				bool dchk=(stage==1);
 				for(int i=0;i<cnt;++i)
 				{
-					if(targ[i]->bulletspeed>1&&GetDist(vector2d(400,300),targ[i]->bulletpos)>=200)
-					targ[i]->bulletspeed=0;
-					if(targ[i]->bulletspeed>1)dchk=false;
+					if(bullet[targ[i]].bulletspeed>1&&GetDist(vector2d(400,300),bullet[targ[i]].bulletpos)>=200)
+					bullet[targ[i]].bulletspeed=0;
+					if(bullet[targ[i]].bulletspeed>1)dchk=false;
 				}
 				if(dchk)
 				{
 					for(int i=0;i<cnt;++i)
 					{
-						double rad=atan2(targ[i]->bulletdir.y,targ[i]->bulletdir.x);
+						double rad=atan2(bullet[targ[i]].bulletdir.y,bullet[targ[i]].bulletdir.x);
 						int cc=(int)(rad/drad);
 						if((cc/6+dcorr)&1)
-						targ[i]->bulletaccel=0.005,
-						targ[i]->limv=3;
+						bullet[targ[i]].bulletaccel=0.005,
+						bullet[targ[i]].limv=3;
 						else
-						targ[i]->bulletaccel=-0.005,
-						targ[i]->limv=-3;
+						bullet[targ[i]].bulletaccel=-0.005,
+						bullet[targ[i]].limv=-3;
 					}
 					return(void)(active=false);
 				}
@@ -2440,9 +2440,9 @@ public:
 						if(fabs(rad)>2*pi/spnr+pi/180)return(void)(stage=1);
 						for(int i=0;i<spnr;++i)
 						{
-							targ[cnt]=&bullet[CreateBullet2(400,300,2,rad+i*2*pi/spnr)],
-							targ[cnt]->inv=true,
-							targ[cnt++]->alterColor=col;
+							targ[cnt]=CreateBullet2(400,300,2,rad+i*2*pi/spnr),
+							bullet[targ[cnt]].inv=true,
+							bullet[targ[cnt++]].alterColor=col;
 						}
 					}
 				}
@@ -2454,20 +2454,20 @@ public:
 				bool dchk=(stage==1);
 				for(int i=0;i<cnt;++i)
 				{
-					if(targ[i]->bulletspeed>1&&GetDist(vector2d(400,300),targ[i]->bulletpos)>=200)
-					targ[i]->bulletspeed=0;
-					if(targ[i]->bulletspeed>1)dchk=false;
+					if(bullet[targ[i]].bulletspeed>1&&GetDist(vector2d(400,300),bullet[targ[i]].bulletpos)>=200)
+					bullet[targ[i]].bulletspeed=0;
+					if(bullet[targ[i]].bulletspeed>1)dchk=false;
 				}
 				if(dchk)
 				{
 					if(re.NextInt(0,1))
 					for(int i=0;i<cnt;++i)
-						targ[i]->bulletaccel=-0.005,
-						targ[i]->limv=-3;
+						bullet[targ[i]].bulletaccel=-0.005,
+						bullet[targ[i]].limv=-3;
 					else
 					for(int i=0;i<cnt;++i)
-						targ[i]->bulletaccel=0.005,
-						targ[i]->limv=3;
+						bullet[targ[i]].bulletaccel=0.005,
+						bullet[targ[i]].limv=3;
 					return(void)(active=false);
 				}
 				if(stage==0)
@@ -2478,9 +2478,9 @@ public:
 						if(fabs(rad)>2*pi/spnr+pi/180)return(void)(stage=1);
 						for(int i=0;i<spnr;++i)
 						{
-							targ[cnt]=&bullet[CreateBullet2(400,300,2,rad+i*2*pi/spnr)],
-							targ[cnt]->inv=true;
-							targ[cnt++]->alterColor=col;
+							targ[cnt]=CreateBullet2(400,300,2,rad+i*2*pi/spnr),
+							bullet[targ[cnt]].inv=true;
+							bullet[targ[cnt++]].alterColor=col;
 						}
 					}
 				}
@@ -2495,12 +2495,12 @@ public:
 					if(fabs(rad)>2*pi/spnr+pi/180)return(void)(active=false);
 					for(int i=0;i<spnr;++i)
 					{
-						targ[cnt]=&bullet[CreateBullet2(400,300,2,rad+i*2*pi/spnr)];
-						targ[cnt]->inv=true;
-						targ[cnt++]->alterColor=col;
-						targ[cnt]=&bullet[CreateBullet2(400,300,2,-rad+i*2*pi/spnr)];
-						targ[cnt]->inv=true;
-						targ[cnt++]->alterColor=col;
+						targ[cnt]=CreateBullet2(400,300,2,rad+i*2*pi/spnr);
+						bullet[targ[cnt]].inv=true;
+						bullet[targ[cnt++]].alterColor=col;
+						targ[cnt]=CreateBullet2(400,300,2,-rad+i*2*pi/spnr);
+						bullet[targ[cnt]].inv=true;
+						bullet[targ[cnt++]].alterColor=col;
 					}
 				}
 			}
@@ -2613,7 +2613,7 @@ public:
 class yellowGroup
 {
 private:
-	Bullet *ylw[100];
+	int ylw[100];
 	bool dirdone[100];
 	bool active;
 public:
@@ -2626,7 +2626,7 @@ public:
 		{
 			int pnt=CreateBullet2(400,300,_yv,frameleft*pi/AMinute+i*(2*pi/_cnt));
 			bullet[pnt].alterColor=yellow;
-			ylw[i]=&bullet[pnt];
+			ylw[i]=pnt;
 		}
 	}
 	void Update()
@@ -2634,20 +2634,20 @@ public:
 		bool done=true;
 		for (int i=0;i<100;++i)
 		{
-			if(ylw[i]&&ylw[i]->lifetime>2&&!dirdone[i]&&ylw[i]->alterColor==yellow)
-			ylw[i]->redir(playerpos),dirdone[i]=true;
-			if(ylw[i]&&ylw[i]->lifetime>5&&ylw[i]->alterColor==yellow)
+			if(ylw[i]&&bullet[ylw[i]].lifetime>2&&!dirdone[i]&&bullet[ylw[i]].alterColor==yellow)
+			bullet[ylw[i]].redir(playerpos),dirdone[i]=true;
+			if(ylw[i]&&bullet[ylw[i]].lifetime>5&&bullet[ylw[i]].alterColor==yellow)
 			{
 				int cc=re.NextInt(0,5);
 				for(int j=0;j<cc;++j)
 				{
-					int pnt=CreateBullet2(ylw[i]->bulletpos.x,ylw[i]->bulletpos.y,0,re.NextDouble(-pi,pi));
+					int pnt=CreateBullet2(bullet[ylw[i]].bulletpos.x,bullet[ylw[i]].bulletpos.y,0,re.NextDouble(-pi,pi));
 					if(!re.NextInt(0,3))bullet[pnt].redir(playerpos);
 					bullet[pnt].bulletaccel=0.002;bullet[pnt].limv=3;
 				}
-				BulletEffect_Death(*ylw[i],ColorToDWORD(yellow));
-				ylw[i]->exist=false;
-				ylw[i]->bullettype=0;
+				BulletEffect_Death(bullet[ylw[i]],ColorToDWORD(yellow));
+				bullet[ylw[i]].exist=false;
+				bullet[ylw[i]].bullettype=0;
 				ylw[i]=0;
 			}
 			else done=false;
@@ -2687,7 +2687,7 @@ public:
 class expSpinner
 {
 private:
-	Bullet *bullets[1000];
+	int bullets[1000];
 	int arms,cnt,lc;
 	double brk,len,dr,da;
 	bool active;
@@ -2712,8 +2712,8 @@ public:
 			double rad=da+i*2*pi/(double)arms,drad=rad+lc*pi/15;int c=(lc&1)?1:-1;
 			if(InBound(vector2d(400+len*cos(rad),300+len*sin(rad))))
 			{
-				bullets[cnt++]=&bullet[CreateBullet2(
-				400+len*cos(rad),300+len*sin(rad),0,c*drad,true)];
+				bullets[cnt++]=CreateBullet2(
+				400+len*cos(rad),300+len*sin(rad),0,c*drad,true);
 				c=-c;none=false;
 			}
 		}
@@ -2721,28 +2721,28 @@ public:
 		if(none)
 		{
 			active=false;
-			for(int i=0;i<cnt;++i)bullets[i]->bulletaccel=0.002,bullets[i]->limv=2;
+			for(int i=0;i<cnt;++i)bullet[bullets[i]].bulletaccel=0.002,bullet[bullets[i]].limv=2;
 		}
 	}
 };
 class CPinBall
 {
 private:
-	Bullet* center;
-	Bullet* circles[10][30];
+	int center;
+	int circles[10][30];
 	int layer;double rot,lifetime,drt;
 public:
 	void Init(vector2d pos,int _lay)
 	{
 		center=0;memset(circles,0,sizeof(circles));
-		center=&bullet[CreateBullet2(pos.x,pos.y,3,re.NextInt(-pi,pi),true)];
+		center=CreateBullet2(pos.x,pos.y,3,re.NextInt(-pi,pi),true);
 		layer=_lay;rot=0;lifetime=0.01;drt=re.NextDouble(-0.5*pi,0.5*pi);
 		for(int i=0;i<layer;++i)
 		{
 			for(int j=0;j<(i+1)*3;++j)
 			{
-				circles[i][j]=&bullet[CreateBullet2(pos.x,pos.y,3,0,true)];
-				circles[i][j]->bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
+				circles[i][j]=CreateBullet2(pos.x,pos.y,3,0,true);
+				bullet[circles[i][j]].bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
 			}
 		}
 	}
@@ -2750,16 +2750,16 @@ public:
 	void Update()
 	{
 		lifetime+=hge->Timer_GetDelta();
-		vector2d pos=center->bulletpos;
-		if(pos.x<10*layer-5||pos.x>790-10*layer)center->bulletdir.x=-center->bulletdir.x;
-		if(pos.y<10*layer-5||pos.y>590-10*layer)center->bulletdir.y=-center->bulletdir.y;
+		vector2d pos=bullet[center].bulletpos;
+		if(pos.x<10*layer-5||pos.x>790-10*layer)bullet[center].bulletdir.x=-bullet[center].bulletdir.x;
+		if(pos.y<10*layer-5||pos.y>590-10*layer)bullet[center].bulletdir.y=-bullet[center].bulletdir.y;
 		rot+=hge->Timer_GetDelta()*drt;
 		for(int i=0;i<layer;++i)
 		{
 			for(int j=0;j<(i+1)*3;++j)
 			{
-				circles[i][j]->bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
-				circles[i][j]->bulletdir=center->bulletdir;
+				bullet[circles[i][j]].bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
+				bullet[circles[i][j]].bulletdir=bullet[center].bulletdir;
 			}
 		}
 	}
