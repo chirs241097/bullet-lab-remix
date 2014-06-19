@@ -8,6 +8,13 @@ This text is encoded in UTF-8.
 
 BulletLabRemix II Readme - 一个类似机翻的中文版
 
+这是什么？
+------------------------------------------------------------------------------------
+“正如名字告诉你的”，它是GameBoltz的一个小flash游戏——Bullet LAB的延续，或者“等价”的“自由”替代品。
+它不依赖任何专有的软件。它的目标是让原游戏变得“自由”并且更具挑战性。
+这是BulletLabRemix的第二个版本。与第一个版本比起来，它成熟得多。但是，它离一个完整的“框架”还差得远。
+并且它还有可能到处是bug…
+
 背景
 ------------------------------------------------------------------------------------
 //听说已经是高中英语完型填空了，就偷懒不翻译了…
@@ -78,11 +85,12 @@ After a catastrophic disaster, they found some of them were missing...
 
 运行环境要求&推荐项目
 必需环境：
-CPU: Atom 1.6GHz也能运行。
+CPU: Atom 1.6GHz都行
 RAM: 1GiB
 GPU&VRAM: 不能比Intel HD Graphics更差的吧？
-操作系统: Windows XP+ & DirectX9+ / Linux kernel 2.6+ & OpenGL 1.2+
+操作系统: Windows XP+ & DirectX 9 / Linux kernel 2.6+ & OpenGL 1.2+
 推荐环境：
+CPU: 大量的处理器核心。
 GPU&VRAM: 非常快的渲染速度。
 声音: 能够运行OpenAL软件版。
 
@@ -174,7 +182,7 @@ Free Play Mode 自由模式
 历史
 ------------------------------------------------------------------------------------
 这个工程本来只是作为一个BulletLab的hge&C++重写开始的。
-由于不明的原因，它越来越大，甚至都改变了hge的核心。
+由于未知的原因，它越来越大，甚至都改变了hge的核心。
 工程开始几个月后，BLRI（The Creature of Colour）发布了。
 
 当BLRI快要完成的时候，BLRII从BLRI中fork了出来。
@@ -187,44 +195,24 @@ Free Play Mode 自由模式
 ChangeLog包含了该工程的全部历史。
 这里是一个「里程碑」的列表。
 
-0.9.1-0_PR (r85)
-Menu rewrite(still in progress).
-
-0.9.0-1_PR (b79/r79)
-Finish assessment mode.
-Extend laser class.
-Several modify and fix to HGE.
-
-0.8.1-1_PR (b77)
-Completing all levels for Classic Mode and Free Play Mode.
-Switch to mingw-w64 for building Windows version.
-Prepare for assessment mode.
+0.9.1-1_PR (r86)
+Current public release. Comes with all levels that will appear in the final release.
+Done menu rewrite.
+Make multiplier system functional.
 
 0.7.3-0_PR (b73)
-Completing level 7.
-Lots and lots of fixes.
-Laser revesion is now r5 and work perfectly.
-
-0.6.2-2_PR (b52)
-Level 6 is complete.
-Supporting new music interfaces and added in-game music.
-
-0.5.3-2_PR (b43)
-Finishing level 5.
-New clear range trigger method and fixes to clear range.
+Comes with all seven "normal" levels.
+Many bug fixes, making the Windows port (almost) stable.
+Huge code changes happened here.
 
 0.4.4-0_PRG (b37a)
-Regression version from 0.5.2-0_PR (b37).
-Released to public. Including the complete level 4, and some levels of Level 5.
-Fixed two minor problems.
+Comes with four levels and some parts of the fifth level.
+Contains several bug fixes.
 
-0.3.2-0_PR (b27)
-Completing level 3.
-Avoid hidden bullets.
-
-0.2.9-2_PR (b22)
-Completing level 2.
-0.2.9-1_PR (b21) is released to public.
+0.2.9-1_PR (b21)
+First public prerelease version.
+Comes with two levels.
+Introduced multiplier system, not functional yet.
 
 0.1.7-2_PR (b16)
 Level 1 is finished.

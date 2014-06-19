@@ -8,6 +8,28 @@ NOTE: This is a pre-release version. That means:
 
 BulletLabRemix II readme
 
+Content
+------------------------------------------------------------------------------------
+What's this?
+Story
+Generic Information
+Menus
+Game Modes
+Command line options
+About the author
+"Black History"
+Brief History
+
+What's this?
+------------------------------------------------------------------------------------
+"As the name tells", it's the continue, or "free" replacement of Bullet LAB from
+Game Boltz, which is a tiny flash game. Having no proprietary software dependences,
+it's goal is making the original game "free" and more challanging.
+
+This is the second work of BulletLabRemix. Compared to the first work, it's much
+more mature. However, it's still far away from a complete "framework". And it may
+be full of bugs...
+
 Story
 ------------------------------------------------------------------------------------
 THE STORY OF THE COLOURS
@@ -80,8 +102,9 @@ Basic environment:
 CPU: Atom 1.6GHz will even work.
 RAM: 1GiB
 GPU&VRAM: Not worse than Intel HD Graphics.
-OS: Windows XP+ & DirectX9+ / Linux kernel 2.6+ & OpenGL 1.2+
+OS: Windows XP+ & DirectX 9 / Linux kernel 2.6+ & OpenGL 1.2+
 Recommended environment:
+CPU: Lots of cores.
 GPU&VRAM: Very fast graphic rendering.
 Sound: Ability to run OpenAL software version.
 
@@ -138,7 +161,7 @@ Go for the highest score!
 Free Play Mode
 You'll never die! Enjoy!...
 
-Command line options
+
 ------------------------------------------------------------------------------------
 Yes, it accept command line options! (And some of them may be very useful...)
 You can override your settings with them if you can't start it after changing the settings.
@@ -192,6 +215,8 @@ Several "testbed" version was created over the code base of BLRI.
 Then the pre-release version created. Almost all original code from BLRI is removed.
 Now it has reached a position that I've never expected...
 
+See "The development" in the file "Extras" for more details.
+
 Brief History
 ------------------------------------------------------------------------------------
 The file ChangeLog contains the full history of this project.
@@ -215,3 +240,18 @@ Contains several bug fixes.
 First public prerelease version.
 Comes with two levels.
 Introduced multiplier system, not functional yet.
+
+0.1.7-2_PR (b16)
+Level 1 is finished.
+
+TB130907 (b10)
+Laser implementation rev 2.
+
+TB130827 (b8)
+Initial laser implementation.
+
+TB130620~TB130818 (b1~b7)
+New towers and new levels.
+
+TB130610 (b0)
+Creation of the Testbed version.

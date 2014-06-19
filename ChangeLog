@@ -1,8 +1,9 @@
 ===================================================================
 Next version:
-?
+The final release is just there!!
 Todo's:
-Add multpo's.
+*Adjust difficulty!*
+*Add multpo's.*
 Bug fixes.
 Tests.
 Wishlist?
@@ -18,9 +19,18 @@ In-game music bring back.
 of next BLR.)
 
 Pre-Released versions:
+0.9.1-4 (r93)
+Picking it up after almost one month... I'm now lost in my code...
+---------------------------------------------------------------------------------
+Add player position display into debug display.
+Rewrite pinball, adding collision between the balls...
+The collision code is based on Kollision (a game included in KDE SC).
+
 0.9.1-3 (r92)
 I installed Archlinux alongside Debian recently. Now we officially support
 Archlinux and Debian.
+Archlinux doesn't eat my CPU or try to destroy it... So further development will
+be made mainly under archlinux...
 ---------------------------------------------------------------------------------
 Content freeze -- nothing will be added or removed any more (music etc excluded).
 Fix build failure in Archlinux.

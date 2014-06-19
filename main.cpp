@@ -973,12 +973,13 @@ bool FrameFunc()
 			if (!LOWFPS&&infofade<0xFF)++infofade;
 			if (LOWFPS&&infofade<=0xEF)infofade+=16;
 		}
-		if(hge->Input_GetKeyStateEx(HGEK_A)==HGEKST_HIT)showalloc^=1;
-		if(showalloc)
+		if(hge->Input_GetKeyStateEx(HGEK_A)==HGEKST_HIT)showdebug^=1;
+		if(showdebug)
 		{
 			fnt->SetColor(0xFFFFFFFF);
 			fnt->printf(795, 0, HGETEXT_RIGHT, "Allocated bullets %d",bulcnt);
 			fnt->printf(795, 25, HGETEXT_RIGHT, "%d in use",bulinuse);
+			fnt->printf(795, 50, HGETEXT_RIGHT, "Player pos (%.2f,%.2f)",playerpos.x,playerpos.y);
 		}
 		fnt->SetColor(SETA(0xFFFFFF,infofade));
 		fnt->printf(5, 0, HGETEXT_LEFT, "Frames to go: %d",frameleft);

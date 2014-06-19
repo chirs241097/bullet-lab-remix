@@ -85,7 +85,7 @@ vector2d playerpos;
 bool playerLockX,playerLockY;
 bool DisableAllTower;
 bool DisablePlayer;
-bool LOWFPS,diffkey,showalloc;
+bool LOWFPS,diffkey,showdebug;
 int VidMode=-1;
 hgeTTFont rbPanelFont;
 inline double GetDist(vector2d,vector2d);
@@ -102,7 +102,7 @@ public:
 	//yelbrk serves as direction-change timer
 	//whicnt describes how much one will explode into (into an exactly circle)*/
 	double bulletspeed,bulletaccel,limv;
-	bool exist,inv,addblend;
+	int exist,inv,addblend;
 	int whirem,whiskp,yelbrk;
 	int exp1,exp2;
 	double lifetime,rot;
@@ -341,7 +341,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.1-3 (r92)";
+static const char* BLRVERSION="0.9.1-4 (r93)";
 static const char *months="JanFebMarAprMayJunJulAugSepOctNovDec";
 char *parseDate(const char *date)
 {

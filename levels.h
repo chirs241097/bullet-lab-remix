@@ -3941,22 +3941,61 @@ void Levelm2Part17()
 void Levelm2Part18()
 {
 	frameleft=Infinity;
+	//Always clean up!
+	for(int i=0;i<200;++i)if(pinballs[i].Getlifetime()>5)pinballs[i].Kill();
 	tbrk-=hge->Timer_GetDelta();
 	if(tbrk<0)
 	{
 		tbrk=1.25-0.5*assetime/120.0f;if(tbrk<0.5)tbrk=0.5;
 		for(int i=0;i<200;++i)
-		if(pinballs[i].Getlifetime()==0||pinballs[i].Getlifetime()>=10)
+		if(pinballs[i].Getlifetime()==0)
 		{
-			int lay=3+5*assetime/120.0f;if(lay>8)lay=re.NextInt(3,10);
-			vector2d pos=vector2d(re.NextDouble(100,600),re.NextDouble(100,500));
-			while(GetDist(pos,playerpos)<100)pos=vector2d(re.NextDouble(100,600),re.NextDouble(100,500));
+			int lay=4+4*assetime/120.0f;if(lay>8)lay=9;
+			lay=re.NextInt(3,lay);
+			vector2d pos;
+			while(1)
+			{
+				pos=vector2d(re.NextDouble(100,600),re.NextDouble(100,500));
+				bool place=(GetDist(pos,playerpos)>=100);
+				for(int j=0;j<200;++j)
+				if(pinballs[j].Getlifetime()>0&&j!=i)
+				if(GetDist(pinballs[j].Position(),pos)<pinballs[j].Radius()+lay*10.0)
+				{place=false;break;}
+				if(place)break;
+			}
 			pinballs[i].Init(pos,lay);
 			break;
 		}
 	}
 	for(int i=0;i<200;++i)
-	if(pinballs[i].Getlifetime()>0&&pinballs[i].Getlifetime()<10)pinballs[i].Update();
+	if(pinballs[i].Getlifetime()>0)
+	{
+		vector2d pos=pinballs[i].Position();
+		if(pos.x<pinballs[i].Radius()-5||pos.x>790-pinballs[i].Radius())
+			pinballs[i].Delta().x=-pinballs[i].Delta().x,++pinballs[i].Getlifetime(),pinballs[i].UpdateDelta();
+		if(pos.y<pinballs[i].Radius()-5||pos.y>590-pinballs[i].Radius())
+			pinballs[i].Delta().y=-pinballs[i].Delta().y,++pinballs[i].Getlifetime(),pinballs[i].UpdateDelta();
+		for(int j=i+1;j<200;++j)
+		if(pinballs[j].Getlifetime()>0&&pinballs[j].Getlifetime()<=5)
+		{
+			if(GetDist(pinballs[j].Position(),pinballs[i].Position())<pinballs[j].Radius()+pinballs[i].Radius())
+			{
+				double sqrdis=sqr(GetDist(pinballs[j].Position(),pinballs[i].Position()));
+				vector2d colline(pinballs[j].Position().x-pinballs[i].Position().x,
+								 pinballs[j].Position().y-pinballs[i].Position().y);
+				double vp=pinballs[i].Delta()|colline;
+				double wp=pinballs[j].Delta()|colline;
+				vector2d ddelta((wp-vp)*colline.x/sqrdis,(wp-vp)*colline.y/sqrdis);
+				pinballs[i].Delta().x+=ddelta.x;pinballs[i].Delta().y+=ddelta.y;
+				pinballs[j].Delta().x-=ddelta.x;pinballs[j].Delta().y-=ddelta.y;
+				//prevent them to stick together...
+				vector2d stkprv=0.05*(pinballs[j].Radius()/sqrt(sqrdis)-1)*colline;
+				pinballs[j].Position()=pinballs[j].Position()-stkprv;
+				pinballs[i].UpdateDelta();pinballs[j].UpdateDelta();
+			}
+		}
+		pinballs[i].Update();
+	}
 }
 void Levelm2Part19()
 {

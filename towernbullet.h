@@ -2730,38 +2730,52 @@ class CPinBall
 private:
 	int center;
 	int circles[10][30];
-	int layer;double rot,lifetime,drt;
+	int layer,lifetime;double rot,drt;
+	vector2d delta;
 public:
+	vector2d& Delta(){return delta;}
+	vector2d& Position(){return bullet[center].bulletpos;}
+	double Radius(){return layer*10.0-5;}
 	void Init(vector2d pos,int _lay)
 	{
-		center=0;memset(circles,0,sizeof(circles));
-		center=CreateBullet2(pos.x,pos.y,3,re.NextInt(-pi,pi),true);
-		layer=_lay;rot=0;lifetime=0.01;drt=re.NextDouble(-0.5*pi,0.5*pi);
+		center=0;memset(circles,0,sizeof(circles));double speed=re.NextDouble(2,5);
+		center=CreateBullet2(pos.x,pos.y,speed,re.NextInt(-pi,pi),true);
+		delta=speed*bullet[center].bulletdir;
+		layer=_lay;rot=0;lifetime=1;drt=re.NextDouble(-0.5*pi,0.5*pi);
 		for(int i=0;i<layer;++i)
 		{
 			for(int j=0;j<(i+1)*3;++j)
 			{
-				circles[i][j]=CreateBullet2(pos.x,pos.y,3,0,true);
+				circles[i][j]=CreateBullet2(pos.x,pos.y,0,0,true);
 				bullet[circles[i][j]].bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
 			}
 		}
 	}
-	double Getlifetime(){return lifetime;}
+	void Kill()
+	{
+		BulletEffect_Death(bullet[center],ColorToDWORD(blue));
+		bullet[center].exist=bullet[center].bullettype=0;
+		for(int i=0;i<layer;++i)
+		for(int j=0;j<(i+1)*3;++j)
+		{
+			BulletEffect_Death(bullet[circles[i][j]],ColorToDWORD(blue));
+			bullet[circles[i][j]].exist=bullet[circles[i][j]].bullettype=0;
+		}
+		lifetime=0;
+	}
+	int& Getlifetime(){return lifetime;}
+	void UpdateDelta()
+	{
+		vector2d tdt=ToUnitCircle(delta);
+		bullet[center].bulletdir=tdt;bullet[center].bulletspeed=delta.l();
+	}
 	void Update()
 	{
-		lifetime+=hge->Timer_GetDelta();
 		vector2d pos=bullet[center].bulletpos;
-		if(pos.x<10*layer-5||pos.x>790-10*layer)bullet[center].bulletdir.x=-bullet[center].bulletdir.x;
-		if(pos.y<10*layer-5||pos.y>590-10*layer)bullet[center].bulletdir.y=-bullet[center].bulletdir.y;
 		rot+=hge->Timer_GetDelta()*drt;
 		for(int i=0;i<layer;++i)
-		{
-			for(int j=0;j<(i+1)*3;++j)
-			{
-				bullet[circles[i][j]].bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
-				bullet[circles[i][j]].bulletdir=bullet[center].bulletdir;
-			}
-		}
+		for(int j=0;j<(i+1)*3;++j)
+		bullet[circles[i][j]].bulletpos=vector2d(pos.x+10*i*cos(rot+j*2*pi/((i+1)*3)),pos.y+10*i*sin(rot+j*2*pi/((i+1)*3)));
 	}
 };
 class LineLaser:public Laser
