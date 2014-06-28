@@ -535,8 +535,8 @@ bool ProcessCurCred()
 		Credits->Render(creditfly,330);
 		Credits->SetTextureRect(9,290,140,47);
 		Credits->Render(creditfly,400);
-		vdig->printf(creditfly,240,HGETEXT_LEFT,"%s",BLRVERSION);
-		bdig->printf(creditfly,310,HGETEXT_LEFT,"%s",BuiltDate);
+		vdig->printf(creditfly-20,240,HGETEXT_LEFT,"%s",BLRVERSION);
+		bdig->printf(creditfly-20,310,HGETEXT_LEFT,"%s",BuiltDate);
 	}
 	if (credstop)credbrk+=hge->Timer_GetDelta();
 	if (credbrk>=4.5&&!creddone)creddone=true,credstop=false,creditacc=0,credbrk=0;
@@ -978,7 +978,7 @@ bool FrameFunc()
 		{
 			fnt->SetColor(0xFFFFFFFF);
 			fnt->printf(795, 0, HGETEXT_RIGHT, "Allocated bullets %d",bulcnt);
-			fnt->printf(795, 25, HGETEXT_RIGHT, "%d in use",bulinuse);
+			fnt->printf(795, 25, HGETEXT_RIGHT, bulcnt?"%d in use (%.2f%%)":"%d in use (?%)",bulinuse,(double)bulinuse/bulcnt);
 			fnt->printf(795, 50, HGETEXT_RIGHT, "Player pos (%.2f,%.2f)",playerpos.x,playerpos.y);
 		}
 		fnt->SetColor(SETA(0xFFFFFF,infofade));

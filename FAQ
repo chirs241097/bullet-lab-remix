@@ -2,17 +2,63 @@
 In fact, these Q&A's are not asked frequently at all.
 They all came from the messed up mind of the author!
 
+Q: It complains about a missing dll?
+A: The Windows version was built against d3dx9_43.dll, which can
+   only be found in the latest DirectX runtime. Make sure you have the
+   latest DirectX runtime installed.
+   Other dlls required by the default Windows version are all bundled
+   with your Windows installation plus the DirectX runtime. You
+   shouldn't blame me if your system is incomplete.
+
 Q: I JUST CAN'T start it! (I can't see even a window!)
 A: Something must went wrong. There are two general causes.
-   1. Failed to load a shared library.
-   2. Initialization Failure.
-If the first one happened, BLRLOG.TXT will not even be created.
-To solve it, install the required runtime libs.
-If the second one happened, you can find out what really happened in
-BLRLOG.txt.
+     1. Failed to load a shared library.
+     2. Initialization Failure.
+   If the first one happened, BLRLOG.TXT will not even be created.
+   To solve it, install the required runtime libs.
+   If the second one happened, you can find out what really happened in
+   BLRLOG.txt. Read the rest part of this document for more information.
 
-However, the first one is not likely to happen. The official Windows
-build doesn't have too much external dependencies.
+   However, the first one is not likely to happen. The official Windows
+   build doesn't have too much external dependencies.
+
+Q: (In Windows)
+   "Can't create D3D interface"
+   "Can't determine desktop video mode"
+   "Can't find appropriate full screen video mode"
+   "Can't create D3D device"
+   and it ends after this...
+A: DirectX initialization failed.
+   If you get this message after changing an option, the cause might
+   be your option is not supported by your computer. You can purge
+   the config file (back up your score and remove BLR.cfg) and
+   restart the game.
+   If you get this message on the first startup, you are just unlucky.
+   HGE, which is the render engine used in BLR is really low-ended
+   and will even work on a 1998's computer. Again, you are just unlucky!
+
+Q: (In linux or custom Windows builds)
+   "OpenGL implementation must be at least version 1.2"
+A: If you build a custom Windows build with OpenGL, this may occur, for
+   Windows' OpenGL implementation is 1.1. For a work around, see the
+   SDL website or build the DirectX version.
+   If this happens in a Linux build, you are just unlucky. OpenGL 1.2
+   is released in 1998...
+   Similiar problems may also happens if your X display is not a GL visual
+   or you haven't installed drivers properly.
+
+Q: "******** failed, using no sound", and it's silent...
+A: OpenAL initialization failed.
+   Your system may not support OpenAL software version (it's so hard to
+   find such a computer). To dismiss this message, start the game with
+   "--nosound".
+
+Q: The screen suddenly messed up...
+   Something terrible happened...
+   Is the player square screwed?
+   I can't move it!
+A: This might be a internal problem. Please make a bug report if this
+   happened.
 
 Q: It crashed!
 A: This program is *pretty unstable* and may crash at any time.
@@ -43,6 +89,18 @@ A: As the name tells, these are archives containing the game data.
 Q: It's blurred?
 A: The game was designed for 800x600, and if you are using a resolution
    other than 800x600 or running in fullscreen, this problem may occur.
+
+Q: I can't see the bullets when paused?
+A: That depends on the implementation of the level where you are.
+   Some levels are implemented using the silly "SimpleBullet" class
+   which I once think it brilliant. These bullets won't be displayed
+   during the pause.
+   Pause menu was not introduced in BLR I until version 0.8.9 alpha.
+   The reason was I thought a menu for the pause scene was really
+   useless...
+   BTW, if you've ever played the official version of the Touhou series,
+   you might have found the pause scene there more annoying. The author
+   has stated that he made it deliberately (see TH06 FAQ 25).
 
 Q: I don't think the graphics are being rendered correctly.
 A: I don't know much about DirectX, for I left hge DirectX untouched.
@@ -81,17 +139,3 @@ A: Sorry, no...
    You won't get anything but the ranking even you've passed level -1 without
    collisions.
    So... enjoy it yourself.
- 
-Q: What hardwares/softwares do you use?
-A: I'm using a Lenovo Ideapad Y570 with Intel Core i7-2670QM CPU.
-   It has 8GiB of RAM and HD3000+Nvidia GT 555M. However I've disabled
-   GT 555M in BIOS so that it won't heat too much. Additionally,
-   I've got a 256GiB Crucial M4 SSD (That's useless, uh?).
-   This game is mainly developed under GNU/Linux.
-   I use Debian sid as my main system. (Yes, that's one of the reasons why
-   I like to "live on the edge".) KDE is my current desktop environent.
-   Usually, I use Code::Blocks IDE. Sometimes I use vim/geany+gdb.
-   For windows version compile, I use Visual Studio 2013 express.
-   The game graphic resources are made with GIMP.
-   Musics are made with Rosegarden, synthed with fluidsynth(qsynth frontend),
-   recorded with jack.record.

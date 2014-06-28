@@ -1,14 +1,14 @@
 BulletLabRemixII
-Level index/specifications/hints
+关卡列表、说明和提示
 
-I'm still working on this document.
-Please don't trouble me if it misled you.
+此文档仍未完成。
+如果它误导了你，也不要来找我啊。。。
 
-This document is probably NOT suitable for:
+不适宜人群：
 Anybody who isn't insterested in this topic
 Liberal arts students(?...)
 
-This document is suitable for:
+适宜人群：
 Nobody(?)
 Coders who want to modify this game, or import levels to your game...
 Casual persons who won't care anything
@@ -19,7 +19,7 @@ Someone who is stuck at a part
 
 
 
-======================WARNING, LOTS OF WORDS BELOW!======================
+======================警告：下面有好多好多字！======================
 Level 1			2/180
 River levels			120
 -It's confusing... so much bullets for Level1?
@@ -241,74 +241,85 @@ Incomplete Reflective			120
  Remark: one in four bullets will explode when it hits the wall.
 
 Level -2(Assess)	10/?
+“评估”关卡
 
-You will certainly die. So let me predict your cause of death...
+由于你到最后肯定会死，所以我来试着预测一下你的死因吧…
 
 Directed bullet
--This is actually a copy of...
- Towers don't collide you, however they should do so.
- You may end up in... whatever you want.
+定向子弹
+-这其实又是复制的什么……
+ “塔”并不会影响你，但这其实不是我想要的…
+ 你的结局可能是…这关玩成什么样都有可能啊。
 
 Random bullet
--Pure random.
- Are they getting faster?
- You may end up in a huge mess.
+随机子弹
+-彻彻底底的随机。
+ 它们在变快？
+ 你会在一片混乱中结束旅程。（我猜的）
 
 Constant patterns
--Pretty awesome.
- Doesn't look like anything.
- You may end up in a horror.
+固定的图案
+-挺好看的（…）
+ 但是什么都不像。
+ 结局：在恐惧中被干掉？
 
 Crossing 1(L+R)
--They started spinning!!!
- You may end up like a juicy orange in a squeezer.
+交叉1（左右）
+-它们转起来了！
+ 结局：想象一下榨汁机中多汁的橙子。
 
 Crossing 2(C)
--Used by Moriya Suwako...
- Round bullets made me dizzy.
- You may end up like...
- That scene is really terrible!
+交叉2
+-直接来自泄矢诹访子的符卡。
+ 圆形的子弹有点令人晕头转向。
+ 结局：你猜？
 
 Trappy
--The name is strange...
- Remark: The lasers created just over you are not created there on purpose...
- However, one third of the bullets could be directed.
- You may end up without your awareness.
+陷阱（形容词…）
+-名字很奇怪…
+ 说明：激光没有故意被生成在你的位置。
+ 但是，有三分之一的可能性，它们生成的子弹会朝你飞过来。
+ 结局：你在撞上去之前还什么都不知道？
 
 Sine wave
--Oscilloscope?
- Find a good place to vibrate with the graph...
- Remark: Some positions will cause death instantly!
- You may end up...
- Oops! I can't find you on that broken oscilloscope!
+正弦波
+-示波器？
+ 找一个合适的位置，跟图像一起振动…
+ 说明：有些地方是秒撞的！
+ 结局：喂，我在那个示波器上找不到你啊…
 
 Density test
--Really high density.
- WTF? There's no way?!
- You MUST end up in a horrible traffic accident, squeezing every drop of blood
- out on the left board. That's a bad image.
+密度测试
+-这个密度真的很高…
+ 卧×？没路了？
+ 结局：
+ 玩家×××
+ 死于一场可怕的车祸，身体中每滴血都被*挤*到了左边的墙上。
+ 这景象真是可怕。
 
 "Pinballs"
--Well... They have collisions since r93!
- These balls spawn with random velocity!
- You may end up...
- just imagine a enlarged bowling ball flying direct towards you.
+“弹球”
+-从r93开始，它们之间也会碰撞了！
+ 这些球生成时速度是随机的。
+ 结局：想象一个大号的保龄球冲你飞了过来。
 
 Road Blocks
--You'll understand this one day.
+路障
+-最终你还是能理解这个的…
  --Flappy square?...
- You death cause could be the same as the one in "Density test".
- Don't ask why. I feel sick now...
+ 结局：可能跟“密度测试”那关很像。
+ 别问为什么，现在我有点想吐……
 
 Extreme High speed
--Copy of one part in level 5.
- You may end up in just *two* seconds.
+超高速
+-和第5关某部分类似。
+ 你可能不到两秒就撞了！
 
 Laser crosses
--Only a show off of the Laser class.
- You might end up like... Coal Dust? (Sorry I'm playing Industrial Craft2 these
- days)
+-炫耀激光class？
+ 结局：煤粉？（对不起，我最近一直在玩工业2…）
 
 Bonus test: Lunatic Lunar!
--May be the legacy of a vintage game...
- You may end up... sorry, this in not predictable..
+奖励：Lunatic Lunar!
+-某个古老游戏的什么遗产？
+ 结局：不能预测。

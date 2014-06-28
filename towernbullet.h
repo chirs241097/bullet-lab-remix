@@ -657,6 +657,8 @@ void ProcessBullet7(int i)
 						bullet[pnt].limv=5;
 						bullet[pnt].bulletaccel=0.005;
 						bullet[pnt].bulletspeed=0;
+						bullet[pnt].redir(playerpos);
+						bullet[pnt].bulletdir.Rotate((j>>1&1?1:-1)*pi/72);
 					}
 				}
 				whirot+=dwhirot;
@@ -1870,7 +1872,7 @@ public:
 	void init()
 	{
 		stage=0;rad1=rad2=srad;elasp=0.0f;ccnt=0;
-		for (int i=0;i<cnt;++i)Bul[i]=CreateBullet8(400,300,0,false),bullet[Bul[i]].setdir(srad),bullet[Bul[i]].scale=0.01;
+		for (int i=0;i<cnt;++i)Bul[i]=CreateBullet8(400,300,0,false),bullet[Bul[i]].setdir(srad),bullet[Bul[i]].scale=0.01,bullet[Bul[i]].inv=true;
 		bullet[Bul[0]].bulletspeed=2;bullet[Bul[0]].scale=1;
 	}
 	void stage0()
@@ -1917,6 +1919,7 @@ public:
 				bullet[Bul[i]].bulletpos=vector2d(400+(drange+(cnt-i)*dtrange)*cos(rad2-pi),300+(drange+(cnt-i)*dtrange)*sin(rad2-pi));
 				bullet[Bul[i]].bulletspeed=2,bullet[Bul[i]].redir(vector2d(400,300)),
 				bullet[Bul[i]].bulletdir=vector2d(-bullet[Bul[i]].bulletdir.x,-bullet[Bul[i]].bulletdir.y);
+				bullet[Bul[i]].inv=false;
 			}
 			stage=2;
 		}

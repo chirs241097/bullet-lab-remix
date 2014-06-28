@@ -9,7 +9,7 @@ Tests.
 Wishlist?
 
 Known bugs:
-One part of Level 3 fails randomly (really randomly?).
+?
 
 Wishlist:
 Make more data stored in score.cfg.
@@ -19,6 +19,22 @@ In-game music bring back.
 of next BLR.)
 
 Pre-Released versions:
+0.9.2-0 (r94)
+Mod, mod, mod...!
+Assessment mode is mostly frozen now.
+I'll make a pre-release at r99 and that revision will be set to
+0.9.9-0.
+Write the document... That's really tiring.
+
+~~0.9.1-4 (r94)~~
+Ooooooooops... I've forgotten to commit this one!
+So this is merged to the revision above, actually.
+=================================================================================
+Modify a couple of levels. (Making them easier...)
+Fix about scene text rendering out of the window.
+(Probably) fixed Level3Part3 by making them temporarily invulnerable...
+Are we bug-free now?
+
 0.9.1-4 (r93)
 Picking it up after almost one month... I'm now lost in my code...
 ---------------------------------------------------------------------------------
@@ -78,8 +94,9 @@ Add a simple build script(instead of makefile).
 Reduce the Windows version executable size...(local work, recompile
 freetype using reduced features enabled.)
 Current tested (by me) and worked plantforms:
-Debian sid x86_64 @Intel core i7-2670QM, 8GiB RAM, Intel HD3000 &
-@Intel Core2 Quad Q8300, 8GiB RAM, nvidia GT320.
+Debian sid x86_64/Windows 8.1 @Intel core i7-2670QM, 8GiB RAM,
+Intel HD3000.
+Debian sid x86_64 @Intel Core2 Quad Q8300, 8GiB RAM, nvidia GT320.
 Windows XP x64 @VirutalBox, Dualcore Virtual CPU, 1.5GiB RAM, VBox
 Addons installed.
 Windows XP @Intel core i3-3240, 4GiB RAM, Intel HD3000.

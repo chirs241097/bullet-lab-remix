@@ -164,7 +164,7 @@ public:
 	{
 		if(DBGColor!=0xFF0A0A0A)
 		{
-			for(int i=0;i<4;++i)DBGColor=ColorTransfer(DBGColor,0xFF0A0A0A);
+			for(int i=0;i<6;++i)DBGColor=ColorTransfer(DBGColor,0xFF0A0A0A);
 			UpperGradient.v[0].col=UpperGradient.v[1].col=SETA(DBGColor,0xFF);
 			UpperGradient.v[2].col=UpperGradient.v[3].col=SETA(DBGColor,0x00);
 			LowerGradient.v[0].col=LowerGradient.v[1].col=SETA(DBGColor,0x00);

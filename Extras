@@ -1,0 +1,133 @@
+BulletLabRemix II, Extras
+2014-06-06
+
+Content
+------------------------------------------------------------------------------------
+About the source code
+About resources used in the game
+The development
+
+About the source code
+------------------------------------------------------------------------------------
+I'm not a rigorous coder. All sources are written casually.
+You can't even find two files in the same style...
+But generally, I:
+	Use tabs (width=4) and indent in Allman style;
+	Don't like extra spaces;
+	Prefer commas if possible;
+	Don't like very long names.
+
+And, the source code is bloated. global.h defined ~200 lines of global variables.
+Imagine that.
+
+Well, the reason is that BLRI start as a huge single source file - main.cpp. It's
+once a ~100KiB file, and have more than 10k lines of code. One day I found it hard
+to maintain such code and split it into several .h file. BLRII took the code base
+of BLRI. That's why. BLRIII will be a complete rewrite and I hope this would fix
+the problem.
+
+Well, let's observe each source file.
+
+background.h		Defines and implies background animation.
+effects.h			implement several simple in-game effects.
+global.h			Defines global variables and routines.
+hgeft.h				Free type interface for HGE. It's considered buggy and 
+					incomplete now...
+levels.h			implement the levels.
+libcgh.h			Chris' Game Helper interfaces.
+loading.h			Resources for the loading screen.
+menus.h				implement the menus.
+music.h				Music playback and looping.
+scorec.h			Record highscores.
+scoresystem.h		The BLR Multiplier scoring system.
+towernbullet.h		implement towers and bullets.
+hgeft.cpp			Free type interface for HGE. This is the implementation.
+libcghEx.cpp		Extra routines for the CGH.
+main.cpp			Contains main(int,char**), and player controls.
+
+About resources used in the game
+------------------------------------------------------------------------------------
+Most resources are self-made...
+
+b_diff.png			A café wall illusion background
+b_inter.png			A swirl illusion background
+b_leaves.png		Taken from a Windows 3.1 desktop background, unused
+b_null.png			Simple white background
+blnsns.png			Font file. Font name "Berlin sans"
+credits.png			Resources used in the credits screen.
+e_leaf.png			Texture for leaves background effect. Taken from a Windows 3.1
+					dekstop background.
+e_sflake.png		A snow texture for background effect. Taken from public domain.
+e_skyitem.png		Sky background resources. Taken from HGE tutorial. Cloud is
+					from public domain.
+help.png			Built-in help.
+menus.png			Menu textures.
+ss.png				Sprite Sheet. Taken from BLRI. Made with inkscape.
+title.png			Title sprite. Pre-processed with inkscape.
+All resources are processed or made with GIMP.
+
+menuin.ogg			Menu effect. Made with OpenMPT.
+menuout.ogg			Ditto.
+tap.ogg				Widely used. Taken frome HGE.
+
+BLR2_TR01.ogg		Background music for level1. Original by Noby.
+BLR2_TR07.ogg		Background music for level7. Original by Chris Jarvis.
+BLR2_TR09.ogg		Background music for credits scene. Taken frome BLR2_TR07.
+CanonTechno.ogg		Bonus? Made by Chris Xiong.
+Softwares used: OpenMPT, Rosegarden, Cakewalk Sonar 6.
+Syntheis: QSynth+Fluid R3 sf, Roland Groove Synth, Cakewalk TTS-1, Roland
+Super Quartet.
+Proprietary softwares are all cracked. I can't afford them now.
+
+The development
+------------------------------------------------------------------------------------
+As a student, developing such a game will never be supported...
+So, the development is "well hidden".
+The post-0.2.2 development are mostly done under Windows(7/8/8.1). After that, I
+migrated the main platform to Debian GNU/Linux. I'm using the unstable distribution.
+I'm not a true developer but I'm really one of those who like to like on the edge.
+Recently I installed Archlinux, which has taken me to the "bleeding edge". "Edges"
+are different from "borders", they are more sharp!
+
+Well, I first played BulletLAB when I was 13. It's easy enough and I passed the easy
+levels without any trouble. Then I tried normal and hard, all done without much
+difficulty. Then comes the "Extreme" mode, in which you have to pass the whole game
+without misses. That took me a long time...
+
+In March 2013, I was pretty bored (in fact, preparing a contest). And I found the
+small flash game again. I decompiled it, and started modifing it. Soon I found this
+interesting, and made the game VERY difficult. I even "released" that.
+
+However, flash is really inefficient. As the bullet number grows, FPS falls
+violently. So a rewrite is planned.
+
+First things first, how to draw so many objects on a screen? An STG game that has a
+file "hge.dll" in its directory came to my mind. I could still see the fancy effects
+it has. I googled for hge and found that it's a hardware accelerated game engine.
+
+Well, that's it! I wrote several simple scenes as practices, then BLRI started. I
+found HGE really powerful and can draw 2000 objects in 1000FPS. F***in' awesome!
+
+BLRI's source code growed rapidly. Soon it's almost 100KiB. It's almost impossible
+for me to maintain so big a file. That's why the source code is presented in many
+headers.
+
+When BLRI reached 0.8.6, BLRII was forked from it. BLRII started as a level testbed
+for BLRI. However, BLRI was frozen (this term is borrowed from the debian project, and
+is not at all releated to Cirno) before these levels can be added to it. If they
+*were* added, the source code of BLRI would no longer be human-readable.
+
+As BLRI was released (as 1.0.3SR), I can relax myself a bit. During that I found
+hge-unix, which can port almost any hge-based game to UNIX. I tried it and it works!
+
+Then I started modifing hge: migrating the Windows version to DirectX 9, implement
+stubbed functions in hge-unix, deprecating libbass and migrating to OpenAL...
+
+Soon I completed them all. Then I picked up BLRII (around Oct. 2013), which already
+has free-shaped lasers implemented.
+
+To declare my ambition to change BLR, the whole level.h was removed (with a backup
+of course).
+
+However this didn't change too much. Almost all levels were ported back to the
+current version later.

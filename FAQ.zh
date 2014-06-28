@@ -2,15 +2,52 @@
 In fact, these Q&A's are not asked frequently at all.
 They all came from the messed up mind of the author!
 
+Q: 它说缺少什么dll？
+A: Windows版本是依赖d3dx9_43.dll的。你只能在最新的DirectX库中找到它。
+   所以确认你是否已经安装了最新版的DirectX运行库。
+   其他所有需要的dll都是Windows/DirectX运行库自带的。如果你的系统不完整，
+   就不要来找我了…
+
 Q: 我就是不能启动它！(我连个窗口都看不见！)
 A: 一定有什么东西出错了。大约是以下两个原因中的一个：
-   1. 无法加载某个共享库。
-   2. 初始化失败。
-如果发生的情况是第一种，那么BLRLOG.txt甚至都不会被创建。
-解决方法是安装所需的运行库。
-如果第二种发生了，你可以从BLRLOG.txt中看到到底是什么出了问题。
+     1. 无法加载某个共享库。
+     2. 初始化失败。
+   如果发生的情况是第一种，那么BLRLOG.txt甚至都不会被创建。
+   解决方法是安装所需的运行库。
+   如果第二种发生了，你可以从BLRLOG.txt中看到到底是什么出了问题。
 
-不过，第一种情况发生的可能性非常小。发布的Windows版没有那么多外部依赖。
+   不过，第一种情况发生的可能性非常小。发布的Windows版没有那么多外部依赖。
+
+Q: (Windows中)
+   "Can't create D3D interface"
+   "Can't determine desktop video mode"
+   "Can't find appropriate full screen video mode"
+   "Can't create D3D device"
+   然后就什么都没有了...
+A: DirectX没能正常初始化。
+   如果你在修改了一个设置之后出现了这样的问题，原因可能是你的电脑不支持这种设置。
+   你可以清除配置文件（备份你的分数文件，然后删除BLR.cfg）然后重新启动游戏。
+   如果第一次启动就出现了这种情况，那就是你太不幸了。BLR的渲染引擎(hge)在1998
+   年的电脑都可以正常工作。重复一遍，你还是太不幸了…
+
+Q: (linux或者非官方的Windows版本中)
+   "OpenGL implementation must be at least version 1.2"
+A: 如果你自己编译了一个使用OpenGL的Windows版，就有可能发生这种情况。因为Windows的
+   OpenGL版本是1.1的。为了获取一个解决办法，你可以看看SDL的官网或者编译一个使用
+   DirectX的版本。
+   如果这发生在Linux版上，你还是太不幸了。OpenGL 1.2是1998年发布的标准…
+   不过如果你的X display没打开OpenGL支持，或者没有正确地安装驱动，该问题可能也会发生。
+
+Q: "******** failed, using no sound"，然后什么声音都没有…
+A: OpenAL初始化失败了。
+   你的系统可能不支持OpenAL软件版（找到这么一台电脑是何其的不容易啊）。
+   如果你以后不想再看到这条消息，可以带"--nosound"参数启动游戏。
+
+Q: 屏幕突然花了！
+   发生了可怕的事情…
+   那个方块被吃掉了吗？
+   我没法移动它！
+A: 这应该是个内部问题。如果你遇到了请汇报这个bug.
 
 Q: 它崩溃了！
 A: 这个程序还处于「非常不稳定的阶段」并且*随时*都可能崩溃。
@@ -39,6 +76,13 @@ A: 正如名字说的，他们包含了游戏的数据。
 Q: 看起来很模糊？
 A: 这个游戏是为800x600分辨率设计的。如果你在用其他的分辨率或者以全屏运行它，
    可能会出现这个问题。
+
+Q: 暂停的时候看不到子弹？
+A: 这得看你暂停的时候所在的关的实现方式。有些关是用“SimpleBullet”类来写的。
+   这些子弹在暂停时无法显示。
+   暂停功能直到BLR I的0.8.9 alpha才出现。原因是我之前认为暂停菜单没有用…
+   顺便，如果你玩过东方系列的游戏的话，你会发现那里的暂停界面更加烦人。不过它的作者
+   已经说明这是故意的了（见TH06的FAQ 25）。
 
 Q: 我认为图形绘制的有问题。
 A: 对于DirectX，我了解的不太多，因为我没有修改hge的DirectX版。
@@ -73,17 +117,3 @@ Q: 有其他奖励吗？
 A: 对不起，没有… 
    即使你一个没有吃到一个子弹地通了Level -1你也不会得到任何东西。
    所以…自娱自乐吧。
-
-Q: What hardwares/softwares do you use?
-A: I'm using a Lenovo Ideapad Y570 with Intel Core i7-2670QM CPU.
-   It has 8GiB of RAM and HD3000+Nvidia GT 555M. However I've disabled
-   GT 555M in BIOS so that it won't heat too much. Additionally,
-   I've got a 256GiB Crucial M4 SSD (That's useless, uh?).
-   This game is mainly developed under GNU/Linux.
-   I use Debian sid as my main system. (Yes, that's one of the reasons why
-   I like to "live on the edge".) KDE is my current desktop environent.
-   Usually, I use Code::Blocks IDE. Sometimes I use vim/geany+gdb.
-   For windows version compile, I use Visual Studio 2013 express.
-   The game graphic resources are made with GIMP.
-   Musics are made with Rosegarden, synthed with fluidsynth(qsynth frontend),
-   recorded with jack.record.
