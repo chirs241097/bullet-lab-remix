@@ -120,7 +120,7 @@ Just extract all files in the archive somewhere, then start the only executable
 file in it.
 
 If, suddenly, you can't run it one day...
-Remove blr.cfg (remember to backup your score.cfg first!) then restart the game.
+Remove .blrrc then restart the game.
 It will ask you for initial settings.
 If this can't solve your problem, read FAQ.TXT for more.
 

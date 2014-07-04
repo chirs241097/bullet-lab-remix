@@ -41,7 +41,7 @@ bool doneredir;
 int pnt1,pnt2;
 //Let's start now!
 double towers[16];int tcnt;
-double dscroll,roll;
+double dscroll,roll,tbrk;
 bool sout,tendone;bool dmt[16];
 //static const char* LEVEL_H_FN="levels.h";
 void Level1Part0(){++part;}
@@ -202,7 +202,7 @@ void Level2Part1()
 	CreateTower3_fixeddir(183.49,425,300,3,-pi);
 	CreateTower3_fixeddir(183.49,424,300,3,2.0f/3.0f*pi);
 	for (int i=0;i<6;++i)fakes[i]=CreateBullet6(400,300,0,999999999,1,1,false),bullet[fakes[i]].inv=true;
-	++part;
+	++part;tbrk=0;
 }
 void Level2Part2()
 {
@@ -215,10 +215,14 @@ void Level2Part2()
 	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
 	if (L2D>=1.5)
 	{
-		L2D=0;
+		L2D=0;tbrk+=1;
 		for (int i=0;i<6;++i)
-			CreateBullet6(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),
-			              2,0,1,6,true),clockrot=0;
+		{
+			CreateBullet6(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),2,0,1,6,true);
+			clockrot=0;
+			if(tbrk>=5)NewMultpo(vector2d(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f)));
+		}
+		if(tbrk>=5)tbrk=0;
 	}
 }
 void Level2Part3()
@@ -226,7 +230,7 @@ void Level2Part3()
 	frameleft=AMinute;
 	for (int i=0;i<6;++i)bullet[fakes[i]].exist=false;
 	for (int i=0;i<6;++i)fakes[i]=CreateBullet7(400,300,0,999999999,false),bullet[fakes[i]].inv=true;
-	whicnt=3;clockrot=deltarot=0;++part;
+	whicnt=3;clockrot=deltarot=0;++part;tbrk=0;
 }
 void Level2Part4()
 {
@@ -239,10 +243,13 @@ void Level2Part4()
 	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f));
 	if (L2D>=5)
 	{
-		L2D=0;
+		L2D=0;tbrk+=1;
 		for (int i=0;i<6;++i)
-			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),
-			              2,0,true);
+		{
+			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),2,0,true);
+			if(tbrk>=5)NewMultpo(vector2d(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f)));
+		}
+		if(tbrk>=5)tbrk=0;
 	}
 }
 void Level2Part5()
@@ -256,7 +263,7 @@ void Level2Part5()
 		ShowTip("You've got 5 seconds to choose a fine place...");
 		return;
 	}
-	++part;
+	++part;tbrk=0;
 }
 Laser Lock;
 void Level2Part6()
@@ -270,10 +277,13 @@ void Level2Part6()
 	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),bullet[fakes[i]].inv=true;
 	if (L2D>=5)
 	{
-		L2D=0;
+		L2D=0;tbrk+=1;
 		for (int i=0;i<6;++i)
-			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),
-			              2,0,true);
+		{
+			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),2,0,true);
+			if(tbrk>=5)NewMultpo(vector2d(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f)));
+		}
+		if(tbrk>=5)tbrk=0;
 	}
 	if (frameleft<TenSeconds/20)++part,frameleft=AMinute;
 }
@@ -289,10 +299,13 @@ void Level2Part7()
 	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base+i*pi/3.0f),300+r*sin(base+i*pi/3.0f)),bullet[fakes[i]].inv=true;
 	if (L2D>=5)
 	{
-		L2D=0;
+		L2D=0;tbrk+=1;
 		for (int i=0;i<6;++i)
-			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),
-			              2,0,true);
+		{
+			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),2,0,true);
+			if(tbrk>=5)NewMultpo(vector2d(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f)));
+		}
+		if(tbrk>=5)tbrk=0;
 	}
 }
 double L2D1;
@@ -301,7 +314,7 @@ void Level2Part8()
 	frameleft=ThirtySeconds;L2D1=0;
 	playerLockY=false;
 	for (int i=6;i<12;++i)fakes[i]=CreateBullet6(400,300,0,999999999,1,1,false),bullet[fakes[i]].inv=true;
-	++part;
+	++part;tbrk=0;
 }
 void Level2Part9()
 {
@@ -318,18 +331,24 @@ void Level2Part9()
 	bullet[fakes[i]].bulletpos=vector2d(400+r*cos(base2+i*pi/3.0f),300+r*sin(base2+i*pi/3.0f));
 	if (L2D1>=2)
 	{
-		L2D1=0;
+		L2D1=0;tbrk+=1;
 		for (int i=0;i<6;++i)
-		CreateBullet6(403+r*cos(base2+i*pi/3.0f),303+r*sin(base2+i*pi/3.0f),
-			              2,0,1,6,true),clockrot=0;
+		{
+			CreateBullet6(403+r*cos(base2+i*pi/3.0f),303+r*sin(base2+i*pi/3.0f),2,0,1,6,true);
+			clockrot=0;
+			if(tbrk>=5)NewMultpo(vector2d(403+r*cos(base2+i*pi/3.0f),303+r*sin(base2+i*pi/3.0f)));
+		}
 	}
 	if (L2D>=5)
 	{
-		L2D=0;
+		L2D=0;tbrk+=1;
 		for (int i=0;i<6;++i)
-			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),
-			              2,0,true);
+		{
+			CreateBullet7(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f),2,0,true);
+			if(tbrk>=5)NewMultpo(vector2d(403+r*cos(base+i*pi/3.0f),303+r*sin(base+i*pi/3.0f)));
+		}
 	}
+	if(tbrk>=5)tbrk=0;
 }
 void Level3Part0()
 {
@@ -1192,7 +1211,6 @@ void Level5Part6()
 		tbuls[j]=0;
 	}
 }
-double tbrk;
 void Level5Part7()
 {
 	frameleft=ThirtySeconds;Dis8ref=true;tbrk=0;

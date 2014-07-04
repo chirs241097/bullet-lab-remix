@@ -532,11 +532,11 @@ bool ProcessCurCred()
 	else
 	{
 		Credits->SetTextureRect(4,209,230,76);
-		Credits->Render(creditfly,330);
+		Credits->Render(creditfly-30,330);
 		Credits->SetTextureRect(9,290,140,47);
-		Credits->Render(creditfly,400);
-		vdig->printf(creditfly-20,240,HGETEXT_LEFT,"%s",BLRVERSION);
-		bdig->printf(creditfly-20,310,HGETEXT_LEFT,"%s",BuiltDate);
+		Credits->Render(creditfly-30,400);
+		vdig->printf(creditfly-50,240,HGETEXT_LEFT,"%s",BLRVERSION);
+		bdig->printf(creditfly-50,310,HGETEXT_LEFT,"%s",BuiltDate);
 	}
 	if (credstop)credbrk+=hge->Timer_GetDelta();
 	if (credbrk>=4.5&&!creddone)creddone=true,credstop=false,creditacc=0,credbrk=0;
@@ -676,10 +676,11 @@ bool FrameFunc()
 					if(bullet){free(bullet);bullet=NULL;}
 					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
-					lpst=4625568;lped=9234584;//Music_Play();
+					lpst=4607901;lped=9215893;//Music_Play();
 					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 					Lock.Init(2);IfShowTip=true;lsc=0;
 					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
+					FadeTip=false;memset(lasttip,0,sizeof(lasttip));
 					memset(tower,0,sizeof(tower));
 					Complete=false;
 					Current_Position=1;
@@ -693,11 +694,12 @@ bool FrameFunc()
 					level=-2,part=0;frms=0,averfps=0.0;bsscale=1;assetime=0;
 					if(bullet){free(bullet);bullet=NULL;}
 					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
-					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
-					lpst=4625568;lped=9234584;//Music_Play();
+					score=0;Mult_Init();Music_Init("./Resources/Music/CanonTechno.ogg");
+					lpst=4607901;lped=9215893;Music_Play();
 					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 					Lock.Init(2);IfShowTip=true;lsc=0;
 					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
+					FadeTip=false;memset(lasttip,0,sizeof(lasttip));
 					memset(tower,0,sizeof(tower));
 					Complete=false;
 					Current_Position=1;
@@ -711,10 +713,11 @@ bool FrameFunc()
 					if(bullet){free(bullet);bullet=NULL;}
 					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 					score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
-					lpst=4625568;lped=9234584;//Music_Play();
+					lpst=4607901;lped=9215893;//Music_Play();
 					coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 					Lock.Init(2);IfShowTip=true;lsc=0;
 					clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
+					FadeTip=false;memset(lasttip,0,sizeof(lasttip));
 					memset(tower,0,sizeof(tower));
 					Complete=false;
 					Current_Position=1;
@@ -802,6 +805,7 @@ bool FrameFunc()
 		{
 			pauseMenu.Leave();
 			if(PMR==2)returnToTitleMenu.Init(-200),Current_Position=12;
+			else Music_Resume();
 			return false;
 		}
 	}
@@ -935,7 +939,7 @@ bool FrameFunc()
 		++part;
 		IfShowTip=true;
 	}
-	if (shots)hge->Effect_Play(snd);
+	if (Current_Position==1&&shots)hge->Effect_Play(snd);
 	if(mainMenu.isActive())mainMenu.Render();
 	if(startMenu.isActive())startMenu.Render();
 	if(optionMenu.isActive())optionMenu.Render();
@@ -1136,14 +1140,14 @@ int main(int argc,char *argv[])
 #ifdef WIN32
 	hge->System_SetState(HGE_ICON, MAKEINTRESOURCE(1));
 #endif
-	if((access("blr.cfg",0))==-1)
+	if((access(".blrrc",R_OK))==-1)
 	{
 		hge->System_Log("%s: Config file not found. Calling first startup.",MAIN_SRC_FN);
 		firststartup();
 	}
 	if(fFristStartUp)firststartup();
 	hge->System_Log("%s: Loading config file",MAIN_SRC_FN);
-	freopen("blr.cfg","r",stdin);
+	freopen(".blrrc","r",stdin);
 	char tch=getchar();
 	if (tch!=';'){}
 	tch=getchar();
@@ -1207,7 +1211,7 @@ int main(int argc,char *argv[])
 	tch=getchar();
 	clrmode=tch;
 	fclose(stdin);
-	if (AP_Update(plrspd,plrslospd,clrbns)>10000)Error("Invalid configuration!\nDelete blr.cfg and run the game again!");
+	if (AP_Update(plrspd,plrslospd,clrbns)>10000)Error("Invalid configuration!\nTry removing .blrrc and run the game again.");
 	hge->System_Log("%s: Loading Score file",MAIN_SRC_FN);
 	Score_Init();
 #ifdef Debug
@@ -1218,6 +1222,7 @@ int main(int argc,char *argv[])
 	LE_Active=false;
 	if(hge->System_Initiate())
 	{
+		hge->System_Log("%s: Loading Resources...",MAIN_SRC_FN);
 		quad.tex=hge->Texture_Load("./Resources/b_null.png");
 		SprSheet=hge->Texture_Load("./Resources/ss.png");
 		TLeaf=hge->Texture_Load("./Resources/e_leaf.png");
@@ -1250,6 +1255,7 @@ int main(int argc,char *argv[])
 		quad.v[1].x=800; quad.v[1].y=0;
 		quad.v[2].x=800; quad.v[2].y=600;
 		quad.v[3].x=0; quad.v[3].y=600;
+		hge->System_Log("%s: Loading Fonts...",MAIN_SRC_FN);
 #ifdef WIN32
 		if(!rbPanelFont.Init("C:/Windows/Fonts/cour.ttf",18))return 1;
 #else
@@ -1302,8 +1308,8 @@ int main(int argc,char *argv[])
 			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;DBGColor=0xFF000000;
 			if(bullet){free(bullet);bullet=NULL;}
 			towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
-			score=0;Mult_Init();//Music_Init("./Resources/Music/CanonTechno.ogg");
-			lpst=4625568;lped=9234584;//Music_Play();
+			score=0;Mult_Init();Music_Init("./Resources/Music/CanonTechno.ogg");
+			lpst=4607901;lped=9215893;Music_Play();
 			coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 			Lock.Init(2);IfShowTip=true;lsc=0;
 			clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));

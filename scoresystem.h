@@ -30,26 +30,27 @@ private:
 	double Lifetime,LifeLim,speed;
 	vector2d position,direction;
 	int blinkbrk;
-	bool Active,blnkshow;
+	bool Active,blnkshow,followplyr;
 public:
 	bool IsActive(){return Active;}
 	void Init(double _lt,double _speed,vector2d _pos,vector2d _dir)
 	{
 		Lifetime=0;LifeLim=_lt;speed=_speed;position=_pos;direction=_dir;
 		Mult=new hgeSprite(SprSheet,0,272,48,48);Active=true;blinkbrk=0;blnkshow=true;
-		Mult->SetHotSpot(24,24);
+		Mult->SetHotSpot(24,24);followplyr=false;
 	}
 	void Process()
 	{
-		if (GetDist(playerpos,position)<=64)
+		if(GetDist(playerpos,position)<=64)followplyr=true;
+		if(followplyr)
 		{
 			direction=ToUnitCircle(playerpos-position);
 			speed=0.3;
 		}
-		if (GetDist(playerpos,position)<=9)++mult,NewMT(),Active=false;
+		if(GetDist(playerpos,position)<=9)++mult,NewMT(),Active=false;
 		Lifetime+=hge->Timer_GetDelta();
-		if (Lifetime>LifeLim)return (void)(Active=false);
-		if (Lifetime>LifeLim*0.8)
+		if(Lifetime>LifeLim)return (void)(Active=false);
+		if(Lifetime>LifeLim*0.8)
 		{
 			if (!LOWFPS)++blinkbrk;else blinkbrk+=17;
 			if (blinkbrk>200)blinkbrk=0,blnkshow=!blnkshow;
@@ -86,6 +87,7 @@ void Mult_Init()
 	multbrk=TenSeconds;multbat=mult=1;valbrk=0;
 	MB=new hgeSprite(MultFnt->GetTexture(),0,235,163,21);
 	MB->SetHotSpot(81.5,10.5);
+	memset(Multpo,0,sizeof(Multpo));
 }
 double GetHscle()
 {

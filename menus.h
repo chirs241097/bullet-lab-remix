@@ -48,7 +48,7 @@ int AP_Update(int plrspd,int plrslospd,int clrbns)
 }
 void Options_Writeback()
 {
-	freopen("blr.cfg","w",stdout);
+	freopen(".blrrc","w",stdout);
 	printf(";CBL");
 	printf("%c",fpslvl==2?1:0);
 	printf("%c",tfs?1:0);

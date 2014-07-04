@@ -9,16 +9,28 @@ Tests.
 Wishlist?
 
 Known bugs:
-?
+HangUpText blinking still exists...
 
 Wishlist:
-Make more data stored in score.cfg.
+Make more data stored in .blrscore.
 In-game music bring back.
 ~~Now Playing(Music Room)~~
 ~~BLR script virtual machine~~(long long-term! probably the core
 of next BLR.)
 
 Pre-Released versions:
+0.9.5-0 (r95)
+Change configuration and score file names. Files with their names
+begin with "." may be annoying in Windows though...
+Fix the problem that in-game music won't be resumed when back from pause.
+Fix the problem that Multpo's won't be removed if a new game is created.
+Fix the problem that the first tip is not shown correctly if the game
+is restarted.
+(Probably) fixed the problem that the sound is played out of game.
+Prevent Multpo's from "escaping". This happens when fps is extremely low...
+Adding Multpo for Level2.
+Update CanonTechno.
+
 0.9.2-0 (r94)
 Mod, mod, mod...!
 Assessment mode is mostly frozen now.

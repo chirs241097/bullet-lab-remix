@@ -84,7 +84,7 @@ void PutTRecord(TRecord a)
 }
 void Score_Init()
 {
-	freopen("score.cfg","r",stdin);
+	freopen(".blrscore","r",stdin);
 	header=Getuint();
 	if (header!=0x3b424c53)//0x3b424c53=";BLS"
 	{
@@ -163,7 +163,7 @@ int CheckHighScore()
 }
 void Score_Write()
 {
-	freopen("score.cfg","w",stdout);
+	freopen(".blrscore","w",stdout);
 	Putuint(0x3b424c53);
 	Putuint(0xd1ffa0c0);
 	Putint(Ecnt);
@@ -185,7 +185,8 @@ void Score_Write()
 }
 void Score_Initailize()
 {
-	freopen("score.cfg","w",stdout);
+	if(access(".blrscore",R_OK)==0)return;
+	freopen(".blrscore","w",stdout);
 	Putuint(0x3b424c53);
 	Putuint(0xd1ffa0c0);Putuint(0);
 	Putuint(0xd1ffa0c1);Putuint(0);

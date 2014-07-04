@@ -31,7 +31,7 @@ Q: (In Windows)
 A: DirectX initialization failed.
    If you get this message after changing an option, the cause might
    be your option is not supported by your computer. You can purge
-   the config file (back up your score and remove BLR.cfg) and
+   the config file (back up your score and remove .blrrc) and
    restart the game.
    If you get this message on the first startup, you are just unlucky.
    HGE, which is the render engine used in BLR is really low-ended
