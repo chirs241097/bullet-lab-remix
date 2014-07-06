@@ -99,14 +99,18 @@ Others' comments...
 
 Requirements & Recommends
 Basic environment:
-CPU: Atom 1.6GHz will even work.
-RAM: 1GiB
-GPU&VRAM: Not worse than Intel HD Graphics.
-OS: Windows XP+ & DirectX 9 / Linux kernel 2.6+ & OpenGL 1.2+
+CPU: 1GHz.
+RAM: 256MiB
+GPU&VRAM: With DirectX 9+/OpenGL 1.2+ support.
+OS*: Windows XP+ & DirectX 9 / Linux kernel 2.6+ & OpenGL 1.2+
 Recommended environment:
 CPU: Lots of cores.
 GPU&VRAM: Very fast graphic rendering.
 Sound: Ability to run OpenAL software version.
+
+*: According to Micro$oft and MinGW, this game should also run in Windows
+98(SE)/ME**, but who's still using that?
+**: The source code is just there. You can even port it to MS-DOS...
 
 MORE Recommends...
 -SERIOUSLY, NO Trypophobia!

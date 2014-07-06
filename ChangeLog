@@ -2,16 +2,18 @@
 Next version:
 The final release is just there!!
 Todo's:
-*Adjust difficulty!*
+*Adjust difficulty!*//almost done?
 *Add multpo's.*
+*Distribute CLRs.*
 Bug fixes.
 Tests.
 Wishlist?
 
 Known bugs:
-HangUpText blinking still exists...
+Blue bullets appearing in Vortex of leaves.
 
 Wishlist:
+Add spawning effect for Multpo.
 Make more data stored in .blrscore.
 In-game music bring back.
 ~~Now Playing(Music Room)~~
@@ -19,6 +21,16 @@ In-game music bring back.
 of next BLR.)
 
 Pre-Released versions:
+0.9.6-0 (r96)
+Fix bug that cause you unable to charge if you try to use clr directly
+after your clr's used up.
+Add Multpo's for Level 3/4/5/6, and level 7 partically.
+Fix stupid bug in Level4Part2 and other similiar parts.
+Fix several bugs in level 5/6.
+Reduce given-away score in level "Sine Wave". It wassssSssss too long!
+Fix typo...
+Blinking HangUpText *should* be fixed now...
+
 0.9.5-0 (r95)
 Change configuration and score file names. Files with their names
 begin with "." may be annoying in Windows though...

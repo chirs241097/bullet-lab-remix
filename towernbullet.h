@@ -1886,7 +1886,7 @@ public:
 		}
 		if (elasp>2)
 		{
-			stage=1;
+			stage=1;NewMultpo(vector2d(400,300));
 			drange=GetDist(bullet[Bul[ccnt-1]].bulletpos,vector2d(400,300));
 			dtrad=(drad-srad);while (dtrad>pi/6.0f)dtrad-=pi/6.0f;dtrad/=delay;
 			dtrad2=(2*pi-drad+srad);while (dtrad2>pi/6.0f)dtrad2-=pi/6.0f;dtrad2/=delay;

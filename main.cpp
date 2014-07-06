@@ -214,73 +214,73 @@ void ProcessPlayer()
 		if (playerpos.y>10)playerpos.y-=realspd;
 	if (hge->Input_GetKeyState(HGEK_DOWN)&&!playerLockY)
 		if ((playerpos.y<570&&!PlayerSplit)||(playerpos.y<270&&PlayerSplit))playerpos.y+=realspd;
-	if(mode!=2)
+	if(mode==2)return;
+	if (!clrmode)
 	{
-		if (!clrmode)
+		if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_HIT&&clrmaxrange==0)
+		{clrind=0;charge=1;}
+		if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_KEEP&&charge)
 		{
-			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_HIT&&clrmaxrange==0)
-			{clrind=0;charge=1;}
-			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_KEEP&&charge)
-			{
-				if (clrmaxrange<=400)
-				{if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;}
-				if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
-				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
-				if(PlayerSplit)for(int i=1;i<4;++i)
-				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
-			}
-			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_RELEASE&&charge)
-			{
-				charge=0;
-				if (clrmaxrange<=50)
-				{if (clrtime+clrbns>0){--clrtime;clrmaxrange=350;Player_Clear_Expand();++clrusg;}}
-				else
-				{Player_Clear_Expand();++clrusg;}
-			}
-			if (clrrange!=0)
-			{
-				Player_Clear_Expand();
-				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f);
-				if(PlayerSplit)for(int i=1;i<4;++i)
-				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f);
-				clrind+=(LOWFPS?0.016*pi:0.001*pi);
-			}
-			if (clrrange>=clrmaxrange)clrrange=clrmaxrange=0;
+			if (clrmaxrange<=400)
+			{if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;}
+			if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
+			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
 		}
-		else
+		if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_RELEASE&&charge)
 		{
-			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_HIT&&clrmaxrange==0)
-			{clrind=0;charge=1;}
-			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_KEEP&&charge)
+			charge=0;
+			if (clrmaxrange<=50)
 			{
-				if (clrmaxrange<=400)
-				{if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;}
-				if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
-				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
-				if(PlayerSplit)for(int i=1;i<4;++i)
-				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
+				if (clrtime+clrbns>0)
+				{--clrtime;clrmaxrange=350;Player_Clear_Expand();++clrusg;}
+				else clrmaxrange=0;
 			}
-			if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_RELEASE&&charge)
-			{
-				charge=0;
-				if (clrmaxrange<=50)
-				{
-					if(clrtime+clrbns>0)
-					{
-						Player_Clear_Rotate();if(clrmaxrange<50)--clrtime,clrmaxrange=350;++clrusg;
-					}
-				}else{Player_Clear_Rotate();++clrusg;}
-			}
-			if (clrrad-pi/2>1e-7)
-			{
-				Player_Clear_Rotate();
-				clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f*(5*pi/2.0f-clrrad)/(2*pi));
-				if(PlayerSplit)for(int i=1;i<4;++i)
-				clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f*(5*pi/2.0f-clrrad)/(2*pi));
-				clrind+=(LOWFPS?0.016*pi:0.001*pi);
-			}
-			if (5*pi/2-clrrad<1e-7)clrrad=pi/2,clrmaxrange=0;
+			else{Player_Clear_Expand();++clrusg;}
 		}
+		if (clrrange!=0)
+		{
+			Player_Clear_Expand();
+			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*(clrmaxrange-clrrange)/193.0f);
+			clrind+=(LOWFPS?0.016*pi:0.001*pi);
+		}
+		if (clrrange>=clrmaxrange)clrrange=clrmaxrange=0;
+	}
+	else
+	{
+		if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_HIT&&clrmaxrange==0)
+		{clrind=0;charge=1;}
+		if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_KEEP&&charge)
+		{
+			if (clrmaxrange<=400)
+			{if (LOWFPS)clrmaxrange+=1.6;else clrmaxrange+=0.1;}
+			if (!LOWFPS)clrind+=0.001*pi;else clrind+=0.016*pi;
+			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f);
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f);
+		}
+		if (hge->Input_GetKeyStateEx(diffkey?HGEK_X:HGEK_Z)==HGEKST_RELEASE&&charge)
+		{
+			charge=0;
+			if (clrmaxrange<=50)
+			{
+				if(clrtime+clrbns>0)
+				{--clrtime;clrmaxrange=350;Player_Clear_Rotate();++clrusg;}
+				else clrmaxrange=0;
+			}else{Player_Clear_Rotate();++clrusg;}
+		}
+		if (clrrad-pi/2>1e-7)
+		{
+			Player_Clear_Rotate();
+			clrcircle->RenderEx(playerpos.x+7.2,playerpos.y+7.2,clrind,2*clrmaxrange/193.0f*(5*pi/2.0f-clrrad)/(2*pi));
+			if(PlayerSplit)for(int i=1;i<4;++i)
+			clrcircle->RenderEx(playerpos.x+splitData[i].x+7.2,playerpos.y+splitData[i].y+7.2,clrind,2*clrmaxrange/193.0f*(5*pi/2.0f-clrrad)/(2*pi));
+			clrind+=(LOWFPS?0.016*pi:0.001*pi);
+		}
+		if (5*pi/2-clrrad<1e-7)clrrad=pi/2,clrmaxrange=0;
 	}
 }
 void RefreshScore()

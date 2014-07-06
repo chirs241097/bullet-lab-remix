@@ -1110,7 +1110,7 @@ public:
 			if(mode==1)
 				MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Restarts %d",restarts);
 			else
-				MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Restarts %d",coll);
+				MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Collisions %d",coll);
 			MenuFont->printf(xoffset-100,340,HGETEXT_LEFT,"Semi-collisions %d",semicoll);
 			MenuFont->printf(xoffset-100,370,HGETEXT_LEFT,"CLR Usage %d",clrusg);
 			MenuFont->printf(xoffset-100,400,HGETEXT_LEFT,"Average FPS: %.02f",averfps);

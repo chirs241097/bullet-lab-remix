@@ -68,7 +68,7 @@ void CircleIndicator::Render(double x,double y){circle->Render(x,y);}
 
 void LinearProgresser::Init(double _a,double _b,double _Lim){a=_a,b=_b,Limit=_Lim;}
 void LinearProgresser::Launch(){Elapsed=0;val=a;}
-void LinearProgresser::Update(double DT){if (Elapsed>=Limit)return (void)(val=b,Elapsed=Limit);Elapsed+=DT;val=(b-a)*(Elapsed/Limit)+a;}
+void LinearProgresser::Update(double DT){if (Elapsed+DT>=Limit)return (void)(val=b,Elapsed=Limit);Elapsed+=DT;val=(b-a)*(Elapsed/Limit)+a;}
 double LinearProgresser::GetValue(){return val;}
 double LinearProgresser::GetA(){return a;}
 double LinearProgresser::GetB(){return b;}
