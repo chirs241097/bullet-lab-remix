@@ -100,7 +100,7 @@ Others' comments...
 Requirements & Recommends
 Basic environment:
 CPU: 1GHz.
-RAM: 256MiB
+RAM: 256MiB.
 GPU&VRAM: With DirectX 9+/OpenGL 1.2+ support.
 OS*: Windows XP+ & DirectX 9 / Linux kernel 2.6+ & OpenGL 1.2+
 Recommended environment:
@@ -140,7 +140,7 @@ Menus
 Main menu
 -----------------------------------------------------------------------
 Start                  Select a mode and start the game.
-Highscores             View highscores(Currently out of maintenance)
+Highscores             View highscores
 Options                Settings and Options
 About                  A dull credits list.
 Exit                   Parents are coming!!
@@ -174,19 +174,19 @@ Invalid parameters may cause unexpected behavior, (e.g. --start with inappropria
 they should be used for debug purpose. But if you use it for cheating, I'm not against it.
 If it's run without arguments, the game will start normally.
 Otherwise... see below.
---help			Print command line usage and exit.
---version		Print version and exit.
---start=x,y		Start free play mode directly from level x part y. The part must be valid.
---nosound		Forcibly use no sound.
+--help				Print command line usage and exit.
+--version			Print version and exit.
+--start=x,y			Start free play mode directly from level x part y. The part must be valid.
+--nosound			Forcibly use no sound.
 --fullscreen=1/0	Forcibly use fullscreen/windowed. This will override your configuration.
 --vidmode=0~4		Forcibly use specific video mode instead the one in the configuration.
-	0		800x600 (native resolution)
-	1		640x480
-	2		960x720
-	3		1024x768
-	4		1280x960
---firststartup		Forcibly run first start up. This will reset the score file.
---fast			Fast mode. All levels are two times shorter.
+		0			800x600 (native resolution)
+		1			640x480
+		2			960x720
+		3			1024x768
+		4			1280x960
+--firststartup		Forcibly run first start up. The score file will be preserved if exist.
+--fast				Fast mode. All levels are two times shorter.
 --logfile=...		Use an alternate log file name instead of the default "BLRLOG.txt".
 --nohideconsole		Do not hide console (Windows version only).
 

@@ -54,7 +54,7 @@ void Level1Part1()
 		return;
 	}
 	CreateTower1(400,300,857,2);
-	frameleft=AMinute*2;
+	frameleft=AMinute*2;clrtime=1;
 	tcnt=1;sout=false;dscroll=-0.025f;memset(dmt,true,sizeof(dmt));
 	for (int i=0;i<tcnt;++i)
 	{
@@ -109,7 +109,7 @@ void Level1Part2()
 }
 void Level1Part3()
 {
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=1;
 	if (towcnt!=50&&towcnt!=0)return ClearAll();
 	DisableAllTower=false;bulcnt=0;free(bullet);bullet=NULL;
 	if (IfShowTip)
@@ -181,7 +181,7 @@ Place yourself correctly!\
 }
 void Level2Part1()
 {
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=1;
 	Level2Circle.Init(230,pi/12000,96,vector2d(400,300));
 	Level2Circle2.Init(270,-pi/12000,96,vector2d(400,300));
 	CreateTower3_fixeddir(400,50,300,3,-2.0f/3.0f*pi);
@@ -227,7 +227,7 @@ void Level2Part2()
 }
 void Level2Part3()
 {
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=1;
 	for (int i=0;i<6;++i)bullet[fakes[i]].exist=false;
 	for (int i=0;i<6;++i)fakes[i]=CreateBullet7(400,300,0,999999999,false),bullet[fakes[i]].inv=true;
 	whicnt=3;clockrot=deltarot=0;++part;tbrk=0;
@@ -285,7 +285,7 @@ void Level2Part6()
 		}
 		if(tbrk>=5)tbrk=0;
 	}
-	if (frameleft<TenSeconds/20)++part,frameleft=AMinute;
+	if (frameleft<TenSeconds/20)++part,frameleft=AMinute,clrtime=1;
 }
 void Level2Part7()
 {
@@ -312,7 +312,7 @@ double L2D1;
 void Level2Part8()
 {
 	frameleft=ThirtySeconds;L2D1=0;
-	playerLockY=false;
+	playerLockY=false;clrtime=2;
 	for (int i=6;i<12;++i)fakes[i]=CreateBullet6(400,300,0,999999999,1,1,false),bullet[fakes[i]].inv=true;
 	++part;tbrk=0;
 }
@@ -379,7 +379,7 @@ A negative omen...\
 }
 void Level3Part1()
 {
-	frameleft=ThirtySeconds;
+	frameleft=ThirtySeconds;clrtime=0;
 	if (towcnt!=1&&towcnt!=0)return ClearAll();
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -408,7 +408,7 @@ void Level3Part1()
 }
 void Level3Part2()
 {
-	frameleft=ThirtySeconds;
+	frameleft=ThirtySeconds;clrtime=0;
 	if (towcnt!=4&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -444,7 +444,7 @@ int cur;
 double elasped;
 void Level3Part3()
 {
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=1;
 	if (towcnt!=1&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -511,7 +511,7 @@ void Level3Part4()
 double l3p5brk;
 void Level3Part5()
 {
-	frameleft=ThirtySeconds;
+	frameleft=ThirtySeconds;clrtime=2;
 	if (towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -557,7 +557,7 @@ What was the weather like yesterday?...\n\
 }
 void Level4Part1()
 {
-	frameleft=ThirtySeconds;
+	frameleft=ThirtySeconds;clrtime=0;
 	if (towcnt!=1&&towcnt!=0)return ClearAll();
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -934,7 +934,7 @@ double rot1,dta1,rot2,dta2,spd2,elsp1;
 void Level4Part20()
 {
 	frameleft=AMinute;All2pnt();towcnt=0;
-	DisableAllTower=false;
+	DisableAllTower=false;clrtime=0;
 	if (IfShowTip)
 	{
 		IfShowTip=false;
@@ -996,7 +996,7 @@ void Level4Part23()
 }
 void Level4Part24()
 {
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=0;
 	if (towcnt!=5&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -1062,7 +1062,7 @@ This autumn, however, is coming too fast...\
 }
 void Level5Part1()
 {
-	frameleft=ThirtySeconds;
+	frameleft=ThirtySeconds;clrtime=0;
 	if (towcnt!=2&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	++frameskips;
@@ -1084,7 +1084,7 @@ void Level5Part1()
 }
 void Level5Part2()
 {
-	frameleft=ThirtySeconds;
+	frameleft=ThirtySeconds;clrtime=0;
 	if (IfShowTip)
 	{
 		IfShowTip=false;
@@ -1102,7 +1102,7 @@ bool rev;
 \**********************/
 void Level5Part3()
 {
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=2;
 	if (towcnt!=0)return (void)ClearAll();
 	Lasercnt=12;
 	for (int i=1;i<=12;++i)
@@ -1184,6 +1184,7 @@ void Level5Part5()
 {
 	frameleft=AMinute;All2pnt();towcnt=0;Lasercnt=0;
 	memset(tbuls,0,sizeof(tbuls));lv5brk=0;++part;
+	clrtime=1;
 }
 void Level5Part6()
 {
@@ -1215,7 +1216,7 @@ void Level5Part6()
 }
 void Level5Part7()
 {
-	frameleft=ThirtySeconds;Dis8ref=true;tbrk=0;
+	frameleft=ThirtySeconds;Dis8ref=true;tbrk=0;clrtime=1;
 	if (towcnt!=33&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -1253,7 +1254,7 @@ void Level5Part8()
 }
 void Level5Part9()
 {
-	frameleft=ThirtySeconds;Dis8ref=true;tbrk=0;
+	frameleft=ThirtySeconds;Dis8ref=true;tbrk=0;clrtime=1;
 	if (towcnt!=66&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	if (IfShowTip)
@@ -1458,7 +1459,7 @@ double ntrot,ntbrk;
 int ntcnt;
 void Level5Part19()
 {
-	frameleft=AMinute;clrtime=0;ntrot=ntbrk=0;ntcnt=0;
+	frameleft=AMinute;clrtime=1;ntrot=ntbrk=0;ntcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -1502,15 +1503,25 @@ void Level5Part20()
 void Level5Part21()
 {
 	frameleft=ThirtySeconds;
-	All2pnt();
+	All2pnt();clrtime=1;
 	Lasercnt=0;
 	CTarg.Init(18,75,5.0f);
 	DisableAllTower=false;
-	CreateTower1(30,10,500,2);
-	CreateTower1(746,10,500,2);
-	CreateTower1(30,556,500,2);
-	CreateTower1(746,556,500,2);
-	++part;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("This is the UNBREAKABLE jail.");
+	}
+	if (Current_Position==1)
+	{
+		CreateTower1(30,10,500,2);
+		CreateTower1(746,10,500,2);
+		CreateTower1(30,556,500,2);
+		CreateTower1(746,556,500,2);
+		++part;
+	}
 }
 void Level5Part22()
 {
@@ -1546,7 +1557,7 @@ Look, there's a question mark in the title...\
 void Level6Part1()
 {
 	//Some component of this level is in towernbullet...
-	frameleft=ThirtySeconds;
+	frameleft=ThirtySeconds;clrtime=1;
 	DisableAllTower=false;
 	++frameskips;
 	if (frameskips<10&&!LOWFPS)return;
@@ -1568,11 +1579,11 @@ void Level6Part1()
 int spcnt;double sixrad,sixbrk;
 void Level6Part2()
 {
-	while (towcnt)return ClearAll(false);
+	if (towcnt)return ClearAll(false);
 	All2pnt();frameleft=TenSeconds;
 	++part;spcnt=2;sixrad=sixbrk=0;
 	whicnt=1;DisableAllTower=false;
-	tbrk=0;
+	tbrk=0;clrtime=3;
 }
 void Level6Part3()
 {
@@ -1839,7 +1850,7 @@ bool brdir;
 double offset;
 void Level6Part18()
 {
-	DisableAllTower=false;
+	DisableAllTower=false;clrtime=3;
 	if (IfShowTip)
 	{
 		IfShowTip=false;
@@ -2311,7 +2322,7 @@ void Level7Part1()
 	for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFF0B0916);
 	if (DBGColor==0xFF0B0916)
 	{
-		frameleft=AMinute,++part;tbrk=0;
+		frameleft=AMinute,++part;tbrk=0;clrtime=2;
 		bgdbbrk=re.NextInt(5,20),bgbrk=0;
 		avabrk=0.2f;avacurbrk=0;skystp=false;
 	}
@@ -2410,7 +2421,7 @@ void Level7Part3()
 }
 void Level7Part4()
 {
-	frameleft=(AMinute+ThirtySeconds);clrtime=5;
+	frameleft=(AMinute+ThirtySeconds);clrtime=3;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -2514,7 +2525,7 @@ void Level7Part6()
 }
 void Level7Part7()
 {
-	avabrk=frameleft/(double)AMinute*0.6f+0.4f;
+	avabrk=frameleft/(double)AMinute*0.5f+0.5f;
 	avacurbrk+=hge->Timer_GetDelta();
 	if (avacurbrk>avabrk)
 	{
@@ -2620,7 +2631,7 @@ void Level7Part9()
 SimpleThing aa,bb;
 void Level7Part10()
 {
-	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	frameleft=AMinute*2;clrtime=1;towcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -2644,7 +2655,7 @@ void Level7Part11()
 diffCreator dfc[200];
 void Level7Part12()
 {
-	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	frameleft=AMinute*2;clrtime=3;towcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -2708,7 +2719,7 @@ double ykbrk;
 void Level7Part14()//Photon school
 {
 	memset(bnl,0,sizeof(bnl));
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=2;
 	ykbrk=0.5f;skyactive=true;bdiff.SetFadeOut();
 	if((DBGColor=ColorTransfer(DBGColor,0x00000000))==0x0)++part;
 }
@@ -2750,7 +2761,7 @@ BCircle Circles[20];
 int CCnt,state;
 void Level7Part16()//Great circles
 {
-	towcnt=0;
+	towcnt=0;clrtime=0;
 	frameleft=Infinity;All2pnt();
 	Circles[0].Init(444,20*pi/50000.0f,6,vector2d(400,300));
 	Circles[1].Init(444,-20*pi/50000.0f,6,vector2d(400,300));
@@ -2897,7 +2908,7 @@ void Level7Part18()//Great circles-child2
 BTail btails[50];
 void Level7Part19()
 {
-	frameleft=AMinute*2;clrtime=2;towcnt=0;
+	frameleft=AMinute*2;clrtime=3;towcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -2920,6 +2931,7 @@ void Level7Part20()
 		for(int i=0;i<50;++i)
 		if(!btails[i].isActive())
 		{btails[i].Create();break;}
+		if(re.NextInt(0,24)==15)NewMultpo();
 	}
 	for(int i=0;i<50;++i)
 	if(btails[i].isActive())btails[i].Update();
@@ -2927,7 +2939,7 @@ void Level7Part20()
 int sttnt;
 void Level7Part21()
 {
-	frameleft=AMinute+ThirtySeconds;All2pnt();
+	frameleft=AMinute+ThirtySeconds;All2pnt();clrtime=1;
 	if (towcnt!=1&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	++frameskips;
@@ -2956,7 +2968,7 @@ void Level7Part23()//Wave of Photon
 {
 	memset(bnl,0,sizeof(bnl));t8special=false;
 	frameleft=AMinute;All2pnt();towcnt=0;
-	ykbrk=0.5f;++part;
+	ykbrk=0.5f;++part;clrtime=1;
 }
 void Level7Part24()
 {
@@ -3003,7 +3015,7 @@ void Level7Part25()
 	frameleft=AMinute+ThirtySeconds;
 	All2pnt();towcnt=Lasercnt=0;
 	++part;memset(rtv,0,sizeof(rtv));
-	avabrk=1;avacurbrk=0.7;
+	avabrk=1;avacurbrk=0.7;clrtime=1;
 }
 void Level7Part26()
 {
@@ -3053,11 +3065,11 @@ void Levelm1Part1()//3 circles
 		IfShowTip=false;
 		FadeTip=false;
 		Current_Position=2;
-		ShowTip("It's not really here!");
+		ShowTip("RGB...");
 	}
 	if (Current_Position==1)
 	{
-		++part;All2pnt();avabrk=1.0f;avacurbrk=0;
+		++part;All2pnt();avabrk=1.0f;avacurbrk=0;tbrk=0;
 	}
 }
 void CircCreator(vector2d p,int cnt,TColors col)
@@ -3074,7 +3086,9 @@ void CircCreator(vector2d p,int cnt,TColors col)
 void Levelm1Part2()
 {
 	avacurbrk+=hge->Timer_GetDelta();
+	tbrk+=hge->Timer_GetDelta();
 	avabrk=(frameleft/(double)AMinute)*0.5f+0.5f;
+	if(tbrk>8)tbrk=0,NewMultpo(vector2d(400,300));
 	if(avacurbrk>avabrk)
 	{
 		avacurbrk=0;
@@ -3087,7 +3101,7 @@ BCircle scircles[200];
 double rspd[200];
 void Levelm1Part3()//circles
 {
-	frameleft=AMinute;clrtime=2;towcnt=0;
+	frameleft=AMinute;clrtime=1;towcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -3134,7 +3148,7 @@ void Levelm1Part5()//Spiky
 	for(int i=0;i<200;++i)
 	if (scircles[i].GetRange()>1e-7&&scircles[i].GetRange()<510)
 	scircles[i].circ2pnt();
-	towcnt=0;
+	towcnt=0;clrtime=1;
 	Lasercnt=0;
 	++part;avabrk=1;avacurbrk=0.5;
 }
@@ -3156,6 +3170,7 @@ void Levelm1Part6()//Spiky-child
 				break;
 			}
 		}
+		if(re.NextInt(0,19)==8)NewMultpo();
 	}
 	for (int i=0;i<1000;++i)if (noname[i].Exist())noname[i].Process();
 }
@@ -3163,7 +3178,7 @@ achromaGroup aca,acb;
 void Levelm1Part7()//Achromatopsia1
 {
 	frameleft=AMinute;for(int i=0;i<1000;++i)if(noname[i].Exist())noname[i].noname2pnt();
-	aca.Init(red,0.075);acb.Init(green,0.075);
+	aca.Init(red,0.075);acb.Init(green,0.075);clrtime=1;
 	++part;avabrk=2.0f;avacurbrk=0;achromab=false;
 }
 void Levelm1Part8()//Achromatopsia1-child
@@ -3173,12 +3188,13 @@ void Levelm1Part8()//Achromatopsia1-child
 	{
 		avacurbrk=0;avabrk=2;
 		aca.Reverse();acb.Reverse();
+		if(re.NextInt(0,7)==3)NewMultpo(vector2d(re.NextInt(10,790),re.NextInt(500,590)));
 	}
 	aca.Update(1);acb.Update();
 }
 void Levelm1Part9()//Achromatopsia2
 {
-	frameleft=AMinute;
+	frameleft=AMinute;clrtime=1;
 	aca.Init(red,1);acb.Init(green,1);
 	++part;avabrk=1.5f;avacurbrk=0;achromab=true;
 }
@@ -3194,7 +3210,7 @@ void Levelm1Part10()//Achromatopsia2-child
 }
 void Levelm1Part11()
 {
-	frameleft=AMinute+ThirtySeconds;
+	frameleft=AMinute+ThirtySeconds;clrtime=2;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -3252,6 +3268,15 @@ bool m19pldir;
 void Levelm1Part13()//Gravity Vortex
 {
 	frameleft=AMinute*2;towcnt=0;PlayerSplit=false;
+	clrtime=2;
+	if (IfShowTip)
+	{
+		IfShowTip=false;
+		FadeTip=false;
+		Current_Position=2;
+		ShowTip("Who's collecting such great power here?");
+		return;
+	}
 	All2pnt();memset(m19lead,0,sizeof(m19lead));
 	memset(m19gen,0,sizeof(m19gen));
 	++part;m19rad=m19step=m19cnt=0;
@@ -3347,7 +3372,7 @@ int snexcnt,snexstep;
 Target snexTarg;
 void Levelm1Part15()//"Supernova"
 {
-	frameleft=AMinute*2;
+	frameleft=AMinute*2;clrtime=1;
 	++bgbrk;if (LOWFPS)bgbrk+=16;
 	if (bgbrk<30)return;
 	bgbrk=0;towcnt=0;
@@ -3441,12 +3466,12 @@ void Levelm1Part16()
 	}
 }
 yellowGroup fyg[100];
-Spinner fygs;
+//Spinner fygs;
 void Levelm1Part17()
 {
-	frameleft=AMinute+ThirtySeconds;
+	frameleft=AMinute+ThirtySeconds;clrtime=2;
 	All2pnt();towcnt=0;memset(fyg,0,sizeof(fyg));
-	++part;avabrk=1;avacurbrk=0.5;fygs.Init(3,20);
+	++part;avabrk=1;avacurbrk=0.5;//fygs.Init(3,20);
 }
 void Levelm1Part18()
 {
@@ -3463,16 +3488,17 @@ void Levelm1Part18()
 				fyg[i].Init(36,2.5-1.5*(frameleft/(double)(AMinute+ThirtySeconds)));
 			break;
 		}
+		CircCreator(vector2d(400,300),36,blue);
 	}
 	for(int i=0;i<100;++i)if(fyg[i].isActive())fyg[i].Update();
-	fygs.Update(pi/7200*(0.5+frameleft/(double)(AMinute+ThirtySeconds)));
+	//fygs.Update(pi/7200*(0.5+frameleft/(double)(AMinute+ThirtySeconds)));
 }
 int m17lead[4];
 void Levelm1Part19()
 {
-	frameleft=AMinute+ThirtySeconds;towcnt=0;
+	frameleft=AMinute+ThirtySeconds;towcnt=0;clrtime=1;
 	All2pnt();memset(m17lead,0,sizeof(m17lead));
-	++part;
+	++part;avabrk=0;
 	m17lead[0]=CreateBullet2(10,10,4,0);bullet[m17lead[0]].redir(vector2d(780,10));bullet[m17lead[0]].alterColor=red;
 	m17lead[1]=CreateBullet2(780,10,4,0);bullet[m17lead[1]].redir(vector2d(780,580));bullet[m17lead[1]].alterColor=green;
 	m17lead[2]=CreateBullet2(780,580,4,0);bullet[m17lead[2]].redir(vector2d(10,580));bullet[m17lead[2]].alterColor=dblue;
@@ -3483,7 +3509,8 @@ void Levelm1Part19()
 void Levelm1Part20()
 {
 	snexTarg.TargRender();avacurbrk+=hge->Timer_GetDelta();
-	tbrk+=hge->Timer_GetDelta();
+	tbrk+=hge->Timer_GetDelta();avabrk+=hge->Timer_GetDelta();
+	if(avabrk>10)NewMultpo(),avabrk=0;
 	switch (snexstep)
 	{
 		case 0:
@@ -3534,7 +3561,7 @@ void Levelm1Part20()
 void Levelm1Part21()
 {
 	//some part of this level is in towernbullet...
-	frameleft=AMinute*1.5;
+	frameleft=AMinute*1.5;clrtime=1;
 	if (towcnt!=4&&towcnt!=0)return ClearAll(false);
 	DisableAllTower=false;
 	if (IfShowTip)

@@ -341,7 +341,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.6-0 (r96)";
+static const char* BLRVERSION="0.9.7-0 (r97)";
 static const char *months="JanFebMarAprMayJunJulAugSepOctNovDec";
 char *parseDate(const char *date)
 {

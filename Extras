@@ -10,7 +10,7 @@ The development
 About the source code
 ------------------------------------------------------------------------------------
 I'm not a rigorous coder. All sources are written casually.
-You can't even find two files in the same style...
+You can even find two code chunks in one file with different styles...
 But generally, I:
 	Use tabs (width=4) and indent in Allman style;
 	Don't like extra spaces;
@@ -20,11 +20,11 @@ But generally, I:
 And, the source code is bloated. global.h defined ~200 lines of global variables.
 Imagine that.
 
-Well, the reason is that BLRI start as a huge single source file - main.cpp. It's
-once a ~100KiB file, and have more than 10k lines of code. One day I found it hard
-to maintain such code and split it into several .h file. BLRII took the code base
-of BLRI. That's why. BLRIII will be a complete rewrite and I hope this would fix
-the problem.
+Well, the reason is that BLRI start as a huge monolithic source file - main.cpp.
+It's once a ~100KiB file, and have more than 10k lines of code. One day I found it
+impossible to maintain such code and split it into several .h file. BLRII took the
+code base of BLRI. That's why. BLRIII will be a complete rewrite and I hope this
+would fix the problem.
 
 Well, let's observe each source file.
 
@@ -83,7 +83,7 @@ The development
 ------------------------------------------------------------------------------------
 As a student, developing such a game will never be supported...
 So, the development is "well hidden".
-The post-0.2.2 development are mostly done under Windows(7/8/8.1). After that, I
+The post-0.2.2 development are mostly done under Windows(8/8.1). After that, I
 migrated the main platform to Debian GNU/Linux. I'm using the unstable distribution.
 I'm not a true developer but I'm really one of those who like to like on the edge.
 Recently I installed Archlinux, which has taken me to the "bleeding edge". "Edges"

@@ -110,6 +110,7 @@ void Player_Clear_Expand()
 	int ds;
 	for (int i=1;i<=bulcnt;++i)
 	{
+		if(bullet[i].bullettype>=253)continue;
 		double dis=GetDist(bullet[i].bulletpos,playerpos);ds=0;
 		if(PlayerSplit)
 		for(int j=1;j<4;++j)
@@ -117,7 +118,7 @@ void Player_Clear_Expand()
 			if(dis>GetDist(bullet[i].bulletpos,playerpos+splitData[j]))
 			dis=GetDist(bullet[i].bulletpos,playerpos+splitData[j]),ds=j;
 		}
-		if (bullet[i].bullettype!=255&&dis<=clrrange&&bullet[i].exist&&!bullet[i].inv)
+		if(dis<=clrrange&&bullet[i].exist&&!bullet[i].inv)
 		{
 			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10,ds);
 			bullet[i].exist=false;
@@ -136,11 +137,12 @@ void Player_Clear_Rotate()
 		clrrad+=pi/450;
 	for (int i=1;i<=bulcnt;++i)
 	{
+		if(bullet[i].bullettype>=253)continue;
 		double dis=GetDist(bullet[i].bulletpos,playerpos);
 		double rad=atan2l(bullet[i].bulletpos.y-playerpos.y,bullet[i].bulletpos.x-playerpos.x);
 		hge->Gfx_RenderLine(playerpos.x+8,playerpos.y+8,playerpos.x+cos(clrrad)*clrmaxrange,playerpos.y+sin(clrrad)*clrmaxrange);
 		rad=normalizerad(rad);
-		if (bullet[i].bullettype!=255&&dis<=clrmaxrange&&bullet[i].exist&&!bullet[i].inv&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
+		if(dis<=clrmaxrange&&bullet[i].exist&&!bullet[i].inv&&rad>normalizerad(clrrad)-pi/12&&rad<normalizerad(clrrad)+pi/12)
 		{
 			CreateBullet255(bullet[i].bulletpos.x,bullet[i].bulletpos.y,10);
 			bullet[i].exist=false;
@@ -1024,11 +1026,11 @@ void printHelp(char *exec,const char* str="")
 	puts("          2       960x720");
 	puts("          3       1024x768");
 	puts("          4       1280x960");
-	puts("--firststartup    Forcibly run first start up. This will reset the score file.");
+	puts("--firststartup    Forcibly run first start up. The score file will be preserved if exist.");
 	puts("--fast            Fast mode. All levels are two times shorter.");
 	puts("--logfile=...     Use an alternate log file name instead of the default \"BLRLOG.txt\".");
 #ifdef WIN32
-	printf("--nohideconsole   Do not hide console.\n");
+	puts("--nohideconsole   Do not hide console.\n");
 #endif
 	if(strcmp(str,""))printf("%s\n",str);
 	exit(0);

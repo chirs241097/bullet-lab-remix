@@ -3,14 +3,14 @@ Next version:
 The final release is just there!!
 Todo's:
 *Adjust difficulty!*//almost done?
-*Add multpo's.*
-*Distribute CLRs.*
+*Add multpo's.*//almost done?
+*Distribute CLRs.*//almost done?
 Bug fixes.
 Tests.
 Wishlist?
 
 Known bugs:
-Blue bullets appearing in Vortex of leaves.
+Blue bullets appearing in Vortex of leaves.//don't know why...
 
 Wishlist:
 Add spawning effect for Multpo.
@@ -21,6 +21,12 @@ In-game music bring back.
 of next BLR.)
 
 Pre-Released versions:
+0.9.7-0 (r97)
+Fix: small semi-coll bullets are collected by clr...
+Add Multpo's for Level 7/-1.
+Do slight changes to level -1...
+Distribute CLRs for level 1~-1.
+
 0.9.6-0 (r96)
 Fix bug that cause you unable to charge if you try to use clr directly
 after your clr's used up.

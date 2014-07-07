@@ -713,6 +713,7 @@ void ProcessBullet8(int i)
 	if(bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
 	{
 		int cnt=re.NextInt(2,5);if (Dis8ref)cnt=0;
+		if(PlayerSplit)cnt=re.NextInt(0,2);
 		if(bullet[i].redattrib)
 		{
 			if(re.NextInt(0,3))//more possibility to reflect
