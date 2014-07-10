@@ -132,6 +132,10 @@ GPU&VRAM: 非常快的渲染速度。
 开发和测试基本是在Linux下进行的。发布的Windows版也是从Linux下编译的（听起来很厉害？）。Windows版
 只进行过简单的测试。
 
+怎么玩？
+这部分已经移动到游戏内的帮助里了，它在主菜单的help选项中。
+如果您看不懂，建议使用机器翻译…
+
 菜单
 ------------------------------------------------------------------------------------
 主菜单
@@ -216,35 +220,34 @@ ChangeLog包含了该工程的全部历史。
 这里是一个「里程碑」的列表。
 
 0.9.1-1_PR (r86)
-Current public release. Comes with all levels that will appear in the final release.
-Done menu rewrite.
-Make multiplier system functional.
+当前的公开版本。已经包含了所有会出现在最终版本里的关卡。
+菜单重写完成。
+“倍数系统”终于能正常工作了。
 
 0.7.3-0_PR (b73)
-Comes with all seven "normal" levels.
-Many bug fixes, making the Windows port (almost) stable.
-Huge code changes happened here.
+包含7个关卡。
+众多问题修复，Windows版基本稳定了。
+代码发生了巨大的变化。
 
 0.4.4-0_PRG (b37a)
-Comes with four levels and some parts of the fifth level.
-Contains several bug fixes.
+包含4个多一点的关卡。
+修正了一部分问题。
 
 0.2.9-1_PR (b21)
-First public prerelease version.
-Comes with two levels.
-Introduced multiplier system, not functional yet.
+第一个公开版，包含两个完整的关卡。
+初次出现了“倍数”系统，但是没有实际作用。
 
 0.1.7-2_PR (b16)
-Level 1 is finished.
+第一关完成。
 
 TB130907 (b10)
-Laser implementation rev 2.
+激光实现重写。
 
 TB130827 (b8)
-Initial laser implementation.
+最早的支持“激光”的版本。
 
 TB130620~TB130818 (b1~b7)
-New towers and new levels.
+添加新的“塔”和关卡。
 
 TB130610 (b0)
-Creation of the Testbed version.
+试验版本建立。

@@ -1418,7 +1418,7 @@ void Level5Part16()
 }
 void Level5Part17()
 {
-	frameleft=TenSeconds/10*2;clrtime=0;
+	frameleft=TenSeconds/2;clrtime=0;
 	DisableAllTower=false;
 	if (Current_Position==1)
 	{
@@ -1532,7 +1532,7 @@ void Level5Part22()
 }
 void Level6Part0()
 {
-	frameleft=50;All2pnt();towcnt=0;
+	frameleft=TenSeconds;All2pnt();towcnt=0;
 	DisableAllTower=false;
 	if (IfShowTip)
 	{
@@ -1546,11 +1546,14 @@ void Level6Part0()
 Level 6-Peaceful(?) Winter\n\
 Look, there's a question mark in the title...\
 ");
-		IfCallLevel=false;
 	}
 	if (Current_Position==1)
 	{
-		frameleft=0;
+		if (!LOWFPS)
+		DBGColor=ColorTransfer(DBGColor,0xFF60A0FF);
+		else
+		for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFF60A0FF);
+		if(DBGColor==0xFF60A0FF)++part;
 		return;
 	}
 }
@@ -3277,18 +3280,25 @@ void Levelm1Part13()//Gravity Vortex
 		ShowTip("Who's collecting such great power here?");
 		return;
 	}
-	All2pnt();memset(m19lead,0,sizeof(m19lead));
-	memset(m19gen,0,sizeof(m19gen));
-	++part;m19rad=m19step=m19cnt=0;
-	avabrk=0.05;avacurbrk=0;
-	for(int i=0;i<8;++i)
+	if (!LOWFPS)
+	DBGColor=ColorTransfer(DBGColor,0xFF000000);
+	else
+	for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFF000000);
+	if (DBGColor==0xFF000000)
 	{
-		m19lead[i]=CreateBullet2(400,300,0,0);
-		bullet[m19lead[i]].bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
-		bullet[m19lead[i]].alterColor=(TColors)i;
-		bullet[m19lead[i]].inv=true;
+		All2pnt();memset(m19lead,0,sizeof(m19lead));
+		memset(m19gen,0,sizeof(m19gen));
+		++part;m19rad=m19step=m19cnt=0;
+		avabrk=0.05;avacurbrk=0;
+		for(int i=0;i<8;++i)
+		{
+			m19lead[i]=CreateBullet2(400,300,0,0);
+			bullet[m19lead[i]].bulletpos=vector2d(400+250*cos(m19rad+i*pi/4),300+250*sin(m19rad+i*pi/4));
+			bullet[m19lead[i]].alterColor=(TColors)i;
+			bullet[m19lead[i]].inv=true;
+		}
+		m19pldir=false;BTarg.targpos=playerpos;
 	}
-	m19pldir=false;BTarg.targpos=playerpos;
 }
 void Levelm1Part20update()
 {
@@ -3386,11 +3396,7 @@ void Levelm1Part15()//"Supernova"
 ...nova!!");
 		return;
 	}
-	if (!LOWFPS)
-	DBGColor=ColorTransfer(DBGColor,0xFF000000);
-	else
-	for (int i=1;i<=17;++i)DBGColor=ColorTransfer(DBGColor,0xFF000000);
-	if (DBGColor==0xFF000000)
+	if (Current_Position==1)
 	{
 		snexTarg.Init(0.001,vector2d(400,300));
 		All2pnt();

@@ -4,6 +4,8 @@ Level index/specifications/hints
 I'm still working on this document.
 Please don't trouble me if it misled you.
 
+*Trying the levels before reading this is strongly recommended.*
+
 This document is probably NOT suitable for:
 Anybody who isn't insterested in this topic
 Liberal arts students(?...)
@@ -23,7 +25,8 @@ Someone who is stuck at a part
 Level 1			2/180
 River levels			120
 -It's confusing... so much bullets for Level1?
- However it's fairly easy. Do not seek for death.
+ However it's fairly easy. Do not seek for death(where those "+1" are
+ leading you to)
 
 Double-directed labyrinth	60
 -Still very easy.
@@ -34,10 +37,11 @@ Polygon-red			60
  Fake bullets aren't always annoying.
 
 Polygon-white			60
--Make good use of precise mode
+-Make good use of precise mode.
 
 Polygon-white locked		6
--Find a good position, e.g. near by a line
+-You can't move vertically!
+ Find a good position, e.g. near by a line.
 
 Polygon-both			30
 -This part doesn't make sense.
@@ -51,7 +55,7 @@ Reflective			30
 -It's a little difficult... Keep away from the edges!
 
 Rotate ????			60
--Stay away from the rotating bullets and you'll pass this level.
+-Stay away from the rotating bullets.
 
 Wall of blues?			30
 -Rather easy. Do not try to earn too may semi-collisions unless
@@ -95,22 +99,24 @@ High speed threaten		30
 -It's JUST threaten!
  Precision is important.
  Practice makes perfect.
+ If you *can't* move horizonally may be it's easier...
 
 Crossing threaten		30
 -Appears very hard.
  Choose the correct time to cross those bullets.
 
-Orange trap2			2+2+2+2
+Orange trap2			2+2+2+5
 -Just another level from level 4.
 
 Fish in the barrel		60
--Where have I seen this...
+-Seems to be faster and faster? NO...
  Remark: Those bullets are comming directly towards you.
 
 the Unbreakable jail		30
 -This is fairly hard. Use CLR if you need it.
  Remark: When the 'target' got red, it's about to update its
- position.
+ position. If you keep moving when it's updating its position,
+ it will stuck in update mode, or it will stop.
 
 Level 6			7/390
 Snow WHITE			30
@@ -122,6 +128,8 @@ Photokeratitis			10+10+10+10+10
 -This is sickly hard...
  Treat fast bullets and slow bullets separately.
  Remark: It looks like Wriggle Nightbug's spellcard...
+ As of r94, it's not so hard as it was before. Fast bullets
+ won't hit you *if you don't move*.
 
 Squash-4(?)			60
 -Do not be trapped! You only need ONE CLR!...
@@ -132,7 +140,8 @@ Avalanche			60
 Dangerous target		60
 -Keep moving!
  It's a nightmare if you've choose a slow player...
- Remark: The target follows you as a yellow bullet does.
+ Remark: The target follows you as a yellow bullet does,
+ but not in the same manner.
 
 Hexagon loops			10+20+7+7+7+19
 -Step well back and watch the show.
@@ -147,6 +156,7 @@ Hyperfluid			60
  Remark: The white bullets are not accelerated, which are different
  from the blue ones. The blue bullets share the same direction: 45 deg.
  This part was designed as 「my」 「spellcard」 at first...
+ Also will become easier if horizonal movement is restricted...
 
 Level 7			12/930+			Mapped levels
 Spring thunder storm - panic?		60	Thunder storm...
@@ -154,12 +164,14 @@ Spring thunder storm - panic?		60	Thunder storm...
  different!
  And this one is really easy.
  Remark: Try to get to the top of the screen...
+ Try restricting vertical movement this time...
 
 Rainbow tower - color theory		90	rainbow tower
 -Basic level.
- Remark: It's taken from the testbed version of BLRII.
+ Remark: It's taken from the old testbed version of BLRII.
+
 Rainbow bullets - nauty photon		60	Lazy level;)
--Similar to one part in level1, but a lot harder.
+-Similar to one part in level1, but *much* harder.
  Luck is really required.
  Remark: The generation of bullets is really strange... If the last position
  on the y axis is taken up... sorry that I started to talk about coding again.
@@ -183,14 +195,16 @@ Rainbow effect - photon school		60	"particalization"!
 Over the Rainbow - timeless challenge	-	great circles
 -Your goal is to reach the red block...
  And, this one is also pretty hard...
- If you're not well-skilled and you are working on FPM, try --suicide--!
+ If you're not well-skilled and you are working on FPM, try --suicide--,
+ it worthwhile to do so!
  Remark: This level will never end if you don't reach the red block...
 
 Trypophobia				120	another two classes: Tail & Pile
 -Very hard. You'll never know where they will go next.
  However, they won't step on the same place twice.
  Will this cause trypophobia?
- Remark: I seem to forget an important thing: Bullets with effects won't collide
+ Remark: This level almost burn my computer...
+ I seem to forget an important thing: Bullets with effects won't collide
  for a short time after they are created...
 
 Photon fission				90	Use a slightly modified tower8...
@@ -205,16 +219,22 @@ Return to void				90	return (void)(...);
  I don't know where this came from.
  CLR is useless but it will give you a short period during which you are invincible.
  Remark: There are "no solution" cases...
+
 Level -1(Extreme)	7/1020
-unknown circles*2			60*2
--Pretty easy as they are only the beginning of nightmare...
+unknown circles1		60
+-They slow down as they approach the border. VERY ANNOYING!!!
+
+unknown circles2		60
+-They STUCK at the border!! And they get THICKER and THICKER!!......
 
 Spiky					120
 -Hard. Their behavior is not predictable.
  Remark: Again, never try to approach lasers! They are harmful to your eyes...
 
 Achromatopsia				120(90+30)
--Or we should call this "deuteranopia vs protanopia"?
+-There's no way?!
+ Well, mind the name please...
+ Or we should call this "deuteranopia vs protanopia"?
  Remark: Color change may suddenly happen!!
 
 Quad thread				120
@@ -222,19 +242,22 @@ Quad thread				120
  Remark: I don't...
 
 Gravity vortex				120
--It has nothing to do with gravity at all.
+-It has nothing to do with gravity at all, but it's pretty
+ hard!
+ Seems to be very graceful.
 
 Supernova(additive blending)		120
 -After gathering enough power, they explode --
  Awesome supernova!
  I enjoy coding(such easy parts)...
+ Remark: Newly created bullets are... I can't give more clue.
 
 yellow explosive			90
 -There's nothing to code, so I came up with this...
- Not deadly at all.
+ --Not deadly at all.--
 
 Sink over the horizon			90
--Strange. You might be trapped without noticing it.
+-Strange. You will be easily trapped.
 
 Incomplete Reflective			120
 -Start in peace, end in mess.
@@ -286,13 +309,13 @@ Density test
 -Really high density.
  WTF? There's no way?!
  You MUST end up in a horrible traffic accident, squeezing every drop of blood
- out on the left board. That's a bad image.
+ out on the left board. That's really a bad image.
 
 "Pinballs"
 -Well... They have collisions since r93!
  These balls spawn with random velocity!
  You may end up...
- just imagine a enlarged bowling ball flying direct towards you.
+ just imagine an eXtra-eXtra Large sized bowling ball flying direct towards you.
 
 Road Blocks
 -You'll understand this one day.

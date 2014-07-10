@@ -5,8 +5,9 @@ Todo's:
 *Adjust difficulty!*//almost done?
 *Add multpo's.*//almost done?
 *Distribute CLRs.*//almost done?
+Ranking rewrite.
 Bug fixes.
-Tests.
+Tests.*//done?...
 Wishlist?
 
 Known bugs:
@@ -21,6 +22,18 @@ In-game music bring back.
 of next BLR.)
 
 Pre-Released versions:
+0.9.8-0 (r98)
+Dear Pre-Release Candidate version(RC-0).
+
+CLR will collect multiplier +1's in range now.
+Multiplier +1's caught by player won't disappear now.
+Add/Move background transitions.
+Add volume control to options. This make the configuration file
+not compatible with older versions. Just delete it!
+Modify hge's API so that it can handle real volume and pan values.
+Volume value varys from 0 to 1, pan value varys from -1 to 1.
+Document...
+
 0.9.7-0 (r97)
 Fix: small semi-coll bullets are collected by clr...
 Add Multpo's for Level 7/-1.
@@ -40,6 +53,8 @@ Blinking HangUpText *should* be fixed now...
 0.9.5-0 (r95)
 Change configuration and score file names. Files with their names
 begin with "." may be annoying in Windows though...
+If we find a score file during first start up, assume it's valid and
+don't overwrite it.
 Fix the problem that in-game music won't be resumed when back from pause.
 Fix the problem that Multpo's won't be removed if a new game is created.
 Fix the problem that the first tip is not shown correctly if the game

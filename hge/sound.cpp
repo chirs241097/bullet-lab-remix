@@ -217,23 +217,23 @@ HEFFECT CALL HGE_Impl::Effect_Load(const char *filename, DWORD size)
 
 HCHANNEL CALL HGE_Impl::Effect_Play(HEFFECT eff)
 {
-	return Effect_PlayEx(eff, 100, 0, 1.0f, false);
+	return Effect_PlayEx(eff, 1.0f, 0, 1.0f, false);
 }
 
-HCHANNEL CALL HGE_Impl::Effect_PlayEx(HEFFECT eff, int volume, int pan, float pitch, bool loop)
+HCHANNEL CALL HGE_Impl::Effect_PlayEx(HEFFECT eff, float volume, float pan, float pitch, bool loop)
 {
 	if(hOpenAL)
 	{
 		const ALuint sid = get_source(); // find an unused sid, or generate a new one.
 		if (sid != 0)
 		{
-			if (volume < 0) volume = 0; else if (volume > 100) volume = 100;
-			if (pan < -100) pan = -100; else if (pan > 100) pan = 100;
+			if (volume < 0) volume = 0; else if (volume > 1.0) volume = 1.0;
+			if (pan < -1.0) pan = -1.0; else if (pan > 1.0) pan = 1.0;
 			alSourceStop(sid);
 			alSourcei(sid, AL_BUFFER, (ALint) eff);
-			alSourcef(sid, AL_GAIN, ((ALfloat) volume) / 100.0f);
+			alSourcef(sid, AL_GAIN, volume);
 			alSourcef(sid, AL_PITCH, pitch);
-			alSource3f(sid, AL_POSITION, ((ALfloat) pan) / 100.0f, 0.0f, 0.0f);
+			alSource3f(sid, AL_POSITION, pan, 0.0f, 0.0f);
 			alSourcei(sid, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
 			alSourcePlay(sid);
 		}
@@ -281,22 +281,22 @@ void CALL HGE_Impl::Stream_Free(HSTREAM stream){}
 
 HCHANNEL CALL HGE_Impl::Stream_Play(HSTREAM stream, bool loop, int volume){return 0;}
 
-void CALL HGE_Impl::Channel_SetPanning(HCHANNEL chn, int pan)
+void CALL HGE_Impl::Channel_SetPanning(HCHANNEL chn, float pan)
 {
-	assert(pan >= -100);
-	assert(pan <= 100);
+	if(pan>1.0)pan=1.0;
+	if(pan<-1.0)pan=-1.0;
 	if(hOpenAL)
 	{
-		alSource3f((ALuint) chn, AL_POSITION, ((ALfloat) pan) / 100.0f, 0.0f, 0.0f);
+		alSource3f((ALuint) chn, AL_POSITION, pan, 0.0f, 0.0f);
 	}
 }
 
-void CALL HGE_Impl::Channel_SetVolume(HCHANNEL chn, int volume)
+void CALL HGE_Impl::Channel_SetVolume(HCHANNEL chn, float volume)
 {
 	if(hOpenAL)
 	{
-		if (volume < 0) volume = 0; else if (volume > 100) volume = 100;
-		alSourcef((ALuint) chn, AL_GAIN, ((ALfloat) volume) / 100.0f);
+		if (volume < 0) volume = 0; else if (volume > 1.0f) volume = 1.0f;
+		alSourcef((ALuint) chn, AL_GAIN, volume);
 	}
 }
 

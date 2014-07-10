@@ -302,7 +302,7 @@ double scale;
 #ifndef WIN32
 double yos;
 #endif
-int fpslvl,clrmode;
+int fpslvl,clrmode,sfxvol,bgmvol;
 const vector2d splitData[4]={vector2d(0,0),vector2d(400,0),vector2d(0,300),vector2d(400,300)};
 //options from command line arguments
 bool fNoSound,
@@ -341,7 +341,7 @@ static const char* archive[]={
 };
 #endif
 //static const char* GLOBAL_H_FN="global.h";
-static const char* BLRVERSION="0.9.7-0 (r97)";
+static const char* BLRVERSION="0.9.8-0 (r98)";
 static const char *months="JanFebMarAprMayJunJulAugSepOctNovDec";
 char *parseDate(const char *date)
 {

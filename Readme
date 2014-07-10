@@ -135,6 +135,10 @@ To Dear Windows Users
 This game is developed and tested mostly under Linux. The official Windows version is also
 built under Linux(awesome, isn't it?). It's only briefly tested.
 
+How to play it?
+This section has been moved to the built-in help. Select "help" in the main menu to view
+it.
+
 Menus
 ------------------------------------------------------------------------------------
 Main menu
@@ -165,7 +169,7 @@ Go for the highest score!
 Free Play Mode
 You'll never die! Enjoy!...
 
-
+Command line options
 ------------------------------------------------------------------------------------
 Yes, it accept command line options! (And some of them may be very useful...)
 You can override your settings with them if you can't start it after changing the settings.

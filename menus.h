@@ -7,7 +7,7 @@ void TriggerSound(int type)
 {
 	switch(type)
 	{
-		case 0:hge->Effect_Play(snd);break;
+		case 0:hge->Effect_PlayEx(snd,sfxvol/15.0,0,1,false);break;
 		//case 1:hge->Effect_Play(menuin);break;
 		//case 2:hge->Effect_Play(menuout);break;
 	}
@@ -54,6 +54,7 @@ void Options_Writeback()
 	printf("%c",tfs?1:0);
 	printf("%c",VidMode);
 	printf("%c",diffkey?1:0);
+	printf("%c%c",bgmvol,sfxvol);
 	printf("%c%c%c%c",plrspd,plrslospd,clrbns,clrmode);
 	fclose(stdout);
 }
@@ -84,6 +85,8 @@ static const char* OMStr[]={
 	"VSync",
 	"Clear Range Key",
 	"Resolution",
+	"Music Volume",
+	"SFX Volume",
 	"Player Preference",
 	"Save and Exit",
 	"On",
@@ -368,8 +371,8 @@ public:
 		if(!onSwitch)
 		{
 			if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
-			if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<6-1)++selected,TriggerSound(0);
-			if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=5,TriggerSound(0);
+			if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<8-1)++selected,TriggerSound(0);
+			if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)selected=7,TriggerSound(0);
 		}
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
@@ -379,11 +382,11 @@ public:
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT&&hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)return -1;
 		if(hge->Input_GetKeyStateEx(HGEK_RIGHT)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT)
 		{
-			if(selected==5&&!(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT))
+			if(selected==7&&!(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT))
 				return -1;
-			TriggerSound(selected==5?2:1);
+			TriggerSound(selected==7?2:1);
 			if(onSwitch||onSwitchi)return -1;
-			if(selected<=3)
+			if(selected<=5)
 			{
 				onSwitch=true;
 				swoffset=100;
@@ -401,13 +404,23 @@ public:
 				++VidMode;
 				if(VidMode>4)VidMode=0;
 			}
+			if(selected==4)
+			{
+				++bgmvol;
+				if(bgmvol>15)bgmvol=0;
+			}
+			if(selected==5)
+			{
+				++sfxvol;
+				if(sfxvol>15)sfxvol=0;
+			}
 			return selected;
 		}
 		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)
 		{
 			if(onSwitch||onSwitchi)return -1;
 			TriggerSound(1);
-			if(selected<=3){onSwitchi=true;swoffset=0;}
+			if(selected<=5){onSwitchi=true;swoffset=0;}
 			if(selected==0)tfs=!tfs;
 			if(selected==1)
 			{
@@ -421,13 +434,23 @@ public:
 				--VidMode;
 				if(VidMode<0)VidMode=4;
 			}
+			if(selected==4)
+			{
+				--bgmvol;
+				if(bgmvol<0)bgmvol=15;
+			}
+			if(selected==5)
+			{
+				--sfxvol;
+				if(sfxvol<0)sfxvol=15;
+			}
 			return selected;
 		}
 		return -1;
 	}
 	void Render()
 	{
-		for(int i=0;i<6;++i)
+		for(int i=0;i<8;++i)
 		{
 			double calcy=i*30+dyoffset+360;
 			if(calcy>249.9&&calcy<500.1)
@@ -437,24 +460,24 @@ public:
 				if(i==0)
 				{
 					if(!(onSwitch||onSwitchi)||selected!=0)
-						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[tfs?6:7]);
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[tfs?8:9]);
 					else
 					{
 						if(onSwitch)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?7:6]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?9:8]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?6:7]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?8:9]);
 							swoffset-=hge->Timer_GetDelta()*400;
 							if(swoffset<0)swoffset=0,onSwitch=false;
 						}
 						if(onSwitchi)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?6:7]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?8:9]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?7:6]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[tfs?9:8]);
 							swoffset+=hge->Timer_GetDelta()*400;
 							if(swoffset>100)swoffset=0,onSwitchi=false;
 						}
@@ -463,24 +486,24 @@ public:
 				if(i==1)
 				{
 					if(!(onSwitch||onSwitchi)||selected!=1)
-						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?6:7]);
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?8:9]);
 					else
 					{
 						if(onSwitch)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?7:6]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?9:8]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?6:7]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?8:9]);
 							swoffset-=hge->Timer_GetDelta()*400;
 							if(swoffset<0)swoffset=0,onSwitch=false;
 						}
 						if(onSwitchi)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?6:7]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?8:9]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?7:6]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[fpslvl==2?9:8]);
 							swoffset+=hge->Timer_GetDelta()*400;
 							if(swoffset>100)swoffset=0,onSwitchi=false;
 						}
@@ -489,24 +512,24 @@ public:
 				if(i==2)
 				{
 					if(!(onSwitch||onSwitchi)||selected!=2)
-						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[diffkey?8:9]);
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,OMStr[diffkey?10:11]);
 					else
 					{
 						if(onSwitch)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?9:8]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?11:10]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?8:9]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?10:11]);
 							swoffset-=hge->Timer_GetDelta()*400;
 							if(swoffset<0)swoffset=0,onSwitch=false;
 						}
 						if(onSwitchi)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?8:9]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?10:11]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?9:8]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,OMStr[diffkey?11:10]);
 							swoffset+=hge->Timer_GetDelta()*400;
 							if(swoffset>100)swoffset=0,onSwitchi=false;
 						}
@@ -515,24 +538,76 @@ public:
 				if(i==3)
 				{
 					if(!(onSwitch||onSwitchi)||selected!=3)
-						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+10]:OMStr[15]);
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+12]:OMStr[17]);
 					else
 					{
 						if(onSwitch)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode==0?14:VidMode+9]:OMStr[15]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode==0?16:VidMode+11]:OMStr[17]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+10]:OMStr[15]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+12]:OMStr[17]);
 							swoffset-=hge->Timer_GetDelta()*400;
 							if(swoffset<0)swoffset=0,onSwitch=false;
 						}
 						if(onSwitchi)
 						{
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+10]:OMStr[15]);
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode+12]:OMStr[17]);
 							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
-							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode==4?10:VidMode+11]:OMStr[15]);
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,VidMode>=0&&VidMode<=4?OMStr[VidMode==4?12:VidMode+13]:OMStr[17]);
+							swoffset+=hge->Timer_GetDelta()*400;
+							if(swoffset>100)swoffset=0,onSwitchi=false;
+						}
+					}
+				}
+				if(i==4)
+				{
+					if(!(onSwitch||onSwitchi)||selected!=4)
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,"%d",bgmvol);
+					else
+					{
+						if(onSwitch)
+						{
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,"%d",bgmvol==0?15:bgmvol-1);
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,"%d",bgmvol);
+							swoffset-=hge->Timer_GetDelta()*400;
+							if(swoffset<0)swoffset=0,onSwitch=false;
+						}
+						if(onSwitchi)
+						{
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,"%d",bgmvol);
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,"%d",bgmvol==15?0:bgmvol+1);
+							swoffset+=hge->Timer_GetDelta()*400;
+							if(swoffset>100)swoffset=0,onSwitchi=false;
+						}
+					}
+				}
+				if(i==5)
+				{
+					if(!(onSwitch||onSwitchi)||selected!=5)
+						MenuFont->printf(xoffset+200,calcy,HGETEXT_LEFT,"%d",sfxvol);
+					else
+					{
+						if(onSwitch)
+						{
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,"%d",sfxvol==0?15:sfxvol-1);
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,"%d",sfxvol);
+							swoffset-=hge->Timer_GetDelta()*400;
+							if(swoffset<0)swoffset=0,onSwitch=false;
+						}
+						if(onSwitchi)
+						{
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+100+swoffset,calcy,HGETEXT_LEFT,"%d",sfxvol);
+							MenuFont->SetColor(SETA(0xFFFFFF,255.0f-255.0f*(swoffset/100.0f)));
+							MenuFont->printf(xoffset+200+swoffset,calcy,HGETEXT_LEFT,"%d",sfxvol==15?0:sfxvol+1);
 							swoffset+=hge->Timer_GetDelta()*400;
 							if(swoffset>100)swoffset=0,onSwitchi=false;
 						}

@@ -42,13 +42,20 @@ public:
 	void Process()
 	{
 		if(GetDist(playerpos,position)<=64)followplyr=true;
+		if(!clrmode)
+		{
+			if(clrrange!=0&&GetDist(playerpos,position)<=clrmaxrange)followplyr=true;
+		}
+		else
+		{
+			if(clrrad-pi/2>1e-7&&GetDist(playerpos,position)<=clrmaxrange)followplyr=true;
+		}
 		if(followplyr)
 		{
 			direction=ToUnitCircle(playerpos-position);
-			speed=0.3;
-		}
+			speed=0.4;
+		}else Lifetime+=hge->Timer_GetDelta();
 		if(GetDist(playerpos,position)<=9)++mult,NewMT(),Active=false;
-		Lifetime+=hge->Timer_GetDelta();
 		if(Lifetime>LifeLim)return (void)(Active=false);
 		if(Lifetime>LifeLim*0.8)
 		{
@@ -59,8 +66,11 @@ public:
 		}
 		else
 		Mult->RenderEx(position.x,position.y,0,0.8);
-		if (position.x>780||position.x<20)direction.x=-direction.x;
-		if (position.y>780||position.y<20)direction.y=-direction.y;
+		if(!followplyr)
+		{
+			if (position.x>780||position.x<20)direction.x=-direction.x;
+			if (position.y>780||position.y<20)direction.y=-direction.y;
+		}
 		int times=1;if (LOWFPS)times=17;
 		for (int i=1;i<=times;++i)
 		position.x+=direction.x*speed,position.y+=direction.y*speed;
@@ -71,7 +81,7 @@ void NewMultpo(vector2d pos=vector2d(-99,-99))
 {
 	int i=0;while (Multpo[i].IsActive())++i;
 	if (pos.x+99<=1e-6&&pos.y+99<=1e-6)
-		pos.x=rand()%750+20,pos.y=rand()%550+20;
+		pos.x=re.NextInt(20,770),pos.y=re.NextInt(20,570);
 	vector2d dir=ToUnitCircle(vector2d(rand()%1000-500,rand()%1000-500));
 	Multpo[i].Init(7.5,0.02,pos,dir);
 }

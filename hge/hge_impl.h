@@ -156,7 +156,7 @@ public:
 	virtual HEFFECT		CALL	Effect_Load(const char *filename, DWORD size=0);
 	virtual void		CALL	Effect_Free(HEFFECT eff);
 	virtual HCHANNEL	CALL 	Effect_Play(HEFFECT eff);
-	virtual HCHANNEL	CALL 	Effect_PlayEx(HEFFECT eff, int volume=100, int pan=0, float pitch=1.0f, bool loop=false);
+	virtual HCHANNEL	CALL 	Effect_PlayEx(HEFFECT eff, float volume=1.0, float pan=0.0, float pitch=1.0f, bool loop=false);
 
 	virtual HMUSIC		CALL 	Music_Load(const char *filename, DWORD size=0);
 	virtual void		CALL	Music_Free(HMUSIC mus);
@@ -175,8 +175,8 @@ public:
 	virtual void		CALL	Stream_Free(HSTREAM stream);
 	virtual HCHANNEL	CALL	Stream_Play(HSTREAM stream, bool loop, int volume = 100);
 
-	virtual void		CALL 	Channel_SetPanning(HCHANNEL chn, int pan);
-	virtual void		CALL 	Channel_SetVolume(HCHANNEL chn, int volume);
+	virtual void		CALL 	Channel_SetPanning(HCHANNEL chn, float pan);
+	virtual void		CALL 	Channel_SetVolume(HCHANNEL chn, float volume);
 	virtual void		CALL 	Channel_SetPitch(HCHANNEL chn, float pitch);
 	virtual void		CALL 	Channel_Pause(HCHANNEL chn);
 	virtual void		CALL 	Channel_Resume(HCHANNEL chn);

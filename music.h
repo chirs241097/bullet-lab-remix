@@ -12,7 +12,7 @@ void Music_Init(const char* file)
 }
 void Music_Play()
 {
-	Muc=hge->Effect_PlayEx(Mus,100,0,1.0,true);
+	Muc=hge->Effect_PlayEx(Mus,bgmvol/15.0,0,1.0,true);
 }
 void Music_Update()
 {

@@ -86,7 +86,7 @@ basic settings first!\n\nUse vsync?","First Start Up",0x00000024)==6)
 	else
 		tfs=0;
 	diffkey=false;
-	plrspd=3;plrslospd=3;clrbns=clrmode=0;
+	plrspd=3;plrslospd=3;clrbns=clrmode=0;bgmvol=15;sfxvol=10;
 	hge->System_Log("%s: Finishing first start up configuraion...",MAIN_SRC_FN);
 	Options_Writeback();
 	Score_Initailize();
@@ -95,7 +95,7 @@ basic settings first!\n\nUse vsync?","First Start Up",0x00000024)==6)
 void firststartup()
 {
 	fpslvl=2;tfs=0;VidMode=0;diffkey=false;
-	plrspd=3;plrslospd=3;clrbns=clrmode=0;
+	plrspd=3;plrslospd=3;clrbns=clrmode=0;bgmvol=15;sfxvol=10;
 	hge->System_Log("%s: Finishing (stubbed) first start up configuraion...",MAIN_SRC_FN);
 	Options_Writeback();
 	Score_Initailize();
@@ -824,13 +824,13 @@ bool FrameFunc()
 	{
 		if(~OMR)
 		{
-			if(OMR==4||OMR==5)optionMenu.Leave();
-			if(OMR==4)
+			if(OMR==6||OMR==7)optionMenu.Leave();
+			if(OMR==6)
 			{
 				playerPreferenceMenu.Init(-200);
 				Current_Position=14;
 			}
-			if(OMR==5)
+			if(OMR==7)
 			{
 				Options_Writeback();
 				mainMenu.Init(-200);
@@ -941,7 +941,7 @@ bool FrameFunc()
 		++part;
 		IfShowTip=true;
 	}
-	if (Current_Position==1&&shots)hge->Effect_Play(snd);
+	if(Current_Position==1&&shots)hge->Effect_PlayEx(snd,sfxvol/15.0,0,1,false);
 	if(mainMenu.isActive())mainMenu.Render();
 	if(startMenu.isActive())startMenu.Render();
 	if(optionMenu.isActive())optionMenu.Render();
@@ -955,8 +955,8 @@ bool FrameFunc()
 	if(highScoreViewMenu.isActive())highScoreViewMenu.Render();
 	if(highScoreDetailsMenu.isActive())highScoreDetailsMenu.Render();
 	if(Current_Position==15)HelpScene();if(hshl)HelpScene(1);
-	if (Current_Position==0||Current_Position==3||Current_Position==8||
-		Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
+	if(Current_Position==0||Current_Position==3||Current_Position==8||
+	   Current_Position==9||Current_Position==10||Current_Position==13||Current_Position==14)
 	{
 		titlespr->Render(160,0);
 	}
@@ -1202,6 +1202,7 @@ int main(int argc,char *argv[])
 #endif
 	tch=getchar();//Key binding
 	if (tch==1)diffkey=true;
+	bgmvol=getchar();sfxvol=getchar();
 	plrspd=tch=getchar();
 	playerfulspd=(tch)*0.08f;
 	playerspeed=playerfulspd;
@@ -1310,8 +1311,8 @@ int main(int argc,char *argv[])
 			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;DBGColor=0xFF000000;
 			if(bullet){free(bullet);bullet=NULL;}
 			towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
-			score=0;Mult_Init();Music_Init("./Resources/Music/CanonTechno.ogg");
-			lpst=4607901;lped=9215893;Music_Play();
+			score=0;Mult_Init();Music_Init("./Resources/Music/st05.ogg");
+			lpst=346222;lped=5539039;Music_Play();
 			coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 			Lock.Init(2);IfShowTip=true;lsc=0;
 			clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
