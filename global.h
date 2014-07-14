@@ -58,6 +58,7 @@ Target				63,71,193,193
 Laser Module		0,264,248,8
 Ribbon Module		151,264,2,8
 Multiplier"+1"		0,272,48,48
+MultPo spawn efct	48,272,48,48
 Text:blnsns.png
 "Multiplier bonus!"	0,235,163,21
 Menus and titles: menus.png
@@ -272,7 +273,7 @@ DWORD DBGColor;
 int frameleft,infofade;
 int level,part,clrtime,clrbns;
 int coll,semicoll,mode,dsmc,restarts;
-double clrrange,clrrad,clrmaxrange,clrind,assetime;
+double clrrange,clrrad,clrmaxrange,clrind,assetime,asts;
 hgeSprite *clrcircle;
 bool Dis8ref,t8special;
 int frameskips=0,stepskips=0;

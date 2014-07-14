@@ -61,7 +61,7 @@ A: This might be a internal problem. Please make a bug report if this
    happened.
 
 Q: It crashed!
-A: This program is *pretty unstable* and may crash at any time.
+A: This program may crash at any time.
    If it crashed, you can post your problem with BLRLOG.txt attatched
    to google code issue tracker. I'll try to fix the problem if I can
    reproduce it.
@@ -70,16 +70,15 @@ Q: "Cannot decompress resources!" (Windows only)
 A: I've compressed the resources of the game for Windows. As the game
    starts, it will create two folders and decompress the resources
    into them. If that failed, this problem will be reported.
-   Restarting the game may solve the problem.
+   Restarting the game may solve the problem. If it still fails, check
+   if expand.exe exists in your system(It's an essential system file!).
 
 Q: Your code cannot compile!
 A: I'm pretty sure that it CAN compile(on my machine).
-   Check if you have all required sdks.
+   Check if you have all required sdks installed and if you have
+   configured the project correctly.
    Additionally, if you checked out an older revision from svn, I
    cannot guarantee that it can compile!
-
-Q: You included in-game music in your package, but they are not played!
-A: The playing code is commented. You can figure it out yourself.
 
 Q: What are BLRData.dtp and BLRMusic.dtp?
 A: As the name tells, these are archives containing the game data.
@@ -141,6 +140,24 @@ A: If you can reach level 1~3...
    --Are you "nobody"?
    If you can pass level -1...
    --Tell me the reason why you come to Earth...
+
+Q: Why can't I play all levels, it tells me "It Ends Here"! Do I have to pay
+   you for it?
+A: Of course not! 'Cause You just restarted too many times or had too many
+   collisions. The detailed requirements is listed below.
+   Level         Restarts allowed      Collisions allowed
+   level 2       N/A                   N/A
+   level 3       1                     10
+   level 4       2                     40
+   level 5       3                     75
+   level 6       5                     125
+   level 7       8                     200
+   level -1      2                     50
+
+   For example, to enter level 6 you can restart 5 times at most (classical
+   mode), or have 125 collisions at most (FreePlay Mode).
+
+   Level -2 can only be accessed in assessment mode or "--start" option.
 
 Q: Are there other awards?
 A: Sorry, no... 

@@ -75,6 +75,7 @@ Double spinner			60
 
 Squash-2			60
 -Enjoy it yourself.
+ I think it may make the situation worse.
 
 Circle-drawing			60
 -Just draw the circle.
@@ -125,7 +126,7 @@ Snow WHITE			30
  Remark: They are accelerated!
 
 Photokeratitis			10+10+10+10+10
--This is sickly hard...
+-This used to be sickly hard...
  Treat fast bullets and slow bullets separately.
  Remark: It looks like Wriggle Nightbug's spellcard...
  As of r94, it's not so hard as it was before. Fast bullets
@@ -149,13 +150,10 @@ Hexagon loops			10+20+7+7+7+19
 
 Hyperfluid			60
 -Also known as Superfluid.
- Designed to be a spellcard(?) of someone who has the ability
- to manipulate ice...
  In fact, liquid helium is not cold enough. It's still several
  Kelvin's degrees. I can make it even colder.
  Remark: The white bullets are not accelerated, which are different
  from the blue ones. The blue bullets share the same direction: 45 deg.
- This part was designed as 「my」 「spellcard」 at first...
  Also will become easier if horizonal movement is restricted...
 
 Level 7			12/930+			Mapped levels
@@ -192,7 +190,7 @@ Rainbow effect - photon school		60	"particalization"!
 -Pretty hard. Use CLR if necessary.
  It may be easier if you stay near the edges. (I don't really know.)
 
-Over the Rainbow - timeless challenge	-	great circles
+Over the Rainbow - infinity challenge	-	great circles
 -Your goal is to reach the red block...
  And, this one is also pretty hard...
  If you're not well-skilled and you are working on FPM, try --suicide--,
@@ -200,7 +198,7 @@ Over the Rainbow - timeless challenge	-	great circles
  Remark: This level will never end if you don't reach the red block...
 
 Trypophobia				120	another two classes: Tail & Pile
--Very hard. You'll never know where they will go next.
+-Very hard. You'll never know where they will go next(neither will they).
  However, they won't step on the same place twice.
  Will this cause trypophobia?
  Remark: This level almost burn my computer...

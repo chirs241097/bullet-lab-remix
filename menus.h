@@ -61,14 +61,21 @@ void Options_Writeback()
 char *getRank()
 {
 	static char retval[256];
-	//stub!
 	//sprintf something to retval
 	if(mode!=2)
 	{
-		if(level<=3)sprintf(retval,"Try more...");
 		if(level<=6)sprintf(retval,"Still need more effort!");
+		if(level<=3)sprintf(retval,"Try more...");
 		if(level==7)sprintf(retval,"You've done it!");
 		if(level==-1)sprintf(retval,"Why do you come to Earth?");
+	}
+	else
+	{
+		if(asts>900)sprintf(retval,"Contact me immediately!!");
+		if(asts<=900)sprintf(retval,"Perfect player.");
+		if(asts<=600)sprintf(retval,"That's awesome.");
+		if(asts<=450)sprintf(retval,"Not so bad...");
+		if(asts<=120)sprintf(retval,"Are you kidding?");
 	}
 	return retval;
 }
@@ -1177,8 +1184,9 @@ public:
 		MenuFont->printf(xoffset-100,280,HGETEXT_LEFT,"Your Ranking: %s",getRank());
 		if(mode==2)
 		{
-			MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Semi-collisions %d",semicoll);
-			MenuFont->printf(xoffset-100,340,HGETEXT_LEFT,"Average FPS: %.02f",averfps);
+			MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Time elapsed: %.2fs",((int)(asts*100))/100.0);
+			MenuFont->printf(xoffset-100,340,HGETEXT_LEFT,"Semi-collisions %d",semicoll);
+			MenuFont->printf(xoffset-100,370,HGETEXT_LEFT,"Average FPS: %.2f",averfps);
 		}
 		else
 		{
@@ -1188,7 +1196,7 @@ public:
 				MenuFont->printf(xoffset-100,310,HGETEXT_LEFT,"Collisions %d",coll);
 			MenuFont->printf(xoffset-100,340,HGETEXT_LEFT,"Semi-collisions %d",semicoll);
 			MenuFont->printf(xoffset-100,370,HGETEXT_LEFT,"CLR Usage %d",clrusg);
-			MenuFont->printf(xoffset-100,400,HGETEXT_LEFT,"Average FPS: %.02f",averfps);
+			MenuFont->printf(xoffset-100,400,HGETEXT_LEFT,"Average FPS: %.2f",averfps);
 		}
 		CompleteTitle->Render(xoffset-200,200);
 	}
@@ -1468,8 +1476,8 @@ public:
 		ConfigureQuad(&UpperGradient,xoffset-140,290,600,100);
 		ConfigureQuad(&LowerGradient,xoffset-140,440,600,130);
 		if(hge->Input_GetKeyStateEx(HGEK_UP)==HGEKST_HIT&&selected>0)--selected,TriggerSound(0);
-		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<(view==1?5:7)-1)++selected,TriggerSound(0);
-		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)TriggerSound(0),selected=(view==1?5:7)-1;
+		if(hge->Input_GetKeyStateEx(HGEK_DOWN)==HGEKST_HIT&&selected<(view==1?6:7)-1)++selected,TriggerSound(0);
+		if(hge->Input_GetKeyStateEx(HGEK_ESCAPE)==HGEKST_HIT)TriggerSound(0),selected=(view==1?6:7)-1;
 		yoffset=-selected*30;
 		if(fabs(dyoffset-yoffset)<7)dyoffset=yoffset;
 		if(dyoffset<yoffset)dyoffset+=hge->Timer_GetDelta()*400;
@@ -1492,9 +1500,11 @@ public:
 			if(dyoffset+430>289.9&&dyoffset+430<540.1)
 				MenuFont->printf(xoffset,dyoffset+430,HGETEXT_LEFT,"Scored %lld by %s",WrapRec[no].score,WrapRec[no].name);
 			if(dyoffset+460>289.9&&dyoffset+460<540.1)
-				MenuFont->printf(xoffset,dyoffset+460,HGETEXT_LEFT,"Semi-Collisions %d",WrapRec[no].scoll);
+				MenuFont->printf(xoffset,dyoffset+460,HGETEXT_LEFT,"Time elapsed %.2fs",WrapRec[no].rescol/100.0);
 			if(dyoffset+490>289.9&&dyoffset+490<540.1)
-				MenuFont->printf(xoffset,dyoffset+490,HGETEXT_LEFT,"Average FPS %d.%d",WrapRec[no].af_int,WrapRec[no].af_fric);
+				MenuFont->printf(xoffset,dyoffset+490,HGETEXT_LEFT,"Semi-Collisions %d",WrapRec[no].scoll);
+			if(dyoffset+520>289.9&&dyoffset+520<540.1)
+				MenuFont->printf(xoffset,dyoffset+520,HGETEXT_LEFT,"Average FPS %d.%d",WrapRec[no].af_int,WrapRec[no].af_fric);
 		}
 		else
 		{
@@ -1514,7 +1524,7 @@ public:
 			if(dyoffset+550>289.9&&dyoffset+550<540.1)
 				MenuFont->printf(xoffset,dyoffset+550,HGETEXT_LEFT,"Average FPS %d.%d",WrapRec[no].af_int,WrapRec[no].af_fric);
 		}
-		double calcy=(view==1?4:6)*30+dyoffset+400;
+		double calcy=(view==1?5:6)*30+dyoffset+400;
 		if(calcy>289.9&&calcy<540.1)
 			MenuFont->printf(xoffset,calcy,HGETEXT_LEFT,"back");
 		Ribb->RenderEx(xoffset-50,395,0,6,1);

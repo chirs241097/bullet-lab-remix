@@ -5,7 +5,6 @@ Todo's:
 *Adjust difficulty!*//almost done?
 *Add multpo's.*//almost done?
 *Distribute CLRs.*//almost done?
-Ranking rewrite.
 Bug fixes.
 Tests.*//done?...
 Wishlist?
@@ -14,14 +13,30 @@ Known bugs:
 Blue bullets appearing in Vortex of leaves.//don't know why...
 
 Wishlist:
-Add spawning effect for Multpo.
-Make more data stored in .blrscore.
-In-game music bring back.
 ~~Now Playing(Music Room)~~
 ~~BLR script virtual machine~~(long long-term! probably the core
 of next BLR.)
 
 Pre-Released versions:
+0.9.9-0 (r99)
+Rev. 99! WTF?
+THIS IS THE FINAL RELEASE CANDIDATE!!!
+Everything is frozen, that means no more new features will be
+added and no big changes will be made after this revision. Only
+bug fixes will be provided.
+//Again, "frozen" is a term borrowed from the Debian project and
+//is completely unrelated to Cirno!
+
+Tweak bullet9, shrink its removal border.
+Change Multpo texture, add spawning effect.
+Fix stubbed rankings.
+Update sprite sheet.
+Store assessment total elapsed time in the score file. Score
+files from older revisions shouldn't cause any errors but you may
+get "Time elapsed 0.00" in highscore details. If you've got any
+sort of OCD (Obsessive-compulsive disorder), just remove it.
+Document!!!
+
 0.9.8-0 (r98)
 Dear Pre-Release Candidate version(RC-0).
 

@@ -1,9 +1,7 @@
 This text is encoded in UTF-8.
-NOTE: This is a pre-release version. That means:
+NOTE: This is a Release Candidate version. That means:
 -The program may crash. It may even cause data loss.
--The levels may be too hard.
 -There may be strange behavior.
--The in-game music is included but won't be played. (See FAQ.txt)
 -The code may not even compile!
 
 BulletLabRemix II readme
@@ -13,7 +11,6 @@ Content
 What's this?
 Story
 Generic Information
-Menus
 Game Modes
 Command line options
 About the author
@@ -120,8 +117,11 @@ MORE Recommends...
 -Achromatopsia(<-strikethrough)
 
 How to install&run it...
+Windows:
 Just extract all files in the archive somewhere, then start the only executable
 file in it.
+Linux:
+See INSTALL.
 
 If, suddenly, you can't run it one day...
 Remove .blrrc then restart the game.
@@ -140,9 +140,9 @@ This section has been moved to the built-in help. Select "help" in the main menu
 it.
 
 Menus
-------------------------------------------------------------------------------------
-Main menu
 -----------------------------------------------------------------------
+Main menu
+
 Start                  Select a mode and start the game.
 Highscores             View highscores
 Options                Settings and Options
@@ -168,6 +168,24 @@ Go for the highest score!
 
 Free Play Mode
 You'll never die! Enjoy!...
+
+Options
+-----------------------------------------------------------------------
+Fullscreen             Toggles fullscreen. Requires restart. You can also try Alt+Enter.
+VSync                  Toggles vsync. If your screen refresh rate is 60Hz, enable it.
+Clear Range Key        Select key for calling/charging CLR.
+Resolution             Select a resolution. Please note that the native reso. is 800x600.
+Music Volume           Change music volume.
+SFX Volume             Change SFX volume.
+Player Preference      See below.
+
+Player Preference
+------------------------------------------------
+Moving Speed           Speed when moving without holding shift.
+Precise Moving Speed   Speed when moving holding shift.
+Clear Range Bonus      Get more CLR's for each part.
+Clear Range Mode       Change CLR mode.
+Ability Point          If this value is greater than 10000, you can't save your settings.
 
 Command line options
 ------------------------------------------------------------------------------------
@@ -229,9 +247,12 @@ Brief History
 ------------------------------------------------------------------------------------
 The file ChangeLog contains the full history of this project.
 Here's a list of released-to-public versions.
+0.9.9-0 (r99)
+The final Release Candidate. Complete the whole game system.
+Fixing most of the bugs.
 
 0.9.1-1_PR (r86)
-Current public release. Comes with all levels that will appear in the final release.
+Comes with all levels that will appear in the final release.
 Done menu rewrite.
 Make multiplier system functional.
 

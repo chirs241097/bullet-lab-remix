@@ -26,7 +26,7 @@ void ProcessMT()
 class MultPo
 {
 private:
-	hgeSprite *Mult;
+	hgeSprite *Mult,*SpwnEfx;
 	double Lifetime,LifeLim,speed;
 	vector2d position,direction;
 	int blinkbrk;
@@ -37,7 +37,8 @@ public:
 	{
 		Lifetime=0;LifeLim=_lt;speed=_speed;position=_pos;direction=_dir;
 		Mult=new hgeSprite(SprSheet,0,272,48,48);Active=true;blinkbrk=0;blnkshow=true;
-		Mult->SetHotSpot(24,24);followplyr=false;
+		Mult->SetHotSpot(24,24);followplyr=false;SpwnEfx=new hgeSprite(SprSheet,48,272,48,48);
+		SpwnEfx->SetHotSpot(24,24);
 	}
 	void Process()
 	{
@@ -55,8 +56,22 @@ public:
 			direction=ToUnitCircle(playerpos-position);
 			speed=0.4;
 		}else Lifetime+=hge->Timer_GetDelta();
-		if(GetDist(playerpos,position)<=9)++mult,NewMT(),Active=false;
-		if(Lifetime>LifeLim)return (void)(Active=false);
+		if(GetDist(playerpos,position)<=9)
+		{
+			++mult,NewMT(),Active=false;
+			delete Mult;delete SpwnEfx;return;
+		}
+		if(Lifetime>LifeLim)
+		{
+			delete Mult;delete SpwnEfx;
+			return (void)(Active=false);
+		}
+		if(Lifetime<LifeLim*0.03)
+		{
+            double siz=(LifeLim*0.03-Lifetime)/(LifeLim*0.03)*3;
+            SpwnEfx->SetColor(SETA(SpwnEfx->GetColor(),Lifetime/(LifeLim*0.03)*255));
+            SpwnEfx->RenderEx(position.x,position.y,0,siz);
+		}
 		if(Lifetime>LifeLim*0.8)
 		{
 			if (!LOWFPS)++blinkbrk;else blinkbrk+=17;

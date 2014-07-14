@@ -302,7 +302,7 @@ void CallLevels()
 {
 	//Use this to call level procedures.
 	if((mode==1)&&coll!=0){deathMenu.Init(-200);return;}
-	if((mode==2)&&coll!=0){assetime=0;++part;coll=0;IfCallLevel=IfShowTip=true;return;}
+	if((mode==2)&&coll!=0){asts+=assetime;assetime=0;++part;coll=0;IfCallLevel=IfShowTip=true;return;}
 	if(!IfCallLevel) return;
 	if(mode==2)assetime+=hge->Timer_GetDelta();
 	//Check Complete here
@@ -693,7 +693,7 @@ bool FrameFunc()
 				case 1:
 					playerpos.x=400,playerpos.y=400,playerrot=0;
 					frameleft=ThirtySeconds;infofade=0xFF;Dis8ref=t8special=false;
-					level=-2,part=0;frms=0,averfps=0.0;bsscale=1;assetime=0;
+					level=-2,part=0;frms=0,averfps=0.0;bsscale=1;assetime=asts=0;
 					if(bullet){free(bullet);bullet=NULL;}
 					towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
 					score=0;Mult_Init();Music_Init("./Resources/Music/CanonTechno.ogg");
@@ -1238,6 +1238,8 @@ int main(int argc,char *argv[])
 		snd=hge->Effect_Load("./Resources/tap.ogg");
 		menuin=hge->Effect_Load("./Resources/menuin.ogg");
 		menuout=hge->Effect_Load("./Resources/menuout.ogg");
+		if(!quad.tex||!SprSheet||!TexTitle||!TexCredits)
+		Error("Error Loading Resources!",true);
 		titlespr=new hgeSprite(TexTitle,0,0,640,320);
 		playerspr=new hgeSprite(SprSheet,0,24,24,24);
 		playerspr->SetHotSpot(12,12);
@@ -1245,8 +1247,6 @@ int main(int argc,char *argv[])
 		ATarg.Init(-0.001,vector2d(400,300));
 		BTarg.Init(-0.001,vector2d(400,300));
 		BTarg.targspr->SetColor(0xFFC00000);
-		if(!quad.tex||!SprSheet||!TexTitle||!TexCredits)
-		Error("Error Loading Resources!",true);
 		quad.blend=BLEND_ALPHABLEND | BLEND_COLORMUL | BLEND_NOZWRITE;
 		DBGColor=0xFFFFFFFF;
 		for(int i=0;i<4;i++)

@@ -867,7 +867,7 @@ void ProcessBullet9(int i)
 	}
 	BulletEffect_Process(i);
 	double dis=GetDist(bullet[i].bulletpos,playerpos);
-	if (dis<=6||bullet[i].bulletpos.x<=-10||bullet[i].bulletpos.x>=800||bullet[i].bulletpos.y<=-10||bullet[i].bulletpos.y>=600)
+	if (dis<=6||bullet[i].bulletpos.x<=-100||bullet[i].bulletpos.x>=900||bullet[i].bulletpos.y<=-100||bullet[i].bulletpos.y>=700)
 	{
 		if (dis<=6&&clrrange<1e-5&&clrrad-pi/2<1e-7)++coll,scminus+=10000,Mult_BatClear();
 		bullet[i].exist=false;

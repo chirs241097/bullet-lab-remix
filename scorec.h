@@ -236,7 +236,7 @@ void InsertHighScore()
 			ExRec[pos].len=newlen;
 			memcpy(ExRec[pos].name,newname,sizeof(newname));
 			ExRec[pos].clrusg=clrusg;
-			ExRec[pos].rescol=restarts;ExRec[pos].scoll=semicoll;
+			ExRec[pos].rescol=asts*100;ExRec[pos].scoll=semicoll;
 			ExRec[pos].af_int=(int)averfps;
 			ExRec[pos].af_fric=(int)(averfps*10)%10*10+(int)(averfps*100)%10;
 			break;

@@ -7,14 +7,15 @@ BulletLabRemixII
 强烈推荐在阅读本文档前先自己玩一下。
 
 不适宜人群：
-Anybody who isn't insterested in this topic
-Liberal arts students(?...)
+?
+
+
 
 适宜人群：
-Nobody(?)
-Coders who want to modify this game, or import levels to your game...
-Casual persons who won't care anything
-Someone who is stuck at a part
+?
+
+
+
 
 
 
@@ -24,235 +25,224 @@ Someone who is stuck at a part
 ======================警告：下面有好多好多字！======================
 Level 1			2/180
 River levels			120
--It's confusing... so much bullets for Level1?
- However it's fairly easy. Do not seek for death(where those "+1" are
- leading you to)
+-为什么第一关就这么多子弹…
+ 其实非常简单，别作死就行。（而那些“+1”就是要你这么做。）
 
 Double-directed labyrinth	60
--Still very easy.
+-还是非常简单。
 
 Level 2			4/215
 Polygon-red			60
--This is not hard...
- Fake bullets aren't always annoying.
+-这个也不难…
+ 外面那一圈没有看上去的那么麻烦。
 
 Polygon-white			60
--Make good use of precise mode.
+-利用好shift键（我的shift键已经卡在键盘里弹不出来了）。
 
 Polygon-white locked		6
--You can't move vertically!
- Find a good position, e.g. near by a line.
+-你不能在竖直方向上移动了！
+ 找一个好的位置呆着。
 
 Polygon-both			30
--This part doesn't make sense.
+-这关毫无意义。
 
 Level 3			4/150
 Reflective			30
--Just meet them, do not make big movements.
- They are pretty friendly aren't they?
+-初次见面，它们看起来还挺友好的是吧？
 
 *4				30
--It's a little difficult... Keep away from the edges!
+-稍微有点难…离边框远点！
 
 Rotate ????			60
--Stay away from the rotating bullets.
+-不要靠近那些旋转的子弹。
 
 Wall of blues?			30
--Rather easy. Do not try to earn too may semi-collisions unless
- you are really skilled.
- Looks awesome?
+-相当简单。别刷擦蛋，除非你是大触。
+ 看起来很厉害？
 
 Level 4			5/243
 Orange				30
--Don't make big movements and stay away from the edges. (why?)
- Those fast bullets are really annoying.
+-高速子弹非常烦人。
 
 Orange trap			5+5+4+4+3+3+2+2+5
--Do NOT press shift!
+-别按shift！
 
 Double spinner			60
--An easy part for level 4.
+-对于第4关来说算是简单的部分。
 
 Squash-2			60
--Enjoy it yourself.
+-好好享受…
+ 我想这可能会让情况变得更坏。
 
 Circle-drawing			60
--Just draw the circle.
- If you have any problem, try BLR 1.
+-画圈就行了。
+ 如果你有任何问题，去试试BLR 1.
 
 Level 5			8/338
 CChase				30+30
--Don't set player move speed to 1!
- Remark: They are not really faster than you...
+-不要把移动速度设置为1！
+ 说明：它们不是真的比你快…
 
 Vortex of leaves		60
--This is another annoying level, looks awesome and hard.
- Keep away from those 'laser''s!
- Remark: The lasers may have strange collision detection...
- Be careful!
+-另一个烦人的关卡，看着挺好看，但是也很难。
+ 离那些“激光”远点！
+ 说明：激光的判定可能有点奇怪。
 
 Upstream flow			60
--Rather easy.
- Looks like something in level 3.
+-相当简单了。
+ 看起来有点像第3关。
 
 High speed threaten		30
--It's JUST threaten!
- Precision is important.
- Practice makes perfect.
- If you *can't* move horizonally may be it's easier...
+-这只是吓唬人的！
+ 你需要精准的移动。
+ 或许如果你不能水平移动的话这关会简单一点…
 
 Crossing threaten		30
--Appears very hard.
- Choose the correct time to cross those bullets.
+-看起来非常难。
+ 选择正确的时机穿过它们。
 
 Orange trap2			2+2+2+5
--Just another level from level 4.
+-第4关？
 
 Fish in the barrel		60
--Seems to be faster and faster? NO...
- Remark: Those bullets are comming directly towards you.
+-好像越来越快了？不…
+ 说明：那些子弹是“自机狙”。
 
 the Unbreakable jail		30
--This is fairly hard. Use CLR if you need it.
- Remark: When the 'target' got red, it's about to update its
- position. If you keep moving when it's updating its position,
- it will stuck in update mode, or it will stop.
+-相当难…如果感觉到了请使用CLR。
+ 说明：当那个“轮子”变红的时候，它就要更新它的位置了。如果你在它更新位置
+ 的时候一直移动，它将卡在更新模式，否则它会停下来。
 
 Level 6			7/390
 Snow WHITE			30
--Incredible fast. Do not treat your CLR as a
- £100,000,000 cheque.
- Remark: They are accelerated!
+-太快了…多用CLR…
+ 说明：它们还被加速了！
 
 Photokeratitis			10+10+10+10+10
--This is sickly hard...
- Treat fast bullets and slow bullets separately.
- Remark: It looks like Wriggle Nightbug's spellcard...
- As of r94, it's not so hard as it was before. Fast bullets
- won't hit you *if you don't move*.
+-这关曾经难的丧心病狂…
+ 区别对待快速弹和慢速弹。
+ 说明：看着有点像谁的符卡…
+ 到r94以后，这关没有之前那么难了。如果你不动的话，快速弹根本打不到你。
 
 Squash-4(?)			60
--Do not be trapped! You only need ONE CLR!...
+-别被困在里面！你只需要一个CLR！
 
 Avalanche			60
--Do not stay at the screen bottom, it's very dangerous...
+-不要呆在屏幕底端，那里非常危险…
 
 Dangerous target		60
--Keep moving!
- It's a nightmare if you've choose a slow player...
- Remark: The target follows you as a yellow bullet does,
- but not in the same manner.
+-别停下来！
+ 如果你的移动速度设置的很慢，那这将是一场噩梦…
+ 说明：“轮子”就像黄色子弹一样跟着你，但是姿势不同。
 
 Hexagon loops			10+20+7+7+7+19
--Step well back and watch the show.
- Remark: This level will misbehave if FPS dropped...
+-找个角落停下来然后观看表演。
+ 说明：如果FPS低于55，那么这关可能会变形…
 
 Hyperfluid			60
--Also known as Superfluid.
- Designed to be a spellcard(?) of someone who has the ability
- to manipulate ice...
- In fact, liquid helium is not cold enough. It's still several
- Kelvin's degrees. I can make it even colder.
- Remark: The white bullets are not accelerated, which are different
- from the blue ones. The blue bullets share the same direction: 45 deg.
- This part was designed as 「my」 「spellcard」 at first...
- Also will become easier if horizonal movement is restricted...
+-超流体。
+ 其实液氦还不够冷，本来这部分还可以更冷一些的…
+ 说明：蓝色子弹是加速的，而白色的没有。所有蓝色子弹的方向都是相同的。
+ 如果限制水平移动的话会简单一些。
 
 Level 7			12/930+			Mapped levels
 Spring thunder storm - panic?		60	Thunder storm...
--Although it's based on something from level 6, they are completely
- different!
- And this one is really easy.
- Remark: Try to get to the top of the screen...
- Try restricting vertical movement this time...
+-虽然代码是基于上一关写的（看着也很像），但是它们完全不同！
+ 这个真的很简单…
+ 说明：试着在屏幕顶端躲避…
+ 这次试着限制一下竖直方向的移动…
 
 Rainbow tower - color theory		90	rainbow tower
--Basic level.
- Remark: It's taken from the old testbed version of BLRII.
+-基础的关卡。
+ 说明：这关是从很老的试验版本的BLR2中拿出来的。
 
 Rainbow bullets - nauty photon		60	Lazy level;)
--Similar to one part in level1, but *much* harder.
- Luck is really required.
- Remark: The generation of bullets is really strange... If the last position
- on the y axis is taken up... sorry that I started to talk about coding again.
+-看着很像第一关的什么东西，但是难多了！
+ 很拼RP…
+ 说明：生成子弹的过程比较奇怪……
 
 Rainbow effect - appearance		60	draw a rainbow (of bullet)
--Random bullets. You will remember this part at once when you see the part.
- If you feel it hard, go to assessment mode.
- Remark: The bullets forming the rainbow are invincible.
+-随机弹。你一看到这一关就会记住它的。
+ 如果你感觉太难，试试评估模式吧。
+ 说明：组成彩虹的子弹是不会被消掉的。
 
 Rainbow effect - interference		120	as the name tells
--This part is REALLY easy... but why?
+-*真的*太简单了…但是为什么呢？
 
 Rainbow effect - diffraction		120	as the name tells
--Pretty hard. Those piles of shit may crash straight into you.
- The code is pretty ugly too.
+-相当难。那一大坨有可能糊你一脸。
+ 代码也很难看。
 
 Rainbow effect - photon school		60	"particalization"!
--Pretty hard. Use CLR if necessary.
- It may be easier if you stay near the edges. (I don't really know.)
+-仍然相当难（某人：这都第几关了你也不看看……）
+ 如果你靠近边缘的话可能会简单一点（其实我不知道）。
 
-Over the Rainbow - timeless challenge	-	great circles
--Your goal is to reach the red block...
- And, this one is also pretty hard...
- If you're not well-skilled and you are working on FPM, try --suicide--,
- it worthwhile to do so!
- Remark: This level will never end if you don't reach the red block...
+Over the Rainbow - infinity challenge	-	great circles
+-你的目标是冲到红格子上…
+ 并且这个也很难……
+ 如果你技术不过关，并且在玩自由模式，试试“自杀”（<-删除线），这比“好好玩”要经济得多！
+ 说明：如果你不去碰那个红格子，这关永远不会结束……
 
 Trypophobia				120	another two classes: Tail & Pile
--Very hard. You'll never know where they will go next.
- However, they won't step on the same place twice.
- Will this cause trypophobia?
- Remark: This level almost burn my computer...
- I seem to forget an important thing: Bullets with effects won't collide
- for a short time after they are created...
+-非常难。你永远不知道它们接下来会进入哪个格子（它们自己也不知道）。
+ 但是它们不会踏上同一个格子两次。
+ 这会引起密集恐惧症吗？
+ 说明：这关几乎要烧掉我的电脑了……
+ 我好像忘了一件重要的事情：刚生成的带生成效果的子弹是没有碰撞判定的…
 
 Photon fission				90	Use a slightly modified tower8...
--Directed bullets+random bullets.
- Find a formula for it.
+-自机狙+随机弹。
+ 这是有公式的…
 
 Wave of Photon				60	class WOP+Lazy of particalization
--Not very hard at the beginning...
+-一开始一点也不难…
 
 Return to void				90	return (void)(...);
--VERY HARD!!!
- I don't know where this came from.
- CLR is useless but it will give you a short period during which you are invincible.
- Remark: There are "no solution" cases...
+-非常难！！！（汉字不能大写真是太遗憾了。）
+ 我不知道这是从哪儿来的。
+ CLR没什么用处，但是它会给你短暂的无敌时间…
+ 说明：有无解的情况…
 
 Level -1(Extreme)	7/1020
-unknown circles*2			60*2
--Pretty easy as they are only the beginning of nightmare...
+unknown circles1		60
+-它们靠近边缘的时候会慢下来。*实在是太烦人了！！！*
+
+unknown circles2		60
+-它们直接堆积在边缘附近了！而且变得越来越厚！！……
 
 Spiky					120
--Hard. Their behavior is not predictable.
- Remark: Again, never try to approach lasers! They are harmful to your eyes...
+-一个字：难！它们的行为是无法预测的。
+ 说明：重复一遍，不要碰激光！会伤害眼睛的…
 
 Achromatopsia				120(90+30)
--Or we should call this "deuteranopia vs protanopia"?
- Remark: Color change may suddenly happen!!
+-没有路了？
+ 好好看看这关的名字（色盲）……
+ 或者我们可以把这关叫做"绿色盲 vs 红色盲"？
+ 说明：颜色变换是突然发生的！
 
 Quad thread				120
--Do you humans really support it?
- Remark: I don't...
+-人类大脑真的支持这个么？
+ 说明：我的不行…
 
 Gravity vortex				120
--It has nothing to do with gravity at all.
+-跟引力什么的一点关系都没有，但是很难！
+ 看着挺好看。
 
 Supernova(additive blending)		120
--After gathering enough power, they explode --
- Awesome supernova!
- I enjoy coding(such easy parts)...
+-积攒了足够的能量之后，它们爆炸了——超新星！
+ 我非常愿意写这种简单的关卡…
+ 说明：刚生成的子弹…我不能提示更多了。
 
 yellow explosive			90
--There's nothing to code, so I came up with this...
- Not deadly at all.
+-没什么可写的关了，于是我就想到了这个。
+ --一点也不致命。--
 
 Sink over the horizon			90
--Strange. You might be trapped without noticing it.
+-非常奇怪。经常莫名其妙的被封。
 
 Incomplete Reflective			120
--Start in peace, end in mess.
+-在平静中开始，一团糟中结束。
+ 说明：有四分之一的子弹会在碰到墙时爆炸。
  Remark: one in four bullets will explode when it hits the wall.
 
 Level -2(Assess)	10/?
@@ -285,7 +275,7 @@ Crossing 1(L+R)
 
 Crossing 2(C)
 交叉2
--直接来自泄矢诹访子的符卡。
+-直接来自泄矢 诹访子的符卡。
  圆形的子弹有点令人晕头转向。
  结局：你猜？
 
@@ -306,7 +296,7 @@ Sine wave
 Density test
 密度测试
 -这个密度真的很高…
- 卧×？没路了？
+ ××？！没路了？
  结局：
  玩家×××
  死于一场可怕的车祸，每滴血都被*挤*到了左边的墙上。
