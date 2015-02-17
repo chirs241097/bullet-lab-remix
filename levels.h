@@ -3701,10 +3701,11 @@ void Levelm2Part4()
 		if(assetime>=10)tbrk=re.NextDouble(0.1,0.2);
         if(assetime>=20)tbrk=re.NextDouble(0.05,0.08);
         if(assetime>=30)tbrk=re.NextDouble(0.02,0.035);
-        if(assetime>=60)tbrk=0.02;
-        if(assetime<75)rcnt=1;if(assetime>=75)rcnt=2;
+        if(assetime>=60)tbrk=0.02;if(assetime>=90)tbrk=0.01;
+        if(assetime<90)rcnt=1;if(assetime>=90)rcnt=2;
         if(assetime>=120)rcnt=4;if(assetime>=150)rcnt=8;
-        double rspeed=re.NextDouble(0.5+3*assetime/180.0f,1+5*assetime/180.0f);
+        if(assetime>=180)rcnt=16;
+        double rspeed=re.NextDouble(0.5+3*assetime/180.0f,1+9*assetime/180.0f);
         for(int i=0;i<rcnt;++i)
 			CreateBullet2(400,300,rspeed,re.NextDouble(-pi,pi));
 	}

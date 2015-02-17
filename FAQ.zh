@@ -37,6 +37,7 @@ A: 如果你自己编译了一个使用OpenGL的Windows版，就有可能发生�
    DirectX的版本。
    如果这发生在Linux版上，你还是太不幸了。OpenGL 1.2是1998年发布的标准…
    不过如果你的X display没打开OpenGL支持，或者没有正确地安装驱动，该问题可能也会发生。
+   另有一种可能，就是你正在使用OpenGL Soft，而本游戏不支持它。
 
 Q: "******** failed, using no sound"，然后什么声音都没有…
 A: OpenAL初始化失败了。

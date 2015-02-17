@@ -2,22 +2,34 @@
 Next version:
 The final release is just there!!
 Todo's:
-*Adjust difficulty!*//almost done?
-*Add multpo's.*//almost done?
-*Distribute CLRs.*//almost done?
 Bug fixes.
-Tests.*//done?...
-Wishlist?
+Tests.
 
 Known bugs:
 Blue bullets appearing in Vortex of leaves.//don't know why...
 
-Wishlist:
+Wishlist: <-strikethrough
 ~~Now Playing(Music Room)~~
-~~BLR script virtual machine~~(long long-term! probably the core
-of next BLR.)
+~~BLR script virtual machine~~(Now working for BLR3)
+
+Releases:
+
+1.0.0-0 (r100)
+Rev. 100!!!
+This is the final release.
+No more major changes will be made.
+Further changes of BLR2 will only be bug fixes (BGM addition
+excluded).
+
+Changes:
+Fix screenshot excluding the info panel.
+Make Lv-2P4 harder (reporter: BLumia).
+If it is the first time you start BLR in Windows, resolution in
+the options menu will be "?". Fixed now.
+Fixed a critical bug in scorec.h.
 
 Pre-Released versions:
+
 0.9.9-0 (r99)
 Rev. 99! WTF?
 THIS IS THE FINAL RELEASE CANDIDATE!!!

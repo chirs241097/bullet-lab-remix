@@ -46,6 +46,8 @@ A: If you build a custom Windows build with OpenGL, this may occur, for
    is released in 1998...
    Similiar problems may also happens if your X display is not a GL visual
    or you haven't installed drivers properly.
+   It's also possible that you are using OpenGL Soft, which is not
+   supported.
 
 Q: "******** failed, using no sound", and it's silent...
 A: OpenAL initialization failed.

@@ -85,7 +85,7 @@ basic settings first!\n\nUse vsync?","First Start Up",0x00000024)==6)
 		tfs=1;
 	else
 		tfs=0;
-	diffkey=false;
+	diffkey=false;VidMode=0;
 	plrspd=3;plrslospd=3;clrbns=clrmode=0;bgmvol=15;sfxvol=10;
 	hge->System_Log("%s: Finishing first start up configuraion...",MAIN_SRC_FN);
 	Options_Writeback();
@@ -1006,8 +1006,8 @@ bool FrameFunc()
 			fnt->printf(5, 150, HGETEXT_LEFT, "Multiplier: %.2lf",mult);
 		}
 	}
-	if(hge->Input_GetKeyStateEx(HGEK_S)==HGEKST_HIT&&Current_Position!=7)hge->System_Snapshot();
 	hge->Gfx_EndScene();
+	if(hge->Input_GetKeyStateEx(HGEK_S)==HGEKST_HIT&&Current_Position!=7)hge->System_Snapshot();
 	return false;
 }
 void printHelp(char *exec,const char* str="")
@@ -1311,8 +1311,8 @@ int main(int argc,char *argv[])
 			level=startLvl,part=startPrt;frms=0,averfps=0.0;bsscale=1;DBGColor=0xFF000000;
 			if(bullet){free(bullet);bullet=NULL;}
 			towcnt=bulcnt=0;whrcnt=12;skyactive=false;PlayerSplit=false;
-			score=0;Mult_Init();Music_Init("./Resources/Music/st05.ogg");
-			lpst=346222;lped=5539039;Music_Play();
+			score=0;Mult_Init();Music_Init("./Resources/Music/BLR2_TR07.ogg");
+			lpst=0;lped=0;Music_Play();
 			coll=semicoll=clrusg=0;playerLockX=playerLockY=false;
 			Lock.Init(2);IfShowTip=true;lsc=0;
 			clrrad=pi/2;clrrange=0;re.SetSeed(time(NULL));
