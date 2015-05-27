@@ -11,7 +11,7 @@ bool hgeTTChar::SetChar(wchar_t ch,FT_Face ttfface)
 	err=FT_Render_Glyph(ttfface->glyph,FT_RENDER_MODE_NORMAL);
 	if(err){hge->System_Log("%s: Glyph render failed!",HGEFT_SRC_FN);return false;}
 	_w=slot->advance.x>>6;_h=slot->bitmap.rows;//we are one line only.
-	rw=slot->bitmap.width;rh=slot->bitmap.rows;
+	rw=slot->bitmap.width;rh=slot->bitmap.rows;yofst=slot->bitmap.rows-slot->bitmap_top;
 	quad.tex=hge->Texture_Create(
 	slot->bitmap.width?slot->bitmap.width:1,
 	slot->bitmap.rows?slot->bitmap.rows:1);
@@ -40,10 +40,10 @@ bool hgeTTChar::SetChar(wchar_t ch,FT_Face ttfface)
 void hgeTTChar::Render(double x,double y,DWORD col)
 {
 	for(int i=0;i<4;++i)quad.v[i].col=col;
-	quad.v[0].x=x;quad.v[0].y=y-rh;
-	quad.v[1].x=x+rw;quad.v[1].y=y-rh;
-	quad.v[2].x=x+rw;quad.v[2].y=y;
-	quad.v[3].x=x;quad.v[3].y=y;
+	quad.v[0].x=x;quad.v[0].y=y-rh+yofst;
+	quad.v[1].x=x+rw;quad.v[1].y=y-rh+yofst;
+	quad.v[2].x=x+rw;quad.v[2].y=y+yofst;
+	quad.v[3].x=x;quad.v[3].y=y+yofst;
 	hge->Gfx_RenderQuad(&quad);
 }
 bool hgeTTFont::Init(const char *ttf,int size)

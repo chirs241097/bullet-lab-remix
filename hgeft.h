@@ -49,7 +49,7 @@ class hgeTTChar
 {
 private:
 	hgeQuad quad;
-	int rw,rh,_w,_h;
+	int rw,rh,_w,_h,yofst;
 public:
 	double w(){return _w;}
 	double h(){return _h;}
