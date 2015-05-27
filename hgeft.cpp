@@ -32,6 +32,7 @@ bool hgeTTChar::SetChar(wchar_t ch,FT_Face ttfface)
 		ptr++;
 	}
 	hge->Texture_Unlock(quad.tex);
+	quad.blend=BLEND_ALPHABLEND;
 	quad.v[0].tx=0;quad.v[0].ty=0;quad.v[1].tx=1;quad.v[1].ty=0;
 	quad.v[2].tx=1;quad.v[2].ty=1;quad.v[3].tx=0;quad.v[3].ty=1;
 	return true;

@@ -41,7 +41,7 @@
 #define HGEEFT_H
 #include <cstring>
 #include <cwchar>
-#include <hge.h>
+#include "./include/hge.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 extern HGE* hge;
