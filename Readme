@@ -1,8 +1,7 @@
 This text is encoded in UTF-8.
-NOTE: This is a Release Candidate version. That means:
--The program may crash. It may even cause data loss.
--There may be strange behavior.
--The code may not even compile!
+
+Now BLR3 is in active development. But I am not going to upload any source until
+a prototype comes out.
 
 BulletLabRemix II readme
 
