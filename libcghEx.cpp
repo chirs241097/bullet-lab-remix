@@ -62,6 +62,7 @@ void CircleIndicator::SetValue(double _value)
 				circle->SetColor(i,1,0x00000000);
 				circle->SetColor(i,2,0x00000000);
 			}
+			delete tc;
 		}
 	}
 void CircleIndicator::Render(double x,double y){circle->Render(x,y);}
