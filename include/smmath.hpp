@@ -2,7 +2,6 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 1
  * Math header & implementation
  *
  * WARNING: This library is in development and interfaces would be very
@@ -104,6 +103,16 @@ public:
 		tmp[2][2]=z*z*(1-cos(a))+cos(a);
 		tmp[3][3]=1;
 		*this=*this*tmp;
+	}
+	void lookat(double *eye,double *at,double *up)
+	{
+		smvec3d f=smvec3d(at[0],at[1],at[2])-smvec3d(eye[0],eye[1],eye[2]);f.normalize();
+		smvec3d UP=smvec3d(up[0],up[1],up[2]);UP.normalize();
+		smvec3d s=f*UP;smvec3d u=s.getNormalized()*f;
+		*this[0][0]= s.x;*this[1][0]= s.y;*this[2][0]= s.z;*this[3][0]=0;
+		*this[0][1]= u.x;*this[1][1]= u.y;*this[2][1]= u.z;*this[3][1]=0;
+		*this[0][2]=-f.x;*this[1][2]=-f.y;*this[2][2]=-f.z;*this[3][2]=0;
+		*this[0][3]=   0;*this[1][3]=   0;*this[2][3]=   0;*this[3][3]=1;
 	}
 	friend smMatrix operator *(smMatrix a,smMatrix b)
 	{

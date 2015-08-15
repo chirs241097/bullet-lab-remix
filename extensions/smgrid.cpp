@@ -2,7 +2,6 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 1
  * Distortion grid implementation
  *
  * WARNING: This library is in development and interfaces would be very

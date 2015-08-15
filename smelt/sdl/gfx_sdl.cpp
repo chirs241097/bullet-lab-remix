@@ -2,7 +2,6 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 1
  * GFX implementation based on SDL2/OpenGL and hge-unix
  *
  * WARNING: This library is in development and interfaces would be very
@@ -115,6 +114,11 @@ void SMELT_IMPL::sm3DCamera6f2v(float *pos,float *rot)
 	pOpenGLDevice->glRotatef((GLfloat)-rot[1],0,1,0);
 	pOpenGLDevice->glRotatef((GLfloat)-rot[2],0,0,1);
 	pOpenGLDevice->glTranslatef((GLfloat)-pos[0],(GLfloat)-pos[1],(GLfloat)-pos[2]);
+}
+void SMELT_IMPL::smMultViewMatrix(float *mat)
+{
+	pOpenGLDevice->glMatrixMode(GL_MODELVIEW);
+	pOpenGLDevice->glMultMatrixf(mat);
 }
 void SMELT_IMPL::sm2DCamera5f3v(float *pos,float *dpos,float *rot)
 {

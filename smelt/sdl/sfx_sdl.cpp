@@ -2,7 +2,6 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 1
  * GFX implementation based on OpenAL
  *
  * WARNING: This library is in development and interfaces would be very
@@ -89,6 +88,14 @@ DWORD SMELT_IMPL::smSFXGetLengthd(SMSFX fx)
 		return ret;
 	}
 	return -1;
+}
+void SMELT_IMPL::smSFXSetLoopPoint(SMSFX fx,DWORD l,DWORD r)
+{
+	if(pOpenALDevice)
+	{
+		ALint pt[2];pt[0]=l;pt[1]=r;
+		alBufferiv((ALuint)fx,AL_LOOP_POINTS_SOFT,pt);
+	}
 }
 void SMELT_IMPL::smSFXFree(SMSFX fx)
 {
@@ -299,6 +306,9 @@ bool SMELT_IMPL::initOAL()
 	smLog("%s:"SLINE": AL_VENDOR: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VENDOR));
 	smLog("%s:"SLINE": AL_RENDERER: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_RENDERER));
 	smLog("%s:"SLINE": AL_VERSION: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VERSION));
+	const char* ext=(const char*)alGetString(AL_EXTENSIONS);
+	lpp=strstr(ext,"AL_SOFT_loop_points")!=NULL;
+	if(!lpp)smLog("%s:"SLINE": Warning: loop points not supported. Please recompile with OpenAL Soft.\n",SFX_SDL_SRCFN);
 	pOpenALDevice=(void*)dev;
 	return true;
 }

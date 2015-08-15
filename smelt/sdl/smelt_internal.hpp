@@ -2,7 +2,6 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 1
  * Internal header for SDL version
  *
  * WARNING: This library is in development and interfaces would be very
@@ -113,6 +112,7 @@ public:
 	virtual SMCHN smSFXPlay(SMSFX fx,int vol=100,int pan=0,float pitch=1.,bool loop=0);
 	virtual float smSFXGetLengthf(SMSFX fx);
 	virtual DWORD smSFXGetLengthd(SMSFX fx);
+	virtual void smSFXSetLoopPoint(SMSFX fx,DWORD l,DWORD r);
 	virtual void smSFXFree(SMSFX fx);
 
 	virtual void smChannelVol(SMCHN chn,int vol);
@@ -142,6 +142,7 @@ public:
 	virtual bool smRenderEnd();
 	virtual void sm3DCamera6f2v(float *pos,float *rot);
 	virtual void sm2DCamera5f3v(float *pos,float *dpos,float *rot);
+	virtual void smMultViewMatrix(float *mat);
 	virtual void smClrscr(DWORD color);
 	virtual void smRenderLinefd(float x1,float y1,float z1,float x2,float y2,float z2,DWORD color);
 	virtual void smRenderLinefvd(float *p1,float *p2,DWORD color);
@@ -217,7 +218,7 @@ public:
 	void *pOpenALDevice;
 	bool initOAL();
 	void finiOAL();
-	bool mute;
+	bool mute,lpp;
 	int scnt;
 	ALuint src[SRC_MAX];
 	ALuint getSource();

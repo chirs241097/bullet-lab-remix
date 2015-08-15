@@ -2,7 +2,7 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 1
+ * api level 2
  * Public header
  *
  * WARNING: This library is in development and interfaces would be very
@@ -31,7 +31,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define SMELT_APILEVEL 1
+#define SMELT_APILEVEL 2
 
 typedef uint32_t DWORD;
 typedef uint16_t WORD;
@@ -141,6 +141,7 @@ public:
 	virtual SMCHN smSFXPlay(SMSFX fx,int vol=100,int pan=0,float pitch=1.,bool loop=0)=0;
 	virtual float smSFXGetLengthf(SMSFX fx)=0;
 	virtual DWORD smSFXGetLengthd(SMSFX fx)=0;
+	virtual void smSFXSetLoopPoint(SMSFX fx,DWORD l,DWORD r)=0;
 	virtual void smSFXFree(SMSFX fx)=0;
 
 	virtual void smChannelVol(SMCHN chn,int vol)=0;
@@ -170,6 +171,7 @@ public:
 	virtual bool smRenderEnd()=0;
 	virtual void sm3DCamera6f2v(float *pos,float *rot)=0;
 	virtual void sm2DCamera5f3v(float *pos,float *dpos,float *rot)=0;
+	virtual void smMultViewMatrix(float *mat)=0;
 	virtual void smClrscr(DWORD color)=0;
 	virtual void smRenderLinefd(float x1,float y1,float z1,float x2,float y2,float z2,DWORD color)=0;
 	virtual void smRenderLinefvd(float *p1,float *p2,DWORD color)=0;
