@@ -12,7 +12,7 @@
 #include "smanim.hpp"
 #include <cstdio>
 #include <cstring>
-#define METAWARN printf("metafile warning at line %d",lc)
+#define METAWARN(s) printf("metafile warning at line %d: %s\n",lc,s)
 void smAnmFile::parseMeta(char* meta,DWORD size)
 {
 	char* cp=meta;
@@ -26,15 +26,15 @@ void smAnmFile::parseMeta(char* meta,DWORD size)
 		char line[65];
 		strncpy(cp,line,cc);line[cc-1]='\0';
 		cp+=cc+1;++lc;
-		if(inAnim&&line[0]!='F'&&line[0]!='E'){METAWARN;continue;}
+		if(inAnim&&line[0]!='F'&&line[0]!='E'){METAWARN("Only instruction F is allowed between A and E.");continue;}
 		if(line[0]=='E')
 		{
-			if(!inAnim)METAWARN;
+			if(!inAnim)METAWARN("No animation to end...");
 			else{inAnim=false;am[std::string(cur.name)]=cur;}
 		}
 		if(line[0]=='A')
 		{
-			if(inAnim)METAWARN;
+			if(inAnim)METAWARN("Already in an animation definition...");
 			else
 			{
 				inAnim=true;
@@ -47,7 +47,7 @@ void smAnmFile::parseMeta(char* meta,DWORD size)
 		}
 		if(line[0]=='F')
 		{
-			if(!inAnim)METAWARN;
+			if(!inAnim)METAWARN("Cannot define frames outside animation...");
 			else
 			{
 				int cn=0;while(line[cn+2]!=',')++cn;
@@ -55,7 +55,7 @@ void smAnmFile::parseMeta(char* meta,DWORD size)
 				cur.frames[cur.fc].name=NULL;
 				strncpy(cur.frames[cur.fc].path,line+2,cn);
 				cur.frames[cur.fc].path[cn-1]='\0';
-				sscanf(line+3+cn,"%d,%d,%d,%d,%d",&cur.frames[cur.fc].rect.x,
+				sscanf(line+3+cn,"%f,%f,%f,%f,%d",&cur.frames[cur.fc].rect.x,
 				&cur.frames[cur.fc].rect.y,&cur.frames[cur.fc].rect.w,&cur.frames[cur.fc].rect.h,
 				&cur.framedur[cur.fc]);
 				if(xm.find(std::string(cur.frames[cur.fc].path))!=xm.end())
@@ -80,7 +80,7 @@ void smAnmFile::parseMeta(char* meta,DWORD size)
 			int cn2=0;while(line[cn+3+cn2]!=',')++cn2;
 			t.path=new char[cn2];strncpy(t.path,line+3+cn,cn2);
 			t.path[cn2-1]='\0';
-			sscanf(line+4+cn+cn2,"%d,%d,%d,%d",&t.rect.x,&t.rect.y,&t.rect.w,&t.rect.h);
+			sscanf(line+4+cn+cn2,"%f,%f,%f,%f",&t.rect.x,&t.rect.y,&t.rect.w,&t.rect.h);
 			tm[std::string(t.name)]=t;
 			if(xm.find(std::string(t.path))!=xm.end())
 			t.tex=xm[std::string(t.path)];

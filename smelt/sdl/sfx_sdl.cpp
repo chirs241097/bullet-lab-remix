@@ -280,25 +280,25 @@ bool SMELT_IMPL::initOAL()
 {
 	if(pOpenALDevice)return true;
 	scnt=0;memset(src,0,sizeof(src));
-	smLog("%s: Initializing OpenAL...\n",SFX_SDL_SRCFN);
+	smLog("%s:"SLINE": Initializing OpenAL...\n",SFX_SDL_SRCFN);
 	ALCdevice *dev=alcOpenDevice(NULL);
 	if(!dev)
 	{
-		smLog("%s: alcOpenDevice() failed.\n",SFX_SDL_SRCFN);
+		smLog("%s:"SLINE": alcOpenDevice() failed.\n",SFX_SDL_SRCFN);
 		return mute=true;
 	}
 	ALint caps[]={ALC_FREQUENCY,44100,0};
 	ALCcontext *ctx=alcCreateContext(dev,caps);
 	if(!ctx)
 	{
-		smLog("%s: alcCreateContext() failed.\n",SFX_SDL_SRCFN);
+		smLog("%s:"SLINE": alcCreateContext() failed.\n",SFX_SDL_SRCFN);
 		return mute=true;
 	}
 	alcMakeContextCurrent(ctx);alcProcessContext(ctx);
-	smLog("%s: Done OpenAL initialization\n",SFX_SDL_SRCFN);
-	smLog("%s: AL_VENDOR: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VENDOR));
-	smLog("%s: AL_RENDERER: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_RENDERER));
-	smLog("%s: AL_VERSION: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VERSION));
+	smLog("%s:"SLINE": Done OpenAL initialization\n",SFX_SDL_SRCFN);
+	smLog("%s:"SLINE": AL_VENDOR: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VENDOR));
+	smLog("%s:"SLINE": AL_RENDERER: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_RENDERER));
+	smLog("%s:"SLINE": AL_VERSION: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VERSION));
 	pOpenALDevice=(void*)dev;
 	return true;
 }

@@ -35,9 +35,9 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 
-#ifndef WINGDIAPI
-#define WINGDIAPI
-#endif
+#define xstr(s) str(s)
+#define str(s) #s
+#define SLINE xstr(__LINE__)
 
 #define GL_PROC(ext,fn,call,ret,params) typedef call ret (* _PFN_##fn) params;
 #include "glimports.hpp"
