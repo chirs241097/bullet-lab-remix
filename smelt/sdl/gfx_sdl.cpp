@@ -101,7 +101,8 @@ void SMELT_IMPL::smClrscr(DWORD color)
 	GLfloat g=(GLfloat)(GETG(color))/255.f;
 	GLfloat b=(GLfloat)(GETB(color))/255.f;
 	pOpenGLDevice->glClearColor(r,g,b,a);
-	if(zbufenabled||tdmode)pOpenGLDevice->glClearDepth(1);
+	if(tdmode)pOpenGLDevice->glClearDepth(1);
+	else if(zbufenabled)pOpenGLDevice->glClearDepth(0);
 	pOpenGLDevice->glClear(GL_COLOR_BUFFER_BIT|((zbufenabled||tdmode)?GL_DEPTH_BUFFER_BIT:0));
 }
 void SMELT_IMPL::sm3DCamera6f2v(float *pos,float *rot)
