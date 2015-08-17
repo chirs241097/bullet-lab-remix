@@ -178,10 +178,10 @@ void SMELT_IMPL::smMainLoop()
 	}
 	clearQueue();Active=false;
 }
-void SMELT_IMPL::smUpdateFunc(SMHook func){pUpdateFunc=func;}
-void SMELT_IMPL::smUnFocFunc(SMHook func){pUnFocFunc=func;}
-void SMELT_IMPL::smFocFunc(SMHook func){pFocFunc=func;}
-void SMELT_IMPL::smQuitFunc(SMHook func){pQuitFunc=func;}
+void SMELT_IMPL::smUpdateFunc(smHook func){pUpdateFunc=func;}
+void SMELT_IMPL::smUnFocFunc(smHook func){pUnFocFunc=func;}
+void SMELT_IMPL::smFocFunc(smHook func){pFocFunc=func;}
+void SMELT_IMPL::smQuitFunc(smHook func){pQuitFunc=func;}
 void SMELT_IMPL::smWinTitle(const char *title){strcpy(winTitle,title);}
 bool SMELT_IMPL::smIsActive(){return Active;}
 void SMELT_IMPL::smNoSuspend(bool para){noSuspend=para;}

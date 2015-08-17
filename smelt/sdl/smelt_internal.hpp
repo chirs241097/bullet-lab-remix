@@ -91,10 +91,10 @@ public:
 	virtual bool smInit();
 	virtual void smFinale();
 	virtual void smMainLoop();
-	virtual void smUpdateFunc(SMHook func);
-	virtual void smUnFocFunc(SMHook func);
-	virtual void smFocFunc(SMHook func);
-	virtual void smQuitFunc(SMHook func);
+	virtual void smUpdateFunc(smHook func);
+	virtual void smUnFocFunc(smHook func);
+	virtual void smFocFunc(smHook func);
+	virtual void smQuitFunc(smHook func);
 	virtual void smWinTitle(const char* title);
 	virtual bool smIsActive();
 	virtual void smNoSuspend(bool para);

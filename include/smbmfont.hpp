@@ -27,9 +27,9 @@ private:
 	int pdb[256],pda[256],b;
 	DWORD color;
 	std::map<std::string,SMTEX> xm;
-	void parseMeta(char* meta,DWORD size);
+	void parseMeta(const char* meta,DWORD size);
 public:
-	bool loadAnmFromMemory(char* ptr,DWORD size);
+	bool loadAnmFromMemory(const char* ptr,DWORD size);
 	void close();
 	void render(float x,float y,float z,int align,float *rw,const char* text);
 	void printf(float x,float y,float z,int align,float *rw,const char* format,...);

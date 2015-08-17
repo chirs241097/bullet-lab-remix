@@ -20,7 +20,7 @@ bool smTTChar::setChar(wchar_t c,FT_Face ttface)
 	FT_UInt glyph_index=FT_Get_Char_Index(ttface,c);
 	if(FT_Load_Glyph(ttface,glyph_index,FT_LOAD_DEFAULT))return false;
 	if(FT_Render_Glyph(ttface->glyph,FT_RENDER_MODE_NORMAL))return false;
-	_w=slot->advance.x>>6;_h=slot->advance.y?slot->advance.y>>6:slot->bitmap.rows;_h=(int)(_h*1.5);
+	_w=slot->advance.x>>6;_h=3*slot->bitmap.rows-2*slot->bitmap_top;
 	rw=slot->bitmap.width;rh=slot->bitmap.rows;
 	xofs=slot->bitmap_left;yofs=slot->bitmap.rows-slot->bitmap_top;
 	quad.tex=sm->smTextureCreate(rw?rw:1,rh?rh:1);

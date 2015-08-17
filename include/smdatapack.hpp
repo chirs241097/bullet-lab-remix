@@ -30,10 +30,10 @@ private:
 
 	bool enmemory;
 	DWORD msize;
-	char *cp,*bp;
+	const char *cp,*bp;
 public:
 	bool openDtp(const char* path);
-	bool openDtpFromMemory(char* ptr,DWORD size);
+	bool openDtpFromMemory(const char* ptr,DWORD size);
 	void closeDtp();
 	char* getFirstFile();
 	char* getLastFile();

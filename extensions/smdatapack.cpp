@@ -36,7 +36,7 @@ bool smDtpFileR::openDtp(const char* path)
 		m[std::string(f.path)]=f;
 	}
 }
-bool smDtpFileR::openDtpFromMemory(char* ptr,DWORD size)
+bool smDtpFileR::openDtpFromMemory(const char* ptr,DWORD size)
 {
 	enmemory=true;msize=size;
 	if(!ptr||size<4)return false;
@@ -84,6 +84,7 @@ char* smDtpFileR::getPrevFile(const char* path)
 char* smDtpFileR::getFilePtr(const char* path)
 {
 	std::string fns(path);
+	if(m.find(fns)==m.end()){printf("error: file not found in the archive.\n");return NULL;}
 	if(m.at(fns).data)return m.at(fns).data;
 	else
 	{
@@ -112,6 +113,7 @@ char* smDtpFileR::getFilePtr(const char* path)
 void smDtpFileR::releaseFilePtr(const char* path)
 {
 	std::string fns(path);
+	if(m.find(fns)==m.end()){printf("error: file not found in the archive.\n");return;}
 	if(m[fns].data)
 	{
 		delete[] m[fns].data;
@@ -119,7 +121,7 @@ void smDtpFileR::releaseFilePtr(const char* path)
 	}
 }
 DWORD smDtpFileR::getFileSize(const char* path)
-{return m[std::string(path)].size;}
+{if(m.find(std::string(path))==m.end()){printf("error: file not found in the archive.\n");return 0;}return m[std::string(path)].size;}
 
 smDtpFileW::smDtpFileW(){fcnt=0;}
 bool smDtpFileW::addFile(const char* path,const char* realpath)

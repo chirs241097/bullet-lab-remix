@@ -35,12 +35,12 @@ class smAnmFile
 private:
 	static SMELT *sm;
 	smDtpFileR anm;
-	void parseMeta(char* meta,DWORD size);
+	void parseMeta(const char* meta,DWORD size);
 	std::map<std::string,smTexInfo> tm;
 	std::map<std::string,smAnmInfo> am;
 	std::map<std::string,SMTEX> xm;
 public:
-	bool loadAnmFromMemory(char* ptr,DWORD size);
+	bool loadAnmFromMemory(const char* ptr,DWORD size);
 	void close();
 	smTexInfo* getTextureInfo(const char* name);
 	smAnmInfo* getAnimationInfo(const char* name);

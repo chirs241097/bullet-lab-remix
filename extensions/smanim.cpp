@@ -12,9 +12,10 @@
 #include <cstdio>
 #include <cstring>
 #define METAWARN(s) printf("metafile warning at line %d: %s\n",lc,s)
-void smAnmFile::parseMeta(char* meta,DWORD size)
+SMELT* smAnmFile::sm=NULL;
+void smAnmFile::parseMeta(const char* meta,DWORD size)
 {
-	char* cp=meta;
+	const char* cp=meta;
 	bool inAnim=false;
 	int lc=0;
 	smAnmInfo cur;
@@ -23,7 +24,7 @@ void smAnmFile::parseMeta(char* meta,DWORD size)
 		int cc=0;
 		for(;*(cp+cc)!='\n';++cc);
 		char line[65];
-		strncpy(cp,line,cc);line[cc-1]='\0';
+		strncpy(line,cp,cc);line[cc-1]='\0';
 		cp+=cc+1;++lc;
 		if(inAnim&&line[0]!='F'&&line[0]!='E'){METAWARN("Only instruction F is allowed between A and E.");continue;}
 		if(line[0]=='E')
@@ -76,7 +77,7 @@ void smAnmFile::parseMeta(char* meta,DWORD size)
 			int cn=0;while(line[cn+2]!=',')++cn;
 			t.name=new char[cn];strncpy(t.name,line+2,cn);
 			t.name[cn-1]='\0';
-			int cn2=0;while(line[cn+3+cn2]!=',')++cn2;
+			int cn2=0;while(line[cn+3+cn2]!=',')++cn2;++cn2;
 			t.path=new char[cn2];strncpy(t.path,line+3+cn,cn2);
 			t.path[cn2-1]='\0';
 			sscanf(line+4+cn+cn2,"%f,%f,%f,%f",&t.rect.x,&t.rect.y,&t.rect.w,&t.rect.h);
@@ -101,7 +102,7 @@ void smAnmFile::parseMeta(char* meta,DWORD size)
 		}
 	}
 }
-bool smAnmFile::loadAnmFromMemory(char* ptr,DWORD size)
+bool smAnmFile::loadAnmFromMemory(const char* ptr,DWORD size)
 {
 	sm=smGetInterface(SMELT_APILEVEL);
 	anm.openDtpFromMemory(ptr,size);

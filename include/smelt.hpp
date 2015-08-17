@@ -42,7 +42,7 @@ typedef uint8_t BYTE;
 //Handles
 typedef size_t SMTEX;//Texture Handle
 typedef size_t SMTRG;//Target Handle
-typedef size_t SMSFX;//Sound/FX Handle
+typedef size_t SMSFX;//SoundFX Handle
 typedef size_t SMCHN;//Channel Handle
 
 //Color Marcos
@@ -58,15 +58,15 @@ typedef size_t SMCHN;//Channel Handle
 #define SETB(col,b)		(((col)&0xFFFFFF00)+DWORD(b))
 
 //Blend Modes
-#define BLEND_COLORINV 0x8
 #define	BLEND_COLORADD 0x1
 #define	BLEND_COLORMUL 0x0
+#define BLEND_COLORINV 0x8
 #define	BLEND_ALPHABLEND 0x2
 #define	BLEND_ALPHAADD 0x0
 #define	BLEND_ZWRITE 0x4
 #define	BLEND_NOZWRITE 0x0
 
-typedef bool (*SMHook)();
+typedef bool (*smHook)();
 
 #define FPS_FREE 0
 #define FPS_VSYNC -1
@@ -120,10 +120,10 @@ public:
 	virtual bool smInit()=0;
 	virtual void smFinale()=0;
 	virtual void smMainLoop()=0;
-	virtual void smUpdateFunc(SMHook func)=0;
-	virtual void smUnFocFunc(SMHook func)=0;
-	virtual void smFocFunc(SMHook func)=0;
-	virtual void smQuitFunc(SMHook func)=0;
+	virtual void smUpdateFunc(smHook func)=0;
+	virtual void smUnFocFunc(smHook func)=0;
+	virtual void smFocFunc(smHook func)=0;
+	virtual void smQuitFunc(smHook func)=0;
 	virtual void smWinTitle(const char* title)=0;
 	virtual bool smIsActive()=0;
 	virtual void smNoSuspend(bool para)=0;

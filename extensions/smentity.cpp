@@ -126,6 +126,23 @@ smEntity3D::smEntity3D(SMTEX tex,float _x,float _y,float _w,float _h)
 	for(int i=0;i<4;++i){quad.v[i].z=.5f;quad.v[i].col=0xFFFFFFFF;}
 	quad.blend=BLEND_ALPHABLEND;
 }
+smEntity3D::smEntity3D(SMTEX tex,smTexRect rect)
+{
+	sm=smGetInterface(SMELT_APILEVEL);
+	tx=rect.x;ty=rect.y;w=rect.w;h=rect.h;
+	if(tex)
+	{
+		texw=sm->smTextureGetWidth(tex);
+		texh=sm->smTextureGetHeight(tex);
+	}else texw=texh=1.;
+	ctrx=ctry=0;quad.tex=tex;
+	quad.v[0].tx=rect.x/texw;quad.v[0].ty=rect.y/texh;
+	quad.v[1].tx=(rect.x+rect.w)/texw;quad.v[1].ty=rect.y/texh;
+	quad.v[2].tx=(rect.x+rect.w)/texw;quad.v[2].ty=(rect.y+rect.h)/texh;
+	quad.v[3].tx=rect.x/texw;quad.v[3].ty=(rect.y+rect.h)/texh;
+	for(int i=0;i<4;++i){quad.v[i].z=.5f;quad.v[i].col=0xFFFFFFFF;}
+	quad.blend=BLEND_ALPHABLEND;
+}
 smEntity3D::smEntity3D(const smEntity3D &copy)
 {
 	memcpy(this,&copy,sizeof(smEntity3D));

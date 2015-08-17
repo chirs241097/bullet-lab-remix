@@ -16,9 +16,9 @@
 SMELT *smBMFont::sm=NULL;
 SMELT *smBMFontw::sm=NULL;
 
-void smBMFont::parseMeta(char* meta,DWORD size)
+void smBMFont::parseMeta(const char* meta,DWORD size)
 {
-	char* cp=meta;
+	const char* cp=meta;
 	char line[65];
 	int cc,cod,pa,pb;smTexRect rct;
 	while(cp-meta<=size)
@@ -44,7 +44,7 @@ void smBMFont::parseMeta(char* meta,DWORD size)
 		}
 	}
 }
-bool smBMFont::loadAnmFromMemory(char* ptr,DWORD size)
+bool smBMFont::loadAnmFromMemory(const char* ptr,DWORD size)
 {
 	sm=smGetInterface(SMELT_APILEVEL);
 	anm.openDtpFromMemory(ptr,size);hadv=0;
