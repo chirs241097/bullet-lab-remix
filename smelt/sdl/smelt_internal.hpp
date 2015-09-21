@@ -106,6 +106,7 @@ public:
 	virtual void smSetFPS(int fps);
 	virtual float smGetFPS();
 	virtual float smGetDelta();
+	virtual float smGetTime();
 
 	virtual SMSFX smSFXLoad(const char *path);
 	virtual SMSFX smSFXLoadFromMemory(const char *ptr,DWORD size);
@@ -135,6 +136,7 @@ public:
 	virtual int smGetWheel();
 	virtual bool smIsMouseOver();
 	virtual int smGetKeyState(int key);
+	virtual int smGetKey();
 	virtual bool smGetInpEvent(smInpEvent *e);
 
 	virtual bool smRenderBegin2D(bool ztest=0,SMTRG trg=0);
@@ -223,7 +225,7 @@ public:
 	ALuint src[SRC_MAX];
 	ALuint getSource();
 
-	int posz;
+	int posz,lkey;
 	float posx,posy;
 	SDL_Keymod keymods;
 	bool mouseOver,captured;
@@ -236,7 +238,7 @@ public:
 	bool procSDLEvent(const SDL_Event &e);
 	int SDLKeyToSMKey(int sdlkey);
 
-	float timeDelta,updateFPSDelay,fps;
+	float timeDelta,updateFPSDelay,fps,timeS;
 	DWORD fixDelta,t0;
 	int fcnt;
 	DWORD dt;

@@ -2,7 +2,7 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 2
+ * api level 3
  * Public header
  *
  * WARNING: This library is in development and interfaces would be very
@@ -31,7 +31,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define SMELT_APILEVEL 2
+#define SMELT_APILEVEL 3
 
 typedef uint32_t DWORD;
 typedef uint16_t WORD;
@@ -58,13 +58,13 @@ typedef size_t SMCHN;//Channel Handle
 #define SETB(col,b)		(((col)&0xFFFFFF00)+DWORD(b))
 
 //Blend Modes
-#define	BLEND_COLORADD 0x1
-#define	BLEND_COLORMUL 0x0
-#define BLEND_COLORINV 0x8
-#define	BLEND_ALPHABLEND 0x2
-#define	BLEND_ALPHAADD 0x0
-#define	BLEND_ZWRITE 0x4
-#define	BLEND_NOZWRITE 0x0
+#define	  BLEND_COLORADD 0x1
+#define	  BLEND_COLORMUL 0x0
+#define	  BLEND_COLORINV 0x8
+#define	  BLEND_ALPHABLEND 0x2
+#define	  BLEND_ALPHAADD 0x0
+#define	  BLEND_ZWRITE 0x4
+#define	  BLEND_NOZWRITE 0x0
 
 typedef bool (*smHook)();
 
@@ -115,7 +115,7 @@ class SMELT
 {
 public:
 	SMELT(){}
-	virtual ~SMELT(){};
+	virtual ~SMELT(){}
 	virtual void smRelease()=0;
 	virtual bool smInit()=0;
 	virtual void smFinale()=0;
@@ -135,6 +135,7 @@ public:
 	virtual void smSetFPS(int fps)=0;
 	virtual float smGetFPS()=0;
 	virtual float smGetDelta()=0;
+	virtual float smGetTime()=0;
 
 	virtual SMSFX smSFXLoad(const char *path)=0;
 	virtual SMSFX smSFXLoadFromMemory(const char *ptr,DWORD size)=0;
@@ -164,6 +165,7 @@ public:
 	virtual int smGetWheel()=0;
 	virtual bool smIsMouseOver()=0;
 	virtual int smGetKeyState(int key)=0;
+	virtual int smGetKey()=0;
 	virtual bool smGetInpEvent(smInpEvent *e)=0;
 
 	virtual bool smRenderBegin2D(bool ztest=0,SMTRG trg=0)=0;

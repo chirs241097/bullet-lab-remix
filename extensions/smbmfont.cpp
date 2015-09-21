@@ -53,6 +53,8 @@ bool smBMFont::loadAnmFromMemory(const char* ptr,DWORD size)
 	DWORD msez=anm.getFileSize("content.meta");
 	parseMeta(mptr,msez);
 	anm.releaseFilePtr("content.meta");
+	setBlend(BLEND_ALPHABLEND);
+	setColor(0xFFFFFFFF);
 }
 void smBMFont::close()
 {

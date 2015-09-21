@@ -166,7 +166,7 @@ void SMELT_IMPL::smMainLoop()
 			{
 				timeDelta=dt/1000.;
 				if(timeDelta>0.2)timeDelta=fixDelta?fixDelta/1000.:.01;
-				++fcnt;updateFPSDelay+=timeDelta;t0=sdlticks;
+				++fcnt;updateFPSDelay+=timeDelta;t0=sdlticks;timeS+=timeDelta;
 				if(updateFPSDelay>1){fps=fcnt/updateFPSDelay;updateFPSDelay=.0;fcnt=0;}
 				if(pUpdateFunc())break;
 				for(int i=1;i<=255;++i)keylst[i]=((keyz[i]&4)!=0);
@@ -243,6 +243,7 @@ void SMELT_IMPL::smSetFPS(int fps)
 }
 float SMELT_IMPL::smGetFPS(){return fps;}
 float SMELT_IMPL::smGetDelta(){return timeDelta;}
+float SMELT_IMPL::smGetTime(){return timeS;}
 
 SMELT_IMPL::SMELT_IMPL()
 {

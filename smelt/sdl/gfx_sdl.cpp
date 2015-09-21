@@ -699,7 +699,7 @@ bool SMELT_IMPL::loadGLEntryPoints()
 	pOpenGLDevice->have_GL_ARB_texture_rectangle=true;
 	pOpenGLDevice->have_GL_ARB_texture_non_power_of_two=true;
 	pOpenGLDevice->have_GL_EXT_framebuffer_object=true;
-	pOpenGLDevice->have_GL_EXT_texture_compression_s3tc=true;
+	pOpenGLDevice->have_GL_EXT_texture_compression_s3tc=false;
 	pOpenGLDevice->have_GL_ARB_vertex_buffer_object=true;
 	#define GL_PROC(ext,fn,call,ret,params) \
 		if(pOpenGLDevice->have_##ext) \
@@ -766,8 +766,7 @@ bool SMELT_IMPL::loadGLEntryPoints()
 		smLog("%s:"SLINE": OpenGL: Using GL_EXT_texture_compression_s3tc.\n",GFX_SDL_SRCFN);
 	else if (true)
 	{
-		smLog("%s:"SLINE": OpenGL: WARNING: no texture compression support or it's disabled.\n",GFX_SDL_SRCFN);
-		smLog("%s:"SLINE": OpenGL: Performance may suffer in a low-memory system!\n",GFX_SDL_SRCFN);
+		smLog("%s:"SLINE": OpenGL: Texture compression disabled!\n",GFX_SDL_SRCFN);
 	}
 	if(pOpenGLDevice->have_GL_ARB_vertex_buffer_object)
 	{

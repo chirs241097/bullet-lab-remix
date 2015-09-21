@@ -2,7 +2,6 @@
 /*
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
- * api level 1
  * Input manager implementation
  *
  * WARNING: This library is in development and interfaces would be very
@@ -25,6 +24,7 @@ void SMELT_IMPL::smGetMouse2f(float *x,float *y){*x=posx,*y=posy;}
 void SMELT_IMPL::smSetMouse2f(float x,float y){SDL_WarpMouseInWindow((SDL_Window*)hwnd,x,y);}
 int SMELT_IMPL::smGetWheel(){return posz;}
 bool SMELT_IMPL::smIsMouseOver(){return mouseOver;}
+int SMELT_IMPL::smGetKey(){return lkey;}
 int SMELT_IMPL::smGetKeyState(int key)
 {
 	if(!(keyz[key]&4)&&keylst[key])return SMKST_RELEASE;
@@ -79,6 +79,8 @@ void SMELT_IMPL::buildEvent(int type,int k,int scan,int flags,int x,int y)
 		while(last->next)last=last->next;
 		last->next=eptr;
 	}
+	if(eptr->e.type==INPUT_KEYDOWN||eptr->e.type==INPUT_MBUTTONDOWN)
+	lkey=eptr->e.sccode;
 	if(eptr->e.type==INPUT_MOUSEMOVE)posx=eptr->e.x,posy=eptr->e.y;
 	if(eptr->e.type==INPUT_MOUSEWHEEL)posz=eptr->e.wheel;
 }
@@ -88,7 +90,7 @@ void SMELT_IMPL::clearQueue()
 	TInputEventList *nxt,*eptr=inpQueue;
 	for(unsigned i=0;i<sizeof(keyz)/sizeof(keyz[0]);++i)keyz[i]&=~3;
 	while(eptr){nxt=eptr->next;delete eptr;eptr=nxt;}
-	inpQueue=NULL;posz=0;
+	inpQueue=NULL;posz=0;lkey=0;
 }
 int SMELT_IMPL::SDLKeyToSMKey(int sdlkey)
 {
