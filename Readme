@@ -1,7 +1,13 @@
 This text is encoded in UTF-8.
 
-Now BLR3 is in active development. But I am not going to upload any source until
-a prototype comes out.
+This file is mainly about BulletLabRemix II. BulletLabRemix III is still under
+heavy development and can be found in the 'src' directory. The script virtual
+machine is still incomplete and is not enabled. The current version is extremely
+primitive and is only for testing/debugging purpose.
+
+There was a old testbed version with virtual machine enabled and 3D first-person
+view implemented. Please contact me or check chirs241097.xicp.net/BulletLabRemix
+/public/BLRScriptTestbed/ (likely to be offline) if you want to get a copy.
 
 BulletLabRemix II readme
 
