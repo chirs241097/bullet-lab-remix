@@ -21,12 +21,10 @@ public:
 	memb front(){return data[l];}
 	memb back(){return data[r];}
 };
-callStack<Idata> callStk;
 typedef struct _fncEntry{int hash,pos;}fncEntry;
 class blrScriptVM
 {
 private:
-	smRandomEngine* re;
 	Idata ir[101],ia[10000];
 	Idata rr[103],ra[10000];
 	SInst inst[65537];
@@ -38,11 +36,12 @@ private:
 	int mgetc();
 	Idata& fetchData(SPara para,bool forcerw=false);
 public:
+	smRandomEngine* re;
 	blrScriptVM(){ic=fncnt=pinst=0;}
 	int loadLSBFromMemory(const char* ptr,DWORD size);
 	int getInstCount();
 	void runFunction(const char *fncnym);
-	void vmInit();
+	void vmInit(unsigned int seed);
 	void vmDeinit();
 };
 #endif

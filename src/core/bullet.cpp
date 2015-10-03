@@ -17,7 +17,7 @@ void bulletBase::update()
 void bulletBase::render()
 {
 	//test view mode
-	bmInstance->getBulEntity2D(basecolor)->setColor(0xC0FFFFFF);
+	bmInstance->getBulEntity2D(basecolor)->setColor(rendercolor);
 	bmInstance->getBulEntity2D(basecolor)->render(pos.x,pos.y,0,renderscale*0.6);
 }
 bulletBase::~bulletBase(){}
@@ -81,6 +81,7 @@ void bulletManager::updateBullet()
 		x->pos=smvec2d(400,300);
 		x->vel=smvec2d(rand()%100-50,rand()%100-50);
 		x->vel.normalize();
+		x->rendercolor=0xC0FFFFFF;
 		b=0;
 	}
 	for(int i=0;i<alloced;++i)

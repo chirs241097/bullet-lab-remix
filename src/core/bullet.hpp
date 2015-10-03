@@ -18,6 +18,7 @@ public:
 	int attrd[8];
 	float attrf[8];
 	TColors basecolor;
+	DWORD rendercolor;
 	virtual void init(...);
 	virtual void update();
 	virtual void render();

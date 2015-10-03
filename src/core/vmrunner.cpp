@@ -1,6 +1,8 @@
 #include "vmrunner.hpp"
 #include "coreshared.hpp"
 #include <cstdlib>
+blrScriptVM *vm;
+callStack<Idata> callStk;
 unsigned getHash(const char *s)
 {
 	unsigned r=5381;char c;
@@ -272,9 +274,15 @@ void blrScriptVM::runFunction(const char *fncnym)
 		if(!jmp)++cur;
 	}
 }
-void blrScriptVM::vmInit()
+void blrScriptVM::vmInit(unsigned int seed)
 {
+	for(int i=0;i<103;++i)rr[i].type=1;
+	for(int i=0;i<101;++i)ir[i].type=0;
+	for(int i=0;i<10000;++i)ra[i].type=1,ia[i].type=0;
+	re=new smRandomEngine;
+	re->setSeed(seed);
 }
 void blrScriptVM::vmDeinit()
 {
+	delete re;
 }
