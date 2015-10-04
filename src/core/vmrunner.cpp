@@ -1,5 +1,6 @@
 #include "vmrunner.hpp"
 #include "coreshared.hpp"
+#include "fncwrapper.hpp"
 #include <cstdlib>
 blrScriptVM *vm;
 callStack<Idata> callStk;
@@ -115,7 +116,7 @@ int blrScriptVM::loadLSBFromMemory(const char *ptr,DWORD size)
 	return 0;
 }
 int blrScriptVM::getInstCount(){return pinst;}
-void blrScriptVM::runFunction(const char *fncnym)
+void blrScriptVM::vmRunFunction(const char *fncnym)
 {
 	int nymhash=getHash(fncnym),cur=0;pinst=0;
 	for(int i=0;i<fncnt;++i)if(nymhash==fncent[i].hash){cur=fncent[i].pos;break;}
@@ -137,8 +138,8 @@ void blrScriptVM::runFunction(const char *fncnym)
 				callStk.push(fetchData(inst[cur].para1));
 			break;
 			case 0x02:
-				//callFnc(inst[cur].para1.fnc);
-				//callstk.clear();
+				callFnc(inst[cur].para1.fnc);
+				//callStk.clear();
 				//printf("stubbed call %s\n",inst[cur].para1.fnc);
 			break;
 			case 0x03:
@@ -274,6 +275,8 @@ void blrScriptVM::runFunction(const char *fncnym)
 		if(!jmp)++cur;
 	}
 }
+void blrScriptVM::vmSetRetValf(float v){rr[102].r()=v;}
+void blrScriptVM::vmSetRetVald(int v){ir[100].i()=v;}
 void blrScriptVM::vmInit(unsigned int seed)
 {
 	for(int i=0;i<103;++i)rr[i].type=1;

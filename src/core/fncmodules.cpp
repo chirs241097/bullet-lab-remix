@@ -1,36 +1,29 @@
-#include <cstdarg>
 #include "smmath.hpp"
 #include "bullet.hpp"
 #include "scriptshared.hpp"
 #include "vmrunner.hpp"
-Idata randr(Idata a,...)
+extern callStack<Idata> callStk;
+Idata randr()
 {
 	Idata ret;ret.type=1;
-	va_list val;
-	va_start(val,a);
 	extern blrScriptVM *vm;
-	ret.r()=vm->re->nextDouble(a.r(),va_arg(val,Idata).r());
-	va_end(val);
+	ret.r()=(float)vm->re->nextDouble((float&)callStk.pop().r(),(float&)callStk.pop().r());
 	return ret;
 }
-Idata randi(Idata a,...)
+Idata randi()
 {
 	Idata ret;ret.type=0;
-	va_list val;
-	va_start(val,a);
 	extern blrScriptVM *vm;
-	ret.i()=vm->re->nextInt(a.i(),va_arg(val,Idata).i());
-	va_end(val);
+	ret.i()=vm->re->nextInt(callStk.pop().i(),callStk.pop().i());
 	return ret;
 }
-Idata createBullet(Idata x,...)
+Idata createBullet()
 {
-	Idata y,bs,rad;
-	va_list val;
-	va_start(val,x);
-	y=va_arg(val,Idata);
-	bs=va_arg(val,Idata);
-	rad=va_arg(val,Idata);
+	Idata x,y,bs,rad;
+	x=callStk.pop();
+	y=callStk.pop();
+	bs=callStk.pop();
+	rad=callStk.pop();
 	extern bulletManager *bmInstance;
 	int i=bmInstance->allocBullet<bulletBase>();
 	bmInstance->getHandle(i)->init();

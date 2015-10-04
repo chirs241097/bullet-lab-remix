@@ -1,15 +1,15 @@
 #include "vmrunner.hpp"
 #include "fncmodules.hpp"
-extern blrScriptVM *vm;
 extern callStack<Idata> callStk;
+extern blrScriptVM *vm;
 extern unsigned getHash(const char *s);
 void callFnc(const char* fnc)
 {
 	if(getHash(fnc)==getHash("randi"))
-	randi(callStk.pop(),callStk.pop());
+	vm->vmSetRetVald(randi().i());
 	if(getHash(fnc)==getHash("randr"))
-	randr(callStk.pop(),callStk.pop());
+	vm->vmSetRetValf(randr().r());
 	if(getHash(fnc)==getHash("createBullet"))
-	createBullet(callStk.pop(),callStk.pop(),callStk.pop(),callStk.pop());
+	vm->vmSetRetValf(createBullet().i());
 	if(callStk.empty())callStk.clear();
 }

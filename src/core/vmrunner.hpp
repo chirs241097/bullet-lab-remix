@@ -40,7 +40,9 @@ public:
 	blrScriptVM(){ic=fncnt=pinst=0;}
 	int loadLSBFromMemory(const char* ptr,DWORD size);
 	int getInstCount();
-	void runFunction(const char *fncnym);
+	void vmRunFunction(const char *fncnym);
+	void vmSetRetValf(float v);
+	void vmSetRetVald(int v);
 	void vmInit(unsigned int seed);
 	void vmDeinit();
 };
