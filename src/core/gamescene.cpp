@@ -3,6 +3,7 @@
 #include "corepublic.hpp"
 #include "bullet.hpp"
 #include "player.hpp"
+#include "vmrunner.hpp"
 SMELT* gameScene::sm=NULL;
 gameScene::gameScene()
 {
@@ -23,14 +24,20 @@ gameScene::gameScene()
 	tgquad.v[3].tx=0;tgquad.v[3].ty=600./rh;
 	bmInstance=new bulletManager;
 	player=new playerBase;
+	vm=new blrScriptVM;
 	utime=0;
 	ttfont.loadTTFFromMemory(blrdtp.getFilePtr("FreeMono.ttf"),blrdtp.getFileSize("FreeMono.ttf"),12);
 	bmInstance->init();
+	vm->vmInit(61616);
+	vm->loadLSBFromMemory(blrdtp.getFilePtr("test.lsb"),blrdtp.getFileSize("test.lsb"));
+	vm->vmRunFunction("init");
 }
 gameScene::~gameScene()
 {
 	bmInstance->deinit();
+	vm->vmDeinit();
 	delete bmInstance;
+	delete vm;
 	delete player;
 	bmInstance=NULL;
 	ttfont.releaseTTF();
@@ -63,6 +70,7 @@ bool gameScene::sceneRender()
 }
 bool gameScene::threadUpdate()
 {
+	vm->vmRunFunction("update");
 	bmInstance->updateBullet();
 	player->update();
 	return false;

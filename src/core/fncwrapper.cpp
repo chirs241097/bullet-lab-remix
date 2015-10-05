@@ -1,7 +1,5 @@
 #include "vmrunner.hpp"
 #include "fncmodules.hpp"
-extern callStack<Idata> callStk;
-extern blrScriptVM *vm;
 extern unsigned getHash(const char *s);
 void callFnc(const char* fnc)
 {

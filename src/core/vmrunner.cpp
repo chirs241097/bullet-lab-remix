@@ -2,6 +2,7 @@
 #include "coreshared.hpp"
 #include "fncwrapper.hpp"
 #include <cstdlib>
+#include <cstdio>
 blrScriptVM *vm;
 callStack<Idata> callStk;
 unsigned getHash(const char *s)
@@ -42,7 +43,7 @@ Idata& blrScriptVM::fetchData(SPara para,bool forcerw)
 int blrScriptVM::mgetc()
 {
 	if(cbyte-sbyte<fsize)
-	{++cbyte;return (int)*(cbyte-1);}
+	{++cbyte;return (int)(*(cbyte-1));}
 	else return -1;
 }
 void blrScriptVM::readPara(SPara *para)
@@ -52,20 +53,20 @@ void blrScriptVM::readPara(SPara *para)
 	int l=0;
 	switch(para->type)
 	{
-		case 1: l=8;break;
-		case 0: case 4: case 5: l=4;break;
+		case 0: case 1: case 4: case 5: l=4;break;
 		case 2: case 3: case 6: case 7: l=1;break;
 		default: break;
 	}
 	for(int i=0;i<l;++i)
 	{
 		para->data.d<<=8LL;
-		para->data.d|=(unsigned long long)mgetc();
+		int a=mgetc();
+		para->data.d|=(unsigned long long)a;
 	}
 }
 int blrScriptVM::loadLSBFromMemory(const char *ptr,DWORD size)
 {
-	cbyte=sbyte=ptr;fsize=size;
+	cbyte=sbyte=(const unsigned char*)ptr;fsize=size;
 	int ibyt=0,infunc=0;
 	while(~(ibyt=mgetc()))
 	{

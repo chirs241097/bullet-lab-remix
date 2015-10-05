@@ -1,5 +1,6 @@
 #ifndef VMRUNNER_H
 #define VMRUNNER_H
+#include <cstring>
 #include "smelt.hpp"
 #include "smrandom.hpp"
 #include "scriptshared.hpp"
@@ -16,7 +17,7 @@ public:
 	void clear(){l=0;r=-1;}
 	int size(){return r-l+1;}
 	bool empty(){return size()==0;}
-	void push(memb a){data[++r]=a;if(r>15)throw;}
+	void push(memb a){memcpy(data+(++r),&a,sizeof(a));if(r>15)throw;}
 	memb pop(){if(l<=r+1)return data[l++];else throw;}
 	memb front(){return data[l];}
 	memb back(){return data[r];}
@@ -30,7 +31,7 @@ private:
 	SInst inst[65537];
 	int ic,fncnt,pinst;
 	fncEntry fncent[8];
-	const char *sbyte,*cbyte;
+	const unsigned char *sbyte,*cbyte;
 	DWORD fsize;
 	void readPara(SPara *para);
 	int mgetc();
@@ -46,4 +47,6 @@ public:
 	void vmInit(unsigned int seed);
 	void vmDeinit();
 };
+extern blrScriptVM *vm;
+extern callStack<Idata> callStk;
 #endif

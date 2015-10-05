@@ -38,8 +38,32 @@ private:
 public:
 	void init();
 	void deinit();
-	template<class T>int allocBullet();
-	template<class T>int createBullet();
+	template<class T>int allocBullet()
+	{
+		if(!alloced)
+		{
+			alloced=1;
+			bullets[0]=new T;
+			return 0;
+		}
+		else
+		{
+			int i;
+			for(i=0;i<alloced;++i)
+			if(!bullets[i]->exist)break;
+			if(i==alloced)
+				bullets[alloced++]=new T;
+			return i;
+		}
+		return -1;
+	}
+	template<class T>int createBullet()
+	{
+		//stub...
+		int ptr=allocBullet<T>();
+		bullets[ptr]->init();
+		return ptr;
+	}
 	void updateBullet();
 	void renderBullet();
 	bulletBase* getHandle(int id);

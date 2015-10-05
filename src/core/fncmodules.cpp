@@ -2,7 +2,6 @@
 #include "bullet.hpp"
 #include "scriptshared.hpp"
 #include "vmrunner.hpp"
-extern callStack<Idata> callStk;
 Idata randr()
 {
 	Idata ret;ret.type=1;
@@ -19,17 +18,16 @@ Idata randi()
 }
 Idata createBullet()
 {
-	Idata x,y,bs,rad;
-	x=callStk.pop();
-	y=callStk.pop();
-	bs=callStk.pop();
-	rad=callStk.pop();
+	float x,y,bs,rad;
+	rad=callStk.pop().r();
+	bs=callStk.pop().r();
+	y=callStk.pop().r();
+	x=callStk.pop().r();
 	extern bulletManager *bmInstance;
-	int i=bmInstance->allocBullet<bulletBase>();
-	bmInstance->getHandle(i)->init();
-	bmInstance->getHandle(i)->pos.x=x.r();
-	bmInstance->getHandle(i)->pos.y=y.r();
-	bmInstance->getHandle(i)->vel=bs.r()*smvec2d(cos(rad.r()),sin(rad.r()));
+	int i=bmInstance->createBullet<bulletBase>();
+	bmInstance->getHandle(i)->pos.x=x;
+	bmInstance->getHandle(i)->pos.y=y;
+	bmInstance->getHandle(i)->vel=bs*smvec2d(cos(rad),sin(rad));
 	bmInstance->getHandle(i)->acc=smvec2d(0,0);
 	bmInstance->getHandle(i)->basecolor=blue;
 	bmInstance->getHandle(i)->rendercolor=0xC0FFFFFF;
