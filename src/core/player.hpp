@@ -9,10 +9,10 @@ private:
 	static SMELT* sm;
 public:
 	smvec2d pos;
-	float rot,vel,velp;
+	double rot,vel,velp;
 	int plyrctl[6];
 
-	playerBase(float _x=400,float _y=400);
+	playerBase(double _x=400,double _y=400);
 	~playerBase();
 	void update();
 	void render();

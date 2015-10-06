@@ -53,7 +53,8 @@ void blrScriptVM::readPara(SPara *para)
 	int l=0;
 	switch(para->type)
 	{
-		case 0: case 1: case 4: case 5: l=4;break;
+		case 1: l=8;break;
+		case 0: case 4: case 5: l=4;break;
 		case 2: case 3: case 6: case 7: l=1;break;
 		default: break;
 	}

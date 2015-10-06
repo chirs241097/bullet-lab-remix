@@ -2,7 +2,7 @@
 #include "player.hpp"
 #include "../master/resources.hpp"
 SMELT* playerBase::sm=NULL;
-playerBase::playerBase(float _x,float _y)
+playerBase::playerBase(double _x,double _y)
 {
 	sm=smGetInterface(SMELT_APILEVEL);
 	playerent=new smEntity2D(ssanm.getTextureInfo("player")->tex,ssanm.getTextureInfo("player")->rect);
@@ -20,7 +20,7 @@ playerBase::~playerBase()
 void playerBase::update()
 {
 	//player control...
-	static float realspeed=0;
+	static double realspeed=0;
 	if(sm->smGetKeyState(plyrctl[4]))
 	realspeed=0.85;else realspeed=3.5;
 	if(sm->smGetKeyState(plyrctl[0]))

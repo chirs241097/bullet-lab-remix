@@ -7,16 +7,17 @@ class bulletBase
 {
 public:
 	smvec2d pos,vel,acc;
-	float velim;
+	double velim;
 	//velim: velocity scalar limit.
-	float collrange,scollrange,renderscale;
+	double collrange,scollrange;
+	float renderscale;
 	//collision range and semi-collision range. Replacing "collable" and "scollable".
 	bool extborder,invincible;
 	//extborder: true=not removed if out of screen.
 	//invincible: true=not removed if collided with player or in range of CLR.
 	bool exist,addblend;
 	int attrd[8];
-	float attrf[8];
+	double attrf[8];
 	TColors basecolor;
 	DWORD rendercolor;
 	virtual void init(...);

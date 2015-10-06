@@ -42,48 +42,8 @@ void bulletManager::deinit()
 	for(int i=0;i<(int)COLOR_COUNT;++i)
 	{delete bulent2d[i];delete bulent3d[i];}
 }
-/*template<class T>
-int bulletManager::allocBullet()
-{
-	if(!alloced)
-	{
-		alloced=1;
-		bullets[0]=new T;
-		return 0;
-	}
-	else
-	{
-		int i;
-		for(i=0;i<alloced;++i)
-		if(!bullets[i]->exist)break;
-		if(i==alloced)
-			bullets[alloced++]=new T;
-		return i;
-	}
-	return -1;
-}
-template<class T>
-int bulletManager::createBullet()
-{
-	//stub...
-	int ptr=allocBullet<T>();
-	bullets[ptr]->init();
-	return ptr;
-}*/
 void bulletManager::updateBullet()
 {
-	/*static int b=0;
-	++b;
-	if(b>15)
-	{
-		int a=createBullet<bulletBase>();
-		bulletBase* x=getHandle(a);
-		x->pos=smvec2d(400,300);
-		x->vel=smvec2d(rand()%100-50,rand()%100-50);
-		x->vel.normalize();
-		x->rendercolor=0xC0FFFFFF;
-		b=0;
-	}*/
 	for(int i=0;i<alloced;++i)
 	if(bullets[i]->exist)
 		bullets[i]->update();
