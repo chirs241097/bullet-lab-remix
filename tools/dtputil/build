@@ -1,0 +1,3 @@
+#!/bin/bash
+g++ dtputil.cpp -Wall -o dtputil -lz -Wl,../../extensions/libsmeltext.a -g
+g++ anmutil.cpp -Wall -o anmutil -lz -Wl,../../extensions/libsmeltext.a -g
