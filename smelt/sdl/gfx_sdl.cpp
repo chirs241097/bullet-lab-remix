@@ -24,7 +24,7 @@ bool SMELT_IMPL::smRenderBegin2D(bool ztest,SMTRG trg)
 {
 	TRenderTargetList *targ=(TRenderTargetList*)trg;
 	if(vertexArray)
-	{smLog("%s:"SLINE": Last frame not closed.\n",GFX_SDL_SRCFN);return false;}
+	{smLog("%s:" SLINE ": Last frame not closed.\n",GFX_SDL_SRCFN);return false;}
 	if(pOpenGLDevice->have_GL_EXT_framebuffer_object)
 	pOpenGLDevice->glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,(targ)?targ->frame:0);
 	pOpenGLDevice->glDepthFunc(GL_GEQUAL);
@@ -51,7 +51,7 @@ bool SMELT_IMPL::smRenderBegin3D(float fov,SMTRG trg)
 {
 	TRenderTargetList *targ=(TRenderTargetList*)trg;
 	if(vertexArray)
-	{smLog("%s:"SLINE": Last frame not closed.\n",GFX_SDL_SRCFN);return false;}
+	{smLog("%s:" SLINE ": Last frame not closed.\n",GFX_SDL_SRCFN);return false;}
 	if(pOpenGLDevice->have_GL_EXT_framebuffer_object)
 	pOpenGLDevice->glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,(targ)?targ->frame:0);
 	pOpenGLDevice->glDepthFunc(GL_LESS);
@@ -230,7 +230,7 @@ SMTRG SMELT_IMPL::smTargetCreate(int w,int h)
 	ok=buildTarget(pTarget,gltex->name,w,h);
 	if(!ok)
 	{
-		smLog("%s:"SLINE": Failed to create render target.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": Failed to create render target.\n",GFX_SDL_SRCFN);
 		smTextureFree(pTarget->tex);
 		delete pTarget;
 		return 0;
@@ -642,7 +642,7 @@ void SMELT_IMPL::batchOGL(bool endScene)
 				{
 					printf("idxbuf:%d\n",indexBuf[i]);
 					printf("QUAD'S TRIANGLE:\n");
-#define printVertex(a) printf("(%.2f,%.2f,%.2f),0x%lX,(%.2f,%.2f)\n",a.x,a.y,a.z,a.col,a.tx,a.ty);
+#define printVertex(a) printf("(%.2f,%.2f,%.2f),0x%X,(%.2f,%.2f)\n",a.x,a.y,a.z,a.col,a.tx,a.ty);
 					printf("#%d: ",indexBuf[i+0]);printVertex(vertexBuf[indexBuf[i+0]]);
 					printf("#%d: ",indexBuf[i+1]);printVertex(vertexBuf[indexBuf[i+1]]);
 					printf("#%d: ",indexBuf[i+2]);printVertex(vertexBuf[indexBuf[i+2]]);
@@ -694,7 +694,7 @@ bool SMELT_IMPL::checkGLExtension(const char *extlist,const char *ext)
 }
 bool SMELT_IMPL::loadGLEntryPoints()
 {
-	smLog("%s:"SLINE": OpenGL: loading entry points and examining extensions...\n",GFX_SDL_SRCFN);
+	smLog("%s:" SLINE ": OpenGL: loading entry points and examining extensions...\n",GFX_SDL_SRCFN);
 	pOpenGLDevice->have_base_opengl=true;
 	pOpenGLDevice->have_GL_ARB_texture_rectangle=true;
 	pOpenGLDevice->have_GL_ARB_texture_non_power_of_two=true;
@@ -717,15 +717,15 @@ bool SMELT_IMPL::loadGLEntryPoints()
 		unloadGLEntryPoints();
 		return false;
 	}
-	smLog("%s:"SLINE": GL_RENDERER: %s\n",GFX_SDL_SRCFN,(const char *)pOpenGLDevice->glGetString(GL_RENDERER));
-	smLog("%s:"SLINE": GL_VENDOR: %s\n",GFX_SDL_SRCFN,(const char *)pOpenGLDevice->glGetString(GL_VENDOR));
-	smLog("%s:"SLINE": GL_VERSION: %s\n",GFX_SDL_SRCFN,(const char *)pOpenGLDevice->glGetString(GL_VERSION));
+	smLog("%s:" SLINE ": GL_RENDERER: %s\n",GFX_SDL_SRCFN,(const char *)pOpenGLDevice->glGetString(GL_RENDERER));
+	smLog("%s:" SLINE ": GL_VENDOR: %s\n",GFX_SDL_SRCFN,(const char *)pOpenGLDevice->glGetString(GL_VENDOR));
+	smLog("%s:" SLINE ": GL_VERSION: %s\n",GFX_SDL_SRCFN,(const char *)pOpenGLDevice->glGetString(GL_VERSION));
 	const char *verstr=(const char*)pOpenGLDevice->glGetString(GL_VERSION);
 	int maj=0,min=0;
 	sscanf(verstr,"%d.%d",&maj,&min);
 	if((maj<1)||((maj==1)&&(min<2)))
 	{
-		smLog("%s:"SLINE": OpenGL implementation must be at least version 1.2.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL implementation must be at least version 1.2.\n",GFX_SDL_SRCFN);
 		unloadGLEntryPoints();
 		return false;
 	}
@@ -738,35 +738,35 @@ bool SMELT_IMPL::loadGLEntryPoints()
 		maj>=2||checkGLExtension(exts,"GL_ARB_texture_non_power_of_two");
 	if(pOpenGLDevice->have_GL_ARB_texture_rectangle)
 	{
-		smLog("%s:"SLINE": OpenGL: Using GL_ARB_texture_rectangle.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: Using GL_ARB_texture_rectangle.\n",GFX_SDL_SRCFN);
 		pOpenGLDevice->TextureTarget=GL_TEXTURE_RECTANGLE_ARB;
 	}
 	else if(pOpenGLDevice->have_GL_ARB_texture_non_power_of_two)
 	{
-		smLog("%s:"SLINE": OpenGL: Using GL_ARB_texture_non_power_of_two.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: Using GL_ARB_texture_non_power_of_two.\n",GFX_SDL_SRCFN);
 		pOpenGLDevice->TextureTarget=GL_TEXTURE_2D;
 	}
 	else
 	{
-		smLog("%s:"SLINE": OpenGL: Using power-of-two textures. This costs more memory!\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: Using power-of-two textures. This costs more memory!\n",GFX_SDL_SRCFN);
 		pOpenGLDevice->TextureTarget=GL_TEXTURE_2D;
 	}
 	if(pOpenGLDevice->have_GL_EXT_framebuffer_object)
 		pOpenGLDevice->have_GL_EXT_framebuffer_object=
 		checkGLExtension(exts, "GL_EXT_framebuffer_object");
 	if(pOpenGLDevice->have_GL_EXT_framebuffer_object)
-		smLog("%s:"SLINE": OpenGL: Using GL_EXT_framebuffer_object.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: Using GL_EXT_framebuffer_object.\n",GFX_SDL_SRCFN);
 	else
-		smLog("%s:"SLINE": OpenGL: WARNING! No render-to-texture support. Things may render badly.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: WARNING! No render-to-texture support. Things may render badly.\n",GFX_SDL_SRCFN);
 	if(pOpenGLDevice->have_GL_EXT_texture_compression_s3tc)
 		pOpenGLDevice->have_GL_EXT_texture_compression_s3tc=
 		checkGLExtension(exts,"GL_ARB_texture_compression")&&
 	    checkGLExtension(exts,"GL_EXT_texture_compression_s3tc");
 	if(pOpenGLDevice->have_GL_EXT_texture_compression_s3tc)
-		smLog("%s:"SLINE": OpenGL: Using GL_EXT_texture_compression_s3tc.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: Using GL_EXT_texture_compression_s3tc.\n",GFX_SDL_SRCFN);
 	else if (true)
 	{
-		smLog("%s:"SLINE": OpenGL: Texture compression disabled!\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: Texture compression disabled!\n",GFX_SDL_SRCFN);
 	}
 	if(pOpenGLDevice->have_GL_ARB_vertex_buffer_object)
 	{
@@ -774,18 +774,18 @@ bool SMELT_IMPL::loadGLEntryPoints()
 		checkGLExtension(exts,"GL_ARB_vertex_buffer_object");
 	}
 	if(pOpenGLDevice->have_GL_ARB_vertex_buffer_object)
-		smLog("%s:"SLINE": OpenGL: Using GL_ARB_vertex_buffer_object.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: Using GL_ARB_vertex_buffer_object.\n",GFX_SDL_SRCFN);
 	else
-		smLog("%s:"SLINE": OpenGL: WARNING! No VBO support; performance may suffer.\n",GFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": OpenGL: WARNING! No VBO support; performance may suffer.\n",GFX_SDL_SRCFN);
 	return true;
 }
 bool SMELT_IMPL::initOGL()
 {
 	primTex=0;
-	if(pOpenGLDevice){smLog("%s:"SLINE": Multiple initialization!\n",GFX_SDL_SRCFN);return false;}
+	if(pOpenGLDevice){smLog("%s:" SLINE ": Multiple initialization!\n",GFX_SDL_SRCFN);return false;}
 	pOpenGLDevice=new TOpenGLDevice;
 	if(!loadGLEntryPoints())return false;
-	smLog("%s:"SLINE": Mode: %d x %d\n",GFX_SDL_SRCFN,scrw,scrh);
+	smLog("%s:" SLINE ": Mode: %d x %d\n",GFX_SDL_SRCFN,scrw,scrh);
 	vertexArray=NULL;textures=NULL;IndexBufferObject=0;
 	if(!confOGL())return false;
 	pOpenGLDevice->glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);

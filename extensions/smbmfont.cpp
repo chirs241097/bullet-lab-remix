@@ -55,6 +55,7 @@ bool smBMFont::loadAnmFromMemory(const char* ptr,DWORD size)
 	anm.releaseFilePtr("content.meta");
 	setBlend(BLEND_ALPHABLEND);
 	setColor(0xFFFFFFFF);
+	return true;
 }
 void smBMFont::close()
 {
@@ -155,6 +156,7 @@ bool smBMFontw::loadAnmFromMemory(char* ptr,DWORD size)
 	DWORD msez=anm.getFileSize("content.meta");
 	parseMeta(mptr,msez);
 	anm.releaseFilePtr("content.meta");
+	return true;
 }
 void smBMFontw::close()
 {

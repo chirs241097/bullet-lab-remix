@@ -11,9 +11,11 @@
 #include "smdatapack.hpp"
 #include <cstdio>
 #include <cstring>
-#define gzgetDWORD(f) ((gzgetc(f)<<24)|(gzgetc(f)<<16)|(gzgetc(f)<<8)|(gzgetc(f)))&0xFFFFFFFF
-#define gch ((*(cp++))&0xFF)
-#define mmgetDWORD ((gch<<24)|(gch<<16)|(gch<<8)|(gch))&0xFFFFFFFF
+inline int gzgch(gzFile f){return gzgetc(f);}
+inline DWORD gzgetDWORD(gzFile f)
+{return ((gzgch(f)<<24)|(gzgch(f)<<16)|(gzgch(f)<<8)|gzgch(f))&0xFFFFFFFF;}
+inline DWORD gch(const char *&cp){return (DWORD)((*(cp++))&0xFF);}
+inline DWORD mmgetDWORD(const char *&cp){return ((gch(cp)<<24)|(gch(cp)<<16)|(gch(cp)<<8)|(gch(cp)))&0xFFFFFFFF;}
 #define gzputDWORD(f,a) gzputc(f,a>>24);gzputc(f,(a>>16)&0xFF);gzputc(f,(a>>8)&0xFF);gzputc(f,a&0xFF);
 bool smDtpFileR::openDtp(const char* path)
 {
@@ -35,6 +37,7 @@ bool smDtpFileR::openDtp(const char* path)
 		f.crc=gzgetDWORD(file);
 		m[std::string(f.path)]=f;
 	}
+	return true;
 }
 bool smDtpFileR::openDtpFromMemory(const char* ptr,DWORD size)
 {
@@ -50,11 +53,12 @@ bool smDtpFileR::openDtpFromMemory(const char* ptr,DWORD size)
 		f.path=new char[pl+1];f.data=NULL;
 		for(int j=0;j<pl;++j)f.path[j]=*(cp++);
 		f.path[pl]='\0';
-		f.size=mmgetDWORD;
-		f.offset=mmgetDWORD;
-		f.crc=mmgetDWORD;
+		f.size=mmgetDWORD(cp);
+		f.offset=mmgetDWORD(cp);
+		f.crc=mmgetDWORD(cp);
 		m[std::string(f.path)]=f;
 	}
+	return true;
 }
 void smDtpFileR::closeDtp()
 {
@@ -97,7 +101,7 @@ char* smDtpFileR::getFilePtr(const char* path)
 		if(!enmemory)
 		{
 			int r=gzread(file,m[fns].data,m[fns].size);
-			if(r<m[fns].size){delete[] m[fns].data;printf("error: file size mismatch.\n");return m[fns].data=NULL;}
+			if((unsigned)r<m[fns].size){delete[] m[fns].data;printf("error: file size mismatch.\n");return m[fns].data=NULL;}
 		}
 		else
 		{

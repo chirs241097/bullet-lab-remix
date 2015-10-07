@@ -287,28 +287,28 @@ bool SMELT_IMPL::initOAL()
 {
 	if(pOpenALDevice)return true;
 	scnt=0;memset(src,0,sizeof(src));
-	smLog("%s:"SLINE": Initializing OpenAL...\n",SFX_SDL_SRCFN);
+	smLog("%s:" SLINE ": Initializing OpenAL...\n",SFX_SDL_SRCFN);
 	ALCdevice *dev=alcOpenDevice(NULL);
 	if(!dev)
 	{
-		smLog("%s:"SLINE": alcOpenDevice() failed.\n",SFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": alcOpenDevice() failed.\n",SFX_SDL_SRCFN);
 		return mute=true;
 	}
 	ALint caps[]={ALC_FREQUENCY,44100,0};
 	ALCcontext *ctx=alcCreateContext(dev,caps);
 	if(!ctx)
 	{
-		smLog("%s:"SLINE": alcCreateContext() failed.\n",SFX_SDL_SRCFN);
+		smLog("%s:" SLINE ": alcCreateContext() failed.\n",SFX_SDL_SRCFN);
 		return mute=true;
 	}
 	alcMakeContextCurrent(ctx);alcProcessContext(ctx);
-	smLog("%s:"SLINE": Done OpenAL initialization\n",SFX_SDL_SRCFN);
-	smLog("%s:"SLINE": AL_VENDOR: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VENDOR));
-	smLog("%s:"SLINE": AL_RENDERER: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_RENDERER));
-	smLog("%s:"SLINE": AL_VERSION: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VERSION));
+	smLog("%s:" SLINE ": Done OpenAL initialization\n",SFX_SDL_SRCFN);
+	smLog("%s:" SLINE ": AL_VENDOR: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VENDOR));
+	smLog("%s:" SLINE ": AL_RENDERER: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_RENDERER));
+	smLog("%s:" SLINE ": AL_VERSION: %s\n",SFX_SDL_SRCFN,(char*)alGetString(AL_VERSION));
 	const char* ext=(const char*)alGetString(AL_EXTENSIONS);
 	lpp=strstr(ext,"AL_SOFT_loop_points")!=NULL;
-	if(!lpp)smLog("%s:"SLINE": Warning: loop points not supported. Please recompile with OpenAL Soft.\n",SFX_SDL_SRCFN);
+	if(!lpp)smLog("%s:" SLINE ": Warning: loop points not supported. Please recompile with OpenAL Soft.\n",SFX_SDL_SRCFN);
 	pOpenALDevice=(void*)dev;
 	return true;
 }

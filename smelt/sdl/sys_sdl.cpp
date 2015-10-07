@@ -38,15 +38,15 @@ void SMELT_IMPL::smRelease()
 
 bool SMELT_IMPL::smInit()
 {
-	smLog("%s:"SLINE": Initalizing SMELT...\n",SYS_SDL_SRCFN);
-	smLog("%s:"SLINE": SMELT api version %d\n",SYS_SDL_SRCFN,SMELT_APILEVEL);
+	smLog("%s:" SLINE ": Initalizing SMELT...\n",SYS_SDL_SRCFN);
+	smLog("%s:" SLINE ": SMELT api version %d\n",SYS_SDL_SRCFN,SMELT_APILEVEL);
 	time_t t=time(NULL);
-	smLog("%s:"SLINE": Date %s",SYS_SDL_SRCFN,asctime(localtime(&t)));
+	smLog("%s:" SLINE ": Date %s",SYS_SDL_SRCFN,asctime(localtime(&t)));
 #ifdef WIN32
 	OSVERSIONINFO os_ver; MEMORYSTATUS mem_st;
 	os_ver.dwOSVersionInfoSize=sizeof(os_ver);
 	GetVersionEx(&os_ver);
-	smLog("%s:"SLINE": OS: Windows %ld.%ld.%ld\n", SYS_SDL_SRCFN,os_ver.dwMajorVersion,os_ver.dwMinorVersion,os_ver.dwBuildNumber);
+	smLog("%s:" SLINE ": OS: Windows %ld.%ld.%ld\n", SYS_SDL_SRCFN,os_ver.dwMajorVersion,os_ver.dwMinorVersion,os_ver.dwBuildNumber);
 
 	int CPUInfo[4]={-1};
 	__cpuid(CPUInfo,0x80000000);
@@ -63,50 +63,50 @@ bool SMELT_IMPL::smInit()
 		memcpy(cpuName+32, CPUInfo, sizeof(CPUInfo));
 	}
 	while(*cpuName=' ')++cpuName;
-	smLog("%s:"SLINE": CPU: %s\n", SYS_SDL_SRCFN,cpuName);
+	smLog("%s:" SLINE ": CPU: %s\n", SYS_SDL_SRCFN,cpuName);
 	free(loced);
 
 	GlobalMemoryStatus(&mem_st);
-	smLog("%s:"SLINE": Memory: %ldK total, %ldK free\n", SYS_SDL_SRCFN,mem_st.dwTotalPhys/1024L,mem_st.dwAvailPhys/1024L);
+	smLog("%s:" SLINE ": Memory: %ldK total, %ldK free\n", SYS_SDL_SRCFN,mem_st.dwTotalPhys/1024L,mem_st.dwAvailPhys/1024L);
 #else
 	system("uname -svm > os.out");
 	char osv[100];FILE* a=fopen("os.out","r");fgets(osv,100,a);fclose(a);
 	osv[strlen(osv)-1]='\0';
-	smLog("%s:"SLINE": OS: %s\n",SYS_SDL_SRCFN,osv);
+	smLog("%s:" SLINE ": OS: %s\n",SYS_SDL_SRCFN,osv);
 	system("rm os.out");
 
 	system("cat /proc/cpuinfo | grep name -m 1 > cpu.out");
 	a=fopen("cpu.out","r");fgets(osv,100,a);fclose(a);
 	osv[strlen(osv)-1]='\0';char *ptr=osv;while(*ptr!=':')++ptr;ptr+=2;
-	smLog("%s:"SLINE": CPU: %s\n",SYS_SDL_SRCFN,osv);
+	smLog("%s:" SLINE ": CPU: %s\n",SYS_SDL_SRCFN,osv);
 	system("rm cpu.out");
 
 	a=fopen("/proc/meminfo","r");
 	unsigned totalm,freem;
 	fscanf(a,"MemTotal: %u kB\n",&totalm);
 	fscanf(a,"MemFree: %u kB\n",&freem);
-	smLog("%s:"SLINE": RAM: %ukB installed, %ukB free\n",SYS_SDL_SRCFN,totalm,freem);
+	smLog("%s:" SLINE ": RAM: %ukB installed, %ukB free\n",SYS_SDL_SRCFN,totalm,freem);
 	fclose(a);
 #endif
 	if(SDL_Init(SDL_INIT_VIDEO)==-1)
 	{
-		smLog("%s:"SLINE": SDL_Init() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
+		smLog("%s:" SLINE ": SDL_Init() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
 		return false;
 	}
 	if(SDL_GL_LoadLibrary(NULL)==-1)
 	{
-		smLog("%s:"SLINE": SDL_GL_LoadLibrary() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
+		smLog("%s:" SLINE ": SDL_GL_LoadLibrary() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
 		return false;
 	}
 	SDL_DisplayMode vidinfo;
 	if(SDL_GetDesktopDisplayMode(0,&vidinfo))
 	{
-		smLog("%s:"SLINE": SDL_GetDesktopDisplayMode() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
+		smLog("%s:" SLINE ": SDL_GetDesktopDisplayMode() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
 		SDL_Quit();
 		return false;
 	}
 	dispw=vidinfo.w;disph=vidinfo.h;
-	smLog("%s:"SLINE": Screen: %d x %d\n",SYS_SDL_SRCFN,dispw,disph);
+	smLog("%s:" SLINE ": Screen: %d x %d\n",SYS_SDL_SRCFN,dispw,disph);
 	Uint32 flags=SDL_WINDOW_OPENGL;
 	if(!windowed)flags|=SDL_WINDOW_FULLSCREEN;
 	SDL_Window *screen=SDL_CreateWindow(winTitle,SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,scrw,scrh,flags);
@@ -122,7 +122,7 @@ bool SMELT_IMPL::smInit()
 	SDL_GL_SetSwapInterval(vsync?1:0);
 	if(!hwnd)
 	{
-		smLog("%s:"SLINE": SDL_CreateWindow() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
+		smLog("%s:" SLINE ": SDL_CreateWindow() failed with error %s\n",SYS_SDL_SRCFN,SDL_GetError());
 		SDL_Quit();
 		return false;
 	}
@@ -142,15 +142,15 @@ bool SMELT_IMPL::smInit()
 
 void SMELT_IMPL::smFinale()
 {
-	smLog("%s:"SLINE": Cleaning up...\n",SYS_SDL_SRCFN);
+	smLog("%s:" SLINE ": Cleaning up...\n",SYS_SDL_SRCFN);
 	clearQueue();finiOAL();finiOGL();
 	SDL_Quit();hwnd=0;
 }
 
 void SMELT_IMPL::smMainLoop()
 {
-	if(!hwnd)return smLog("%s:"SLINE": Error: SMELT is not initialized.\n",SYS_SDL_SRCFN);
-	if(!pUpdateFunc) return smLog("%s:"SLINE": UpdateFunc is not defined.\n",SYS_SDL_SRCFN);
+	if(!hwnd)return smLog("%s:" SLINE ": Error: SMELT is not initialized.\n",SYS_SDL_SRCFN);
+	if(!pUpdateFunc) return smLog("%s:" SLINE ": UpdateFunc is not defined.\n",SYS_SDL_SRCFN);
 	Active=true;
 	for(;;)
 	{

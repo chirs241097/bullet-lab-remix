@@ -9,7 +9,7 @@
  *
  */
 #include "smelt_internal.hpp"
-static const char* INP_SDL_SRCFN="smelt/sdl/inp_sdl.cpp";
+//static const char* INP_SDL_SRCFN="smelt/sdl/inp_sdl.cpp";
 bool SMELT_IMPL::smGetInpEvent(smInpEvent *e)
 {
 	TInputEventList *eptr;

@@ -111,6 +111,7 @@ bool smAnmFile::loadAnmFromMemory(const char* ptr,DWORD size)
 	DWORD msez=anm.getFileSize("content.meta");
 	parseMeta(mptr,msez);
 	anm.releaseFilePtr("content.meta");
+	return true;
 }
 void smAnmFile::close()
 {
