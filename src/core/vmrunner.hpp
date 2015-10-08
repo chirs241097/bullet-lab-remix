@@ -41,7 +41,7 @@ public:
 	int loadLSBFromMemory(const char* ptr,DWORD size);
 	int getInstCount();
 	void vmRunFunction(const char *fncnym);
-	void vmSetRetValf(float v);
+	void vmSetRetValf(double v);
 	void vmSetRetVald(int v);
 	void vmInit(unsigned int seed);
 	void vmDeinit();

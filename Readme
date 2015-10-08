@@ -1,13 +1,10 @@
 This text is encoded in UTF-8.
 
 This file is mainly about BulletLabRemix II. BulletLabRemix III is still under
-heavy development and can be found in the 'src' directory. The script virtual
-machine is still incomplete and is not enabled. The current version is extremely
-primitive and is only for testing/debugging purpose.
+heavy development and can be found in the 'src' directory. The implementation
+of the script virtual machine is mostly complete, although many functions are
+still unimplemented.
 
-There was a old testbed version with virtual machine enabled and 3D first-person
-view implemented. Please contact me or check chirs241097.xicp.net/BulletLabRemix
-/public/BLRScriptTestbed/ (likely to be offline) if you want to get a copy.
 
 BulletLabRemix II readme
 
