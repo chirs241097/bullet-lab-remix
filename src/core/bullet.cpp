@@ -1,10 +1,12 @@
 #include "bullet.hpp"
 #include "../master/resources.hpp"
 #include <cstdlib>
+#include <cstdarg>
+#include "player.hpp"
 const char* bsnames[]={"green_bullet","cyan_bullet","yellow_bullet","purple_bullet",
 					 "red_bullet","white_bullet","blue_bullet","orange_bullet",
 					 "grey_bullet","circle_bullet"};
-void bulletBase::init(...){exist=true;renderscale=1;}
+void bulletBase::init(char fstarg,...){++fstarg;exist=true;renderscale=1;special=false;}
 void bulletBase::update()
 {
 	if(!exist)return;
@@ -22,9 +24,27 @@ void bulletBase::render()
 }
 bulletBase::~bulletBase(){}
 
+void bulletBonus::init(char fstarg,...)
+{
+	fstarg=0;va_list val;va_start(val,fstarg);
+	pos.x=va_arg(val,double);
+	pos.y=va_arg(val,double);
+	basecolor=grey;rendercolor=0x33FFFFFF;
+	va_end(val);renderscale=0.5;
+	attrf[0]=0;attrd[0]=0;exist=special=true;
+	vel.x=0;vel.y=-2;acc.x=0;acc.y=0.1;
+}
 void bulletBonus::update()
 {
 	//the player is not implemented yet...
+	if(vel.y>0)attrd[0]=1,acc=smvec2d(0,0);
+	if(attrd[0])
+	{
+		if(attrf[0]<10)attrf[0]+=.5;else attrf[0]=10.1;
+		vel=vel-player->pos;
+		vel.normalize();
+		vel=attrf[0]*vel;
+	}
 }
 
 void bulletManager::init()
@@ -44,6 +64,15 @@ void bulletManager::deinit()
 }
 void bulletManager::updateBullet()
 {
+	extern SMELT *sm;
+	if(sm->smGetKeyState(SMK_SPACE)==SMKST_HIT)
+	for(int i=0;i<alloced;++i)
+	if(bullets[i]->exist&&!bullets[i]->special)
+	{
+		bullets[i]->exist=false;
+		int ptr=allocBullet<bulletBonus>();
+		bullets[ptr]->init(0,bullets[i]->vel.x,bullets[i]->vel.y);
+	}
 	for(int i=0;i<alloced;++i)
 	if(bullets[i]->exist)
 		bullets[i]->update();
