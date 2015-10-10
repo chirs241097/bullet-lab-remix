@@ -30,18 +30,20 @@ void bulletBonus::init(char fstarg,...)
 	pos.x=va_arg(val,double);
 	pos.y=va_arg(val,double);
 	basecolor=grey;rendercolor=0x33FFFFFF;
-	va_end(val);renderscale=0.5;
+	va_end(val);renderscale=0.8;
 	attrf[0]=0;attrd[0]=0;exist=special=true;
-	vel.x=0;vel.y=-2;acc.x=0;acc.y=0.1;
+	vel.x=0;vel.y=2;acc.x=0;acc.y=-0.1;
 }
 void bulletBonus::update()
 {
-	//the player is not implemented yet...
-	if(vel.y>0)attrd[0]=1,acc=smvec2d(0,0);
+	bulletBase::update();
+	if((pos-player->pos).l()<9) exist=false;
+
+	if(vel.y<0&&!attrd[0])attrd[0]=1,acc=smvec2d(0,0);
 	if(attrd[0])
 	{
 		if(attrf[0]<10)attrf[0]+=.5;else attrf[0]=10.1;
-		vel=vel-player->pos;
+		vel=pos-player->pos;
 		vel.normalize();
 		vel=attrf[0]*vel;
 	}
@@ -70,8 +72,9 @@ void bulletManager::updateBullet()
 	if(bullets[i]->exist&&!bullets[i]->special)
 	{
 		bullets[i]->exist=false;
+		smvec2d p=bullets[i]->pos;
 		int ptr=allocBullet<bulletBonus>();
-		bullets[ptr]->init(0,bullets[i]->vel.x,bullets[i]->vel.y);
+		bullets[ptr]->init(0,p.x,p.y);
 	}
 	for(int i=0;i<alloced;++i)
 	if(bullets[i]->exist)

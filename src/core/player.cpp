@@ -35,6 +35,6 @@ void playerBase::update()
 }
 void playerBase::render()
 {
-	playerent->render(pos.x,pos.y,rot,0.7);
+	playerent->render(pos.x+8.4,pos.y+8.4,rot,0.7);
 }
 playerBase* player;

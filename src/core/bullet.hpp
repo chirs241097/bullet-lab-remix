@@ -56,6 +56,11 @@ public:
 			if(!bullets[i]->exist)break;
 			if(i==alloced)
 				bullets[alloced++]=new T;
+			else
+			{
+				delete bullets[i];
+				bullets[i]=new T;
+			}
 			return i;
 		}
 		return -1;
