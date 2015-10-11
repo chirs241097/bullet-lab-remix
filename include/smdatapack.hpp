@@ -42,6 +42,7 @@ public:
 	char* getFilePtr(const char* path);
 	void releaseFilePtr(const char* path);
 	DWORD getFileSize(const char* path);
+	DWORD getFileCRC(const char* path);
 };
 class smDtpFileW
 {

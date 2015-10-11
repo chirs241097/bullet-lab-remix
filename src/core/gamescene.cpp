@@ -60,6 +60,10 @@ bool gameScene::sceneRender()
 	udly+=sm->smGetDelta();
 	extern sceneManager *sceneMgr;float lps=sceneMgr->getLPS();
 	if(udly>1){udly=0;utime=sceneMgr->getTHUpdateTime();}
+	ttfont.updateString(L"Coll: %d\n",player->coll);
+	ttfont.render(0,50,0xFFFFFFFF,ALIGN_LEFT);
+	ttfont.updateString(L"SColl: %d\n",player->scoll);
+	ttfont.render(0,65,0xFFFFFFFF,ALIGN_LEFT);
 	ttfont.updateString(L"LPS: %.2f",lps);
 	ttfont.render(0,680,0xFFFFFFFF,ALIGN_LEFT);
 	ttfont.updateString(L"Update Time: %dns",utime);

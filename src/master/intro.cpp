@@ -182,7 +182,7 @@ introScene::introScene()
 	sm=smGetInterface(SMELT_APILEVEL);
 	pos=new smvec2d[1024];vel=new smvec2d[1024];
 	scale=new float[1024];acc=new smvec2d[1024];
-	extern const char* bsnames[];
+	extern const char* bsnames[];delay=0;
 	smTexInfo *ti=ssanm.getTextureInfo(bsnames[rand()%8]);
 	blt=new smEntity2D(ti->tex,ti->rect);
 	blt->setCentre(12,12);

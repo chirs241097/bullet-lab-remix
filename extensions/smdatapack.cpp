@@ -126,6 +126,8 @@ void smDtpFileR::releaseFilePtr(const char* path)
 }
 DWORD smDtpFileR::getFileSize(const char* path)
 {if(m.find(std::string(path))==m.end()){printf("error: file not found in the archive.\n");return 0;}return m[std::string(path)].size;}
+DWORD smDtpFileR::getFileCRC(const char* path)
+{if(m.find(std::string(path))==m.end()){printf("error: file not found in the archive.\n");return 0;}return m[std::string(path)].crc;}
 
 smDtpFileW::smDtpFileW(){fcnt=0;}
 bool smDtpFileW::addFile(const char* path,const char* realpath)

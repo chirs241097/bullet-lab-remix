@@ -11,7 +11,7 @@ playerBase::playerBase(double _x,double _y)
 	plyrctl[0]=SMK_UP;plyrctl[1]=SMK_DOWN;
 	plyrctl[2]=SMK_LEFT;plyrctl[3]=SMK_RIGHT;
 	plyrctl[4]=SMK_SHIFT;
-	rot=0;
+	rot=0;scoll=coll=0;vel=3.5;velp=1.5;
 }
 playerBase::~playerBase()
 {
@@ -22,7 +22,7 @@ void playerBase::update()
 	//player control...
 	static double realspeed=0;
 	if(sm->smGetKeyState(plyrctl[4]))
-	realspeed=0.85;else realspeed=3.5;
+	realspeed=velp;else realspeed=vel;
 	if(sm->smGetKeyState(plyrctl[0]))
 	{if(pos.y>15)pos.y-=realspeed;else pos.y=15;}
 	if(sm->smGetKeyState(plyrctl[1]))

@@ -10,7 +10,7 @@ private:
 public:
 	smvec2d pos;
 	double rot,vel,velp;
-	int plyrctl[6];
+	int plyrctl[6],coll,scoll;
 
 	playerBase(double _x=400,double _y=400);
 	~playerBase();

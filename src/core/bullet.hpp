@@ -16,8 +16,8 @@ public:
 	//extborder: true=not removed if out of screen.
 	//invincible: true=not removed if collided with player or in range of CLR.
 	bool exist,addblend,special;
-	int attrd[8];
-	double attrf[8];
+	int attrd[16],scb,cscb,cb,ccb;
+	double attrf[16];
 	TColors basecolor;
 	DWORD rendercolor;
 	virtual void init(char fstarg,...);
@@ -26,6 +26,12 @@ public:
 	virtual ~bulletBase();
 };
 class bulletBonus:public bulletBase
+{
+public:
+	void init(char fstarg,...)override;
+	void update()override;
+};
+class bulletFX:public bulletBase
 {
 public:
 	void init(char fstarg,...)override;
@@ -74,6 +80,7 @@ public:
 	}
 	void updateBullet();
 	void renderBullet();
+	void addFXBullet(TColors col);
 	bulletBase* getHandle(int id);
 	smEntity2D* getBulEntity2D(TColors col);
 	smEntity3D* getBulEntity3D(TColors col);

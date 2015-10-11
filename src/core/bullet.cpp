@@ -6,7 +6,12 @@
 const char* bsnames[]={"green_bullet","cyan_bullet","yellow_bullet","purple_bullet",
 					 "red_bullet","white_bullet","blue_bullet","orange_bullet",
 					 "grey_bullet","circle_bullet"};
-void bulletBase::init(char fstarg,...){++fstarg;exist=true;renderscale=1;special=false;}
+void bulletBase::init(char fstarg,...)
+{
+	++fstarg;exist=true;renderscale=1;
+	special=invincible=false;scollrange=64;collrange=16;
+	scb=cb=8;
+}
 void bulletBase::update()
 {
 	if(!exist)return;
@@ -14,7 +19,18 @@ void bulletBase::update()
 	if(vel.l()>velim&&velim>0)vel=velim*vel.getNormalized();
 	pos=pos-vel;
 	if(!extborder&&(pos.x<-10||pos.y<-10||pos.x>810||pos.y>610))exist=false;
-	//check clr & collision
+	if((pos-player->pos).l()>scollrange)if(invincible)cscb=scb;
+	if((pos-player->pos).l()>collrange)if(invincible)ccb=cb;
+	if((pos-player->pos).l()<=scollrange&&(pos-player->pos).l()>collrange)
+	{
+		if(!invincible)scollrange=-1,++player->scoll,bmInstance->addFXBullet(grey);
+		else{if(++cscb>scb)cscb=0,++player->scoll,bmInstance->addFXBullet(grey);}
+	}
+	if((pos-player->pos).l()<=collrange)
+	{
+		if(!invincible)exist=false,++player->coll,bmInstance->addFXBullet(red);
+		else{if(++ccb>cb)ccb=0,++player->coll,bmInstance->addFXBullet(red);}
+	}
 }
 void bulletBase::render()
 {
@@ -36,8 +52,11 @@ void bulletBonus::init(char fstarg,...)
 }
 void bulletBonus::update()
 {
-	bulletBase::update();
-	if((pos-player->pos).l()<9) exist=false;
+	if(!exist)return;
+	vel=vel+acc;
+	if(vel.l()>velim&&velim>0)vel=velim*vel.getNormalized();
+	pos=pos-vel;
+	if((pos-player->pos).l()<9)exist=false;
 
 	if(vel.y<0&&!attrd[0])attrd[0]=1,acc=smvec2d(0,0);
 	if(attrd[0])
@@ -47,6 +66,23 @@ void bulletBonus::update()
 		vel.normalize();
 		vel=attrf[0]*vel;
 	}
+}
+void bulletFX::init(char fstarg,...)
+{
+	fstarg=0;va_list val;va_start(val,fstarg);
+	pos=player->pos;
+	basecolor=(TColors)va_arg(val,int);
+	rendercolor=0x33FFFFFF;
+	va_end(val);renderscale=0.4;collrange=scollrange=-1;
+	attrf[0]=0;attrd[0]=0;exist=special=invincible=true;
+	vel.x=rand()%1000-500;vel.y=rand()%1000-500;
+	vel=(2+rand()%3+rand()%10/10.)*vel.getNormalized();
+}
+void bulletFX::update()
+{
+	pos=pos-vel;
+	rendercolor=SETA(rendercolor,GETA(rendercolor)-2);
+	if(GETA(rendercolor)<=2)exist=false;
 }
 
 void bulletManager::init()
@@ -73,8 +109,7 @@ void bulletManager::updateBullet()
 	{
 		bullets[i]->exist=false;
 		smvec2d p=bullets[i]->pos;
-		int ptr=allocBullet<bulletBonus>();
-		bullets[ptr]->init(0,p.x,p.y);
+		bullets[allocBullet<bulletBonus>()]->init(0,p.x,p.y);
 	}
 	for(int i=0;i<alloced;++i)
 	if(bullets[i]->exist)
@@ -87,6 +122,12 @@ void bulletManager::renderBullet()
 	{
 		bullets[i]->render();
 	}
+}
+void bulletManager::addFXBullet(TColors col)
+{
+	int c=rand()%5+5;
+	for(int i=0;i<c;++i)
+	bullets[allocBullet<bulletFX>()]->init(0,col);
 }
 smEntity2D* bulletManager::getBulEntity2D(TColors col){return bulent2d[col];}
 smEntity3D* bulletManager::getBulEntity3D(TColors col){return bulent3d[col];}

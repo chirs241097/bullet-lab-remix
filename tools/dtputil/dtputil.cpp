@@ -27,7 +27,7 @@ int main(int argc,char** argv)
 				puts(c);
 				char *ptr=file.getFilePtr(c);
 				if(!ptr)printf("error\n");else
-				printf("size:%lu, first bytes:%c%c%c\n",file.getFileSize(c),*ptr,*(ptr+1),*(ptr+2));
+				printf("size:%u, CRC: 0x%08X\n",file.getFileSize(c),file.getFileCRC(c));
 				file.releaseFilePtr(c);
 			}
 		}
@@ -35,7 +35,8 @@ int main(int argc,char** argv)
 		for(int i=3;i<argc;++i)
 		{
 			char *ptr=file.getFilePtr(argv[i]);
-			printf("size:%lu, first bytes:%c%c%c\n",file.getFileSize(argv[i]),*ptr,*(ptr+1),*(ptr+2));
+			if(!ptr)printf("error\n");else
+			printf("size:%u, CRC: 0x%08X\n",file.getFileSize(argv[i]),file.getFileCRC(argv[i]));
 			file.releaseFilePtr(argv[i]);
 		}
 		file.closeDtp();
