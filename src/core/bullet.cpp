@@ -23,13 +23,13 @@ void bulletBase::update()
 	if((pos-player->pos).l()>collrange)if(invincible)ccb=cb;
 	if((pos-player->pos).l()<=scollrange&&(pos-player->pos).l()>collrange)
 	{
-		if(!invincible)scollrange=-1,++player->scoll,bmInstance->addFXBullet(grey);
-		else{if(++cscb>scb)cscb=0,++player->scoll,bmInstance->addFXBullet(grey);}
+		if(!invincible)scollrange=-1,++player->scoll,bmInstance->addFXBullet(grey,5,5);
+		else{if(++cscb>scb)cscb=0,++player->scoll,bmInstance->addFXBullet(grey,5,5);}
 	}
 	if((pos-player->pos).l()<=collrange)
 	{
-		if(!invincible)exist=false,++player->coll,bmInstance->addFXBullet(red);
-		else{if(++ccb>cb)ccb=0,++player->coll,bmInstance->addFXBullet(red);}
+		if(!invincible)exist=false,++player->coll,bmInstance->addFXBullet(red,15,15);
+		else{if(++ccb>cb)ccb=0,++player->coll,bmInstance->addFXBullet(red,15,15);}
 	}
 }
 void bulletBase::render()
@@ -123,9 +123,9 @@ void bulletManager::renderBullet()
 		bullets[i]->render();
 	}
 }
-void bulletManager::addFXBullet(TColors col)
+void bulletManager::addFXBullet(TColors col,int base,int var)
 {
-	int c=rand()%5+5;
+	int c=rand()%var+base;
 	for(int i=0;i<c;++i)
 	bullets[allocBullet<bulletFX>()]->init(0,col);
 }

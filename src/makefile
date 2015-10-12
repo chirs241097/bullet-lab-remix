@@ -1,6 +1,6 @@
 CC= g++
-CXXFLAGS= -std=c++11 -Wall -g -I/home/chrisoft/devel/BulletLabRemixIII/include
-LINK= -L../smelt/sdl -L../extensions -lsmeltext -lsmelt -lCxImage -lSDL2 -lvorbis -lvorbisfile -lopenal -ljpeg -lpng -lfreetype -lz -pthread
+CXXFLAGS= -std=c++11 -Wall -g -I/home/chrisoft/devel/BulletLabRemixIII/include -I/usr/include/freetype2
+LINK= -L../smelt/sdl -L../extensions -lsmeltext -lsmelt -lCxImage -lSDL2 -lvorbis -lvorbisfile -lopenal -ljpeg -lpng -lfreetype -lm -lz -ldl -pthread
 
 all: main
 

@@ -18,4 +18,11 @@ void pluginManager::scanPlugin()
 			strcpy(fn[fcnt++],file->d_name);
 		closedir(dir);
 	}
+	for(int i=0;i<fcnt;++i)
+	{
+		void* hso=dlopen(fn[i],RTLD_LAZY);
+		if(!hso)continue;
+		void* hndi=dlsym(hso,"getPluginInterface");
+		if(!hndi)continue;
+	}
 }

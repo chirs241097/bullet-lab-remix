@@ -80,7 +80,7 @@ public:
 	}
 	void updateBullet();
 	void renderBullet();
-	void addFXBullet(TColors col);
+	void addFXBullet(TColors col,int base,int var);
 	bulletBase* getHandle(int id);
 	smEntity2D* getBulEntity2D(TColors col);
 	smEntity3D* getBulEntity3D(TColors col);
