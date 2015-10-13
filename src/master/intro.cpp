@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "../ui/menus.hpp"
-#define XOFFSET 75
+#define XOFFSET 250
 #define YOFFSET 100
 
 extern sceneManager *sceneMgr;
@@ -170,9 +170,15 @@ bool introScene::sceneUpdate()
 bool introScene::sceneRender()
 {
 	if(ch!=11)
-	sm->smClrscr(0xFF000000);
+	{
+		sm->smClrscr(0xFF000000);
+		blt->setColor(0xC0FFFFFF);
+	}
 	else
-	{int c=step*4>255?255:step*4;sm->smClrscr(ARGB(255,c,c,c));}
+	{
+		int c=step*4>255?255:step*4;sm->smClrscr(ARGB(255,c,c,c));
+		blt->setColor(SETA(0x00FFFFFF,DWORD((1.-c/255.)*192)));
+	}
 	for(int i=0;i<bcnt;++i)
 	blt->render(pos[i].x,pos[i].y,0,scale[i],scale[i]);
 	return false;
@@ -186,7 +192,6 @@ introScene::introScene()
 	smTexInfo *ti=ssanm.getTextureInfo(bsnames[rand()%8]);
 	blt=new smEntity2D(ti->tex,ti->rect);
 	blt->setCentre(12,12);
-	blt->setColor(0xC0FFFFFF);
 	sceneMgr->registerScene(this,"Intro",1000);
 }
 void introScene::introInit()

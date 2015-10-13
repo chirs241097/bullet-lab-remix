@@ -1,19 +1,19 @@
 .init
-mov r00 0
+mov i00 0
 ,
 
 .update
 add i00   1			;++i00
-mov i01 i00			;if(i00<15)
-sub i01 15
+mov i01 i00			;if(i00<8)
+sub i01 8
 ltz i01
-jnz i01 24
+jnz i01 32
 mov i00 0			;reset the timer
 push 6.28
 push 0.0
 call randr			;get the random angle
 mov r01 rrt
-push 5.0
+push 4.0
 push 1.0
 call randr			;get the random speed
 push r01
@@ -21,5 +21,13 @@ push rrt
 push 300.0
 push 400.0
 call createBullet	;CreateBullet(400,300,speed,angle)
+mov i01 irt
+push 10
+push 0
+call randi
+push irt
+push 3
+push i01
+call setBulletPropi	;Set random color
 nop					;no-op
 ,

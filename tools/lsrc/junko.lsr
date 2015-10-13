@@ -1,0 +1,287 @@
+.init					;junko's final spell card...
+mov i00 0				;i00: stage counter
+mov i01 0				;st1 circle counter, st1: red*28, 16, fair
+mov i02 0				;st2 circle counter, st2: purple*10, 32, fair
+mov i03 0				;st3 circle counter, st3: blue*60, 64, faster, random
+mov i04 0				;st4 circle counter, st4: cyan*25, 8, fastest, fixed
+,
+
+.update
+add		i00		1		;++i00
+mov		i05		i00		;if(i00<=2560)
+sub		i05		2560
+elz		i05
+jnz		i05		40		;do not enter st4========================
+add		i04		1		;++i04
+mov		i05		i04		;if(i04<8)
+sub		i05		8
+ltz		i05
+jnz		i05		40		;do not shoot st4 bullets================
+mov		i04		0
+mov		i06		0		;for(i06=0;i06<25;++i06)
+mov		i07		i06
+sub		i07		25
+ltz		i07
+jez		i07		40		;========================================
+mov		r00		i06
+mul		r00		0.251327412
+add		r00		1.570796327
+push	r00
+push	4.0
+push	200.0
+push	400.0
+call	createBullet
+push	1
+push	3
+push	irt
+call	setBulletPropi
+add		i06		1
+jmp		22				;========================================
+nop						;end of loop
+mov		i05		i00		;if(i00<=1536)
+sub		i05		1536
+elz		i05
+jnz		i05		138		;do not enter st3========================
+add		i03		1		;++i03
+mov		i05		i03		;if(i03<64)
+sub		i05		64
+ltz		i05
+jnz		i05		138		;do not shoot st3 bullets================
+mov		i03		0
+push	250.0			;get random source1
+push	150.0
+call	randr
+mov		r01		rrt
+push	250.0
+push	150.0
+call	randr
+mov		r02		rrt
+push	6.28
+push	0.0
+call	randr
+mov		r03		rrt
+mov		i06		0		;for(i06=0;i06<60;++i06)
+mov		i07		i06
+sub		i07		60
+ltz		i07
+jez		i07		94		;========================================
+mov		r00		i06
+mul		r00		0.104719755
+sub		r00		r03
+mov		r04		r02		;r02-=30*sin(r00)
+push	r00
+call	sin
+mov		r06		rrt
+mul		r06		30
+sub		r04		r06
+mov		r05		r01		;r01-=30*cos(r00)
+push	r00
+call	cos
+mov		r06		rrt
+mul		r06		30
+sub		r05		r06
+push	r00
+push	2.5
+push	r04
+push	r05
+call	createBullet
+push	6
+push	3
+push	irt
+call	setBulletPropi
+add		i06		1
+jmp		64				;========================================
+nop						;end of loop1
+push	650.0			;get random source2
+push	550.0
+call	randr
+mov		r01		rrt
+push	250.0
+push	150.0
+call	randr
+mov		r02		rrt
+push	6.28
+push	0.0
+call	randr
+mov		r03		rrt
+mov		i06		0		;for(i06=0;i06<60;++i06)
+mov		i07		i06
+sub		i07		60
+ltz		i07
+jez		i07		138		;========================================
+mov		r00		i06
+mul		r00		0.104719755
+sub		r00		r03
+mov		r04		r02		;r02-=30*sin(r00)
+push	r00
+call	sin
+mov		r06		rrt
+mul		r06		30
+sub		r04		r06
+mov		r05		r01		;r01-=30*cos(r00)
+push	r00
+call	cos
+mov		r06		rrt
+mul		r06		30
+sub		r05		r06
+push	r00
+push	2.5
+push	r04
+push	r05
+call	createBullet
+push	6
+push	3
+push	irt
+call	setBulletPropi
+add		i06		1
+jmp		108				;========================================
+nop						;end of loop2
+mov		i05		i00		;if(i00<=512)
+sub		i05		512
+elz		i05
+jnz		i05		236		;do not enter st2========================
+add		i02		1		;++i02
+mov		i05		i02		;if(i02<32)
+sub		i05		32
+ltz		i05
+jnz		i05		236		;do not shoot st2 bullets================
+mov		i02		0
+push	250.0			;get random source1
+push	150.0
+call	randr
+mov		r01		rrt
+push	250.0
+push	150.0
+call	randr
+mov		r02		rrt
+push	6.28
+push	0.0
+call	randr
+mov		r03		rrt
+mov		i06		0		;for(i06=0;i06<10;++i06)
+mov		i07		i06
+sub		i07		10
+ltz		i07
+jez		i07		192		;========================================
+mov		r00		i06
+mul		r00		0.628318531
+sub		r00		r03
+mov		r04		r02		;r02-=25*sin(r00)
+push	r00
+call	sin
+mov		r06		rrt
+mul		r06		25
+sub		r04		r06
+mov		r05		r01		;r01-=25*cos(r00)
+push	r00
+call	cos
+mov		r06		rrt
+mul		r06		25
+sub		r05		r06
+push	r00
+push	2.5
+push	r04
+push	r05
+call	createBullet
+push	3
+push	3
+push	irt
+call	setBulletPropi
+add		i06		1
+jmp		162				;========================================
+nop						;end of loop1
+push	650.0			;get random source2
+push	550.0
+call	randr
+mov		r01		rrt
+push	220.0
+push	180.0
+call	randr
+mov		r02		rrt
+push	6.28
+push	0.0
+call	randr
+mov		r03		rrt
+mov		i06		0		;for(i06=0;i06<10;++i06)
+mov		i07		i06
+sub		i07		10
+ltz		i07
+jez		i07		236		;========================================
+mov		r00		i06
+mul		r00		0.628318531
+sub		r00		r03
+mov		r04		r02		;r02-=25*sin(r00)
+push	r00
+call	sin
+mov		r06		rrt
+mul		r06		25
+sub		r04		r06
+mov		r05		r01		;r01-=25*cos(r00)
+push	r00
+call	cos
+mov		r06		rrt
+mul		r06		25
+sub		r05		r06
+push	r00
+push	2.5
+push	r04
+push	r05
+call	createBullet
+push	3
+push	3
+push	irt
+call	setBulletPropi
+add		i06		1
+jmp		206				;========================================
+nop						;end of loop2
+add		i01		1		;++i01,stage 1
+mov		i05		i01		;if(i01<16)
+sub		i05		16
+ltz		i05
+jnz		i05		286		;do not shoot st1 bullets================
+mov		i01		0
+push	450.0			;get random source1
+push	350.0
+call	randr
+mov		r01		rrt
+push	250.0
+push	150.0
+call	randr
+mov		r02		rrt
+push	6.28
+push	0.0
+call	randr
+mov		r03		rrt
+mov		i06		0		;for(i06=0;i06<28;++i06)
+mov		i07		i06
+sub		i07		28
+ltz		i07
+jez		i07		286		;========================================
+mov		r00		i06
+mul		r00		0.224399475
+sub		r00		r03
+mov		r04		r02		;r02-=40*sin(r00)
+push	r00
+call	sin
+mov		r06		rrt
+mul		r06		40
+sub		r04		r06
+mov		r05		r01		;r01-=40*cos(r00)
+push	r00
+call	cos
+mov		r06		rrt
+mul		r06		40
+sub		r05		r06
+push	r00
+push	2.5
+push	r04
+push	r05
+call	createBullet
+push	4
+push	3
+push	irt
+call	setBulletPropi
+add		i06		1
+jmp		256				;========================================
+nop						;end of loop
+,

@@ -28,9 +28,9 @@ mainMenuScene::mainMenuScene()
 	sm=smGetInterface(SMELT_APILEVEL);
 	menubg.loadAnmFromMemory(blrdtp.getFilePtr("menu.anm"),blrdtp.getFileSize("menu.anm"));
 	menubEnt=new smEntity2D(menubg.getTextureInfo("menubg")->tex,menubg.getTextureInfo("menubg")->rect);
-	whitexf=new smEntity2D(0,0,0,960,720);whitea=0xFF;whitexf->setZ(1);
+	whitexf=new smEntity2D(0,0,0,1280,720);whitea=0xFF;whitexf->setZ(1);
 	sceneMgr->registerScene(this,"MainMenu",990);
-	menu=new menuLCD(43,20,7,360,370,&lcdfont);
+	menu=new menuLCD(43,20,7,520,370,&lcdfont);
 	menu->addCtrl(new menuCtrlLCD(0,20,&lcdfont));
 	menu->getCtrl(0)->setText(NULL,"START");
 	menu->getCtrl(0)->onKeyPressed(startPressed);
@@ -58,10 +58,10 @@ mainMenuScene::~mainMenuScene()
 bool mainMenuScene::sceneUpdate(){return menu->update();}
 bool mainMenuScene::sceneRender()
 {
-	sm->smClrscr(0xFF000000);
+	sm->smClrscr(0xFF102848);
 	if(whitea>6)whitea-=6;else whitea=0;
 	whitexf->setColor(SETA(0x00FFFFFF,whitea));
-	menubEnt->render(0,0);
+	menubEnt->render(160,0);
 	menu->render();
 	whitexf->render(0,0);
 	return false;
