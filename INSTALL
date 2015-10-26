@@ -1,29 +1,11 @@
-Installing a game is really useless, isn't it?
-So just compile it!
+I dunno why to install it actually.
 
-A brief guide for compiling BLR
-Required SDKs:
-OpenAL
-ogg
-vorbis
-DirectX(Windows only)
-OpenGL(Linux only)
-SDL(Linux only)
+Building dependencies on debian-based systems:
+libfreetype6-dev libopenal-dev libsdl2-dev libpng12-dev libjpeg62-turbo-dev libvorbis-dev libogg-dev
 
-Steps to do:
-1. Get the source code.
-   You can choose from svn or the official packaged release.
-   The code from svn will always be newer than the official
-   packaged release.
-2. Get required SDKs mentioned above.
-   Piece of cake.
-3. Use Visual Studio(Windows) or Code::Blocks(Linux), create
-   project. Configure it correctly.
-   If you'd like to do it, you can also write a Makefile
-   yourself.
-4. Hit build (or type make)!
-5. If it failed, check step 2 and 3, then repeat step 4...
+If you are using another Linux distribution, install the corresponding packages.
+After that a simple 'make' should do the work for you. If it doesn't, you have to modify it manually...
 
-Warning:
-Some revisions in the svn repo has noticeable problems.
-Always build the latest svn revision or official release!
+(Important) For Windows users:
+PLEASE DO NOT BUILD THE CURRENT VERSION!!!
+SMELT now only supports OpenGL. It works on Windows indeed but very inefficiently...

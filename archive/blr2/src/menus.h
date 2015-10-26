@@ -7,9 +7,9 @@ void TriggerSound(int type)
 {
 	switch(type)
 	{
-		case 0:hge->Effect_PlayEx(snd,sfxvol/15.0,0,1,false);break;
-		//case 1:hge->Effect_Play(menuin);break;
-		//case 2:hge->Effect_Play(menuout);break;
+		case 0:hge->Effect_PlayEx(menumov,sfxvol/15.0,0,1,false);break;
+		case 1:hge->Effect_Play(menuin);break;
+		case 2:hge->Effect_Play(menuout);break;
 	}
 }
 void ConfigureQuad(hgeQuad *quad,double x,double y,double w,double h)
@@ -391,7 +391,7 @@ public:
 		{
 			if(selected==7&&!(hge->Input_GetKeyStateEx(HGEK_Z)==HGEKST_HIT||hge->Input_GetKeyStateEx(HGEK_ENTER)==HGEKST_HIT))
 				return -1;
-			TriggerSound(selected==7?2:1);
+			TriggerSound(selected==7?2:0);
 			if(onSwitch||onSwitchi)return -1;
 			if(selected<=5)
 			{
@@ -426,7 +426,7 @@ public:
 		if(hge->Input_GetKeyStateEx(HGEK_LEFT)==HGEKST_HIT)
 		{
 			if(onSwitch||onSwitchi)return -1;
-			TriggerSound(1);
+			TriggerSound(0);
 			if(selected<=5){onSwitchi=true;swoffset=0;}
 			if(selected==0)tfs=!tfs;
 			if(selected==1)

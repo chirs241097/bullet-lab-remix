@@ -1,0 +1,40 @@
+﻿0.5.3
+-Fixed a problem in bullet position calculating.
+0.5.4
+-Replaces arc- functions to make calculating more efficient.
+0.7.0
+-Levels->7
+0.7.4
+-Clear range added
+0.8.4
+-Limiting clear range usage. Freezing Level design.
+0.8.6
+-Adding readme files. Fixing small bugs in program.
+-Semi-Collision Effects.
+0.8.7α
+-Spliting main.cpp into mulitiple headers.
+-Compressing resources.
+-Removing dependency of Bass.dll
+0.8.8α
+-Maintaince version.
+0.8.9α
+-Rewriting menus, pause etc. added.
+-Highscore recording. Basic level complete information.
+-Average FPS.
+-Preparation for porting to Linux.
+1.0.0 Pre-Release
+-Upgrading hge graphic engine to DirectX9.
+-Removing some cheats.
+-Linux version built successfully(using hge-unix).
+1.0.1 Pre-Release
+-Embedding HGE into project, getting rid of hge.dll
+-Merging configuration program.
+-Adding first start up configuration, no initial configuration file needed.
+1.0.2 Pre-Release
+-Sync code with Bullet Lab Remix II.
+-Status->Main Functions Frozen+Core Frozen+Level Frozen.
+-Fix some bugs with the keyboard and the render engine.
+-Trying SFX and Music.
+1.0.3 Stable Release
+-Fix hidden bullets.
+-Build up for final release.

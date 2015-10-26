@@ -1236,8 +1236,9 @@ int main(int argc,char *argv[])
 		HelpTex=hge->Texture_Load("./Resources/help.png");
 		sky.Init();
 		snd=hge->Effect_Load("./Resources/tap.ogg");
-		menuin=hge->Effect_Load("./Resources/menuin.ogg");
-		menuout=hge->Effect_Load("./Resources/menuout.ogg");
+		menumov=hge->Effect_Load("./Resources/tap.ogg");
+		menuin=hge->Effect_Load("./Resources/tap.ogg");
+		menuout=hge->Effect_Load("./Resources/tap.ogg");
 		if(!quad.tex||!SprSheet||!TexTitle||!TexCredits)
 		Error("Error Loading Resources!",true);
 		titlespr=new hgeSprite(TexTitle,0,0,640,320);
@@ -1331,7 +1332,7 @@ int main(int argc,char *argv[])
 			if(i<grey)delete towerspr[i];
 		}
 		hge->Effect_Free(snd);hge->Effect_Free(menuin);
-		hge->Effect_Free(menuout);
+		hge->Effect_Free(menuout);hge->Effect_Free(menumov);
 		hge->Texture_Free(SprSheet);hge->Texture_Free(TLeaf);
 		hge->Texture_Free(quad.tex);hge->Texture_Free(TSflake);
 		hge->Texture_Free(TexTitle);hge->Texture_Free(TexCredits);

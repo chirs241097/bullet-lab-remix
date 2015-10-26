@@ -1,0 +1,9 @@
+在Linux下编译BLR
+1. 获取HGE-UNIX: http://icculus.org/hge-unix/。
+2. 用/hgehack内的文件替换hge-unix里的同名文件。
+3. 编译并安装hge-unix。
+4. 如果hge-unix已经成功安装，运行compile脚本。
+5. 运行BulletLabRemix！
+如果你在编译时遇到了任何问题，请与作者联系。
+Email: chirs241097@163.com
+贴吧: http://tieba.baidu.com/f?kw=chrisoft 

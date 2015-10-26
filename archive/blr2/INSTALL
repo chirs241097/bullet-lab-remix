@@ -1,0 +1,29 @@
+Installing a game is really useless, isn't it?
+So just compile it!
+
+A brief guide for compiling BLR
+Required SDKs:
+OpenAL
+ogg
+vorbis
+DirectX(Windows only)
+OpenGL(Linux only)
+SDL(Linux only)
+
+Steps to do:
+1. Get the source code.
+   You can choose from svn or the official packaged release.
+   The code from svn will always be newer than the official
+   packaged release.
+2. Get required SDKs mentioned above.
+   Piece of cake.
+3. Use Visual Studio(Windows) or Code::Blocks(Linux), create
+   project. Configure it correctly.
+   If you'd like to do it, you can also write a Makefile
+   yourself.
+4. Hit build (or type make)!
+5. If it failed, check step 2 and 3, then repeat step 4...
+
+Warning:
+Some revisions in the svn repo has noticeable problems.
+Always build the latest svn revision or official release!

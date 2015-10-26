@@ -1,0 +1,9 @@
+Compiling BLR under Linux
+1. Get HGE UNIX here: http://icculus.org/hge-unix/.
+2. Replace the same files in hge-unix using the files in /hgehack.
+3. Compile and install hge-unix.
+4. Run compile if hge-unix has been successfully installed.
+5. Enjoy BLR by executing BulletLabRemix!
+If you have any problem compiling BLR, just write a feedback.
+Email: chirs241097@163.com
+Forum: http://tieba.baidu.com/f?kw=chrisoft

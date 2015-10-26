@@ -41,30 +41,30 @@ void CircleIndicator::Init(double _r,double _thk,BYTE _a,bool _gr,HTEXTURE _Text
 void CircleIndicator::SetAlpha(BYTE _alpha){alpha=_alpha;}
 void CircleIndicator::SetValue(double _value)
 {
-		value=_value;
-		for (int i=0;i<=1024;++i)
+	value=_value;
+	for (int i=0;i<=1024;++i)
+	{
+		int tr=(int)((1.0f-value)*255);
+		int tg=(int)(value*255);
+		DWORD tcolour=ARGB(alpha,tr,tg,0);
+		hgeColorHSV *tc=new hgeColorHSV(tcolour);
+		if (tc->v<0.85)tc->v=0.85;
+		if (gradient)tcolour=SETA(tc->GetHWColor(),alpha);else tcolour=SETA(ccolour,alpha);
+		if ((double)i/1024.0f<=value)
 		{
-			int tr=(int)((1.0f-value)*255);
-			int tg=(int)(value*255);
-			DWORD tcolour=ARGB(alpha,tr,tg,0);
-			hgeColorHSV *tc=new hgeColorHSV(tcolour);
-			if (tc->v<0.85)tc->v=0.85;
-			if (gradient)tcolour=SETA(tc->GetHWColor(),alpha);else tcolour=SETA(ccolour,alpha);
-			if ((double)i/1024.0f<=value)
-			{
-				circle->SetColor(i,0,tcolour);
-				circle->SetColor(i,1,SETA(0x00FFFFFF,alpha));
-				circle->SetColor(i,2,tcolour);
-			}
-			else
-			{
-				circle->SetColor(i,0,0x00000000);
-				circle->SetColor(i,1,0x00000000);
-				circle->SetColor(i,2,0x00000000);
-			}
-			delete tc;
+			circle->SetColor(i,0,tcolour);
+			circle->SetColor(i,1,SETA(0x00FFFFFF,alpha));
+			circle->SetColor(i,2,tcolour);
 		}
+		else
+		{
+			circle->SetColor(i,0,0x00000000);
+			circle->SetColor(i,1,0x00000000);
+			circle->SetColor(i,2,0x00000000);
+		}
+		delete tc;
 	}
+}
 void CircleIndicator::Render(double x,double y){circle->Render(x,y);}
 
 void LinearProgresser::Init(double _a,double _b,double _Lim){a=_a,b=_b,Limit=_Lim;}

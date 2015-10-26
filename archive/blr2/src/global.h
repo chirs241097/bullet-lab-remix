@@ -7,7 +7,7 @@
 #define Resd 20.0f
 #define MaxBulCnt 20000
 HGE *hge=0;
-HEFFECT				snd,menuin,menuout;
+HEFFECT				snd,menuin,menuout,menumov;
 hgeQuad				quad;
 hgeFont				*fnt,*vdig,*bdig;
 hgeSprite			*spr,*titlespr;
