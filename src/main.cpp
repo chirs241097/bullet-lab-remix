@@ -33,7 +33,7 @@ int main(int argc,char **argv)
 	sm=smGetInterface(SMELT_APILEVEL);
 	sceneMgr=new sceneManager;
 	resourcesLoad();
-	sm->smVidMode(960,720,true);
+	sm->smVidMode(1280,720,true);
 	sm->smUpdateFunc(update);
 	sm->smFocFunc(foc);sm->smUnFocFunc(unfoc);
 	sm->smWinTitle("Bullet Lab Remix 3");

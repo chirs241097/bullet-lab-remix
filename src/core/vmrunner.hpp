@@ -28,7 +28,7 @@ private:
 	Idata ir[101],ia[10000];
 	Idata rr[103],ra[10000];
 	SInst inst[65537];
-	int ic,fncnt,pinst;
+	int ic,fncnt,pinst,lops,lppos[8],lpjmp[8];
 	fncEntry fncent[8];
 	const unsigned char *sbyte,*cbyte;
 	DWORD fsize;
@@ -37,7 +37,7 @@ private:
 	Idata& fetchData(SPara para,bool forcerw=false);
 public:
 	smRandomEngine* re;
-	blrScriptVM(){ic=fncnt=pinst=0;}
+	blrScriptVM(){ic=fncnt=pinst=lops=0;}
 	int loadLSBFromMemory(const char* ptr,DWORD size);
 	int getInstCount();
 	void vmRunFunction(const char *fncnym);

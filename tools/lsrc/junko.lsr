@@ -11,18 +11,18 @@ add		i00		1		;++i00
 mov		i05		i00		;if(i00<=2560)
 sub		i05		2560
 elz		i05
-jnz		i05		40		;do not enter st4========================
+jnz		i05		+26		;do not enter st4========================
 add		i04		1		;++i04
 mov		i05		i04		;if(i04<8)
 sub		i05		8
 ltz		i05
-jnz		i05		40		;do not shoot st4 bullets================
+jnz		i05		+21		;do not shoot st4 bullets================
 mov		i04		0
 mov		i06		0		;for(i06=0;i06<25;++i06)
 mov		i07		i06
 sub		i07		25
 ltz		i07
-jez		i07		40		;========================================
+jez		i07		+15		;========================================
 mov		r00		i06
 mul		r00		0.251327412
 add		r00		1.570796327
@@ -36,17 +36,17 @@ push	3
 push	irt
 call	setBulletPropi
 add		i06		1
-jmp		22				;========================================
+jmp		-17				;========================================
 nop						;end of loop
 mov		i05		i00		;if(i00<=1536)
 sub		i05		1536
 elz		i05
-jnz		i05		138		;do not enter st3========================
+jnz		i05		+94		;do not enter st3========================
 add		i03		1		;++i03
 mov		i05		i03		;if(i03<64)
 sub		i05		64
 ltz		i05
-jnz		i05		138		;do not shoot st3 bullets================
+jnz		i05		+89		;do not shoot st3 bullets================
 mov		i03		0
 push	250.0			;get random source1
 push	150.0
@@ -64,7 +64,7 @@ mov		i06		0		;for(i06=0;i06<60;++i06)
 mov		i07		i06
 sub		i07		60
 ltz		i07
-jez		i07		94		;========================================
+jez		i07		+27		;========================================
 mov		r00		i06
 mul		r00		0.104719755
 sub		r00		r03
@@ -90,7 +90,7 @@ push	3
 push	irt
 call	setBulletPropi
 add		i06		1
-jmp		64				;========================================
+jmp		-29				;========================================
 nop						;end of loop1
 push	650.0			;get random source2
 push	550.0
@@ -108,7 +108,7 @@ mov		i06		0		;for(i06=0;i06<60;++i06)
 mov		i07		i06
 sub		i07		60
 ltz		i07
-jez		i07		138		;========================================
+jez		i07		+27		;========================================
 mov		r00		i06
 mul		r00		0.104719755
 sub		r00		r03
@@ -134,17 +134,17 @@ push	3
 push	irt
 call	setBulletPropi
 add		i06		1
-jmp		108				;========================================
+jmp		-29				;========================================
 nop						;end of loop2
 mov		i05		i00		;if(i00<=512)
 sub		i05		512
 elz		i05
-jnz		i05		236		;do not enter st2========================
+jnz		i05		+94		;do not enter st2========================
 add		i02		1		;++i02
 mov		i05		i02		;if(i02<32)
 sub		i05		32
 ltz		i05
-jnz		i05		236		;do not shoot st2 bullets================
+jnz		i05		+89		;do not shoot st2 bullets================
 mov		i02		0
 push	250.0			;get random source1
 push	150.0
@@ -162,7 +162,7 @@ mov		i06		0		;for(i06=0;i06<10;++i06)
 mov		i07		i06
 sub		i07		10
 ltz		i07
-jez		i07		192		;========================================
+jez		i07		+27		;========================================
 mov		r00		i06
 mul		r00		0.628318531
 sub		r00		r03
@@ -188,7 +188,7 @@ push	3
 push	irt
 call	setBulletPropi
 add		i06		1
-jmp		162				;========================================
+jmp		-29				;========================================
 nop						;end of loop1
 push	650.0			;get random source2
 push	550.0
@@ -206,7 +206,7 @@ mov		i06		0		;for(i06=0;i06<10;++i06)
 mov		i07		i06
 sub		i07		10
 ltz		i07
-jez		i07		236		;========================================
+jez		i07		+27		;========================================
 mov		r00		i06
 mul		r00		0.628318531
 sub		r00		r03
@@ -232,13 +232,13 @@ push	3
 push	irt
 call	setBulletPropi
 add		i06		1
-jmp		206				;========================================
+jmp		-29				;========================================
 nop						;end of loop2
 add		i01		1		;++i01,stage 1
 mov		i05		i01		;if(i01<16)
 sub		i05		16
 ltz		i05
-jnz		i05		286		;do not shoot st1 bullets================
+jnz		i05		+45		;do not shoot st1 bullets================
 mov		i01		0
 push	450.0			;get random source1
 push	350.0
@@ -256,7 +256,7 @@ mov		i06		0		;for(i06=0;i06<28;++i06)
 mov		i07		i06
 sub		i07		28
 ltz		i07
-jez		i07		286		;========================================
+jez		i07		+27		;========================================
 mov		r00		i06
 mul		r00		0.224399475
 sub		r00		r03
@@ -282,6 +282,6 @@ push	3
 push	irt
 call	setBulletPropi
 add		i06		1
-jmp		256				;========================================
+jmp		-29				;========================================
 nop						;end of loop
 ,

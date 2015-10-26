@@ -15,16 +15,27 @@ Building is tested on debian sid and Arch Linux.
 Current working status:
 
 > the BLR Script VM:	90%
+>
 > VM functions:			40%
+>
 > the BLR js VM:		0%
+>
 > bullet system:		40%
+>
 > tower system:			0%
+>
 > laser system:			0%
+>
 > the player:			40%
+>
 > menus:				30%
+>
 > plugin system & api:	5%
+>
 > console:				0%
+>
 > score & record:		0%
+>
 > master:				60%
 
 If you are looking for older BLR releases, please
@@ -41,8 +52,11 @@ of the BSD license.
 
 ## About the releases
 BLR 1 - The Creature of Colour was completed in early 2014.
+
 BLR 2 - The Reunion of Rainbow was completed in late 2014.
+
 BLR 3 - Mind in Circuits was started in June 2015 and is now in active development.
+
 BLR 3.5 - Assessment Collection has been planned.
 
 Only the mainline will stay in the root directory of the repo,

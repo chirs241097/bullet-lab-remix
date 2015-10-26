@@ -95,7 +95,7 @@ int blrScriptVM::loadLSBFromMemory(const char *ptr,DWORD size)
 				if(!infunc)return 1;
 				infunc=0;
 			break;
-			case 0x0F:
+			case 0x0F: case 0x25: case 0x26:
 				if(!infunc)return 1;
 			break;
 			case 0x01: case 0x0C: case 0x0D:
@@ -108,7 +108,7 @@ int blrScriptVM::loadLSBFromMemory(const char *ptr,DWORD size)
 			case 0x03: case 0x04: case 0x05:
 			case 0x06: case 0x07: case 0x08:
 			case 0x09: case 0x0A: case 0x0B:
-			case 0x22: case 0x23:
+			case 0x22: case 0x23: case 0x24:
 				if(!infunc)return 1;
 				readPara(&inst[ic].para1);
 				readPara(&inst[ic].para2);
@@ -270,7 +270,24 @@ void blrScriptVM::vmRunFunction(const char *fncnym)
 				if(fetchData(inst[cur].para1).nez())
 					cur=fetchData(inst[cur].para2).i(),jmp=1;
 			break;
+			case 0x24:
+				if(fetchData(inst[cur].para1).nez())
+				{
+					lpjmp[lops]=cur;
+					lppos[lops++]=fetchData(inst[cur].para2);
+				}
+				else cur=fetchData(inst[cur].para2).i()+1,jmp=1;
+			break;
+			case 0x25:
+				if(!lops)throw;
+				cur=lppos[--lops]+1,jmp=1;
+			break;
+			case 0x26:
+				if(!lops)throw;
+				cur=lppos[--lops],jmp=1;
+			break;
 		}
+		if(cur==lppos[lops-1])cur=lpjmp[--lops],jmp=1;
 		if(!jmp)++cur;
 	}
 }
@@ -283,6 +300,7 @@ void blrScriptVM::vmInit(unsigned int seed)
 	for(int i=0;i<10000;++i)ra[i].type=1,ia[i].type=0;
 	re=new smRandomEngine;
 	re->setSeed(seed);
+	lops=0;
 }
 void blrScriptVM::vmDeinit()
 {

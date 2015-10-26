@@ -5,7 +5,7 @@
  * 2. DO NOT USE STL!
  * 3. if you don't like the rules above, you can ignore them though...
  */
-//parser: prehistoric version.
+//parser: primitive version.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -26,13 +26,13 @@
  * type=8 : function name
  */
 SInst result[65537];
-int infunc,lc;
+int infunc,lc,lops,lppos[8];
 char line[256],fst[16];
-void error(const char *szFormat, ...)
+void error(const char *szFormat,...)
 {
 	va_list ap;
-	va_start(ap, szFormat);
-	vfprintf(stderr, szFormat, ap);
+	va_start(ap,szFormat);
+	vfprintf(stderr,szFormat,ap);
 	va_end(ap);
 	fprintf(stderr,"\n");
 	exit(1);
@@ -44,9 +44,9 @@ int hexBit(char b)
 	if(b>='A'&&b<='F')return b-'A'+10;
 	return -1;
 }
-Udata parseNumber(char *l,char *r,int mode)//0:real, 1:int
+Udata parseNumber(char *l,char *r,int mode)//0:real, 1:int, 2:linenum
 {
-	int i=0,m=1;double d=0,mlt=0.1;Udata res;
+	int i=0,m=1,absln=1;double d=0,mlt=0.1;Udata res;
 	char *c=l;res.d=0LL;
 	if(*c=='x')
 	{
@@ -55,10 +55,12 @@ Udata parseNumber(char *l,char *r,int mode)//0:real, 1:int
 		if(c!=r){res.r=nan("");return res;}
 		res.i=m*i;return res;
 	}
-	if(*c=='-')m=-1,++c;
+	if(*c=='+')m=1,++c,absln=0;
+	if(*c=='-')m=-1,++c,absln=0;
 	for(;*c>='0'&&*c<='9'&&c!=r;++c)i*=10,i+=*c-'0';
-	if(c==r){res.i=m*i;return res;}
-	if(*c!='.'||mode==1){res.r=nan("");return res;}
+	if(c==r)
+	{mode==2?res.i=(absln?m*i:lc+m*i):mode==1?res.i=m*i:res.r=(double)m*i;return res;}
+	if(*c!='.'||mode!=0){res.r=nan("");return res;}
 	++c;
 	for(;*c>='0'&&*c<='9'&&c!=r;++c)d+=(*c-'0')*mlt,mlt*=0.1;
 	if(c!=r){res.r=nan("");return res;}
@@ -74,6 +76,7 @@ int parsePara(char *cont,char *contr,SPara *para,int mode)
  * 5:real only				<-shouldn't this accept all?...
  * 6:real register only
  * 7:function name
+ * 8:line number
  */
 {
 	para->type=-1;
@@ -155,7 +158,7 @@ int parsePara(char *cont,char *contr,SPara *para,int mode)
 		return 0;
 	}
 	if(mode==1||mode==4||mode==6)return 1;
-	Udata tryi=parseNumber(cont,contr,1);
+	Udata tryi=mode==8?parseNumber(cont,contr,2):parseNumber(cont,contr,1);
 	Udata tryr=parseNumber(cont,contr,0);
 	if(isnan(tryr.r))return 1;
 	if(isnan(tryi.r)&&mode==3)return 1;
@@ -181,7 +184,8 @@ int parseInstruction(char *line,SInst *inst)
 	bindInst("gtz",0x13);bindInst("egz",0x14);
 	bindInst("eqz",0x15);bindInst("nez",0x16);
 	bindInst("jmp",0x21);bindInst("jez",0x22);
-	bindInst("jnz",0x23);
+	bindInst("jnz",0x23);bindInst("for",0x24);
+	bindInst("brk",0x25);bindInst("cont",0x26);
 #undef bindInst
 	if(~r)inst->id=r;else return r=inst->id=0;
 	char second[16],third[16];
@@ -227,13 +231,21 @@ int parseInstruction(char *line,SInst *inst)
 			return parsePara(second,second+strlen(second),&inst->para1,1);
 		case 0x21:
 			sscanf(line,"%*s%s",second);
-			return parsePara(second,second+strlen(second),&inst->para1,2);//should be const int...
+			return parsePara(second,second+strlen(second),&inst->para1,8);
 		case 0x22:
 		case 0x23:
+		case 0x24:
 			sscanf(line,"%*s%s%s",second,third);
-			return
+			bool ret=
 			parsePara(second,second+strlen(second),&inst->para1,1)||
-			parsePara(third,third+strlen(third),&inst->para2,2);
+			parsePara(third,third+strlen(third),&inst->para2,8);
+			if(r==0x24)
+			{
+				lppos[lops++]=inst->para2.data.i;
+				if(lppos[lops-1]>lppos[lops-2])
+				error("intersecting loops?");
+			}
+			return ret;
 	}
 	return 0;
 }
@@ -250,9 +262,10 @@ void compile()
 		for(unsigned i=0;i<strlen(line);++i)
 		if(line[i]==';'||line[i]==0x0A){line[i]='\0';}
 		++lc;
+		if(lops>0&&lc==lppos[lops-1])--lops;
 		if(line[0]=='.')
 		{
-			if(infunc)error("error at line %d: no subroutine supported.",lc);
+			if(infunc)error("error at line %d: subroutine is not supported.",lc);
 			infunc=1;result[lc].id=0xFF;
 			result[lc].para1.type=8;
 			result[lc].para1.fnc=(char*)calloc(16,sizeof(char));
@@ -264,6 +277,9 @@ void compile()
 			infunc=0;result[lc].id=0xFE;
 		}else
 		if(parseInstruction(line,&result[lc]))error("error at line %d.",lc);
+		if(result[lc].id==0x25||result[lc].id==0x26)
+		if(!lops)error("%s is only allowed to be used within a loop.",
+		result[lc].id==0x25?"brk":"cont");
 		if(!infunc&&result[lc].id&&result[lc].id<0xFE)error("error at line %d:\
  no instrunctions except nops are allowed out of a function.",lc);
 	}
@@ -281,16 +297,16 @@ void writePara(SPara a)
 		c[i]=d&und;c[i]>>=shft;
 		und<<=8LL;shft+=8LL;
 	}
-	fprintf(stderr,"writtend lld: %lld=0x%llx\n0x",d,d);
-	for(int i=startbit;i<8;++i)fprintf(stderr,"%llx",c[i]);
-	fprintf(stderr,"\n");
+	//fprintf(stderr,"writtend lld: %lld=0x%llx\n0x",d,d);
+	//for(int i=startbit;i<8;++i)fprintf(stderr,"%llx",c[i]);
+	//fprintf(stderr,"\n");
 	for(int i=startbit;i<8;++i)fputc((int)c[i],stdout);
 }
 void writeResult()
 {
 	for(int i=1;i<=lc;++i)
 	{
-		fprintf(stderr,"InstID=0x%X\n",result[i].id);
+		//fprintf(stderr,"InstID=0x%X\n",result[i].id);
 		switch(result[i].id)
 		{
 			case 0xFF: case 0x02:
@@ -299,6 +315,7 @@ void writeResult()
 				fputs(result[i].para1.fnc,stdout);
 				break;
 			case 0x00: case 0x0F: case 0xFE:
+			case 0x25: case 0x26:
 				fputc(result[i].id,stdout);
 				break;
 			case 0x01: case 0x0C: case 0x0D:
@@ -311,7 +328,7 @@ void writeResult()
 			case 0x03: case 0x04: case 0x05:
 			case 0x06: case 0x07: case 0x08:
 			case 0x09: case 0x0A: case 0x0B:
-			case 0x22: case 0x23:
+			case 0x22: case 0x23: case 0x24:
 				fputc(result[i].id,stdout);
 				writePara(result[i].para1);
 				writePara(result[i].para2);
@@ -319,25 +336,8 @@ void writeResult()
 		}
 	}
 }
-int main(int argc,char** argv)//for test purpose...
+int main(int argc,char** argv)
 {
-	/*char *test;
-	test=(char*)"1234";
-	Udata d=parseNumber(test,test+strlen(test),0);
-	printf("%d %X %f\n",d.i,d.i,d.r);
-	test=(char*)"r12";
-	SPara a;
-	printf("result=%d\n",parsePara(test,test+strlen(test),&a,0));
-	printf("type=%d\n",a.type);
-	printf("data.i=%d\n",a.data.i);
-	printf("data.r=%f\n",a.data.r);
-	test=(char*)"call orz617274873";
-	SInst itest;
-	puts("Instruction cache test...");
-	printf("result=%d\n",CacheStatement(test,&itest));
-	printf("id=%d\n",itest.id);
-	printPara(itest.para1);
-	printPara(itest.para2);*/
 	if(argc<3)return puts("Usage: lsrc <input file> <output file>"),0;
 	freopen(argv[1],"r",stdin);
 	compile();

@@ -22,7 +22,7 @@ public:
 	menuCtrlLCD(int _id,int mw,smBMFont *font)
 	{
 		sm=smGetInterface(SMELT_APILEVEL);enabled=true;keyPressedf=NULL;
-		color=0xFFFFFFFF;id=_id;maxw=mw;fnt=font;skv=0;next=last=NULL;
+		color=0xFFFFFFFF;id=_id;maxw=mw;fnt=font;skv=skd=0;next=last=NULL;
 	}
 	virtual ~menuCtrlLCD(){sm->smRelease();}
 	void render(float x,float y);

@@ -54,7 +54,6 @@ void bulletBonus::update()
 {
 	if(!exist)return;
 	vel=vel+acc;
-	if(vel.l()>velim&&velim>0)vel=velim*vel.getNormalized();
 	pos=pos-vel;
 	if((pos-player->pos).l()<9)exist=false;
 
