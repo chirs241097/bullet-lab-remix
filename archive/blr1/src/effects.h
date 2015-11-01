@@ -1,3 +1,4 @@
+// -*- C++ -*-
 //Chrisoft Bullet Lab Remix HGE
 //Effects Implementations
 //"Copyleft" Chrisoft 2013
@@ -81,7 +82,7 @@ void BulletEffect_Process(int n)
 	if (bullet[n].scale<=1){bullet[n].scale=1;return;}
 	if (LOWFPS)
 		bullet[n].effbrk-=17;
-	else 
+	else
 		--bullet[n].effbrk;
 	if (bullet[n].effbrk<=0)
 		bullet[n].scale-=0.04,bullet[n].effbrk=17;

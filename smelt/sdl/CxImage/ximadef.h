@@ -1,3 +1,4 @@
+// -*- C++ -*-
 #if !defined(__ximadefs_h)
 #define __ximadefs_h
 

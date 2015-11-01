@@ -1,3 +1,8 @@
+2015-11-01 0.0.1(r12)
+Move hge to an archive.
+Finish the main part of smPath.
+This is a C++ project, add C++ tags to all source code that
+could be identified as C source files.
 
 2015-10-26 0.0.1(r11)
 I suddenly feel it necessary to start a changelog today...

@@ -1,3 +1,4 @@
+// -*- C++ -*-
 //Chrisoft Bullet Lab Remix HGE
 //Global varibles and implementations
 //"Copyleft" Chrisoft 2013
@@ -13,7 +14,7 @@ hgeFont				*fnt;
 hgeSprite			*spr,*titlespr;
 //Here are some Varibles in Bullet Lab
 int					Current_Position;//Where are we now.
-/*Scenes: 
+/*Scenes:
 0: main menu
 1: game scene
 2: tip scene
@@ -186,7 +187,7 @@ void ShowTip(char tip[])
 		if (LOWFPS)
 		{
 			if (TipFont->GetColor()>>24>=0x08)
-				TipFont->SetColor(TipFont->GetColor()-0x8000000);		
+				TipFont->SetColor(TipFont->GetColor()-0x8000000);
 			else
 			{
 				DisableAllTower=false;

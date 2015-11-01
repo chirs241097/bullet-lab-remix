@@ -1,3 +1,4 @@
+// -*- C++ -*-
 //Chrisoft Bullet Lab Remix HGE
 //Level Implementations
 //"Copyleft" Chrisoft 2013
@@ -826,7 +827,7 @@ void Level6Part3()
 	}
 }
 void Level6Part4()
-{	
+{
 	frameleft=ThirtySeconds;clrtime=3;
 	if (bulcnt!=0||towcnt!=5&&towcnt!=0)
 	{

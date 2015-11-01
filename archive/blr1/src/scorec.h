@@ -1,3 +1,4 @@
+// -*- C++ -*-
 //Chrisoft Bullet Lab Remix HGE
 //Score Recording Implementations
 //"Copyleft" Chrisoft 2013

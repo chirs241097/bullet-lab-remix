@@ -1,3 +1,4 @@
+// -*- C++ -*-
 //Chrisoft Bullet Lab Remix HGE
 //Towers and Bullets Implementations
 //"Copyleft" Chrisoft 2013

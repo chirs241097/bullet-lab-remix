@@ -1,3 +1,4 @@
+// -*- C++ -*-
 //Chrisoft Bullet Lab Remix HGE
 //Menu Implementations
 //"Copyleft" Chrisoft 2013
