@@ -18,11 +18,11 @@ Idata& blrScriptVM::fetchData(SPara para,bool forcerw)
 	{
 		case 0:
 			if(forcerw)throw;
-			cret.i()=para.data.i;cret.type=0;
+			cret.D.d=para.data.d;cret.type=0;
 			return cret;
 		case 1:
 			if(forcerw)throw;
-			cret.r()=para.data.r;cret.type=1;
+			cret.D.d=para.data.d;cret.type=1;
 			return cret;
 		case 2:
 			return ir[para.data.i];
@@ -274,7 +274,7 @@ void blrScriptVM::vmRunFunction(const char *fncnym)
 				if(fetchData(inst[cur].para1).nez())
 				{
 					lpjmp[lops]=cur;
-					lppos[lops++]=fetchData(inst[cur].para2);
+					lppos[lops++]=fetchData(inst[cur].para2).i();
 				}
 				else cur=fetchData(inst[cur].para2).i()+1,jmp=1;
 			break;
@@ -287,7 +287,7 @@ void blrScriptVM::vmRunFunction(const char *fncnym)
 				cur=lppos[--lops],jmp=1;
 			break;
 		}
-		if(cur==lppos[lops-1])cur=lpjmp[--lops],jmp=1;
+		if(lops&&cur==lppos[lops-1])cur=lpjmp[--lops],jmp=1;
 		if(!jmp)++cur;
 	}
 }
