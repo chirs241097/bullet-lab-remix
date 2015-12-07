@@ -12,6 +12,7 @@
 #define SMELT_INTERNAL_H
 
 #include "../../include/smelt.hpp"
+#include "smelt_config.hpp"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -42,8 +43,6 @@
 #include "glimports.hpp"
 #undef GL_PROC
 
-#define SRC_MAX 128
-
 class TOpenGLDevice
 {
 public:
@@ -58,8 +57,6 @@ public:
 	bool have_GL_EXT_texture_compression_s3tc;
 	bool have_GL_ARB_vertex_buffer_object;
 };
-
-#define VERTEX_BUFFER_SIZE 4000
 
 struct glTexture;
 class TRenderTargetList

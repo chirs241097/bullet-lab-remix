@@ -13,6 +13,7 @@
 static const char* SFX_SDL_SRCFN="smelt/sdl/sfx_sdl.cpp";
 struct oggdata{const BYTE *data;DWORD size,pos;};
 static void* readVorbis(const BYTE *data,const DWORD size, ALsizei *decomp_size,ALenum *fmt,ALsizei *freq);
+static void* readRiffWv(const BYTE *data,const DWORD size, ALsizei *decomp_size,ALenum *fmt,ALsizei *freq);
 SMSFX SMELT_IMPL::smSFXLoad(const char *path)
 {
 	FILE *pFile;DWORD size,rsize; char *buff;
@@ -33,15 +34,20 @@ SMSFX SMELT_IMPL::smSFXLoadFromMemory(const char *ptr,DWORD size)
 	if(pOpenALDevice&&!mute)
 	{
 		bool isOgg=size>4&&ptr[0]=='O'&&ptr[1]=='g'&&ptr[2]=='g'&&ptr[3]=='S';
-		if(!isOgg)return 0;
 		void *decompdata=NULL,*decomp=NULL;
 		ALsizei decompsize=0,freq=0;
 		ALenum fmt=AL_FORMAT_STEREO16;
-		decompdata=readVorbis((const BYTE*)ptr,size,&decompsize,&fmt,&freq);
+		decompdata=readRiffWv((const BYTE*)ptr,size,&decompsize,&fmt,&freq);
+		if(!decompdata)
+		{
+			if(!isOgg)return 0;
+			else decompdata=readVorbis((const BYTE*)ptr,size,&decompsize,&fmt,&freq);
+		}
+		if(!decompdata)return 0;
 		decomp=decompdata;
 		ALuint buff=0;alGenBuffers(1,&buff);
 		alBufferData(buff,fmt,decomp,decompsize,freq);
-		free(decompdata);return (SMSFX)buff;
+		free(decompdata);return(SMSFX)buff;
 	}
 	return 0;
 }
@@ -269,6 +275,29 @@ static void* readVorbis(const BYTE *data,const DWORD size, ALsizei *decomp_size,
 		return ret;
 	}
 	return NULL;
+}
+static void* readRiffWv(const BYTE *data,const DWORD size, ALsizei *decomp_size,ALenum *fmt,ALsizei *freq)
+{
+	if(data[0x0]!='R'||data[0x1]!='I'||data[0x2]!='F'||data[0x3]!='F')return NULL;
+	if(data[0x8]!='W'||data[0x9]!='A'||data[0xA]!='V'||data[0xB]!='E')return NULL;
+	if(data[0xC]!='f'||data[0xD]!='m'||data[0xE]!='t'||data[0xF]!=' ')return NULL;
+	if(data[0x16]==2)
+	{
+		if(data[0x22]==16)*fmt=AL_FORMAT_STEREO16;
+		else if(data[0x22]==8)*fmt=AL_FORMAT_STEREO8;
+		else return NULL;
+	}
+	else if(data[0x16]==1)
+	{
+		if(data[0x22]==16)*fmt=AL_FORMAT_MONO16;
+		else if(data[0x22]==8)*fmt=AL_FORMAT_MONO8;
+		else return NULL;
+	}else return NULL;
+	*decomp_size=(ALsizei)(data[0x28]|(data[0x29]<<8L)|(data[0x2A]<<16L)|(data[0x2B]<<24L));
+	*freq=(ALsizei)(data[0x18]|(data[0x19]<<8L)|(data[0x1A]<<16L)|(data[0x1B]<<24L));
+	ALubyte *ret=(ALubyte*)malloc(*decomp_size);
+	memcpy(ret,data+44,*decomp_size);
+	return ret;
 }
 ALuint SMELT_IMPL::getSource()
 {

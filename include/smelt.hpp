@@ -3,7 +3,7 @@
  * Simple MultimEdia LiTerator(SMELT)
  * by Chris Xiong 2015
  * api level 3
- * Public header
+ * Core header
  *
  * WARNING: This library is in development and interfaces would be very
  * unstable.
@@ -34,19 +34,21 @@
 
 #define SMELT_APILEVEL 3
 
+//Primitive data types
 typedef uint32_t DWORD;
 typedef uint16_t WORD;
 typedef uint8_t BYTE;
 
+//PI
 #define PI 3.14159265358979323846f
 
-//Handles
+//Handle types
 typedef size_t SMTEX;//Texture Handle
 typedef size_t SMTRG;//Target Handle
 typedef size_t SMSFX;//SoundFX Handle
-typedef size_t SMCHN;//Channel Handle
+typedef size_t SMCHN;//Audio channel Handle
 
-//Color Marcos
+//Color Macros
 #define RGBA(r,g,b,a)	((DWORD(a)<<24)+(DWORD(r)<<16)+(DWORD(g)<<8)+DWORD(b))
 #define ARGB(a,r,g,b)	((DWORD(a)<<24)+(DWORD(r)<<16)+(DWORD(g)<<8)+DWORD(b))
 #define GETA(col)		((col)>>24)
@@ -67,15 +69,21 @@ typedef size_t SMCHN;//Channel Handle
 #define	  BLEND_ZWRITE 0x4
 #define	  BLEND_NOZWRITE 0x0
 
+//callback function pointer
 typedef bool (*smHook)();
 
+//Special FPS modes
+//Unlimited FPS
 #define FPS_FREE 0
+//VSync
 #define FPS_VSYNC -1
 
+//Primitives
 #define PRIM_LINES		2
 #define PRIM_TRIANGLES	3
 #define PRIM_QUADS		4
 
+//Texture Region structure
 struct smTexRect
 {
 	smTexRect(){x=y=w=h=.0;}
@@ -83,6 +91,7 @@ struct smTexRect
 	float x,y,w,h;
 };
 
+//Vertex structure
 struct smVertex
 {
 	float x,y,z;//Position. Z can be used for depth testing in 2D Mode.
@@ -90,6 +99,7 @@ struct smVertex
 	float tx,ty;//Texture coords.
 };
 
+//Triangle primitive structure
 struct smTriangle
 {
 	smVertex v[3];
@@ -97,6 +107,7 @@ struct smTriangle
 	int blend;
 };
 
+//Quadrilateral primitive structure
 struct smQuad
 {
 	smVertex v[4];
@@ -104,6 +115,7 @@ struct smQuad
 	int blend;
 };
 
+//Input event structure
 struct smInpEvent
 {
 	int type,flag;
@@ -117,33 +129,177 @@ class SMELT
 public:
 	SMELT(){}
 	virtual ~SMELT(){}
+	/**
+	 * Releases the acquired SMELT interface.
+	 * Decreases the internal reference counter by one. If the counter
+	 * reaches 0, SMELT core will release all resources managed by it
+	 * (if smFinale() is not yet called) and destroy the interface.
+	 */
 	virtual void smRelease()=0;
+	/**
+	 * Initializes SMELT core.
+	 * Creates application window, initializes video, audio and input
+	 * handling. No functions in these categories can be called before
+	 * the core is initialized.
+	 * Returns true on succees, false on failure. Error details will be
+	 * written to the log file and stderr.
+	 */
 	virtual bool smInit()=0;
+	/**
+	 * Deinitializes SMELT core.
+	 * Closes application window and frees resources managed by the core.
+	 * The core will return to the status before calling smInit().
+	 */
 	virtual void smFinale()=0;
+	/**
+	 * Enters the main loop.
+	 * The main loop calls update function, focus gain function, focus
+	 * lost function and quit function periodally, handles input events
+	 * and flushes the buffers.
+	 * Requires the UpdateFunc set and the initialization of the SMELT
+	 * interface.
+	 * The main loop breaks when the update function returns true.
+	 */
 	virtual void smMainLoop()=0;
+	/**
+	 * Sets the update function.
+	 * Update function is called every frame.
+	 * It returns true when you want to terminate the main loop.
+	 */
 	virtual void smUpdateFunc(smHook func)=0;
+	/**
+	 * Sets the focus lost function.
+	 * Focus lost function is called when the application window loses
+	 * focus.
+	 * The return value of the focus lost function has no effect.
+	 */
 	virtual void smUnFocFunc(smHook func)=0;
+	/**
+	 * Sets the focus gain function.
+	 * Focus gain function is called when the application window gains
+	 * focus. Also called when the application window is created.
+	 * The return value of the focus gain function has no effect.
+	 */
 	virtual void smFocFunc(smHook func)=0;
+	/**
+	 * Sets the quit function.
+	 * Quit function is called when the user attempts to close the
+	 * application window.
+	 * If quit function returns true, the main loop will continue.
+	 * Otherwise the main loop will break.
+	 */
 	virtual void smQuitFunc(smHook func)=0;
+	/**
+	 * Sets the window title of the application window.
+	 * The default window title is "untitled".
+	 */
 	virtual void smWinTitle(const char* title)=0;
+	/**
+	 * Tests if the application window has focus.
+	 * Returns the test result.
+	 */
 	virtual bool smIsActive()=0;
+	/**
+	 * Changes the behavior when the application window loses focus.
+	 * By default, the main loop pauses when the application loses focus
+	 * (para=false).
+	 * If para is set to true, the main loop won't suspend when the
+	 * application loses focus.
+	 */
 	virtual void smNoSuspend(bool para)=0;
+	/*
+	 * Sets the video mode.
+	 * This function can only be called before calling smInit().
+	 * The default video mode is 800x600 fullscreen.
+	 * Take care with fullscreen video modes. Inappropriate fullscreen
+	 * resolutions will cause the failure of smInit().
+	 */
 	virtual void smVidMode(int resX,int resY,bool _windowed)=0;
+	/*
+	 * Sets the log file path.
+	 * The default value is empty.
+	 * In addition, the log will always be written to stderr.
+	 */
 	virtual void smLogFile(const char* path)=0;
+	/*
+	 * Write something to the log file.
+	 * C-style formatting can be used.
+	 */
 	virtual void smLog(const char* format,...)=0;
+	/*
+	 * Saves the content of the application window to the given path.
+	 * The picture is saved in the BMP format.
+	 */
 	virtual void smScreenShot(const char* path)=0;
 
+	/*
+	 * Sets the desired FPS value. The macros FPS_* can be used
+	 */
 	virtual void smSetFPS(int fps)=0;
+	/*
+	 * Get *current* FPS value your application is running at.
+	 * Not the value you set!
+	 * Returns the FPS value, which is updated once a second.
+	 */
 	virtual float smGetFPS()=0;
+	/*
+	 * Get delta time between the current frame and the last frame.
+	 * Return the value in seconds.
+	 */
 	virtual float smGetDelta()=0;
+	/*
+	 * Get elapsed time since calling smInit() in seconds.
+	 * Returns the result.
+	 */
 	virtual float smGetTime()=0;
 
+	/*
+	 * Load a single sound file into memory.
+	 * Currently only ogg and wav files are supported.
+	 * This function loads and decodes the ogg data, which may take
+	 * noticeable time to complete. Consider running it in a seperate
+	 * thread if you are loading a larger file.
+	 * Returns the SFX handle on success, or 0 on failure.
+	 */
 	virtual SMSFX smSFXLoad(const char *path)=0;
+	/*
+	 * Loads sound file from the given memory block.
+	 * Only ogg and wav formats are supported.
+	 * Returns the SFX handle on success, or 0 on failure.
+	 */
 	virtual SMSFX smSFXLoadFromMemory(const char *ptr,DWORD size)=0;
+	/*
+	 * Plays the sound.
+	 * If loop is set to false, the audio won't loop even if loop points
+	 * are set.
+	 * Volume should be between 0 to 100.
+	 * Panning should be between -100 to 100.
+	 * The values will be clamped to the range given above.
+	 * Returns the audio channel it occupies, or 0 if there's no audio
+	 * channel available.
+	 * Max audio channels can be modified in smelt_config.hpp.
+	 */
 	virtual SMCHN smSFXPlay(SMSFX fx,int vol=100,int pan=0,float pitch=1.,bool loop=0)=0;
+	/*
+	 * Gets the length of the audio, in seconds.
+	 * Returns the result.
+	 */
 	virtual float smSFXGetLengthf(SMSFX fx)=0;
+	/*
+	 * Gets the length of the audio, in sample numbers.
+	 * Returns the result.
+	 */
 	virtual DWORD smSFXGetLengthd(SMSFX fx)=0;
+	/*
+	 * Sets the loop points of the given sound.
+	 * By default, the whole sound is looped.
+	 * This function uses AL_SOFT_loop_points. So it may not work if
+	 * SMELT isn't build against OpenAL Soft
+	 */
 	virtual void smSFXSetLoopPoint(SMSFX fx,DWORD l,DWORD r)=0;
+	/*
+	 * Unloads the audio file from memory.
+	 */
 	virtual void smSFXFree(SMSFX fx)=0;
 
 	virtual void smChannelVol(SMCHN chn,int vol)=0;
